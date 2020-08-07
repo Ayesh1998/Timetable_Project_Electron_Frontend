@@ -8,10 +8,10 @@ export default function Home(): JSX.Element {
     <Container className="mt-2">
       <Row>
         <Col xs={6} md={6}>
-          <p>Time Table Project</p>
+          <p>Time Table Projects</p>
         </Col>
         <Col xs={6} md={6}>
-          <p>Time Table Project</p>
+          <p>Time Table Projects</p>
         </Col>
       </Row>
     </Container>
