@@ -28,7 +28,8 @@ const WorkingDaysHoursEdit: React.FC = () => {
   }
 
   console.log(workingDaysHoursStore);
-
+  const [weekType, setWeekType] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [days, setDays] = useState<string[] | null>();
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(
     false
@@ -46,8 +47,8 @@ const WorkingDaysHoursEdit: React.FC = () => {
     hours: string;
     minutes: string;
   }>({
-    hours: '08',
-    minutes: '30',
+    hours: '00',
+    minutes: '00',
   });
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   // const [workingDaysAndHoursObject, setWorkingDaysAndHoursObject] = useState<
@@ -64,6 +65,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
 
   const handleWeekdayWeekend = (value: string) => {
     if (value === 'weekday') {
+      setWeekType('weekday');
       const tempDaysArray: string[] = [];
       const tempTimeSlotsArray: string[] = [];
       workingDaysHoursStore.workingDays.map((item: any) => {
@@ -74,17 +76,33 @@ const WorkingDaysHoursEdit: React.FC = () => {
         tempTimeSlotsArray.push(item.type);
         return tempDaysArray;
       });
+
+      setWorkingTimePerDay({
+        hours: workingDaysHoursStore.workingTimePerDay.hours,
+        minutes: workingDaysHoursStore.workingTimePerDay.minutes,
+      });
       setTimeSlots(tempTimeSlotsArray);
       setDaysSelected(tempDaysArray);
       setDays(weekdays);
       setNoOfWorkingDaysDropDown(7);
     }
     if (value === 'weekend') {
+      setWeekType('weekend');
       const tempDaysArray: string[] = [];
+      const tempTimeSlotsArray: string[] = [];
       workingDaysHoursStore.workingDays.map((item: any) => {
         tempDaysArray.push(item.day);
         return tempDaysArray;
       });
+      workingDaysHoursStore.timeSlots.map((item: any) => {
+        tempTimeSlotsArray.push(item.type);
+        return tempDaysArray;
+      });
+      setWorkingTimePerDay({
+        hours: workingDaysHoursStore.workingTimePerDay.hours,
+        minutes: workingDaysHoursStore.workingTimePerDay.minutes,
+      });
+      setTimeSlots(tempTimeSlotsArray);
       setDaysSelected(tempDaysArray);
       setDays(weekends);
       setNoOfWorkingDaysDropDown(2);
@@ -114,14 +132,22 @@ const WorkingDaysHoursEdit: React.FC = () => {
       numberOfWorkingDays: noOfWorkingDays,
       workingDays: workingDaysFinal,
       workingTimePerDay,
+      weekType,
       timeSlots: finalTimeSlots,
     };
 
     const finalObject = {
       workingDaysAndHours: notThefinalObject,
+      // eslint-disable-next-line no-underscore-dangle
       id: workingDaysHoursStore._id,
     };
-    console.log(finalObject);
+
+    // eslint-disable-next-line radix
+    if (parseInt(noOfWorkingDays) !== daysSelected.length) {
+      setError('!! No of days in the week and days selected are not equal !!');
+      return;
+    }
+    setError(null);
 
     try {
       const response = await fetch(
@@ -238,7 +264,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
                     ) : (
                       <Form.Control
                         as="select"
-                        defaultValue="Choose..."
+                        defaultValue={workingDaysHoursStore.numberOfWorkingDays}
                         style={{ borderWidth: '2.5px' }}
                         value={noOfWorkingDays}
                         onChange={handleChangeNoOfWorkingDays}
@@ -346,6 +372,15 @@ const WorkingDaysHoursEdit: React.FC = () => {
                 </CheckboxGroup>
               </Col>
             </Row>
+            {error && (
+              <Row className=" justify-content-md-center">
+                <Col xs={12} md={10}>
+                  <p className={`text-danger ${styles.workingDaysHoursError}`}>
+                    {error}
+                  </p>
+                </Col>
+              </Row>
+            )}
             <Row className="mt-3 mb-3">
               <Col xs={0} md={8} />
               <Col xs={12} md={4}>

@@ -14,3 +14,12 @@
   padding-left: 50px;
 }
 
+.workingDaysHoursError {
+  position: relative;
+  letter-spacing: 1px;
+  font-size: 1.5em;
+  text-align: center;
+  font-weight: 900;
+}
+
+
