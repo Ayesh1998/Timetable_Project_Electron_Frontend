@@ -24,6 +24,8 @@ const WorkingDaysHours: React.FC = () => {
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(
     false
   );
+  const [error, setError] = useState<string | null>(null);
+  const [weekType, setWeekType] = useState<string | null>(null);
   const [noOfWorkingDays, setNoOfWorkingDays] = useState<any>(null);
   const [noOfWorkingDaysDropDown, setNoOfWorkingDaysDropDown] = useState<
     number | null
@@ -37,8 +39,8 @@ const WorkingDaysHours: React.FC = () => {
     hours: string;
     minutes: string;
   }>({
-    hours: '08',
-    minutes: '30',
+    hours: '00',
+    minutes: '00',
   });
   const [workingDaysAndHoursObject, setWorkingDaysAndHoursObject] = useState<
     any
@@ -83,11 +85,13 @@ const WorkingDaysHours: React.FC = () => {
 
   const handleWeekdayWeekend = (value: string) => {
     if (value === 'weekday') {
+      setWeekType('weekday');
       setDaysSelected(weekdays);
       setDays(weekdays);
       setNoOfWorkingDaysDropDown(7);
     }
     if (value === 'weekend') {
+      setWeekType('weekend');
       setDays(weekends);
       setNoOfWorkingDaysDropDown(2);
       setDaysSelected(weekends);
@@ -113,8 +117,15 @@ const WorkingDaysHours: React.FC = () => {
       numberOfWorkingDays: noOfWorkingDays,
       workingDays: workingDaysFinal,
       workingTimePerDay,
+      weekType,
       timeSlots: finalTimeSlots,
     };
+    // eslint-disable-next-line radix
+    if (parseInt(noOfWorkingDays) !== daysSelected.length) {
+      setError('!! No of days in the week and days selected are not equal !!');
+      return;
+    }
+    setError(null);
 
     try {
       const response = await fetch(
@@ -163,7 +174,13 @@ const WorkingDaysHours: React.FC = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#37474F', height: '100vh' }}>
+    <div
+      style={{
+        backgroundColor: '#37474F',
+        height: '100vh',
+        overflow: 'scroll',
+      }}
+    >
       {renderRedirectToView()}
       {renderRedirect()}
       <NavBar />
@@ -178,7 +195,7 @@ const WorkingDaysHours: React.FC = () => {
         </Col>
       </Row>
       <Container
-        className={`mt-2 p-4 ${styles.workingDaysHoursTopWrapper}`}
+        className={`mt-2 p-4 mb-5 ${styles.workingDaysHoursTopWrapper}`}
         style={{
           border: '3px solid white',
           borderRadius: '8px',
@@ -334,9 +351,18 @@ const WorkingDaysHours: React.FC = () => {
                 </CheckboxGroup>
               </Col>
             </Row>
-            <Row className="mt-3 mb-3">
-              <Col xs={0} md={8} />
-              <Col xs={12} md={4}>
+            {error && (
+              <Row className=" justify-content-md-center">
+                <Col xs={12} md={10}>
+                  <p className={`text-danger ${styles.workingDaysHoursError}`}>
+                    {error}
+                  </p>
+                </Col>
+              </Row>
+            )}
+            <Row className="mb-2 justify-content-md-center">
+              <Col xs={0} md={9} />
+              <Col xs={12} md={2}>
                 <Button
                   style={{ width: '160px', fontSize: '1.3em' }}
                   onClick={handleSubmit}

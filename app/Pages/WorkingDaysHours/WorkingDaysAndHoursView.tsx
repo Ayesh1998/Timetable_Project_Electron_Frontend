@@ -42,17 +42,33 @@ const WorkingDaysHoursView: React.FC = () => {
     fetchData();
   }, []);
 
-  // const handleSubmit = () => {
-  //   setRedirect(true);
-  // };
-  //
-  // const renderRedirect = () => {
-  //   if (redirect) {
-  //     console.log('redireted');
-  //     return <Redirect to={routes.WORKING_DAYS_AND_HOURS} />;
-  //     //   props.history.push(loginState.redirectTo);s
-  //   }
-  // };
+  const handleDelete = async () => {
+    const tempObj = {
+      // eslint-disable-next-line no-underscore-dangle
+      id: workingDaysAndHoursObject._id,
+    };
+    try {
+      const response = await fetch(
+        `http://localhost:5000/workingDaysHours/deleteWorkingDaysAndHours`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(tempObj),
+        }
+      );
+
+      const responseData = await response.json();
+      // console.log(responseData.userDetails);
+
+      if (!responseData) {
+        throw new Error(responseData.message);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   return (
     <div style={{ backgroundColor: '#37474F', height: '100vh' }}>
@@ -142,12 +158,30 @@ const WorkingDaysHoursView: React.FC = () => {
                   </tr>
                 </tbody>
               </Table>
+
               <Button style={{ width: '160px', fontSize: '1.3em' }}>
                 <NavLink
                   to={routes.WORKING_DAYS_AND_HOURS_Edit}
                   style={{ color: '#fff' }}
                 >
                   Edit & Update
+                </NavLink>
+              </Button>
+              <Button
+                className="ml-4"
+                onClick={handleDelete}
+                variant="outline-danger"
+                style={{
+                  width: '160px',
+                  fontSize: '1.3em',
+                  borderWidth: '2px',
+                }}
+              >
+                <NavLink
+                  to={routes.WORKING_DAYS_AND_HOURS}
+                  style={{ color: '#fff' }}
+                >
+                  Reset Data
                 </NavLink>
               </Button>
             </Col>
