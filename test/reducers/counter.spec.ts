@@ -2,7 +2,7 @@ import { AnyAction } from 'redux';
 import counterReducer, {
   increment,
   decrement,
-} from '../../app/features/counter/counterSlice';
+} from '../../app/Pages/WorkingDaysHours/workingDaysHoursSlice';
 
 describe('reducers', () => {
   describe('counter', () => {
