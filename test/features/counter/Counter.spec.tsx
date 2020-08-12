@@ -7,7 +7,7 @@ import renderer from 'react-test-renderer';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import Counter from '../../../app/features/counter/Counter';
-import * as counterSlice from '../../../app/features/counter/counterSlice';
+import * as counterSlice from '../../../app/Pages/WorkingDaysHours/workingDaysHoursSlice';
 
 Enzyme.configure({ adapter: new Adapter() });
 jest.useFakeTimers();
