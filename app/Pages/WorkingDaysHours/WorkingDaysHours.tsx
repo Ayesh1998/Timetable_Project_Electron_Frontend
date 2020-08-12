@@ -24,6 +24,7 @@ const WorkingDaysHours: React.FC = () => {
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(
     false
   );
+  const [weekType, setWeekType] = useState<string | null>(null);
   const [noOfWorkingDays, setNoOfWorkingDays] = useState<any>(null);
   const [noOfWorkingDaysDropDown, setNoOfWorkingDaysDropDown] = useState<
     number | null
@@ -83,11 +84,13 @@ const WorkingDaysHours: React.FC = () => {
 
   const handleWeekdayWeekend = (value: string) => {
     if (value === 'weekday') {
+      setWeekType('weekday');
       setDaysSelected(weekdays);
       setDays(weekdays);
       setNoOfWorkingDaysDropDown(7);
     }
     if (value === 'weekend') {
+      setWeekType('weekend');
       setDays(weekends);
       setNoOfWorkingDaysDropDown(2);
       setDaysSelected(weekends);
@@ -113,6 +116,7 @@ const WorkingDaysHours: React.FC = () => {
       numberOfWorkingDays: noOfWorkingDays,
       workingDays: workingDaysFinal,
       workingTimePerDay,
+      weekType,
       timeSlots: finalTimeSlots,
     };
 

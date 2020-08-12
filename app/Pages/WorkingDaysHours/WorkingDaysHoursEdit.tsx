@@ -21,7 +21,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
   );
   let weekdayOrWeekend: string;
   const workingDaysHoursStore = workingDaysHoursTemp.workingDaysHours;
-  if (workingDaysHoursStore.numberOfWorkingDays > 2) {
+  if (workingDaysHoursStore.weekType === 'weekday') {
     weekdayOrWeekend = 'weekday';
   } else {
     weekdayOrWeekend = 'weekend';
@@ -64,14 +64,30 @@ const WorkingDaysHoursEdit: React.FC = () => {
 
   const handleWeekdayWeekend = (value: string) => {
     if (value === 'weekday') {
-      setDaysSelected(weekdays);
+      const tempDaysArray: string[] = [];
+      const tempTimeSlotsArray: string[] = [];
+      workingDaysHoursStore.workingDays.map((item: any) => {
+        tempDaysArray.push(item.day);
+        return tempDaysArray;
+      });
+      workingDaysHoursStore.timeSlots.map((item: any) => {
+        tempTimeSlotsArray.push(item.type);
+        return tempDaysArray;
+      });
+      setTimeSlots(tempTimeSlotsArray);
+      setDaysSelected(tempDaysArray);
       setDays(weekdays);
       setNoOfWorkingDaysDropDown(7);
     }
     if (value === 'weekend') {
+      const tempDaysArray: string[] = [];
+      workingDaysHoursStore.workingDays.map((item: any) => {
+        tempDaysArray.push(item.day);
+        return tempDaysArray;
+      });
+      setDaysSelected(tempDaysArray);
       setDays(weekends);
       setNoOfWorkingDaysDropDown(2);
-      setDaysSelected(weekends);
     }
   };
 
@@ -94,18 +110,24 @@ const WorkingDaysHoursEdit: React.FC = () => {
       return finalTimeSlots;
     });
 
-    const finalObject = {
+    const notThefinalObject = {
       numberOfWorkingDays: noOfWorkingDays,
       workingDays: workingDaysFinal,
       workingTimePerDay,
       timeSlots: finalTimeSlots,
     };
 
+    const finalObject = {
+      workingDaysAndHours: notThefinalObject,
+      id: workingDaysHoursStore._id,
+    };
+    console.log(finalObject);
+
     try {
       const response = await fetch(
-        `http://localhost:5000/workingDaysHours/create`,
+        `http://localhost:5000/workingDaysHours/editWorkingDaysAndHours`,
         {
-          method: 'POST',
+          method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -149,7 +171,6 @@ const WorkingDaysHoursEdit: React.FC = () => {
 
   return (
     <div style={{ backgroundColor: '#37474F', height: '100vh' }}>
-      {/*{renderRedirectToView()}*/}
       {renderRedirect()}
       <NavBar />
       <Row className="text-center mb-5">
