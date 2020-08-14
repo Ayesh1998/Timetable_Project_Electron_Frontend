@@ -1,7 +1,7 @@
 import fs from 'fs';
 import chalk from 'chalk';
-import { execSync } from 'child_process';
-import { dependencies } from '../../package.json';
+import {execSync} from 'child_process';
+import {dependencies} from '../../package.json';
 
 if (dependencies) {
   const dependenciesKeys = Object.keys(dependencies);
@@ -12,7 +12,7 @@ if (dependencies) {
     // Find the reason for why the dependency is installed. If it is installed
     // because of a devDependency then that is okay. Warn when it is installed
     // because of a dependency
-    const { dependencies: dependenciesObject } = JSON.parse(
+    const {dependencies: dependenciesObject} = JSON.parse(
       execSync(`npm ls ${nativeDeps.join(' ')} --json`).toString()
     );
     const rootDependencies = Object.keys(dependenciesObject);

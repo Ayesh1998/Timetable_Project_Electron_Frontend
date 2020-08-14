@@ -1,24 +1,24 @@
 /* eslint react/jsx-props-no-spreading: off, @typescript-eslint/ban-ts-comment: off */
 import React from 'react';
-import Enzyme, { mount } from 'enzyme';
+import Enzyme, {mount} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { BrowserRouter as Router } from 'react-router-dom';
+import {BrowserRouter as Router} from 'react-router-dom';
 import renderer from 'react-test-renderer';
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
+import {Provider} from 'react-redux';
+import {configureStore} from '@reduxjs/toolkit';
 // @ts-ignore
 import Counter from '../../../app/features/counter/Counter';
 import * as counterSlice from '../../../app/Pages/WorkingDaysHours/workingDaysHoursSlice';
 
-Enzyme.configure({ adapter: new Adapter() });
+Enzyme.configure({adapter: new Adapter()});
 jest.useFakeTimers();
 
 function setup(
-  preloadedState: { counter: { value: number } } = { counter: { value: 1 } }
+  preloadedState: { counter: { value: number } } = {counter: {value: 1}}
 ) {
   // @ts-ignore
   const store = configureStore({
-    reducer: { counter: counterSlice.default },
+    reducer: {counter: counterSlice.default},
     preloadedState
   });
 
@@ -41,12 +41,12 @@ function setup(
 
 describe('Counter component', () => {
   it('should should display count', () => {
-    const { p } = setup();
+    const {p} = setup();
     expect(p.text()).toMatch(/^1$/);
   });
 
   it('should first button should call increment', () => {
-    const { buttons } = setup();
+    const {buttons} = setup();
     // @ts-ignore
     const incrementSpy = jest.spyOn(counterSlice, 'increment');
 
@@ -56,7 +56,7 @@ describe('Counter component', () => {
   });
 
   it('should match exact snapshot', () => {
-    const { store } = setup();
+    const {store} = setup();
     const tree = renderer
       .create(
         <Provider store={store}>
@@ -71,7 +71,7 @@ describe('Counter component', () => {
   });
 
   it('should second button should call decrement', () => {
-    const { buttons } = setup();
+    const {buttons} = setup();
     // @ts-ignore
     const decrementSyp = jest.spyOn(counterSlice, 'decrement');
     buttons.at(1).simulate('click');
@@ -80,7 +80,7 @@ describe('Counter component', () => {
   });
 
   it('should third button should call incrementIfOdd', () => {
-    const { buttons } = setup();
+    const {buttons} = setup();
     // @ts-ignore
     const incrementIfOdd = jest.spyOn(counterSlice, 'incrementIfOdd');
     buttons.at(2).simulate('click');
@@ -89,7 +89,7 @@ describe('Counter component', () => {
   });
 
   it('should fourth button should call incrementAsync', () => {
-    const { buttons } = setup();
+    const {buttons} = setup();
     // @ts-ignore
     const incrementAsync = jest.spyOn(counterSlice, 'incrementAsync');
     buttons.at(3).simulate('click');
@@ -98,25 +98,25 @@ describe('Counter component', () => {
   });
 
   it('should display updated count after increment button click', () => {
-    const { buttons, p } = setup();
+    const {buttons, p} = setup();
     buttons.at(0).simulate('click');
     expect(p.text()).toMatch(/^2$/);
   });
 
   it('should display updated count after decrement button click', () => {
-    const { buttons, p } = setup();
+    const {buttons, p} = setup();
     buttons.at(1).simulate('click');
     expect(p.text()).toMatch(/^0$/);
   });
 
   it('should not change if even and if odd button clicked', () => {
-    const { buttons, p } = setup({ counter: { value: 2 } });
+    const {buttons, p} = setup({counter: {value: 2}});
     buttons.at(2).simulate('click');
     expect(p.text()).toMatch(/^2$/);
   });
 
   it('should change if odd and if odd button clicked', () => {
-    const { buttons, p } = setup({ counter: { value: 1 } });
+    const {buttons, p} = setup({counter: {value: 1}});
     buttons.at(2).simulate('click');
     expect(p.text()).toMatch(/^2$/);
   });
