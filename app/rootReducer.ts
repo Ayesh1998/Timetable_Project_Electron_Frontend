@@ -7,6 +7,6 @@ import workingDaysHoursReducer from './Pages/WorkingDaysHours/workingDaysHoursSl
 export default function createRootReducer(history: History) {
   return combineReducers({
     router: connectRouter(history),
-    workingDaysHours: workingDaysHoursReducer,
+    workingDaysHours: workingDaysHoursReducer
   });
 }

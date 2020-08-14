@@ -5,6 +5,7 @@ const getPageUrl = ClientFunction(() => window.location.href);
 const getPageTitle = ClientFunction(() => document.title);
 const counterSelector = Selector('[data-tid="counter"]');
 const buttonsSelector = Selector('[data-tclass="btn"]');
+// @ts-ignore
 const clickToCounterLink = (t) =>
   t.click(Selector('a').withExactText('to Counter'));
 const incrementButton = buttonsSelector.nth(0);
@@ -12,6 +13,7 @@ const decrementButton = buttonsSelector.nth(1);
 const oddButton = buttonsSelector.nth(2);
 const asyncButton = buttonsSelector.nth(3);
 const getCounterText = () => counterSelector().innerText;
+// @ts-ignore
 const assertNoConsoleErrors = async (t) => {
   const { error } = await t.getBrowserConsoleMessages();
   await t.expect(error).eql([]);
@@ -49,7 +51,7 @@ test('should display updated count after the increment button click', async (t) 
   await t.click(incrementButton).expect(getCounterText()).eql('1');
 });
 
-test('should display updated count after the descrement button click', async (t) => {
+test('should display updated count after the decrement button click', async (t) => {
   await t.click(decrementButton).expect(getCounterText()).eql('-1');
 });
 

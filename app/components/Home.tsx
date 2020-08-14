@@ -6,7 +6,7 @@ import WorkingDaysHours from '../Pages/WorkingDaysHours/WorkingDaysHours';
 export default function Home(): JSX.Element {
   return (
     <div>
-      <WorkingDaysHours />
+      <WorkingDaysHours/>
     </div>
   );
 }

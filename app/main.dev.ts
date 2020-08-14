@@ -16,6 +16,7 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 
+// noinspection JSIgnoredPromiseFromCall
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -65,13 +66,14 @@ const createWindow = async () => {
         process.env.E2E_BUILD === 'true') &&
       process.env.ERB_SECURE !== 'true'
         ? {
-            nodeIntegration: true,
-          }
+          nodeIntegration: true
+        }
         : {
-            preload: path.join(__dirname, 'dist/renderer.prod.js'),
-          },
+          preload: path.join(__dirname, 'dist/renderer.prod.js')
+        }
   });
 
+  // noinspection ES6MissingAwait
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 
   // @TODO: Use 'ready-to-show' event
@@ -122,5 +124,7 @@ if (process.env.E2E_BUILD === 'true') {
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) createWindow();
+  if (mainWindow === null) { // noinspection JSIgnoredPromiseFromCall
+    createWindow();
+  }
 });

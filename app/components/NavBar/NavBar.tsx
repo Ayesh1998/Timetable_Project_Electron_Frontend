@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, NavDropdown, Nav } from 'react-bootstrap';
+import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import routes from '../../constants/routes.json';
 
@@ -12,7 +12,7 @@ const NavBar: React.FC = () => {
       variant="dark"
       style={{ position: 'absolute', zIndex: 2, top: '7px' }}
     >
-      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto float-left" style={{ height: '100vh' }}>
           <NavLink to={routes.WORKING_DAYS_AND_HOURS}>
@@ -27,7 +27,7 @@ const NavBar: React.FC = () => {
               Another action
             </NavDropdown.Item>
             <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-            <NavDropdown.Divider />
+            <NavDropdown.Divider/>
             <NavDropdown.Item href="#action/3.4">
               Separated link
             </NavDropdown.Item>
