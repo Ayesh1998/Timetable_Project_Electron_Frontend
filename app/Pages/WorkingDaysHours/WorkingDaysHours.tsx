@@ -17,6 +17,7 @@ import { setWorkingDaysHours } from './workingDaysHoursSlice';
 const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 const weekends = ['Saturday', 'Sunday'];
 
+// noinspection DuplicatedCode
 const WorkingDaysHours: React.FC = () => {
   const dispatch = useDispatch();
   // const value = useSelector();
