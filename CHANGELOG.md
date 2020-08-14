@@ -180,7 +180,7 @@ DEBUG_PROD=true npm run package
 
 # 0.11.0 (2017.4.19)
 
-Here's the most notable changes since `v0.10.0`. Its been about a year since a release has been pushed. Expect a new release to be published every 3-4 weeks.
+Here's the most notable changes since `v0.10.0`. It has been about a year since a release has been pushed. Expect a new release to be published every 3-4 weeks.
 
 #### Breaking Changes
 

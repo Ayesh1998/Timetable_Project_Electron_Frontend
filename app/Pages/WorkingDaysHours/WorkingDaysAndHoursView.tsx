@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
@@ -7,11 +8,10 @@ import styles from './working-days-hours.css';
 import routes from '../../constants/routes.json';
 import { setWorkingDaysHours } from './workingDaysHoursSlice';
 
+// noinspection DuplicatedCode
 const WorkingDaysHoursView: React.FC = () => {
   const dispatch = useDispatch();
-  const [workingDaysAndHoursObject, setWorkingDaysAndHoursObject] = useState<
-    any
-  >(null);
+  const [workingDaysAndHoursObject, setWorkingDaysAndHoursObject] = useState<any>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,8 +21,8 @@ const WorkingDaysHoursView: React.FC = () => {
           {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
-            },
+              'Content-Type': 'application/json'
+            }
           }
         );
 
@@ -32,6 +32,7 @@ const WorkingDaysHoursView: React.FC = () => {
         console.log(responseData.workingDaysAndHours);
 
         if (!responseData) {
+          // noinspection ExceptionCaughtLocallyJS
           throw new Error(responseData.message);
         }
       } catch (err) {
@@ -39,13 +40,14 @@ const WorkingDaysHoursView: React.FC = () => {
       }
     };
 
+    // noinspection JSIgnoredPromiseFromCall
     fetchData();
   }, []);
 
   const handleDelete = async () => {
     const tempObj = {
       // eslint-disable-next-line no-underscore-dangle
-      id: workingDaysAndHoursObject._id,
+      id: workingDaysAndHoursObject._id
     };
     try {
       const response = await fetch(
@@ -53,9 +55,9 @@ const WorkingDaysHoursView: React.FC = () => {
         {
           method: 'DELETE',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify(tempObj),
+          body: JSON.stringify(tempObj)
         }
       );
 
@@ -63,6 +65,7 @@ const WorkingDaysHoursView: React.FC = () => {
       // console.log(responseData.userDetails);
 
       if (!responseData) {
+        // noinspection ExceptionCaughtLocallyJS
         throw new Error(responseData.message);
       }
     } catch (err) {
@@ -72,7 +75,7 @@ const WorkingDaysHoursView: React.FC = () => {
 
   return (
     <div style={{ backgroundColor: '#37474F', height: '100vh' }}>
-      <NavBar />
+      <NavBar/>
       <Row className="text-center mb-5">
         <Col
           xs={12}
@@ -89,7 +92,7 @@ const WorkingDaysHoursView: React.FC = () => {
           style={{
             border: '3px solid white',
             borderRadius: '8px',
-            color: 'white',
+            color: 'white'
           }}
         >
           <Row className="mt-3 mb-4 justify-content-md-center">
@@ -102,60 +105,60 @@ const WorkingDaysHoursView: React.FC = () => {
                 className={`${styles.workingDaysHoursViewTable}`}
               >
                 <tbody>
-                  <tr>
-                    <td>Selected Week Type</td>
-                    <td>
-                      {workingDaysAndHoursObject.workingDays.length > 2
-                        ? 'Weekdays'
-                        : 'Weekend'}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>No of Working Days</td>
-                    <td>{workingDaysAndHoursObject.numberOfWorkingDays}</td>
-                  </tr>
-                  <tr>
-                    <td>Working Days</td>
-                    <td>
-                      {workingDaysAndHoursObject.workingDays.map(
-                        (day: any, index: number) => {
-                          if (
-                            workingDaysAndHoursObject.workingDays.length ===
-                            index + 1
-                          ) {
-                            return <span key={index}>{day.day} </span>;
-                          }
-                          // eslint-disable-next-line react/no-array-index-key
-                          return <span key={index}>{day.day} ,</span>;
+                <tr>
+                  <td>Selected Week Type</td>
+                  <td>
+                    {workingDaysAndHoursObject.workingDays.length > 2
+                      ? 'Weekdays'
+                      : 'Weekend'}
+                  </td>
+                </tr>
+                <tr>
+                  <td>No of Working Days</td>
+                  <td>{workingDaysAndHoursObject.numberOfWorkingDays}</td>
+                </tr>
+                <tr>
+                  <td>Working Days</td>
+                  <td>
+                    {workingDaysAndHoursObject.workingDays.map(
+                      (day: any, index: number) => {
+                        if (
+                          workingDaysAndHoursObject.workingDays.length ===
+                          index + 1
+                        ) {
+                          return <span key={index}>{day.day} </span>;
                         }
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Working Time per Day</td>
-                    <td>
-                      {workingDaysAndHoursObject.workingTimePerDay.hours} Hours
-                      and {workingDaysAndHoursObject.workingTimePerDay.minutes}{' '}
-                      Minutes
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Time Slots</td>
-                    <td>
-                      {workingDaysAndHoursObject.timeSlots.map(
-                        (slot: any, index: number) => {
-                          if (
-                            workingDaysAndHoursObject.timeSlots.length ===
-                            index + 1
-                          ) {
-                            return <span key={index}>{slot.type}</span>;
-                          }
-                          // eslint-disable-next-line react/no-array-index-key
-                          return <span key={index}>{slot.type} ,</span>;
+                        // eslint-disable-next-line react/no-array-index-key
+                        return <span key={index}>{day.day} ,</span>;
+                      }
+                    )}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Working Time per Day</td>
+                  <td>
+                    {workingDaysAndHoursObject.workingTimePerDay.hours} Hours
+                    and {workingDaysAndHoursObject.workingTimePerDay.minutes}{' '}
+                    Minutes
+                  </td>
+                </tr>
+                <tr>
+                  <td>Time Slots</td>
+                  <td>
+                    {workingDaysAndHoursObject.timeSlots.map(
+                      (slot: any, index: number) => {
+                        if (
+                          workingDaysAndHoursObject.timeSlots.length ===
+                          index + 1
+                        ) {
+                          return <span key={index}>{slot.type}</span>;
                         }
-                      )}
-                    </td>
-                  </tr>
+                        // eslint-disable-next-line react/no-array-index-key
+                        return <span key={index}>{slot.type} ,</span>;
+                      }
+                    )}
+                  </td>
+                </tr>
                 </tbody>
               </Table>
 
@@ -174,7 +177,7 @@ const WorkingDaysHoursView: React.FC = () => {
                 style={{
                   width: '160px',
                   fontSize: '1.3em',
-                  borderWidth: '2px',
+                  borderWidth: '2px'
                 }}
               >
                 <NavLink

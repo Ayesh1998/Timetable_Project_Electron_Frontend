@@ -8,8 +8,8 @@ const setWorkingDaysHoursSlice = createSlice({
   reducers: {
     setWorkingDaysHours: (state, action: any) => {
       state.workingDaysHours = action.payload;
-    },
-  },
+    }
+  }
 });
 
 export const { setWorkingDaysHours } = setWorkingDaysHoursSlice.actions;
