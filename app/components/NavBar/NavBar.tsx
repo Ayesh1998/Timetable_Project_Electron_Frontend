@@ -1,6 +1,6 @@
 import React from 'react';
-import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import {Nav, Navbar, NavDropdown} from 'react-bootstrap';
+import {NavLink} from 'react-router-dom';
 import routes from '../../constants/routes.json';
 
 const NavBar: React.FC = () => {
@@ -10,11 +10,11 @@ const NavBar: React.FC = () => {
       expand={false}
       bg="dark"
       variant="dark"
-      style={{ position: 'absolute', zIndex: 2, top: '7px' }}
+      style={{position: 'absolute', zIndex: 2, top: '7px'}}
     >
       <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
       <Navbar.Collapse id="responsive-navbar-nav">
-        <Nav className="mr-auto float-left" style={{ height: '100vh' }}>
+        <Nav className="mr-auto float-left" style={{height: '100vh'}}>
           <NavLink to={routes.WORKING_DAYS_AND_HOURS}>
             <Nav.Link href="#features" className="mt-5">
               Working Days and Hours

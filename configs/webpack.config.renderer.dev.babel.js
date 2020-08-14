@@ -9,8 +9,8 @@ import path from 'path';
 import fs from 'fs';
 import webpack from 'webpack';
 import chalk from 'chalk';
-import { merge } from 'webpack-merge';
-import { execSync, spawn } from 'child_process';
+import {merge} from 'webpack-merge';
+import {execSync, spawn} from 'child_process';
 import baseConfig from './webpack.config.base';
 import CheckNodeEnv from '../internals/scripts/CheckNodeEnv';
 
@@ -247,7 +247,7 @@ export default merge(baseConfig, {
     inline: true,
     lazy: false,
     hot: true,
-    headers: { 'Access-Control-Allow-Origin': '*' },
+    headers: {'Access-Control-Allow-Origin': '*'},
     contentBase: path.join(__dirname, 'dist'),
     watchOptions: {
       aggregateTimeout: 300,
