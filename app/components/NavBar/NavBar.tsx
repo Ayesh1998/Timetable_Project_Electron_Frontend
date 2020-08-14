@@ -32,6 +32,11 @@ const NavBar: React.FC = () => {
               Separated link
             </NavDropdown.Item>
           </NavDropdown>
+          <NavLink to={routes.BUILDINGS}>
+            <Nav.Link href="#buildings" className="mt-5">
+              Buildings
+            </Nav.Link>
+          </NavLink>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
