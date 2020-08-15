@@ -3,7 +3,7 @@ import {proxy} from '../../conf'
 import {useDispatch} from 'react-redux'
 import {setBuildings} from './buildings-slice'
 
-const AddBuildings: React.FC = () => {
+const BuildingsList: React.FC = () => {
   const dispatch = useDispatch()
   const [buildings, setBuildingsList] = useState<any>([])
 
@@ -36,4 +36,4 @@ const AddBuildings: React.FC = () => {
   )
 }
 
-export default AddBuildings
+export default BuildingsList
