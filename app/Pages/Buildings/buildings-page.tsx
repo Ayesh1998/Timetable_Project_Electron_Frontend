@@ -1,15 +1,15 @@
 import React from 'react'
-// import AddBuildings from './buildings-add'
+import AddBuildings from './buildings-add'
 // import EditBuildings from './buildings-edit'
-import BuildingsList from './buildings-list'
+// import BuildingsList from './buildings-list'
 
 const Buildings: React.FC = () => {
   return (
     <div className='container'>
       <h1>Buildings</h1>
-      {/*<AddBuildings/>*/}
+      <AddBuildings/>
       {/*<EditBuildings/>*/}
-      <BuildingsList/>
+      {/*<BuildingsList/>*/}
     </div>
   )
 }

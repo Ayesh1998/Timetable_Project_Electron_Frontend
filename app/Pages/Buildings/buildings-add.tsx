@@ -87,11 +87,15 @@ const AddBuildings: React.FC = () => {
                       value={building.centerName}
                       onChange={handleChangeCenterName}
                       required>
-          {centers && centers.map((center: any) => {
-            console.log(center)
-            return (
-              <option key={center._id} value={center.centerName}>{center.centerName}</option>)
-          })
+          <option>Choose...</option>
+          {
+            centers && centers.map((center: any) => {
+              return (
+                <option key={center._id} value={center.centerName}>
+                  {center.centerName}
+                </option>
+              )
+            })
           }
         </Form.Control>
       </Form.Group>
