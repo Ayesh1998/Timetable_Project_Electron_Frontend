@@ -71,14 +71,17 @@ const AddBuildings: React.FC = () => {
         <Form.Control type='text'
                       value={building.buildingName}
                       onChange={handleChangeBuildingName}
-                      placeholder='Enter building name'/>
+                      placeholder='Enter building name'
+                      pattern='[A-Za-z]{2,32}'
+                      title='Please enter a valid building name.'
+                      required/>
       </Form.Group>
       <Form.Group controlId='formLocatedCenter'>
         <Form.Label>Located Center</Form.Label>
         <Form.Control as='select'
                       value={building.centerName}
-                      onChange={handleChangeCenterName}>
-          <option>Choose...</option>
+                      onChange={handleChangeCenterName}
+                      required>
           {centers && centers.map((center: any) => {
             console.log(center)
             return (
@@ -90,7 +93,7 @@ const AddBuildings: React.FC = () => {
       <Button variant='primary'
               type='submit'
               onClick={handleSubmit}>
-        Submit
+        ADD
       </Button>
       {existingBuilding && errors_ && (
         <div style={{
