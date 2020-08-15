@@ -1,133 +1,179 @@
-// import React, {useEffect, useState} from 'react'
-// import {Button, Form} from 'react-bootstrap'
-// import {proxy} from '../../conf'
-// import {useDispatch} from 'react-redux'
-// import {setCenters, setEditBuilding} from './rooms-slice'
-//
-// let errors_: string = ''
-//
-// const EditBuildings: React.FC = () => {
-//   const dispatch = useDispatch()
-//   const [centers, setCentersList] = useState<any>([])
-//   const [building, setBuilding] = useState<{
-//     buildingName: string,
-//     centerName: string
-//   }>({
-//     buildingName: '',
-//     centerName: ''
-//   })
-//   const [existingBuilding, setExistingBuilding] = useState<boolean>(false)
-//
-//   const getCenters = async () => {
-//     try {
-//       const response = await fetch(`${proxy}/centers/centers`, {
-//         method: 'GET',
-//         headers: {
-//           'Content-Type': 'application/json'
-//         }
-//       })
-//       const responseData = await response.json()
-//       setCentersList(responseData)
-//       await dispatch(setCenters(responseData))
-//     } catch (errors) {
-//       console.log(errors)
-//     }
-//   }
-//
-//   useEffect(() => {
-//     getCenters().then(() => {
-//     })
-//   }, [])
-//
-//   const handleSubmit = async (e: any) => {
-//     e.preventDefault()
-//     try {
-//       const response = await fetch(`${proxy}/buildings/buildings`, {
-//         method: 'PUT',
-//         headers: {
-//           'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(building)
-//       })
-//       const responseData = await response.json()
-//       if (responseData.exists) {
-//         errors_ = responseData.message
-//         setExistingBuilding(true)
-//       } else {
-//         setExistingBuilding(false)
-//         await dispatch(setEditBuilding(false))
-//       }
-//     } catch (errors) {
-//       console.log(errors)
-//     }
-//   }
-//
-//   const handleChangeBuildingName = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     setBuilding({...building, buildingName: e.target.value})
-//   }
-//
-//   const handleChangeCenterName = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     setBuilding({...building, centerName: e.target.value})
-//   }
-//
-//   const handleBack = async () => {
-//     await dispatch(setEditBuilding(false))
-//   }
-//
-//   return (
-//     <Form>
-//       <Form.Group controlId='formBuildingName'>
-//         <Form.Label>Building Name</Form.Label>
-//         <Form.Control type='text'
-//                       value={building.buildingName}
-//                       onChange={handleChangeBuildingName}
-//                       placeholder='Enter building name'
-//                       pattern='[A-Za-z]{2,32}'
-//                       title='Please enter a valid building name.'
-//                       required/>
-//       </Form.Group>
-//       <Form.Group controlId='formLocatedCenter'>
-//         <Form.Label>Located Center</Form.Label>
-//         <Form.Control as='select'
-//                       value={building.centerName}
-//                       onChange={handleChangeCenterName}
-//                       required>
-//           <option>Choose...</option>
-//           {
-//             buildings && buildings.map((building: any) => {
-//               return (
-//                 <option key={building._id} value={building.buildingName}>
-//                   {building.buildingName}
-//                 </option>
-//               )
-//             })
-//           }
-//         </Form.Control>
-//       </Form.Group>
-//       <Form.Group>
-//         <Button variant='primary'
-//                 type='submit'
-//                 onClick={handleBack}>
-//           BACK
-//         </Button>
-//         <Button variant='success'
-//                 type='submit'
-//                 onClick={handleSubmit}>
-//           EDIT
-//         </Button>
-//       </Form.Group>
-//       {existingBuilding && errors_ && (
-//         <div style={{
-//           color: 'red',
-//           fontSize: '18px',
-//           marginTop: '7px',
-//           textAlign: 'center'
-//         }}>
-//           {errors_}
-//         </div>
-//       )}
-//     </Form>
-//   )
-// }
-//
-// export default EditBuildings
+import React, {useEffect, useState} from 'react'
+import {Button, Form} from 'react-bootstrap'
+import {proxy} from '../../conf'
+import {useDispatch} from 'react-redux'
+import {setBuildings} from '../Buildings/buildings-slice'
+import {setEditRoom} from './rooms-slice'
+import {type} from 'os'
+
+let errors_: string = ''
+
+const RoomsEdit: React.FC = () => {
+  const dispatch = useDispatch()
+  const [buildings, setBuildingsList] = useState<any>([])
+  const [room, setRoom] = useState<{
+    roomName: string,
+    buildingName: string,
+    roomType: string,
+    roomCapacity: number | undefined
+  }>({
+    roomName: '',
+    buildingName: '',
+    roomType: '',
+    roomCapacity: undefined
+  })
+  const [existingRoom, setExistingRoom] = useState<boolean>(false)
+
+  const getBuildings = async () => {
+    try {
+      const response = await fetch(`${proxy}/buildings/buildings`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const responseData = await response.json()
+      setBuildingsList(responseData)
+      await dispatch(setBuildings(responseData))
+    } catch (errors) {
+      console.log(errors)
+    }
+  }
+
+  useEffect(() => {
+    getBuildings().then(() => {
+    })
+  }, [])
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault()
+    try {
+      const response = await fetch(`${proxy}/rooms/rooms`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(room)
+      })
+      const responseData = await response.json()
+      if (responseData.exists) {
+        errors_ = responseData.message
+        setExistingRoom(true)
+      } else {
+        setExistingRoom(false)
+      }
+    } catch (errors) {
+      console.log(errors)
+    }
+  }
+
+  const handleChangeRoomName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRoom({...room, roomName: e.target.value})
+  }
+
+  const handleChangeBuildingName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRoom({...room, buildingName: e.target.value})
+  }
+
+  const handleChangeRoomType = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRoom({...room, roomType: e.target.value})
+  }
+
+  const handleChangeRoomCapacity = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRoom({...room, roomCapacity: parseInt(e.target.value)})
+  }
+
+  const handleBack = async () => {
+    await dispatch(setEditRoom(false))
+  }
+
+  return (
+    <Form>
+      <Form.Group controlId='formRoomName'>
+        <Form.Label>Room Name</Form.Label>
+        <Form.Control type='text'
+                      value={room.roomName}
+                      onChange={handleChangeRoomName}
+                      placeholder='Enter room name'
+                      pattern='[A-Za-z]{2,32}'
+                      title='Please enter a valid room name.'
+                      required/>
+      </Form.Group>
+      <Form.Group controlId='formLocatedBuilding'>
+        <Form.Label>Located Building</Form.Label>
+        <Form.Control as='select'
+                      value={room.buildingName}
+                      onChange={handleChangeBuildingName}
+                      placeholder='Select building'
+                      title='Please select the building.'
+                      required>
+          <option/>
+          {
+            buildings && buildings.map((building: any) => {
+              return (
+                <option key={building._id}
+                        value={building.buildingName}>
+                  {building.buildingName}
+                </option>
+              )
+            })
+          }
+        </Form.Control>
+      </Form.Group>
+      <Form.Group controlId='formRoomType'>
+        <Form.Label>Room Type</Form.Label>
+        <div key={`inline-${type}`}
+             className='mb-3'
+             onChange={handleChangeRoomType}
+             title='Please select the room type.'>
+          <Form.Check inline
+                      type='radio'
+                      label='Lecture Hall'
+                      value='Lecture Hall'
+                      name='roomType'
+                      id='roomTypeLectureHall'/>
+          <Form.Check inline
+                      type='radio'
+                      label='Laboratory'
+                      value='Laboratory'
+                      name='roomType'
+                      id='roomTypeLaboratory'/>
+        </div>
+      </Form.Group>
+      <Form.Group controlId='formRoomCapacity'>
+        <Form.Label>Room Capacity</Form.Label>
+        <Form.Control type='text'
+                      value={room.roomCapacity}
+                      onChange={handleChangeRoomCapacity}
+                      placeholder='Enter room capacity'
+                      pattern='[0-9]'
+                      title='Please enter a valid room capacity.'
+                      required/>
+      </Form.Group>
+      <Form.Group>
+        <Button variant='primary'
+                type='submit'
+                onClick={handleBack}>
+          BACK
+        </Button>
+        <Button variant='success'
+                type='submit'
+                onClick={handleSubmit}>
+          EDIT
+        </Button>
+      </Form.Group>
+      {existingRoom && errors_ && (
+        <div style={{
+          color: 'red',
+          fontSize: '18px',
+          marginTop: '7px',
+          textAlign: 'center'
+        }}>
+          {errors_}
+        </div>
+      )}
+    </Form>
+  )
+}
+
+export default RoomsEdit

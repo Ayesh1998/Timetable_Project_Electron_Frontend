@@ -6,7 +6,7 @@ import {setCenters, setEditBuilding} from './buildings-slice'
 
 let errors_: string = ''
 
-const EditBuildings: React.FC = () => {
+const BuildingsEdit: React.FC = () => {
   const dispatch = useDispatch()
   const [centers, setCentersList] = useState<any>([])
   const [building, setBuilding] = useState<{
@@ -91,12 +91,15 @@ const EditBuildings: React.FC = () => {
         <Form.Control as='select'
                       value={building.centerName}
                       onChange={handleChangeCenterName}
+                      placeholder='Select center'
+                      title='Please select the center.'
                       required>
-          <option>Choose...</option>
+          <option/>
           {
             centers && centers.map((center: any) => {
               return (
-                <option key={center._id} value={center.centerName}>
+                <option key={center._id}
+                        value={center.centerName}>
                   {center.centerName}
                 </option>
               )
@@ -130,4 +133,4 @@ const EditBuildings: React.FC = () => {
   )
 }
 
-export default EditBuildings
+export default BuildingsEdit
