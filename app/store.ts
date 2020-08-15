@@ -1,8 +1,8 @@
-import { configureStore, getDefaultMiddleware, Action } from '@reduxjs/toolkit';
-import { createHashHistory } from 'history';
-import { routerMiddleware } from 'connected-react-router';
-import { createLogger } from 'redux-logger';
-import { ThunkAction } from 'redux-thunk';
+import {Action, configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
+import {createHashHistory} from 'history';
+import {routerMiddleware} from 'connected-react-router';
+import {createLogger} from 'redux-logger';
+import {ThunkAction} from 'redux-thunk';
 // eslint-disable-next-line import/no-cycle
 import createRootReducer from './rootReducer';
 
@@ -21,7 +21,7 @@ const shouldIncludeLogger = !excludeLoggerEnvs.includes(
 if (shouldIncludeLogger) {
   const logger = createLogger({
     level: 'info',
-    collapsed: true,
+    collapsed: true
   });
   middleware.push(logger);
 }
@@ -31,7 +31,7 @@ export const configuredStore = (initialState?: RootState) => {
   const store = configureStore({
     reducer: rootReducer,
     middleware,
-    preloadedState: initialState,
+    preloadedState: initialState
   });
 
   if (process.env.NODE_ENV === 'development' && module.hot) {
@@ -44,4 +44,5 @@ export const configuredStore = (initialState?: RootState) => {
   return store;
 };
 export type Store = ReturnType<typeof configuredStore>;
+// noinspection JSUnusedGlobalSymbols
 export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>;

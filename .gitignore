@@ -50,3 +50,12 @@ npm-debug.log.*
 *.scss.d.ts
 
 yarn.lock
+
+# vscode settings
+/.vscode
+
+# webstorm settings
+/.idea
+
+# misc
+/notes
