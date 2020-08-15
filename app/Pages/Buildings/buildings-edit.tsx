@@ -20,7 +20,12 @@ const EditBuildings: React.FC = () => {
 
   const getCenters = async () => {
     try {
-      const response = await fetch(`${proxy}/centers/centers`)
+      const response = await fetch(`${proxy}/centers/centers`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
       const responseData = await response.json()
       setCentersList(responseData)
       await dispatch(setCenters(responseData))
