@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 
 const setBuildingsSlice = createSlice({
   name: 'buildings',
-  initialState: {buildings: {}, centers: {}, editBuilding: true},
+  initialState: {buildings: {}, centers: {}, editBuilding: false},
   reducers: {
     setBuildings: (state, action: any) => {
       state.buildings = action.payload

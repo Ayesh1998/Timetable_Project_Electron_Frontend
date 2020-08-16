@@ -3,7 +3,6 @@ import {Button, Form} from 'react-bootstrap'
 import {proxy} from '../../conf'
 import {useDispatch} from 'react-redux'
 import {setBuildings} from '../Buildings/buildings-slice'
-import {type} from 'os'
 
 let errors_: string = ''
 
@@ -117,8 +116,7 @@ const RoomsAdd: React.FC = () => {
       </Form.Group>
       <Form.Group controlId='formRoomType'>
         <Form.Label>Room Type</Form.Label>
-        <div key={`inline-${type}`}
-             className='mb-3'
+        <div className='mb-3'
              onChange={handleChangeRoomType}
              title='Please select the room type.'>
           <Form.Check inline
