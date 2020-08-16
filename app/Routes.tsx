@@ -6,8 +6,8 @@ import HomePage from './containers/HomePage'
 import WorkingDaysHoursView from './Pages/WorkingDaysHours/WorkingDaysAndHoursView'
 import WorkingDaysHours from './Pages/WorkingDaysHours/WorkingDaysHours'
 import WorkingDaysHoursEdit from './Pages/WorkingDaysHours/WorkingDaysHoursEdit'
-import Buildings from './Pages/Buildings/buildings-page'
-import Rooms from './Pages/Rooms/rooms-page'
+import BuildingsPage from './Pages/Buildings/buildings-page'
+import RoomsPage from './Pages/Rooms/rooms-page'
 
 const LazyCounterPage = React.lazy(() =>
   import('./containers/CounterPage')
@@ -32,9 +32,9 @@ export default function Routes() {
         <Route path={routes.WORKING_DAYS_AND_HOURS_Edit}
                component={WorkingDaysHoursEdit}/>
         <Route path={routes.BUILDINGS}
-               component={Buildings}/>
+               component={BuildingsPage}/>
         <Route path={routes.ROOMS}
-               component={Rooms}/>
+               component={RoomsPage}/>
         <Route path={routes.HOME}
                component={HomePage}/>
       </Switch>
