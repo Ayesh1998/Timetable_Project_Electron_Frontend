@@ -1,13 +1,29 @@
 import React, {useEffect, useState} from 'react'
-import {Button, Form} from 'react-bootstrap'
+import {useDispatch, useSelector} from 'react-redux'
+import {Button, Form, Spinner} from 'react-bootstrap'
+import {FaPlusCircle} from 'react-icons/fa'
 import {proxy} from '../../conf'
-import {useDispatch} from 'react-redux'
-import {setCenters} from './buildings-slice'
+import {setBuildings, setCenters, setExistingBuilding} from './buildings-slice'
 
 let errors_: string = ''
 
-const AddBuildings: React.FC = () => {
+const BuildingsAdd: React.FC = () => {
   const dispatch = useDispatch()
+
+  let buildingList = useSelector(
+    (state: {
+      buildings: any
+    }) => state.buildings.buildings
+  )
+
+  const existingBuilding = useSelector(
+    (state: {
+      buildings: any
+      existingBuilding: boolean
+    }) => state.buildings.existingBuilding
+  )
+
+  const [loading, setLoading] = useState<boolean>(false)
   const [centers, setCentersList] = useState<any>([])
   const [building, setBuilding] = useState<{
     buildingName: string,
@@ -16,15 +32,23 @@ const AddBuildings: React.FC = () => {
     buildingName: '',
     centerName: ''
   })
-  const [existingBuilding, setExistingBuilding] = useState<boolean>(false)
 
   const getCenters = async () => {
     try {
-      const response = await fetch(`${proxy}/centers/centers`)
+      setLoading(true)
+      const response = await fetch(`${proxy}/centers/centers`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
       const responseData = await response.json()
       setCentersList(responseData)
       await dispatch(setCenters(responseData))
+      setLoading(false)
     } catch (errors) {
+      errors_ = errors
+      setLoading(false)
       console.log(errors)
     }
   }
@@ -36,6 +60,7 @@ const AddBuildings: React.FC = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const response = await fetch(`${proxy}/buildings/buildings`, {
         method: 'POST',
@@ -45,68 +70,112 @@ const AddBuildings: React.FC = () => {
         body: JSON.stringify(building)
       })
       const responseData = await response.json()
+      buildingList = {...buildingList, responseData}
+      await dispatch(setBuildings(buildingList))
+      await dispatch(setExistingBuilding(false))
       if (responseData.exists) {
         errors_ = responseData.message
-        setExistingBuilding(true)
-      } else {
-        setExistingBuilding(false)
+        await dispatch(setExistingBuilding(true))
       }
+      await resetValues()
+      setLoading(false)
     } catch (errors) {
+      errors_ = errors
+      setLoading(false)
       console.log(errors)
     }
   }
 
   const handleChangeBuildingName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLoading(true)
     setBuilding({...building, buildingName: e.target.value})
+    setLoading(false)
   }
 
   const handleChangeCenterName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLoading(true)
     setBuilding({...building, centerName: e.target.value})
+    setLoading(false)
+  }
+
+  const resetValues = async () => {
+    setLoading(true)
+    building.buildingName = ''
+    building.centerName = ''
+    setLoading(false)
   }
 
   return (
-    <Form>
-      <Form.Group controlId='formBuildingName'>
-        <Form.Label>Building Name</Form.Label>
-        <Form.Control type='text'
-                      value={building.buildingName}
-                      onChange={handleChangeBuildingName}
-                      placeholder='Enter building name'
-                      pattern='[A-Za-z]{2,32}'
-                      title='Please enter a valid building name.'
-                      required/>
-      </Form.Group>
-      <Form.Group controlId='formLocatedCenter'>
-        <Form.Label>Located Center</Form.Label>
-        <Form.Control as='select'
-                      value={building.centerName}
-                      onChange={handleChangeCenterName}
-                      required>
-          {centers && centers.map((center: any) => {
-            console.log(center)
-            return (
-              <option key={center._id} value={center.centerName}>{center.centerName}</option>)
-          })
-          }
-        </Form.Control>
-      </Form.Group>
-      <Button variant='primary'
-              type='submit'
-              onClick={handleSubmit}>
-        ADD
-      </Button>
-      {existingBuilding && errors_ && (
-        <div style={{
-          color: 'red',
-          fontSize: '18px',
-          marginTop: '7px',
-          textAlign: 'center'
-        }}>
-          {errors_}
-        </div>
-      )}
-    </Form>
+    <div>
+      <Form>
+        <Form.Row>
+          <Form.Group controlId='formBuildingName'>
+            <Form.Label>Building Name</Form.Label>
+            <Form.Control type='text'
+                          value={building.buildingName}
+                          onChange={handleChangeBuildingName}
+                          placeholder='Enter Building Name'
+                          pattern='[A-Za-z]{2,32}'
+                          title='Please enter a valid building name.'
+                          required/>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group controlId='formLocatedCenter'>
+            <Form.Label>Located Center</Form.Label>
+            <Form.Control as='select'
+                          value={building.centerName}
+                          onChange={handleChangeCenterName}
+                          title='Please select the located center.'
+                          required>
+              <option value="">Select Located Center</option>
+              {
+                centers && centers.map((center: any) => {
+                  return (
+                    <option key={center._id}
+                            value={center.centerName}>
+                      {center.centerName}
+                    </option>
+                  )
+                })
+              }
+            </Form.Control>
+          </Form.Group>
+        </Form.Row>
+        {
+          loading && (
+            <Spinner animation='border'
+                     style={{
+                       textAlign: 'center',
+                       marginLeft: '50%'
+                     }}/>
+          )
+        }
+        <Form.Row>
+          <Form.Group>
+            <Button variant='success'
+                    type='submit'
+                    onClick={handleSubmit}>
+              <FaPlusCircle/>
+              ADD BUILDING
+            </Button>
+          </Form.Group>
+        </Form.Row>
+        {
+          existingBuilding && errors_ && (
+            <div style={{
+              color: 'red',
+              fontSize: '18px',
+              marginTop: '7px',
+              textAlign: 'center'
+            }}>
+              {errors_}
+            </div>
+          )
+        }
+      </Form>
+    </div>
   )
 }
 
-export default AddBuildings
+export default BuildingsAdd
