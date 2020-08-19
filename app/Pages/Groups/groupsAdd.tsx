@@ -14,9 +14,9 @@ import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setGroups} from './groupsSlice';
 
-const yearSemList = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1'];
-const programList = ['SE', 'CS'];
-const groupNumList = [1, 2];
+const yearSemList = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2'];
+const programList = ['SE', 'CS', 'DS' ,'IT'];
+const groupNumList = [1, 2,3,4,5,6,7,8,9,10];
 const subGroupNumList = [1, 2];
 
 // noinspection DuplicatedCode
@@ -26,6 +26,7 @@ const GroupsAdd: React.FC = () => {
 
 
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>( false );
+  const [renderRedirectTo1, setRenderRedirectTo1] = useState<boolean | null>( false );
   const [error, setError] = useState<string | null>(null);
 
   const [academicYear, setAcademicYear] = useState<number | null>(null);
@@ -74,33 +75,32 @@ const GroupsAdd: React.FC = () => {
 
   const renderRedirectToView = () => {
     if (groupsObject) {
-      return <Redirect to={routes.WORKING_DAYS_AND_HOURS_VIEW}/>;
+      return <Redirect to={routes.GROUPS_LIST_VIEW}/>;
       //   props.history.push(loginState.redirectTo);s
     }
     return null;
   };
 
   const setOther = () => {
-    setAcademicYear(3);
-    setAcademicSemester(2);
-    setGroupId("Y3.S2.SE.1");
+    const year = String(academicYear);
+    const sem = String(academicSemester);
+    const pro = String(programme);
+    const groupforId = group.toString();
+
+    const id = 'Y' + year +'.S'+sem+'.'+pro+'.'+groupforId;
+
+    setGroupId(id);
 
 
   }
 
   const handleSubmit = async () => {
-    console.log("1111111111111111111111111111");
-    console.log(academicYearAndSemester);
-    console.log(programme);
-    console.log(group);
-    console.log(subGrouup);
-    console.log(subGroups.subGroup);
 
     if(subGrouup){
       var statusSubGroup = true;
     }
 
-    const finalObject = {
+    const finalObjectGroup = {
       academicYear,
       academicSemester,
       academicYearAndSemester,
@@ -112,7 +112,7 @@ const GroupsAdd: React.FC = () => {
     };
 
     console.log('22222222222222222222222222222222222');
-    console.log(finalObject);
+    console.log(finalObjectGroup);
 
     try {
       const response = await fetch(
@@ -122,7 +122,7 @@ const GroupsAdd: React.FC = () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(finalObject)
+          body: JSON.stringify(finalObjectGroup)
         }
       );
 
@@ -137,18 +137,90 @@ const GroupsAdd: React.FC = () => {
     } catch (err) {
       console.log(err.message);
     }
+
+
+
+    const finalObjectSubGroup = {
+      academicYear,
+      academicSemester,
+      academicYearAndSemester,
+      programme,
+      group,
+      groupId,
+      subGroup: subGrouup.subGroup,
+      subGroupId : subGrouup.subGroupId
+    };
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/subGroups/create`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(finalObjectSubGroup)
+        }
+      );
+
+      const responseData = await response.json();
+      setRenderRedirectTo1(true);
+
+      // console.log(responseData.userDetails);
+
+      if (!responseData) {
+        // noinspection ExceptionCaughtLocallyJS
+        throw new Error(responseData.message);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   const renderRedirect = () => {
-    if (renderRedirectTo) {
-      return <Redirect to={routes.WORKING_DAYS_AND_HOURS_VIEW}/>;
+    if (renderRedirectTo && renderRedirectTo1) {
+      return <Redirect to={routes.GROUPS_LIST_VIEW}/>;
       //   props.history.push(loginState.redirectTo);s
     }
     return null;
   };
 
   const handleChangeAcademicYearAndSemester = ( e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
     setAcademicYearAndSemester(e.target.value);
+
+    if(val === 'Y1S1'){
+       setAcademicYear(1);
+       setAcademicSemester(1);
+    }
+    else if(val === 'Y1S2' ){
+      setAcademicYear(1);
+      setAcademicSemester(2);
+    }
+    else if(val === 'Y2S1' ){
+      setAcademicYear(2);
+      setAcademicSemester(1);
+    }
+    else if(val === 'Y2S2' ){
+      setAcademicYear(2);
+      setAcademicSemester(2);
+    }
+    else if(val === 'Y3S1' ){
+      setAcademicYear(3);
+      setAcademicSemester(1);
+    }
+    else if(val === 'Y3S2' ){
+      setAcademicYear(3);
+      setAcademicSemester(2);
+    }
+    else if(val === 'Y4S1' ){
+      setAcademicYear(4);
+      setAcademicSemester(1);
+    }
+    else{
+      setAcademicYear(4);
+      setAcademicSemester(2);
+    }
   };
 
   const handleChangeProgramme = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -161,7 +233,19 @@ const GroupsAdd: React.FC = () => {
 
   const handleChangeSubGroups = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = parseInt(e.target.value);
-    setSubGrouup({ subGroup:val ,subGroupId: 'Y3.S2.SE.1.1'});
+    var year = String(academicYear);
+    var sem = String(academicSemester);
+    var pro = String(programme);
+    var groupforId = group.toString();
+    if(val === 1){
+       var id = 'Y' + year +'.S'+sem+'.'+pro+'.'+groupforId+'.01';
+    }
+    else{
+      var id = 'Y' + year +'.S'+sem+'.'+pro+'.'+groupforId+'.02';
+    }
+
+
+    setSubGrouup({ subGroup:val ,subGroupId: id});
     setOther();
   };
 
