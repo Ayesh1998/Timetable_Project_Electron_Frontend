@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Col, Container, Row, Button, Form } from 'react-bootstrap';
+/* eslint-disable */
+import React, {useEffect, useState} from 'react';
+import {Button, Col, Container, Form, Row} from 'react-bootstrap';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { RadioGroup, RadioButton } from 'react-radio-buttons';
+import {RadioButton, RadioGroup} from 'react-radio-buttons';
 import CheckboxGroup from 'react-checkbox-group';
-import { Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import {Redirect} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 import styles from './working-days-hours.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
@@ -35,20 +36,18 @@ const WorkingDaysHoursEdit: React.FC = () => {
     false
   );
   const [noOfWorkingDays, setNoOfWorkingDays] = useState<any>(null);
-  const [noOfWorkingDaysDropDown, setNoOfWorkingDaysDropDown] = useState<
-    number | null
-  >(null);
+  const [noOfWorkingDaysDropDown, setNoOfWorkingDaysDropDown] = useState<number | null>(null);
   const [daysSelected, setDaysSelected] = useState<any>([]);
   const [timeSlots, setTimeSlots] = useState<any>([
     'One Hour',
-    'Thirty Minutes',
+    'Thirty Minutes'
   ]);
   const [workingTimePerDay, setWorkingTimePerDay] = useState<{
     hours: string;
     minutes: string;
   }>({
     hours: '00',
-    minutes: '00',
+    minutes: '00'
   });
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   // const [workingDaysAndHoursObject, setWorkingDaysAndHoursObject] = useState<
@@ -79,7 +78,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
 
       setWorkingTimePerDay({
         hours: workingDaysHoursStore.workingTimePerDay.hours,
-        minutes: workingDaysHoursStore.workingTimePerDay.minutes,
+        minutes: workingDaysHoursStore.workingTimePerDay.minutes
       });
       setTimeSlots(tempTimeSlotsArray);
       setDaysSelected(tempDaysArray);
@@ -100,7 +99,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
       });
       setWorkingTimePerDay({
         hours: workingDaysHoursStore.workingTimePerDay.hours,
-        minutes: workingDaysHoursStore.workingTimePerDay.minutes,
+        minutes: workingDaysHoursStore.workingTimePerDay.minutes
       });
       setTimeSlots(tempTimeSlotsArray);
       setDaysSelected(tempDaysArray);
@@ -117,13 +116,13 @@ const WorkingDaysHoursEdit: React.FC = () => {
     const workingDaysFinal: { day: any }[] = [];
     const finalTimeSlots: { type: any }[] = [];
     daysSelected.map((day: any) => {
-      const tempObj = { day };
+      const tempObj = {day};
       workingDaysFinal.push(tempObj);
       return workingDaysFinal;
     });
 
     timeSlots.map((type: any) => {
-      const tempObj = { type };
+      const tempObj = {type};
       finalTimeSlots.push(tempObj);
       return finalTimeSlots;
     });
@@ -133,13 +132,13 @@ const WorkingDaysHoursEdit: React.FC = () => {
       workingDays: workingDaysFinal,
       workingTimePerDay,
       weekType,
-      timeSlots: finalTimeSlots,
+      timeSlots: finalTimeSlots
     };
 
     const finalObject = {
       workingDaysAndHours: notThefinalObject,
       // eslint-disable-next-line no-underscore-dangle
-      id: workingDaysHoursStore._id,
+      id: workingDaysHoursStore._id
     };
 
     // eslint-disable-next-line radix
@@ -155,9 +154,9 @@ const WorkingDaysHoursEdit: React.FC = () => {
         {
           method: 'PUT',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify(finalObject),
+          body: JSON.stringify(finalObject)
         }
       );
 
@@ -166,6 +165,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
       // console.log(responseData.userDetails);
 
       if (!responseData) {
+        // noinspection ExceptionCaughtLocallyJS
         throw new Error(responseData.message);
       }
     } catch (err) {
@@ -175,7 +175,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
 
   const renderRedirect = () => {
     if (renderRedirectTo) {
-      return <Redirect to={routes.WORKING_DAYS_AND_HOURS_VIEW} />;
+      return <Redirect to={routes.WORKING_DAYS_AND_HOURS_VIEW}/>;
       //   props.history.push(loginState.redirectTo);s
     }
     return null;
@@ -188,23 +188,23 @@ const WorkingDaysHoursEdit: React.FC = () => {
   };
 
   const handleChangeHour = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWorkingTimePerDay({ ...workingTimePerDay, hours: e.target.value });
+    setWorkingTimePerDay({...workingTimePerDay, hours: e.target.value});
   };
 
   const handleChangeMinutes = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWorkingTimePerDay({ ...workingTimePerDay, minutes: e.target.value });
+    setWorkingTimePerDay({...workingTimePerDay, minutes: e.target.value});
   };
 
   return (
-    <div style={{ backgroundColor: '#37474F', height: '100vh' }}>
+    <div style={{backgroundColor: '#37474F', height: '100vh'}}>
       {renderRedirect()}
-      <NavBar />
+      <NavBar/>
       <Row className="text-center mb-5">
         <Col
           xs={12}
           md={12}
           className="p-3"
-          style={{ backgroundColor: '#343a40', color: '#fff' }}
+          style={{backgroundColor: '#343a40', color: '#fff'}}
         >
           <h3>Working Days and Hours</h3>
         </Col>
@@ -214,7 +214,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
         style={{
           border: '3px solid white',
           borderRadius: '8px',
-          color: 'white',
+          color: 'white'
         }}
       >
         <Row className="mt-3 mb-4 justify-content-md-center">
@@ -235,7 +235,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
               </RadioButton>
             </RadioGroup>
           </Col>
-          <Col xs={3} md={2} />
+          <Col xs={3} md={2}/>
         </Row>
         {days && (
           <div>
@@ -250,7 +250,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
                       <Form.Control
                         as="select"
                         defaultValue={workingDaysHoursStore.numberOfWorkingDays}
-                        style={{ borderWidth: '2.5px' }}
+                        style={{borderWidth: '2.5px'}}
                         value={noOfWorkingDays}
                         onChange={handleChangeNoOfWorkingDays}
                       >
@@ -265,7 +265,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
                       <Form.Control
                         as="select"
                         defaultValue={workingDaysHoursStore.numberOfWorkingDays}
-                        style={{ borderWidth: '2.5px' }}
+                        style={{borderWidth: '2.5px'}}
                         value={noOfWorkingDays}
                         onChange={handleChangeNoOfWorkingDays}
                       >
@@ -277,7 +277,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
                   </Form.Group>
                 </Form>
               </Col>
-              <Col xs={3} md={3} />
+              <Col xs={3} md={3}/>
             </Row>
             <Row className="mt-3 mb-3 justify-content-md-center">
               <Col xs={12} md={4}>
@@ -294,7 +294,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
                       {days?.map((day, index) => (
                         // eslint-disable-next-line jsx-a11y/label-has-associated-control
                         <label className="mr-sm-2 mr-md-3" key={index}>
-                          <Checkbox value={day} />
+                          <Checkbox value={day}/>
                           {day}
                         </label>
                       ))}
@@ -316,7 +316,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
                         style={{
                           width: '60px',
                           display: 'inline',
-                          marginLeft: '10px',
+                          marginLeft: '10px'
                         }}
                         type="number"
                         value={workingTimePerDay.hours}
@@ -332,7 +332,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
                         style={{
                           width: '60px',
                           display: 'inline',
-                          marginLeft: '10px',
+                          marginLeft: '10px'
                         }}
                         type="number"
                         value={workingTimePerDay.minutes}
@@ -343,7 +343,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
                   </Col>
                 </Row>
               </Col>
-              <Col xs={3} md={1} />
+              <Col xs={3} md={1}/>
             </Row>
             <Row className="mt-3 mb-3 justify-content-md-center">
               <Col xs={12} md={4}>
@@ -359,12 +359,12 @@ const WorkingDaysHoursEdit: React.FC = () => {
                     <>
                       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                       <label className="mr-sm-3 mr-md-4">
-                        <Checkbox value="One Hour" />
+                        <Checkbox value="One Hour"/>
                         One Hour
                       </label>
                       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                       <label className="mr-sm-3 mr-md-4">
-                        <Checkbox value="Thirty Minutes" />
+                        <Checkbox value="Thirty Minutes"/>
                         Thirty Minutes
                       </label>
                     </>
@@ -382,10 +382,10 @@ const WorkingDaysHoursEdit: React.FC = () => {
               </Row>
             )}
             <Row className="mt-3 mb-3">
-              <Col xs={0} md={8} />
+              <Col xs={0} md={8}/>
               <Col xs={12} md={4}>
                 <Button
-                  style={{ width: '160px', fontSize: '1.3em' }}
+                  style={{width: '160px', fontSize: '1.3em'}}
                   onClick={handleSubmit}
                 >
                   Submit
