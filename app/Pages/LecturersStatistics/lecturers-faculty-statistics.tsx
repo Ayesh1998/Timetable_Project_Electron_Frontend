@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
+import {Spinner, Table} from 'react-bootstrap'
 import {proxy} from '../../conf'
 import {setLecturersFacultyStatistics} from './lecturers-statistics-slice'
 
@@ -38,7 +39,61 @@ const LecturersFacultyStatistics: React.FC = () => {
 
   return (
     <div>
-
+      {
+        loading && (
+          <Spinner animation='border'
+                   style={{
+                     textAlign: 'center',
+                     marginLeft: '50%'
+                   }}/>
+        )
+      }
+      <Table responsive
+             striped
+             bordered
+             hover
+             size='sm'
+             style={{
+               border: 'solid darkblue 1px'
+             }}>
+        <thead style={{
+          backgroundColor: '#0350a2'
+        }}>
+        <th style={{
+          borderBottom: 'solid darkblue 1px'
+        }}>
+          Faculty
+        </th>
+        <th style={{
+          borderBottom: 'solid darkblue 1px'
+        }}>
+          Count
+        </th>
+        </thead>
+        <tbody>
+        {
+          lecturersFacultyStatisticsArray && lecturersFacultyStatisticsArray.map((lecturersFacultyStatisticsArrayElement: any) => {
+            return (
+              <tr key={lecturersFacultyStatisticsArrayElement._id.faculty}>
+                <td>{lecturersFacultyStatisticsArrayElement._id.faculty}</td>
+                <td>{lecturersFacultyStatisticsArrayElement.lecturersCount}</td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </Table>
+      {
+        errors_ && (
+          <div style={{
+            color: 'red',
+            fontSize: '18px',
+            marginTop: '7px',
+            textAlign: 'center'
+          }}>
+            {errors_}
+          </div>
+        )
+      }
     </div>
   )
 }

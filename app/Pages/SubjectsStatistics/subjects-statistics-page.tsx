@@ -2,7 +2,7 @@ import React from 'react'
 import {Col, Row} from 'react-bootstrap'
 import NavBar from '../../components/NavBar/NavBar'
 import SubjectsTotalCountStatistics from './subjects-total-count-statistics'
-import StudentsYearSemesterStatistics from '../StudentsStatistics/students-year-semester-statistics'
+import SubjectsOfferedYearStatistics from './subjects-offered-year-statistics'
 import SubjectsOfferedYearSemesterStatistics from './subjects-offered-year-semester-statistics'
 
 const SubjectsStatisticsPage: React.FC = () => {
@@ -22,7 +22,7 @@ const SubjectsStatisticsPage: React.FC = () => {
       </Row>
       <div className='container'>
         <SubjectsTotalCountStatistics/>
-        <StudentsYearSemesterStatistics/>
+        <SubjectsOfferedYearStatistics/>
         <SubjectsOfferedYearSemesterStatistics/>
       </div>
     </div>
