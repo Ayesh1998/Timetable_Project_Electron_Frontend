@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {Spinner, Table} from 'react-bootstrap'
+import {Bar, BarChart, CartesianGrid, Legend, Pie, PieChart, Tooltip, XAxis, YAxis} from 'recharts'
 import {proxy} from '../../conf'
 import {setLecturersCenterStatistics} from './lecturers-statistics-slice'
-import {Bar, BarChart, CartesianGrid, Legend, Pie, PieChart, Tooltip, XAxis, YAxis} from 'recharts'
 
 let errors_: string = ''
 let data: any = []
@@ -51,7 +51,9 @@ const LecturersCenterStatistics: React.FC = () => {
 
   return (
     <div>
-      <h4>Number of Lecturers per Center</h4>
+      <h5 className='text-center'>
+        Number of Lecturers per Center
+      </h5>
       {
         loading && (
           <Spinner animation='border'

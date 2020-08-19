@@ -21,6 +21,7 @@ const NavBar: React.FC = () => {
              style={{
                height: '100vh'
              }}>
+          <br/>
           <NavLink to={routes.WORKING_DAYS_AND_HOURS}>
             <Nav.Link href='#working-days-and-hours'>
               Working Days and Hours

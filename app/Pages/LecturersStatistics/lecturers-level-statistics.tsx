@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {Spinner, Table} from 'react-bootstrap'
+import {Bar, BarChart, CartesianGrid, Legend, Pie, PieChart, Tooltip, XAxis, YAxis} from 'recharts'
 import {proxy} from '../../conf'
 import {setLecturersLevelStatistics} from './lecturers-statistics-slice'
-import {Bar, BarChart, CartesianGrid, Legend, Pie, PieChart, Tooltip, XAxis, YAxis} from 'recharts'
 
 let errors_: string = ''
 let data: any = []
@@ -27,10 +27,39 @@ const LecturersLevelStatistics: React.FC = () => {
       setLecturersLevelStatisticsArray(responseData)
       await dispatch(setLecturersLevelStatistics(responseData))
       data = []
+      let category: string = ''
       for (let i = 0; i < responseData.length; i++) {
+        switch (responseData[i]._id.level) {
+          case 1:
+            category = 'Professor'
+            break
+          case 2:
+            category = 'Assistant Professor'
+            break
+          case 3:
+            category = 'Senior Lecturer (HG)'
+            break
+          case 4:
+            category = 'Senior Lecturer'
+            break
+          case 5:
+            category = 'Lecturer'
+            break
+          case 6:
+            category = 'Assistant Lecturer'
+            break
+          case 7:
+            category = 'Instructor'
+            break
+          default:
+            category = 'Other'
+            break
+        }
+        let categoryAndLevel: string = `${category} (${responseData[i]._id.level})`
         data = [...data,
           {
-            name: responseData[i]._id.level,
+            name: categoryAndLevel,
+            level: responseData[i]._id.level,
             value: responseData[i].lecturersCount,
             count: responseData[i].lecturersCount
           }
@@ -51,7 +80,9 @@ const LecturersLevelStatistics: React.FC = () => {
 
   return (
     <div>
-      <h4>Number of Lecturers per Level</h4>
+      <h5 className='text-center'>
+        Number of Lecturers per Level
+      </h5>
       {
         loading && (
           <Spinner animation='border'
@@ -88,9 +119,37 @@ const LecturersLevelStatistics: React.FC = () => {
           <tbody>
           {
             lecturersLevelStatisticsArray && lecturersLevelStatisticsArray.map((lecturersLevelStatisticsArrayElement: any) => {
+              let category: string = ''
+              switch (lecturersLevelStatisticsArrayElement._id.level) {
+                case 1:
+                  category = 'Professor'
+                  break
+                case 2:
+                  category = 'Assistant Professor'
+                  break
+                case 3:
+                  category = 'Senior Lecturer (HG)'
+                  break
+                case 4:
+                  category = 'Senior Lecturer'
+                  break
+                case 5:
+                  category = 'Lecturer'
+                  break
+                case 6:
+                  category = 'Assistant Lecturer'
+                  break
+                case 7:
+                  category = 'Instructor'
+                  break
+                default:
+                  category = 'Other'
+                  break
+              }
+              let categoryAndLevel: string = `${category} (${lecturersLevelStatisticsArrayElement._id.level})`
               return (
                 <tr key={lecturersLevelStatisticsArrayElement._id.level}>
-                  <td>{lecturersLevelStatisticsArrayElement._id.level}</td>
+                  <td>{categoryAndLevel}</td>
                   <td>{lecturersLevelStatisticsArrayElement.lecturersCount}</td>
                 </tr>
               )
@@ -122,7 +181,7 @@ const LecturersLevelStatistics: React.FC = () => {
                     bottom: 10
                   }}>
           <CartesianGrid strokeDasharray='3 3'/>
-          <XAxis dataKey='name'/>
+          <XAxis dataKey='level'/>
           <YAxis/>
           <Tooltip/>
           <Legend/>
