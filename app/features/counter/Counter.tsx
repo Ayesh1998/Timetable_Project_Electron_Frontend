@@ -1,71 +1,73 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import styles from './Counter.css';
-import routes from '../../constants/routes.json';
+/*
+import React from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {Link} from 'react-router-dom'
+import styles from './Counter.css'
+import routes from '../../constants/routes.json'
 import {
-  increment,
   decrement,
-  incrementIfOdd,
+  increment,
   incrementAsync,
+  incrementIfOdd,
   selectCount,
-} from './counterSlice';
+} from '../../Pages/WorkingDaysHours/workingDaysHoursSlice'
 
 export default function Counter() {
-  const dispatch = useDispatch();
-  const value = useSelector(selectCount);
+  const dispatch = useDispatch()
+  const value = useSelector(selectCount)
   return (
     <div>
-      <div className={styles.backButton} data-tid="backButton">
+      <div className={styles.backButton} data-tid='backButton'>
         <Link to={routes.HOME}>
-          <i className="fa fa-arrow-left fa-3x" />
+          <i className='fa fa-arrow-left fa-3x'/>
         </Link>
       </div>
-      <div className={`counter ${styles.counter}`} data-tid="counter">
+      <div className={`counter ${styles.counter}`} data-tid='counter'>
         {value}
       </div>
       <div className={styles.btnGroup}>
         <button
           className={styles.btn}
           onClick={() => {
-            dispatch(increment());
+            dispatch(increment())
           }}
-          data-tclass="btn"
-          type="button"
+          data-tclass='btn'
+          type='button'
         >
-          <i className="fa fa-plus" />
+          <i className='fa fa-plus'/>
         </button>
         <button
           className={styles.btn}
           onClick={() => {
-            dispatch(decrement());
+            dispatch(decrement())
           }}
-          data-tclass="btn"
-          type="button"
+          data-tclass='btn'
+          type='button'
         >
-          <i className="fa fa-minus" />
+          <i className='fa fa-minus'/>
         </button>
         <button
           className={styles.btn}
           onClick={() => {
-            dispatch(incrementIfOdd());
+            dispatch(incrementIfOdd())
           }}
-          data-tclass="btn"
-          type="button"
+          data-tclass='btn'
+          type='button'
         >
           odd
         </button>
         <button
           className={styles.btn}
           onClick={() => {
-            dispatch(incrementAsync());
+            dispatch(incrementAsync())
           }}
-          data-tclass="btn"
-          type="button"
+          data-tclass='btn'
+          type='button'
         >
           async
         </button>
       </div>
     </div>
-  );
+  )
 }
+*/
