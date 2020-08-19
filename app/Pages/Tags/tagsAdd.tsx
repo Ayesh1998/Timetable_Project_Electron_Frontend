@@ -12,8 +12,12 @@ import {useDispatch} from 'react-redux';
 import styles from './tags.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-import {setTags} from './tagsSlice';
-
+import {
+  setTags,
+  setEditTag,
+  setEditingTag,
+  setEditingTagId
+} from './tagsSlice';
 
 // noinspection DuplicatedCode
 const TagsAdd: React.FC = () => {
@@ -61,13 +65,14 @@ const TagsAdd: React.FC = () => {
   }, []);
 
 
-  const renderRedirectToView = () => {
-    if (tagsObject) {
-      return <Redirect to={routes.TAGS_LIST_VIEW}/>;
-      //   props.history.push(loginState.redirectTo);s
-    }
-    return null;
-  };
+  // const renderRedirectToView = () => {
+
+  //   if (tagsObject != null) {
+  //     return <Redirect to={routes.TAGS_LIST_VIEW}/>;
+  //     //   props.history.push(loginState.redirectTo);s
+  //   }
+  //   return null;
+  // };
 
 
   const handleSubmit = async () => {
@@ -134,7 +139,7 @@ const TagsAdd: React.FC = () => {
         overflow: 'scroll'
       }}
     >
-       {renderRedirectToView()}
+
       {renderRedirect()}
       <NavBar/>
       <Row className="text-center mb-5">

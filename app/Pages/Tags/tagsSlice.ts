@@ -4,16 +4,33 @@ import { RootState } from '../../store';
 
 const setTagsSlice = createSlice({
   name: 'tags',
-  initialState: { tags: [] },
+  initialState: {
+      tags: {} ,
+      editTag: false,
+      editingTagId: '',
+      editingTag: null
+    },
   reducers: {
     setTags: (state, action: any) => {
       state.tags = action.payload;
     },
+    setEditTag: (state, action: any) => {
+      state.editTag = action.payload
+    },
+    setEditingTagId: (state, action: any) => {
+      state.editingTagId = action.payload
+    },
+    setEditingTag: (state, action: any) => {
+      state.editingTag = action.payload
+    }
   },
 });
 
 export const { setTags } = setTagsSlice.actions;
+export const {setEditTag} = setTagsSlice.actions
+export const {setEditingTagId} = setTagsSlice.actions
+export const {setEditingTag} = setTagsSlice.actions
 
 export default setTagsSlice.reducer;
 
-export const selectCount = (state: RootState) => state.tags.tags;
+
