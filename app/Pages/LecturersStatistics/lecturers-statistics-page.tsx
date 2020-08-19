@@ -1,9 +1,6 @@
 import React from 'react'
 import {Col, Row} from 'react-bootstrap'
 import NavBar from '../../components/NavBar/NavBar'
-import LecturersLevelStatistics from './lecturers-level-statistics'
-import LecturersFacultyStatistics from './lecturers-faculty-statistics'
-import LecturersCenterStatistics from './lecturers-center-statistics'
 
 const LecturersStatisticsPage: React.FC = () => {
   return (
@@ -20,11 +17,6 @@ const LecturersStatisticsPage: React.FC = () => {
           <h1>Statistics of Lecturers</h1>
         </Col>
       </Row>
-      <div className='container'>
-        <LecturersLevelStatistics/>
-        <LecturersFacultyStatistics/>
-        <LecturersCenterStatistics/>
-      </div>
     </div>
   )
 }
