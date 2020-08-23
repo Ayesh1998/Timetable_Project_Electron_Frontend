@@ -1,12 +1,22 @@
-import React, {useEffect, useState} from 'react'
-import {useDispatch} from 'react-redux'
-import {Spinner, Table} from 'react-bootstrap'
-import {Bar, BarChart, CartesianGrid, Legend, Pie, PieChart, Tooltip, XAxis, YAxis} from 'recharts'
-import {proxy} from '../../conf'
-import {setLecturersLevelStatistics} from './lecturers-statistics-slice'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { Col, Row, Spinner, Table } from 'react-bootstrap'
+import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, Tooltip, XAxis, YAxis } from 'recharts'
+import { proxy } from '../../conf'
+import { setLecturersLevelStatistics } from './lecturers-statistics-slice'
 
 let errors_: string = ''
 let data: any = []
+const COLORS = [
+  '#0088FE',
+  '#00C49F',
+  '#FFBB28',
+  '#FF8042',
+  '#D0ED57',
+  '#8884D8',
+  '#8DD1E1',
+  '#50fa00'
+]
 
 const LecturersLevelStatistics: React.FC = () => {
   const dispatch = useDispatch()
@@ -106,12 +116,24 @@ const LecturersLevelStatistics: React.FC = () => {
             backgroundColor: '#0350a2'
           }}>
           <th style={{
-            borderBottom: 'solid darkblue 1px'
+            borderBottom: 'solid darkblue 1px',
+            borderLeft: 'solid darkblue 1px',
+            borderTop: 'solid darkblue 1px',
+            textAlign: 'center',
+            fontSize: 'large',
+            fontWeight: 'lighter',
+            color: 'white'
           }}>
             Level
           </th>
           <th style={{
-            borderBottom: 'solid darkblue 1px'
+            borderBottom: 'solid darkblue 1px',
+            borderTop: 'solid darkblue 1px',
+            borderRight: 'solid darkblue 1px',
+            textAlign: 'center',
+            fontSize: 'large',
+            fontWeight: 'lighter',
+            color: 'white'
           }}>
             Count
           </th>
@@ -119,7 +141,7 @@ const LecturersLevelStatistics: React.FC = () => {
           <tbody>
           {
             lecturersLevelStatisticsArray && lecturersLevelStatisticsArray.map((lecturersLevelStatisticsArrayElement: any) => {
-              let category: string = ''
+              let category: string
               switch (lecturersLevelStatisticsArrayElement._id.level) {
                 case 1:
                   category = 'Professor'
@@ -149,8 +171,16 @@ const LecturersLevelStatistics: React.FC = () => {
               let categoryAndLevel: string = `${category} (${lecturersLevelStatisticsArrayElement._id.level})`
               return (
                 <tr key={lecturersLevelStatisticsArrayElement._id.level}>
-                  <td>{categoryAndLevel}</td>
-                  <td>{lecturersLevelStatisticsArrayElement.lecturersCount}</td>
+                  <td style={{
+                    textAlign: 'center'
+                  }}>
+                    {categoryAndLevel}
+                  </td>
+                  <td style={{
+                    textAlign: 'center'
+                  }}>
+                    {lecturersLevelStatisticsArrayElement.lecturersCount}
+                  </td>
                 </tr>
               )
             })
@@ -170,39 +200,61 @@ const LecturersLevelStatistics: React.FC = () => {
           )
         }
       </div>
-      <div>
-        <BarChart width={350}
-                  height={300}
-                  data={data}
-                  margin={{
-                    top: 10,
-                    right: 5,
-                    left: 5,
-                    bottom: 10
-                  }}>
-          <CartesianGrid strokeDasharray='3 3'/>
-          <XAxis dataKey='level'/>
-          <YAxis/>
-          <Tooltip/>
-          <Legend/>
-          <Bar dataKey='count'
-               fill='#8884d8'/>
-        </BarChart>
-      </div>
-      <div>
-        <PieChart width={500}
-                  height={500}>
-          <Pie dataKey='value'
-               isAnimationActive={true}
-               data={data}
-               cx={200}
-               cy={150}
-               outerRadius={130}
-               fill='#8884d8'
-               label>
-          </Pie>
-          <Tooltip/>
-        </PieChart>
+      <div style={{
+        marginLeft: '-60px',
+        marginTop: '20px'
+      }}>
+        <Row>
+          <Col sm='7'>
+            <div>
+              <BarChart width={340}
+                        height={320}
+                        data={data}>
+                <CartesianGrid strokeDasharray='3 3'/>
+                <XAxis dataKey='level'/>
+                <YAxis/>
+                <Tooltip/>
+                <Bar dataKey='count'
+                     fill='#8884d8'
+                     label={{
+                       position: 'center',
+                       color: 'black'
+                     }}>
+                  {
+                    data.map((_entry: any, index: number) => (
+                      <Cell key={`cell-${index}`}
+                            fill={COLORS[index % COLORS.length]}/>
+                    ))
+                  }
+                </Bar>
+              </BarChart>
+            </div>
+          </Col>
+          <Col sm='5'>
+            <div>
+              <PieChart width={500}
+                        height={500}>
+                <Pie data={data}
+                     cx={125}
+                     cy={150}
+                     outerRadius={110}
+                     fill='#8884d8'
+                     dataKey='value'
+                     isAnimationActive={true}
+                     labelLine={false}
+                     label>
+                  {
+                    data.map((_entry: any, index: number) => (
+                      <Cell key={`cell-${index}`}
+                            fill={COLORS[index % COLORS.length]}/>
+                    ))
+                  }
+                </Pie>
+                <Tooltip/>
+              </PieChart>
+            </div>
+          </Col>
+        </Row>
       </div>
     </div>
   )

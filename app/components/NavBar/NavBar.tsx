@@ -1,6 +1,6 @@
 import React from 'react'
-import {Nav, Navbar, NavDropdown} from 'react-bootstrap'
-import {NavLink} from 'react-router-dom'
+import { Nav, Navbar, NavDropdown } from 'react-bootstrap'
+import { NavLink } from 'react-router-dom'
 import routes from '../../constants/routes.json'
 
 const NavBar: React.FC = () => {

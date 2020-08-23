@@ -1,5 +1,5 @@
 import React from 'react'
-import {Col, Row} from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 import NavBar from '../../components/NavBar/NavBar'
 import StudentsYearStatistics from './students-year-statistics'
 import StudentsYearSemesterStatistics from './students-year-semester-statistics'
@@ -20,10 +20,27 @@ const StudentsStatisticsPage: React.FC = () => {
           <h1>Statistics of Students</h1>
         </Col>
       </Row>
-      <div className='container'>
-        <StudentsYearStatistics/>
-        <StudentsYearSemesterStatistics/>
-        <StudentsYearSemesterProgrammeStatistics/>
+      <div style={{
+        marginLeft: '5%',
+        marginRight: '5%'
+      }}>
+        <Row>
+          <Col sm='8'>
+            <div>
+              <StudentsYearStatistics/>
+            </div>
+            <div style={{
+              marginTop: '40px'
+            }}>
+              <StudentsYearSemesterStatistics/>
+            </div>
+          </Col>
+          <Col sm='4'>
+            <div>
+              <StudentsYearSemesterProgrammeStatistics/>
+            </div>
+          </Col>
+        </Row>
       </div>
     </div>
   )

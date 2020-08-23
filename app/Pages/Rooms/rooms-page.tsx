@@ -1,9 +1,60 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { Col, Row } from 'react-bootstrap'
+import NavBar from '../../components/NavBar/NavBar'
+import RoomsList from './rooms-list'
+import RoomsEdit from './rooms-edit'
+import RoomsAdd from './rooms-add'
 
 const RoomsPage: React.FC = () => {
+  let route: any
+
+  const editRoom = useSelector(
+    (state: {
+      rooms: any
+      editRoom: boolean
+    }) => state.rooms.editRoom
+  )
+
+  if (editRoom)
+    route = (<RoomsEdit/>)
+  else
+    route = (<RoomsAdd/>)
+
   return (
-    <div className='container'>
-      <h1>Rooms</h1>
+    <div>
+      <NavBar/>
+      <Row className='text-center mb-5'>
+        <Col xs={12}
+             md={12}
+             className='p-3'
+             style={{
+               backgroundColor: '#343a40',
+               color: '#fff'
+             }}>
+          <h1>Rooms</h1>
+        </Col>
+      </Row>
+      <div style={{
+        marginLeft: '15%',
+        marginRight: '15%'
+      }}>
+        <Row>
+          <Col sm='4'
+               style={{
+                 marginTop: '130px'
+               }}>
+            <div>
+              {route}
+            </div>
+          </Col>
+          <Col sm='8'>
+            <div>
+              <RoomsList/>
+            </div>
+          </Col>
+        </Row>
+      </div>
     </div>
   )
 }
