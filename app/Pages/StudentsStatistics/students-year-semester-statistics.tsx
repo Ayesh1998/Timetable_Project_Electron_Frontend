@@ -66,7 +66,7 @@ const StudentsYearSemesterStatistics: React.FC = () => {
       <div style={{
         marginTop: '20px'
       }}>
-        <BarChart width={1100}
+        <BarChart width={1000}
                   height={320}
                   data={data}>
           <CartesianGrid strokeDasharray='3 3'/>

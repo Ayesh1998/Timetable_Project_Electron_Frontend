@@ -7,7 +7,10 @@ import LecturersCenterStatistics from './lecturers-center-statistics'
 
 const LecturersStatisticsPage: React.FC = () => {
   return (
-    <div>
+    <div style={{
+      width: 'max-content',
+      marginBottom: '3%'
+    }}>
       <NavBar/>
       <Row className='text-center mb-5'>
         <Col xs={12}

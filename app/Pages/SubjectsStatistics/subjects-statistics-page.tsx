@@ -7,7 +7,10 @@ import SubjectsOfferedYearSemesterStatistics from './subjects-offered-year-semes
 
 const SubjectsStatisticsPage: React.FC = () => {
   return (
-    <div>
+    <div style={{
+      width: 'max-content',
+      marginBottom: '3%'
+    }}>
       <NavBar/>
       <Row className='text-center mb-5'>
         <Col xs={12}
@@ -33,12 +36,16 @@ const SubjectsStatisticsPage: React.FC = () => {
             </div>
           </Col>
           <Col sm='4'>
-            <div>
+            <div style={{
+              marginLeft: '10%'
+            }}>
               <SubjectsOfferedYearStatistics/>
             </div>
           </Col>
           <Col sm='6'>
-            <div>
+            <div style={{
+              marginLeft: '2%'
+            }}>
               <SubjectsOfferedYearSemesterStatistics/>
             </div>
           </Col>

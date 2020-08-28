@@ -175,8 +175,7 @@ const BuildingsList: React.FC = () => {
                             value={building.buildingName}
                             onChange={handleChangeBuildingNameSearch}
                             placeholder='Search by Building Name'
-                            title='Search by building name.'
-                            size='lg'/>
+                            title='Search by building name.'/>
             </Form.Group>
             <Form.Group controlId='formLocatedCenter'
                         style={{
@@ -186,8 +185,7 @@ const BuildingsList: React.FC = () => {
               <Form.Control as='select'
                             value={building.centerName}
                             onChange={handleChangeCenterNameSearch}
-                            title='Search by located center.'
-                            size='lg'>
+                            title='Search by located center.'>
                 <option value="">Search by Located Center</option>
                 {
                   centers && centers.map((center: any) => {

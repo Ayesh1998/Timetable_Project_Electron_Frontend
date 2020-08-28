@@ -22,12 +22,14 @@ const RoomsPage: React.FC = () => {
     route = (<RoomsAdd/>)
 
   return (
-    <div>
+    <div style={{
+      minWidth: 'max-content',
+      overflowX: 'hidden',
+      marginBottom: '3%'
+    }}>
       <NavBar/>
       <Row className='text-center mb-5'>
-        <Col xs={12}
-             md={12}
-             className='p-3'
+        <Col className='p-3'
              style={{
                backgroundColor: '#343a40',
                color: '#fff'
@@ -35,14 +37,11 @@ const RoomsPage: React.FC = () => {
           <h1>Rooms</h1>
         </Col>
       </Row>
-      <div style={{
-        marginLeft: '15%',
-        marginRight: '15%'
-      }}>
+      <div className='container'>
         <Row>
           <Col sm='4'
                style={{
-                 marginTop: '130px'
+                 marginTop: '115px'
                }}>
             <div>
               {route}

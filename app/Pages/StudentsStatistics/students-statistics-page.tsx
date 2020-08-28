@@ -7,7 +7,10 @@ import StudentsYearSemesterProgrammeStatistics from './students-year-semester-pr
 
 const StudentsStatisticsPage: React.FC = () => {
   return (
-    <div>
+    <div style={{
+      width: 'max-content',
+      marginBottom: '3%'
+    }}>
       <NavBar/>
       <Row className='text-center mb-5'>
         <Col xs={12}
@@ -36,7 +39,9 @@ const StudentsStatisticsPage: React.FC = () => {
             </div>
           </Col>
           <Col sm='4'>
-            <div>
+            <div style={{
+              marginLeft: '10%'
+            }}>
               <StudentsYearSemesterProgrammeStatistics/>
             </div>
           </Col>

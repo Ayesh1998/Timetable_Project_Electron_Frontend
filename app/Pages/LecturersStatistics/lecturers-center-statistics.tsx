@@ -175,10 +175,10 @@ const LecturersCenterStatistics: React.FC = () => {
           </Col>
           <Col sm='5'>
             <div>
-              <PieChart width={500}
-                        height={500}>
+              <PieChart width={280}
+                        height={300}>
                 <Pie data={data}
-                     cx={130}
+                     cx={135}
                      cy={150}
                      outerRadius={110}
                      fill='#8884d8'

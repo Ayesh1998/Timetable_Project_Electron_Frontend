@@ -146,7 +146,7 @@ const SubjectsOfferedYearStatistics: React.FC = () => {
       <div style={{
         marginLeft: '-45px'
       }}>
-        <BarChart width={600}
+        <BarChart width={460}
                   height={320}
                   data={data}>
           <CartesianGrid strokeDasharray='3 3'/>
@@ -169,11 +169,11 @@ const SubjectsOfferedYearStatistics: React.FC = () => {
         </BarChart>
       </div>
       <div>
-        <PieChart width={500}
-                  height={500}>
+        <PieChart width={360}
+                  height={340}>
           <Pie data={data}
-               cx={270}
-               cy={150}
+               cx={200}
+               cy={160}
                outerRadius={130}
                fill='#8884d8'
                dataKey='value'
