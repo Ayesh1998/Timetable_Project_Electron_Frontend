@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
-import {Button, Form, Spinner} from 'react-bootstrap'
-import {FaArrowAltCircleLeft, FaEdit} from 'react-icons/fa'
-import {proxy} from '../../conf'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Button, Form, Spinner } from 'react-bootstrap'
+import { FaArrowAltCircleLeft, FaEdit } from 'react-icons/fa'
+import { proxy } from '../../conf'
 import {
   setBuildings,
   setCenters,
@@ -115,13 +115,13 @@ const BuildingsEdit: React.FC = () => {
 
   const handleChangeBuildingName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setBuilding({...building, buildingName: e.target.value})
+    setBuilding({ ...building, buildingName: e.target.value })
     setLoading(false)
   }
 
   const handleChangeCenterName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setBuilding({...building, centerName: e.target.value})
+    setBuilding({ ...building, centerName: e.target.value })
     setLoading(false)
   }
 
@@ -134,9 +134,16 @@ const BuildingsEdit: React.FC = () => {
   }
 
   return (
-    <div>
+    <div style={{
+      borderRadius: '8px',
+      padding: '9%',
+      border: '2px solid #007bff',
+      maxWidth: 'fit-content'
+    }}>
       <Form>
-        <Form.Row>
+        <Form.Row style={{
+          marginTop: '5%'
+        }}>
           <Form.Group controlId='formBuildingName'>
             <Form.Label>Building Name</Form.Label>
             <Form.Control type='text'
@@ -145,7 +152,8 @@ const BuildingsEdit: React.FC = () => {
                           placeholder='Enter Building Name'
                           pattern='[A-Za-z]{2,32}'
                           title='Please enter a valid building name.'
-                          required/>
+                          required
+                          size='lg'/>
           </Form.Group>
         </Form.Row>
         <Form.Row>
@@ -155,7 +163,8 @@ const BuildingsEdit: React.FC = () => {
                           value={building.centerName}
                           onChange={handleChangeCenterName}
                           title='Please select the located center.'
-                          required>
+                          required
+                          size='lg'>
               <option value="">Select Located Center</option>
               {
                 centers && centers.map((center: any) => {
@@ -179,21 +188,39 @@ const BuildingsEdit: React.FC = () => {
                      }}/>
           )
         }
-        <Form.Row>
+        <Form.Row style={{
+          marginTop: '10%'
+        }}>
           <Form.Group>
             <Button variant='primary'
                     type='button'
-                    onClick={handleBack}>
-              <FaArrowAltCircleLeft/>
-              BACK
+                    onClick={handleBack}
+                    style={{
+                      marginLeft: '30%',
+                      fontSize: 'large',
+                      textTransform: 'uppercase'
+                    }}>
+              <FaArrowAltCircleLeft style={{
+                marginRight: '4px',
+                marginBottom: '-2px'
+              }}/>
+              Back
             </Button>
           </Form.Group>
           <Form.Group>
             <Button variant='success'
                     type='submit'
-                    onClick={handleSubmit}>
-              <FaEdit/>
-              EDIT BUILDING
+                    onClick={handleSubmit}
+                    style={{
+                      marginLeft: '60%',
+                      fontSize: 'large',
+                      textTransform: 'uppercase'
+                    }}>
+              <FaEdit style={{
+                marginRight: '4px',
+                marginBottom: '-2px'
+              }}/>
+              Edit
             </Button>
           </Form.Group>
         </Form.Row>

@@ -6,82 +6,92 @@ import {Button, Col, Container, Form, Row} from 'react-bootstrap';
 import {RadioButton, RadioGroup} from 'react-radio-buttons';
 //import CheckboxGroup from 'react-checkbox-group';
 import {Redirect} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import {useDispatch , useSelector} from 'react-redux';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import styles from './tags.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-import {setTags} from './tagsSlice';
-
+import {
+  setTags,
+  setEditTag,
+  setEditingTag,
+  setEditingTagId
+} from './tagsSlice'
 
 // noinspection DuplicatedCode
 const TagsEdit: React.FC = () => {
   const dispatch = useDispatch();
   // const value = useSelector();
 
+  let tagList = useSelector(
+    (state: {
+      tags: any
+    }) => state.tags.tags
+  )
 
+  const editingTagId = useSelector(
+    (state: {
+      tags: any
+      editingTagId: string
+    }) => state.tags.editingTagId
+  )
+
+  const editingTag = useSelector(
+    (state: {
+      tags: any
+      editingTagId: any
+    }) => state.tags.editingTag
+  )
+
+  const [tag, setTag] = useState<{
+    name: string,
+    tagToken: string
+  }>({
+    name:editingTag.name,
+    tagToken: editingTag.tagToken
+  })
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>( false );
   const [error, setError] = useState<string | null>(null);
 
   const [name, setName] = useState<string>('');
   const [tagToken, setTagToken] = useState<string>('');
-
-  const [tagsObject, setTagsObject] = useState<any>(null);
+  const [id, setId] = useState<string>('');
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/tags/getTags`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }
-        );
+    //setTags(tagList);
+    setTag(editingTag);
+    setId(editingTagId);
+    setName(editingTag.name);
+    setTagToken(editingTag.tagToken);
 
-        const responseData = await response.json();
-        setTagsObject(responseData.tags);
-        dispatch(setTags(responseData.tags));
-        console.log(responseData.tags);
-
-        if (!responseData) {
-          // noinspection ExceptionCaughtLocallyJS
-          throw new Error(responseData.message);
-        }
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
-
-    // noinspection JSIgnoredPromiseFromCall
-    fetchData();
   }, []);
 
-  const renderRedirectToView = () => {
-    if (tagsObject) {
-      return <Redirect to={routes.GROUPS_ADD}/>;
-      //   props.history.push(loginState.redirectTo);s
-    }
-    return null;
-  };
 
+  console.log("############################");
+  console.log(id);
+  console.log(name);
+  console.log(tagToken);
+  console.log(tag);
 
   const handleSubmit = async () => {
-    // console.log("1111111111111111111111111111");
+     console.log("1111111111111111111111111111");
     // console.log(name);
-    // console.log(tagToken);
+     console.log(id);
 
 
-    const finalObject = {
-      name,
-      tagToken
+    // const finalObject = {
+    //   name,
+    //   tagToken
+    // };
+
+    const finalObjectWithID = {
+      tags: tag,
+      // eslint-disable-next-line no-underscore-dangle
+      id: id
     };
-
     console.log('22222222222222222222222222222222222');
-    console.log(finalObject);
+    console.log(finalObjectWithID);
 
     try {
       const response = await fetch(
@@ -91,13 +101,16 @@ const TagsEdit: React.FC = () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(finalObject)
+          body: JSON.stringify(finalObjectWithID)
         }
       );
 
       const responseData = await response.json();
       setRenderRedirectTo(true);
-      // console.log(responseData.userDetails);
+  //      dispatch(setEditTag(false))
+  //      dispatch(setEditingTagId(''))
+  //      dispatch(setEditingTag(null))
+
 
       if (!responseData) {
         // noinspection ExceptionCaughtLocallyJS
@@ -110,7 +123,7 @@ const TagsEdit: React.FC = () => {
 
   const renderRedirect = () => {
     if (renderRedirectTo) {
-      return <Redirect to={routes.GROUPS_ADD}/>;
+      return <Redirect to={routes.TAGS_LIST_VIEW}/>;
       //   props.history.push(loginState.redirectTo);s
     }
     return null;
@@ -118,12 +131,14 @@ const TagsEdit: React.FC = () => {
 
   const handleChangeName = ( e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
+    setTag({...tag, name: e.target.value})
   };
 
   const handleChangeTagToken = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTagToken(e.target.value);
-  };
 
+    setTagToken(e.target.value);
+    setTag({...tag, tagToken: e.target.value})
+  };
 
   return (
     <div
@@ -143,7 +158,7 @@ const TagsEdit: React.FC = () => {
           className="p-3"
           style={{backgroundColor: '#343a40', color: '#fff'}}
         >
-          <h3>Add Tag</h3>
+          <h3>Edit Tag</h3>
         </Col>
       </Row>
       <Container
@@ -206,7 +221,7 @@ const TagsEdit: React.FC = () => {
                   style={{width: '160px', fontSize: '1.3em'}}
                   onClick={handleSubmit}
                 >
-                  Add Tag
+                  Edit Tag
                 </Button>
               </Col>
             </Row>

@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
-import {Button, Form, Spinner} from 'react-bootstrap'
-import {FaArrowAltCircleLeft, FaEdit} from 'react-icons/fa'
-import {proxy} from '../../conf'
-import {setBuildings, setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom, setRooms} from './rooms-slice'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Button, Form, Spinner } from 'react-bootstrap'
+import { FaArrowAltCircleLeft, FaEdit } from 'react-icons/fa'
+import { proxy } from '../../conf'
+import { setBuildings, setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom, setRooms } from './rooms-slice'
 
 let errors_: string = ''
 
@@ -43,7 +43,7 @@ const RoomsEdit: React.FC = () => {
     roomName: string,
     buildingName: string,
     roomType: string,
-    roomCapacity: number | undefined
+    roomCapacity: number | string
   }>({
     roomName: editingRoom.roomName,
     buildingName: editingRoom.buildingName,
@@ -112,25 +112,25 @@ const RoomsEdit: React.FC = () => {
 
   const handleChangeRoomName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setRoom({...room, roomName: e.target.value})
+    setRoom({ ...room, roomName: e.target.value })
     setLoading(false)
   }
 
   const handleChangeBuildingName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setRoom({...room, buildingName: e.target.value})
+    setRoom({ ...room, buildingName: e.target.value })
     setLoading(false)
   }
 
   const handleChangeRoomType = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setRoom({...room, roomType: e.target.value})
+    setRoom({ ...room, roomType: e.target.value })
     setLoading(false)
   }
 
   const handleChangeRoomCapacity = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setRoom({...room, roomCapacity: parseInt(e.target.value)})
+    setRoom({ ...room, roomCapacity: parseInt(e.target.value) })
     setLoading(false)
   }
 
@@ -143,9 +143,16 @@ const RoomsEdit: React.FC = () => {
   }
 
   return (
-    <div>
+    <div style={{
+      borderRadius: '8px',
+      padding: '3% 9% 3% 9%',
+      border: '2px solid #007bff',
+      maxWidth: 'fit-content'
+    }}>
       <Form>
-        <Form.Row>
+        <Form.Row style={{
+          marginTop: '5%'
+        }}>
           <Form.Group controlId='formRoomName'>
             <Form.Label>Room Name</Form.Label>
             <Form.Control type='text'
@@ -154,7 +161,8 @@ const RoomsEdit: React.FC = () => {
                           placeholder='Enter Room Name'
                           pattern='[A-Za-z]{2,32}'
                           title='Please enter a valid room name.'
-                          required/>
+                          required
+                          size='lg'/>
           </Form.Group>
         </Form.Row>
         <Form.Row>
@@ -164,7 +172,8 @@ const RoomsEdit: React.FC = () => {
                           value={room.buildingName}
                           onChange={handleChangeBuildingName}
                           title='Please select the located building.'
-                          required>
+                          required
+                          size='lg'>
               <option value="">Select Located Building</option>
               {
                 buildings && buildings.map((building: any) => {
@@ -185,7 +194,8 @@ const RoomsEdit: React.FC = () => {
             <Form.Control as='select'
                           value={room.roomType}
                           onChange={handleChangeRoomType}
-                          title='Please select the room type.'>
+                          title='Please select the room type.'
+                          size='lg'>
               <option value="">Select Room Type</option>
               <option value="Lecture Hall">Lecture Hall</option>
               <option value="Laboratory">Laboratory</option>
@@ -201,7 +211,8 @@ const RoomsEdit: React.FC = () => {
                           placeholder='Enter Room Capacity'
                           pattern='[0-9]'
                           title='Please enter a valid room capacity.'
-                          required/>
+                          required
+                          size='lg'/>
           </Form.Group>
         </Form.Row>
         {
@@ -213,21 +224,39 @@ const RoomsEdit: React.FC = () => {
                      }}/>
           )
         }
-        <Form.Row>
+        <Form.Row style={{
+          marginTop: '10%'
+        }}>
           <Form.Group>
             <Button variant='primary'
                     type='button'
-                    onClick={handleBack}>
-              <FaArrowAltCircleLeft/>
-              BACK
+                    onClick={handleBack}
+                    style={{
+                      marginLeft: '30%',
+                      fontSize: 'large',
+                      textTransform: 'uppercase'
+                    }}>
+              <FaArrowAltCircleLeft style={{
+                marginRight: '4px',
+                marginBottom: '-2px'
+              }}/>
+              Back
             </Button>
           </Form.Group>
           <Form.Group>
             <Button variant='success'
                     type='submit'
-                    onClick={handleSubmit}>
-              <FaEdit/>
-              EDIT ROOM
+                    onClick={handleSubmit}
+                    style={{
+                      marginLeft: '60%',
+                      fontSize: 'large',
+                      textTransform: 'uppercase'
+                    }}>
+              <FaEdit style={{
+                marginRight: '4px',
+                marginBottom: '-2px'
+              }}/>
+              Edit
             </Button>
           </Form.Group>
         </Form.Row>

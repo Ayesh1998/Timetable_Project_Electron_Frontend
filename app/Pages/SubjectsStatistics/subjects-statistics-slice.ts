@@ -1,9 +1,9 @@
-import {createSlice} from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 const setSubjectsStatisticsSlice = createSlice({
   name: 'subjectsStatistics',
   initialState: {
-    subjectsTotalCountStatistics: [],
+    subjectsTotalCountStatistics: null,
     subjectsOfferedYearStatistics: [],
     subjectsOfferedYearSemesterStatistics: []
   },
@@ -20,8 +20,8 @@ const setSubjectsStatisticsSlice = createSlice({
   }
 })
 
-export const {setSubjectsTotalCountStatistics} = setSubjectsStatisticsSlice.actions
-export const {setSubjectsOfferedYearStatistics} = setSubjectsStatisticsSlice.actions
-export const {setSubjectsOfferedYearSemesterStatistics} = setSubjectsStatisticsSlice.actions
+export const { setSubjectsTotalCountStatistics } = setSubjectsStatisticsSlice.actions
+export const { setSubjectsOfferedYearStatistics } = setSubjectsStatisticsSlice.actions
+export const { setSubjectsOfferedYearSemesterStatistics } = setSubjectsStatisticsSlice.actions
 
 export default setSubjectsStatisticsSlice.reducer

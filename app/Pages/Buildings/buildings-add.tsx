@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
-import {Button, Form, Spinner} from 'react-bootstrap'
-import {FaPlusCircle} from 'react-icons/fa'
-import {proxy} from '../../conf'
-import {setBuildings, setCenters, setExistingBuilding} from './buildings-slice'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Button, Form, Spinner } from 'react-bootstrap'
+import { FaPlusCircle } from 'react-icons/fa'
+import { proxy } from '../../conf'
+import { setBuildings, setCenters, setExistingBuilding } from './buildings-slice'
 
 let errors_: string = ''
 
@@ -70,7 +70,7 @@ const BuildingsAdd: React.FC = () => {
         body: JSON.stringify(building)
       })
       const responseData = await response.json()
-      buildingList = {...buildingList, responseData}
+      buildingList = { ...buildingList, responseData }
       await dispatch(setBuildings(buildingList))
       await dispatch(setExistingBuilding(false))
       if (responseData.exists) {
@@ -88,13 +88,13 @@ const BuildingsAdd: React.FC = () => {
 
   const handleChangeBuildingName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setBuilding({...building, buildingName: e.target.value})
+    setBuilding({ ...building, buildingName: e.target.value })
     setLoading(false)
   }
 
   const handleChangeCenterName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setBuilding({...building, centerName: e.target.value})
+    setBuilding({ ...building, centerName: e.target.value })
     setLoading(false)
   }
 
@@ -106,9 +106,16 @@ const BuildingsAdd: React.FC = () => {
   }
 
   return (
-    <div>
+    <div style={{
+      borderRadius: '8px',
+      padding: '9%',
+      border: '2px solid #007bff',
+      maxWidth: 'fit-content'
+    }}>
       <Form>
-        <Form.Row>
+        <Form.Row style={{
+          marginTop: '5%'
+        }}>
           <Form.Group controlId='formBuildingName'>
             <Form.Label>Building Name</Form.Label>
             <Form.Control type='text'
@@ -117,7 +124,8 @@ const BuildingsAdd: React.FC = () => {
                           placeholder='Enter Building Name'
                           pattern='[A-Za-z]{2,32}'
                           title='Please enter a valid building name.'
-                          required/>
+                          required
+                          size='lg'/>
           </Form.Group>
         </Form.Row>
         <Form.Row>
@@ -127,7 +135,8 @@ const BuildingsAdd: React.FC = () => {
                           value={building.centerName}
                           onChange={handleChangeCenterName}
                           title='Please select the located center.'
-                          required>
+                          required
+                          size='lg'>
               <option value="">Select Located Center</option>
               {
                 centers && centers.map((center: any) => {
@@ -155,9 +164,18 @@ const BuildingsAdd: React.FC = () => {
           <Form.Group>
             <Button variant='success'
                     type='submit'
-                    onClick={handleSubmit}>
-              <FaPlusCircle/>
-              ADD BUILDING
+                    onClick={handleSubmit}
+                    style={{
+                      marginLeft: '25%',
+                      marginTop: '10%',
+                      fontSize: 'large',
+                      textTransform: 'uppercase'
+                    }}>
+              <FaPlusCircle style={{
+                marginRight: '4px',
+                marginBottom: '-2px'
+              }}/>
+              Add Building
             </Button>
           </Form.Group>
         </Form.Row>

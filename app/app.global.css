@@ -7,12 +7,33 @@
 body {
   position: relative;
   height: 100vh;
-  font-family: Arial, Helvetica, Helvetica Neue, serif;
-  overflow-y: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+  sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
 a:hover {
   opacity: 1;
   text-decoration: none;
   cursor: pointer;
+}
+
+h1 {
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+h5 {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+label {
+  font-size: large;
+}
+
+button:focus {
+  outline: none;
 }
