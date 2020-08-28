@@ -8,7 +8,7 @@ import StudentsYearSemesterProgrammeStatistics from './students-year-semester-pr
 const StudentsStatisticsPage: React.FC = () => {
   return (
     <div style={{
-      width: 'max-content',
+      minWidth: 'max-content',
       marginBottom: '3%'
     }}>
       <NavBar/>
@@ -39,9 +39,7 @@ const StudentsStatisticsPage: React.FC = () => {
             </div>
           </Col>
           <Col sm='4'>
-            <div style={{
-              marginLeft: '10%'
-            }}>
+            <div>
               <StudentsYearSemesterProgrammeStatistics/>
             </div>
           </Col>

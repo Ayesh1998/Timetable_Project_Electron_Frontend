@@ -8,7 +8,7 @@ import SubjectsOfferedYearSemesterStatistics from './subjects-offered-year-semes
 const SubjectsStatisticsPage: React.FC = () => {
   return (
     <div style={{
-      width: 'max-content',
+      minWidth: 'max-content',
       marginBottom: '3%'
     }}>
       <NavBar/>

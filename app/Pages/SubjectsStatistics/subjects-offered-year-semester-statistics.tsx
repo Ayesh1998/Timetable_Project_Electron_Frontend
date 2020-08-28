@@ -150,7 +150,7 @@ const SubjectsOfferedYearSemesterStatistics: React.FC = () => {
         <Row>
           <Col sm='7'>
             <div>
-              <BarChart width={450}
+              <BarChart width={460}
                         height={450}
                         data={data}>
                 <CartesianGrid strokeDasharray='3 3'/>
