@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 const setRoomsSlice = createSlice({
   name: 'rooms',
@@ -32,11 +32,11 @@ const setRoomsSlice = createSlice({
   }
 })
 
-export const {setRooms} = setRoomsSlice.actions
-export const {setBuildings} = setRoomsSlice.actions
-export const {setExistingRoom} = setRoomsSlice.actions
-export const {setEditRoom} = setRoomsSlice.actions
-export const {setEditingRoomId} = setRoomsSlice.actions
-export const {setEditingRoom} = setRoomsSlice.actions
+export const { setRooms } = setRoomsSlice.actions
+export const { setBuildings } = setRoomsSlice.actions
+export const { setExistingRoom } = setRoomsSlice.actions
+export const { setEditRoom } = setRoomsSlice.actions
+export const { setEditingRoomId } = setRoomsSlice.actions
+export const { setEditingRoom } = setRoomsSlice.actions
 
 export default setRoomsSlice.reducer

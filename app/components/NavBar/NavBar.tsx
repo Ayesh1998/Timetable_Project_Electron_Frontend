@@ -1,6 +1,6 @@
 import React from 'react'
-import {Nav, Navbar, NavDropdown} from 'react-bootstrap'
-import {NavLink} from 'react-router-dom'
+import { Nav, Navbar, NavDropdown } from 'react-bootstrap'
+import { NavLink } from 'react-router-dom'
 import routes from '../../constants/routes.json'
 
 const NavBar: React.FC = () => {
@@ -21,6 +21,7 @@ const NavBar: React.FC = () => {
              style={{
                height: '100vh'
              }}>
+          <br/>
           <NavLink to={routes.WORKING_DAYS_AND_HOURS}>
             <Nav.Link href='#working-days-and-hours'>
               Working Days and Hours
@@ -95,21 +96,21 @@ const NavBar: React.FC = () => {
               </NavLink>
             </NavDropdown.Item>
           </NavDropdown>
-          <NavLink to={routes.ROOMS_UNAVAILABILITY}>
-            <Nav.Link href='#rooms-unavailability'>
-              Rooms Unavailability
-            </Nav.Link>
-          </NavLink>
-          <NavLink to={routes.ADD_ROOMS}>
-            <Nav.Link href='#add-rooms'>
-              Add Rooms
-            </Nav.Link>
-          </NavLink>
-          <NavLink to={routes.ASSIGN_ROOMS_FOR_SESSIONS}>
-            <Nav.Link href='#assign-rooms-for-sessions'>
-              Assign Rooms for Sessions
-            </Nav.Link>
-          </NavLink>
+          {/*<NavLink to={routes.ROOMS_UNAVAILABILITY}>*/}
+          {/*  <Nav.Link href='#rooms-unavailability'>*/}
+          {/*    Rooms Unavailability*/}
+          {/*  </Nav.Link>*/}
+          {/*</NavLink>*/}
+          {/*<NavLink to={routes.ADD_ROOMS}>*/}
+          {/*  <Nav.Link href='#add-rooms'>*/}
+          {/*    Add Rooms*/}
+          {/*  </Nav.Link>*/}
+          {/*</NavLink>*/}
+          {/*<NavLink to={routes.ASSIGN_ROOMS_FOR_SESSIONS}>*/}
+          {/*  <Nav.Link href='#assign-rooms-for-sessions'>*/}
+          {/*    Assign Rooms for Sessions*/}
+          {/*  </Nav.Link>*/}
+          {/*</NavLink>*/}
         </Nav>
       </Navbar.Collapse>
     </Navbar>
