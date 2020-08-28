@@ -51,7 +51,10 @@ const StudentsYearSemesterStatistics: React.FC = () => {
 
   return (
     <div>
-      <h5 className='text-center'>
+      <h5 className='text-center'
+          style={{
+            marginLeft: '-15%'
+          }}>
         Number of Groups and Sub Groups per Academic Semester
       </h5>
       {
@@ -66,7 +69,7 @@ const StudentsYearSemesterStatistics: React.FC = () => {
       <div style={{
         marginTop: '20px'
       }}>
-        <BarChart width={1000}
+        <BarChart width={900}
                   height={320}
                   data={data}>
           <CartesianGrid strokeDasharray='3 3'/>

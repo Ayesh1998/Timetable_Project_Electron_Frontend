@@ -8,7 +8,7 @@ import LecturersCenterStatistics from './lecturers-center-statistics'
 const LecturersStatisticsPage: React.FC = () => {
   return (
     <div style={{
-      width: 'max-content',
+      minWidth: 'max-content',
       marginBottom: '3%'
     }}>
       <NavBar/>

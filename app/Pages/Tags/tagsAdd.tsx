@@ -135,8 +135,7 @@ const TagsAdd: React.FC = () => {
     <div
       style={{
         backgroundColor: '#37474F',
-        height: '100vh',
-        overflow: 'scroll'
+        height: '100vh'
       }}
     >
 
