@@ -18,7 +18,7 @@ import { Link , Redirect } from 'react-router-dom';
 
 const Group = (props) => (
   <tr>
-    <td><NavLink to={routes.GROUPS_EDIT}>{props.group.groupId} </NavLink>
+    <td> <Link to={routes.GROUPS_SINGLE_VIEW} onClick={() => { props.singleView() }}>{props.group.groupId} </Link>
     <Button
                 className="ml-4"
                 onClick={() => { props.handleDelete(props.group._id)}}
@@ -55,12 +55,37 @@ const Group = (props) => (
                 >
                  delete
                 </NavLink>
-                </Button></div><br/><br/><div>
+                </Button></div>
 
-                <Button onClick={() => { props.handleAddSub(props.group._id) }}style={{width: '95px', fontSize: '0.9em'}} >
+                <br/>
+              <div>{`${props.group.groupId}.2`}
+              <Button
+                className="ml-4"
+                onClick={() => { props.handleDelete(props.group._id)}}
+                variant="outline-danger"
+                style={{
+                  width: '100px',
+                  fontSize: '0.7em',
+                  borderWidth: '2px'
+                }}
+              >
+                <NavLink
+                  to={routes.GROUPS_LIST_VIEW}
+                  style={{color: '#fff'}}
+                >
+                 delete
+                </NavLink>
+              </Button></div>
 
+                <br/><br/><div>
+
+                <Button style={{width: '95px', fontSize: '0.9em'}}>
+                <NavLink
+                  to={routes.GROUPS_EDIT}
+                  style={{color: '#fff'}}
+                >
                  Add
-
+                </NavLink>
                 </Button></div>
 
               </td>
@@ -72,7 +97,7 @@ const Group = (props) => (
 
 
 // noinspection DuplicatedCode
-const GroupsListView: React.FC = () => {
+const GroupsListViewEdit: React.FC = () => {
   const dispatch = useDispatch();
 
   const editingGroupId = useSelector(
@@ -92,6 +117,7 @@ const GroupsListView: React.FC = () => {
   const [groupsObject, setGroupsObject] = useState<any>([]);
 
  const [renderEdit, setRenderEdit] = useState<boolean | null>( false );
+ const [renderSingle, setRenderSingle] = useState<boolean | null>( false );
 
   useEffect(() => {
     // noinspection JSIgnoredPromiseFromCall
@@ -176,7 +202,7 @@ const GroupsListView: React.FC = () => {
   };
 
 
-  const handleAddSub = async (id: string) => {
+  const handleEdit = async (id: string) => {
     console.log(`in handle edit + ${id}`);
 
     try {
@@ -209,6 +235,20 @@ const GroupsListView: React.FC = () => {
 
   };
 
+  const singleView =  () => {
+    console.log("menna single ekata cick kala333333333333333333333333333333333333")
+    setRenderSingle(true);
+
+ };
+
+  const singleViewTo = () => {
+    if (renderSingle) {
+      return <Redirect to={routes.GROUPS_SINGLE_VIEW}/>;
+      //   props.history.push(loginState.redirectTo);s
+    }
+    return null;
+  };
+
   const renderEditTo = () => {
     if (renderEdit) {
       return <Redirect to={routes.GROUPS_EDIT}/>;
@@ -219,13 +259,14 @@ const GroupsListView: React.FC = () => {
 
   const groupList = ()  => {
     return groupsObject.map(group => {
-      return <Group group={group} handleDelete={handleDelete} handleAddSub={handleAddSub} key={group._id} />;
+      return <Group group={group} handleDelete={handleDelete} handleEdit={handleEdit} singleView={singleView} key={group._id} />;
     })
   }
 
   return (
     <div style={{backgroundColor: '#37474F', height: '100vh'}}>
       {renderEditTo()}
+      {singleViewTo()}
 
       <NavBar/>
       <Row className="text-center mb-5">
@@ -291,4 +332,4 @@ const GroupsListView: React.FC = () => {
   );
 };
 
-export default GroupsListView;
+export default GroupsListViewEdit;

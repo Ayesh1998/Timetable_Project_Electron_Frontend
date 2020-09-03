@@ -253,7 +253,8 @@ const GroupsAdd: React.FC = () => {
     <div
       style={{
         backgroundColor: '#37474F',
-        height: '100vh'
+        height: '100vh',
+        overflow: 'scroll'
       }}
     >
 
@@ -310,7 +311,7 @@ const GroupsAdd: React.FC = () => {
               <Col xs={12} md={4}>
                 <p>Programme</p>
               </Col>
-              <Col xs={2} md={6}>
+              <Col xs={3} md={3}>
               <Form className="">
                   <Form.Group controlId="formBasicEmail">
 
@@ -330,15 +331,15 @@ const GroupsAdd: React.FC = () => {
                   </Form.Group>
                 </Form>
               </Col>
+              <Col xs={3} md={3}></Col>
             </Row>
             <Row className="mt-3 mb-3 justify-content-md-center">
               <Col xs={12} md={4}>
                 <p>Group Number</p>
               </Col>
-              <Col xs={12} md={5}>
+              <Col xs={3} md={3}>
 
-                  </Col>
-                  <Col xs={12} md={5}>
+
                   <Form className="">
                   <Form.Group controlId="formBasicEmail">
 
@@ -358,13 +359,13 @@ const GroupsAdd: React.FC = () => {
                   </Form.Group>
                 </Form>
               </Col>
-              <Col xs={3} md={1}/>
+              <Col xs={3} md={3}/>
             </Row>
             <Row className="mt-3 mb-3 justify-content-md-center">
               <Col xs={12} md={4}>
                 <p>Sub Group Number</p>
               </Col>
-              <Col xs={3} md={6}>
+              <Col xs={3} md={3}>
               <Form className="">
                   <Form.Group controlId="formBasicEmail">
 
@@ -384,6 +385,7 @@ const GroupsAdd: React.FC = () => {
                   </Form.Group>
                 </Form>
               </Col>
+              <Col xs={3} md={3}></Col>
             </Row>
             {/* {error && (
               <Row className=" justify-content-md-center">
@@ -394,16 +396,17 @@ const GroupsAdd: React.FC = () => {
                 </Col>
               </Row>
             )} */}
-            <Row className="mb-2 justify-content-md-center">
-              <Col xs={0} md={9}/>
-              <Col xs={12} md={2}>
+            <Row className="mt-2 mb-2 justify-content-md-center">
+              <Col xs={12} md={2}/>
+              <Col xs={3} md={8}>
                 <Button
-                  style={{width: '160px', fontSize: '1.3em'}}
+                  style={{width: '180px', fontSize: '1.3em'}}
                   onClick={handleSubmit}
                 >
                   Generate a Group
                 </Button>
               </Col>
+              <Col xs={12} md={2}/>
             </Row>
           </div>
 

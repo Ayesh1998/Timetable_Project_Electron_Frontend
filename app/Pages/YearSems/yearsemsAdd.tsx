@@ -9,35 +9,39 @@ import {Redirect} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import styles from './tags.css';
+import styles from './yearsems.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {
-  setTags,
-  setEditTag,
-  setEditingTag,
-  setEditingTagId
-} from './tagsSlice';
+  setYearSems,
+  setEditYearSem,
+  setEditingYearSem,
+  setEditingYearSemId
+} from './yearsemsSlice';
 
+
+const yearList = [1, 2,3,4];
+const semesterList = [1, 2];
 // noinspection DuplicatedCode
-const TagsAdd: React.FC = () => {
+const YearSemsAdd: React.FC = () => {
   const dispatch = useDispatch();
   // const value = useSelector();
 
 
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>( false );
   const [error, setError] = useState<string | null>(null);
+//111
+  const [year, setYear] = useState<number | null>(null);
+  const [semester, setSemester] = useState<number | null>(null);
+  const [yearSemToken, setYearSemToken] = useState<string>('');
 
-  const [name, setName] = useState<string>('');
-  const [tagToken, setTagToken] = useState<string>('');
-
-  const [tagsObject, setTagsObject] = useState<any>(null);
+  const [yearsemsObject, setYearSemsObject] = useState<any>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/tags/getTags`,
+          `http://localhost:5000/yearSems/getYearSems`,
           {
             method: 'GET',
             headers: {
@@ -47,9 +51,9 @@ const TagsAdd: React.FC = () => {
         );
 
         const responseData = await response.json();
-        setTagsObject(responseData.tags);
-        dispatch(setTags(responseData.tags));
-        console.log(responseData.tags);
+        setYearSemsObject(responseData.yearsems);
+        dispatch(setYearSems(responseData.yearsems));
+        console.log(responseData.yearsems);
 
         if (!responseData) {
           // noinspection ExceptionCaughtLocallyJS
@@ -67,8 +71,8 @@ const TagsAdd: React.FC = () => {
 
   // const renderRedirectToView = () => {
 
-  //   if (tagsObject != null) {
-  //     return <Redirect to={routes.TAGS_LIST_VIEW}/>;
+  //   if (yearsemsObject != null) {
+  //     return <Redirect to={routes.YEARSEMS_LIST_VIEW}/>;
   //     //   props.history.push(loginState.redirectTo);s
   //   }
   //   return null;
@@ -82,8 +86,10 @@ const TagsAdd: React.FC = () => {
 
 
     const finalObject = {
-      name,
-      tagToken
+      year,
+      semester,
+      yearSemToken
+
     };
 
     console.log('22222222222222222222222222222222222');
@@ -91,7 +97,7 @@ const TagsAdd: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/tags/create`,
+        `http://localhost:5000/yearSems/create`,
         {
           method: 'POST',
           headers: {
@@ -116,18 +122,32 @@ const TagsAdd: React.FC = () => {
 
   const renderRedirect = () => {
     if (renderRedirectTo) {
-      return <Redirect to={routes.TAGS_LIST_VIEW}/>;
+      return <Redirect to={routes.YEARSEMS_LIST_VIEW}/>;
       //   props.history.push(loginState.redirectTo);s
     }
     return null;
   };
 
-  const handleChangeName = ( e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+  const handleChangeYear = ( e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = parseInt(e.target.value);
+    setYear(val);
   };
 
-  const handleChangeTagToken = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTagToken(e.target.value);
+  const handleChangeSemester = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = parseInt(e.target.value);
+    const year1 = year.toString();
+    setSemester(e.target.value);
+
+   if(val === 1){
+      var id = 'Y' + year1 +'.S1';
+   }
+   else{
+     var id = 'Y' + year1 +'.S2';
+   }
+
+    setYearSemToken(id);
+    setSemester(val);
+
   };
 
 
@@ -149,11 +169,11 @@ const TagsAdd: React.FC = () => {
           className="p-3"
           style={{backgroundColor: '#343a40', color: '#fff'}}
         >
-          <h3>Add Tag</h3>
+          <h3>Add Academic Year & Semester</h3>
         </Col>
       </Row>
       <Container
-        className={`mt-2 p-4 mb-5 ${styles.tagsTopWrapper}`}
+        className={`mt-2 p-4 mb-5 ${styles.yearsemsTopWrapper}`}
         style={{
           border: '3px solid white',
           borderRadius: '8px',
@@ -163,22 +183,28 @@ const TagsAdd: React.FC = () => {
 
 
           <div>
+
             <Row className="mt-3 mb-3 justify-content-md-center">
-              <Col xs={12} md={4} className="mt-auto">
-                <p>Real Name</p>
+              <Col xs={12} md={4}>
+                <p>Year</p>
               </Col>
-              <Col xs={3} md={3}>
-                <Form className="">
+
+                  <Col xs={3} md={3}>
+                  <Form className="">
                   <Form.Group controlId="formBasicEmail">
 
                       <Form.Control
-                        type="text"
+                        as="select"
+                        defaultValue="Choose..."
                         style={{borderWidth: '2.5px'}}
-                        value={name}
-                        onChange={handleChangeName}
-                        placeholder="ex:- Lecture"
-                      />
-
+                        value={year}
+                        onChange={handleChangeYear}
+                      >
+                        <option>Select</option>
+                        {yearList?.map((group, index) => (
+                          <option>{group}</option>
+                        ))}
+                      </Form.Control>
 
                   </Form.Group>
                 </Form>
@@ -187,37 +213,42 @@ const TagsAdd: React.FC = () => {
             </Row>
             <Row className="mt-3 mb-3 justify-content-md-center">
               <Col xs={12} md={4}>
-                <p>Tag Name</p>
+                <p>Semester</p>
               </Col>
               <Col xs={3} md={3}>
               <Form className="">
                   <Form.Group controlId="formBasicEmail">
 
-
-                   <Form.Control
-                        type="text"
+                      <Form.Control
+                        as="select"
+                        defaultValue="Choose..."
                         style={{borderWidth: '2.5px'}}
-                        value={tagToken}
-                        onChange={handleChangeTagToken}
-                        placeholder="ex:- Lec"
-                      />
+                        value={semester}
+                        onChange={handleChangeSemester}
+                      >
+                        <option>Select</option>
+                        {semesterList?.map((sem, index) => (
+                          <option>{sem}</option>
+                        ))}
+                      </Form.Control>
+
                   </Form.Group>
                 </Form>
               </Col>
               <Col xs={3} md={3}></Col>
             </Row>
-            <Row className="mt-3 mb-3 justify-content-md-center">
-              <Col xs={12} md={3}/>
-              <Col xs={3} md={7}>
+            <Row className="mt-2 mb-2 justify-content-md-center">
+              <Col xs={12} md={2}/>
+              <Col xs={3} md={8}>
                 <Button
-                  style={{width: '160px', fontSize: '1.3em'}}
+                  style={{width: '200px', fontSize: '1.3em'}}
                   onClick={handleSubmit}
                 >
-                  Add Tag
+                  Add Year & Sem
                 </Button>
               </Col>
-              <Col xs={12} md={2}/>
             </Row>
+            <Col xs={12} md={2}/>
           </div>
 
       </Container>
@@ -225,4 +256,4 @@ const TagsAdd: React.FC = () => {
   );
 };
 
-export default TagsAdd;
+export default YearSemsAdd;

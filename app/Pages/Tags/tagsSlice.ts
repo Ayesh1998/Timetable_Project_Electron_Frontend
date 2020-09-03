@@ -27,9 +27,9 @@ const setTagsSlice = createSlice({
 });
 
 export const { setTags } = setTagsSlice.actions;
-export const {setEditTag} = setTagsSlice.actions
-export const {setEditingTagId} = setTagsSlice.actions
-export const {setEditingTag} = setTagsSlice.actions
+export const {setEditTag} = setTagsSlice.actions;
+export const {setEditingTagId} = setTagsSlice.actions;
+export const {setEditingTag} = setTagsSlice.actions;
 
 export default setTagsSlice.reducer;
 

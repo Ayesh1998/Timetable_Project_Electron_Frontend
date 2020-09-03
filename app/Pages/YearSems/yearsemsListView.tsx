@@ -4,67 +4,48 @@ import {Button, Col, Container, Row, Table} from 'react-bootstrap';
 import {NavLink} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
-import styles from './groups.css';
+import styles from './yearsems.css';
 import routes from '../../constants/routes.json';
 import {
-  setGroups,
-  setEditGroup,
-  setEditingGroup,
-  setEditingGroupId
-} from './groupsSlice';
+  setYearSems,
+  setEditYearSem,
+  setEditingYearSem,
+  setEditingYearSemId
+} from './yearsemsSlice';
 import { Link , Redirect } from 'react-router-dom';
 
 
 
-const Group = (props) => (
+const YearSem = (props) => (
   <tr>
-    <td><NavLink to={routes.GROUPS_EDIT}>{props.group.groupId} </NavLink>
-    <Button
+    <td>{props.yearSem.year}</td>
+    <td>{props.yearSem.semester}</td>
+    <td>{props.yearSem.yearSemToken}</td>
+    <td>
+    <Button onClick={() => { props.handleEdit(props.yearSem._id) }} style={{width: '160px', fontSize: '1.3em'}}>
+
+                 edit
+
+
+              </Button>
+         <Button
                 className="ml-4"
-                onClick={() => { props.handleDelete(props.group._id)}}
+                onClick={() => { props.handleDelete(props.yearSem._id) }}
                 variant="outline-danger"
                 style={{
-                  width: '100px',
-                  fontSize: '0.7em',
+                  width: '160px',
+                  fontSize: '1.3em',
                   borderWidth: '2px'
                 }}
               >
                 <NavLink
-                  to={routes.GROUPS_LIST_VIEW}
+                  to={routes.YEARSEMS_LIST_VIEW}
                   style={{color: '#fff'}}
                 >
                  delete
                 </NavLink>
               </Button>
-       </td>
-
-              <td><div>{`${props.group.groupId}.1`}
-              <Button
-                className="ml-4"
-                onClick={() => { props.handleDelete(props.group._id)}}
-                variant="outline-danger"
-                style={{
-                  width: '100px',
-                  fontSize: '0.7em',
-                  borderWidth: '2px'
-                }}
-              >
-                <NavLink
-                  to={routes.GROUPS_LIST_VIEW}
-                  style={{color: '#fff'}}
-                >
-                 delete
-                </NavLink>
-                </Button></div><br/><br/><div>
-
-                <Button onClick={() => { props.handleAddSub(props.group._id) }}style={{width: '95px', fontSize: '0.9em'}} >
-
-                 Add
-
-                </Button></div>
-
-              </td>
-
+    </td>
   </tr>
 )
 
@@ -72,24 +53,24 @@ const Group = (props) => (
 
 
 // noinspection DuplicatedCode
-const GroupsListView: React.FC = () => {
+const YearSemsListView: React.FC = () => {
   const dispatch = useDispatch();
 
-  const editingGroupId = useSelector(
-    (state: {
-      groups: any
-      editingGroupId: string
-    }) => state.groups.editingGroupId
-  )
+  // const editingYearSemId = useSelector(
+  //   (state: {
+  //     yearSems: any
+  //     editingYearSemId: string
+  //   }) => state.yearSems.editingYearSemId
+  // )
 
-  const editingGroup = useSelector(
-    (state: {
-      groups: any
-      editingGroupId: any
-    }) => state.groups.editingGroup
-  )
+  // const editingYearSem = useSelector(
+  //   (state: {
+  //     yearSems: any
+  //     editingYearSemId: any
+  //   }) => state.yearSems.editingYearSem
+  // )
 
-  const [groupsObject, setGroupsObject] = useState<any>([]);
+  const [yearSemsObject, setYearSemsObject] = useState<any>([]);
 
  const [renderEdit, setRenderEdit] = useState<boolean | null>( false );
 
@@ -100,14 +81,11 @@ const GroupsListView: React.FC = () => {
 
   });
 
-  console.log("me edit ekata kalin 22222222-------------------------");
-  console.log(editingGroup);
-  console.log(editingGroupId);
 
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/groups/getGroups`,
+        `http://localhost:5000/yearSems/getYearSems`,
         {
           method: 'GET',
           headers: {
@@ -118,9 +96,9 @@ const GroupsListView: React.FC = () => {
 
       const responseData = await response.json();
 
-      setGroupsObject(responseData.groups);
-      dispatch(setGroups(responseData.groups));
-      console.log(responseData.groups);
+      setYearSemsObject(responseData.yearsems);
+      dispatch(setYearSems(responseData.yearsems));
+      console.log(responseData.yearsems);
 
       if (!responseData) {
         // noinspection ExceptionCaughtLocallyJS
@@ -136,7 +114,7 @@ const GroupsListView: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/groups/deleteGroups`,
+        `http://localhost:5000/yearSems/deleteYearSems`,
         {
           method: 'DELETE',
           headers: {
@@ -176,12 +154,12 @@ const GroupsListView: React.FC = () => {
   };
 
 
-  const handleAddSub = async (id: string) => {
+  const handleEdit = async (id: string) => {
     console.log(`in handle edit + ${id}`);
 
     try {
       const response = await fetch(
-        `http://localhost:5000/groups/getGroups/` + id,
+        `http://localhost:5000/yearSems/getYearSems/` + id,
         {
           method: 'GET',
           headers: {
@@ -197,9 +175,9 @@ const GroupsListView: React.FC = () => {
       console.log(responseData);
 
 
-       dispatch(setEditingGroupId(id))
-       dispatch(setEditingGroup(responseData))
-       dispatch(setEditGroup(true))
+       dispatch(setEditingYearSemId(id))
+       dispatch(setEditingYearSem(responseData))
+       dispatch(setEditYearSem(true))
 
     } catch (errors) {
       const errors_ = errors
@@ -211,15 +189,15 @@ const GroupsListView: React.FC = () => {
 
   const renderEditTo = () => {
     if (renderEdit) {
-      return <Redirect to={routes.GROUPS_EDIT}/>;
+      return <Redirect to={routes.YEARSEMS_EDIT}/>;
       //   props.history.push(loginState.redirectTo);s
     }
     return null;
   };
 
-  const groupList = ()  => {
-    return groupsObject.map(group => {
-      return <Group group={group} handleDelete={handleDelete} handleAddSub={handleAddSub} key={group._id} />;
+  const yearSemList = ()  => {
+    return yearSemsObject.map(yearSem => {
+      return <YearSem yearSem={yearSem} handleDelete={handleDelete} handleEdit={handleEdit} key={yearSem._id}/>;
     })
   }
 
@@ -235,12 +213,12 @@ const GroupsListView: React.FC = () => {
           className="p-3"
           style={{backgroundColor: '#343a40', color: '#fff'}}
         >
-          <h3>Student Group Details</h3>
+          <h3>Academic Year & Semester Details</h3>
         </Col>
       </Row>
-      {groupsObject && (
+      {yearSemsObject && (
         <Container
-          className={`mt-2 p-4 ${styles.groupsTopWrapper}`}
+          className={`mt-2 p-4 ${styles.yearSemsTopWrapper}`}
           style={{
             border: '3px solid white',
             borderRadius: '8px',
@@ -249,12 +227,12 @@ const GroupsListView: React.FC = () => {
         >
           <Row className="mt-3 mb-4 justify-content-md-left">
             <Col xs={12} md={12} className="mt-auto">
-            <Button style={{width: '160px', fontSize: '1.2em'}}>
+            <Button style={{width: '220px', fontSize: '1.2em'}}>
                 <NavLink
-                  to={routes.GROUPS_ADD}
+                  to={routes.YEARSEMS_ADD}
                   style={{color: '#fff'}}
                 >
-                 Add New Group
+                 Add New Year & Sem
                 </NavLink>
                 </Button>
             </Col>
@@ -265,18 +243,19 @@ const GroupsListView: React.FC = () => {
                 striped
                 bordered
                 hover
-                variant="white"
-                className={`${styles.groupsViewTable}`}
+                variant="dark"
+                className={`${styles.yearSemsViewTable}`}
               >
                 <thead className="thead-light">
             <tr>
-              <th>Group ID</th>
-              <th>Sub Group ID</th>
-
+              <th>Year</th>
+              <th>Semester</th>
+              <th>Token</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            { groupList() }
+            { yearSemList() }
           </tbody>
 
               </Table>
@@ -291,4 +270,4 @@ const GroupsListView: React.FC = () => {
   );
 };
 
-export default GroupsListView;
+export default YearSemsListView;

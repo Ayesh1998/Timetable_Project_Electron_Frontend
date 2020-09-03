@@ -24,33 +24,33 @@ const TagsEdit: React.FC = () => {
   const dispatch = useDispatch();
   // const value = useSelector();
 
-  let tagList = useSelector(
-    (state: {
-      tags: any
-    }) => state.tags.tags
-  )
+  // let tagList = useSelector(
+  //   (state: {
+  //     tags: any
+  //   }) => state.tags.tags
+  // )
 
-  const editingTagId = useSelector(
-    (state: {
-      tags: any
-      editingTagId: string
-    }) => state.tags.editingTagId
-  )
+  // const editingTagId = useSelector(
+  //   (state: {
+  //     tags: any
+  //     editingTagId: string
+  //   }) => state.tags.editingTagId
+  // )
 
-  const editingTag = useSelector(
-    (state: {
-      tags: any
-      editingTagId: any
-    }) => state.tags.editingTag
-  )
+  // const editingTag = useSelector(
+  //   (state: {
+  //     tags: any
+  //     editingTagId: any
+  //   }) => state.tags.editingTag
+  // )
 
-  const [tag, setTag] = useState<{
-    name: string,
-    tagToken: string
-  }>({
-    name:editingTag.name,
-    tagToken: editingTag.tagToken
-  })
+  // const [tag, setTag] = useState<{
+  //   name: string,
+  //   tagToken: string
+  // }>({
+  //   name:editingTag.name,
+  //   tagToken: editingTag.tagToken
+  // })
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>( false );
   const [error, setError] = useState<string | null>(null);
 
@@ -60,37 +60,41 @@ const TagsEdit: React.FC = () => {
 
   useEffect(() => {
     //setTags(tagList);
-    setTag(editingTag);
-    setId(editingTagId);
-    setName(editingTag.name);
-    setTagToken(editingTag.tagToken);
+    // setTag(editingTag);
+    // setId(editingTagId);
+    // setName(editingTag.name);
+    // setTagToken(editingTag.tagToken);
+
+   // setTag(editingTag);
+    setId("5f3e33b46038693c38fb89ce");
+    setName("Lecture");
+    setTagToken("Lec");
 
   }, []);
 
 
-  console.log("############################");
-  console.log(id);
-  console.log(name);
-  console.log(tagToken);
-  console.log(tag);
-
   const handleSubmit = async () => {
-     console.log("1111111111111111111111111111");
-    // console.log(name);
+
      console.log(id);
 
 
-    // const finalObject = {
-    //   name,
-    //   tagToken
+    const finalObject = {
+      name,
+      tagToken
+    };
+
+    // const finalObjectWithID = {
+    //   tags: tag,
+    //   // eslint-disable-next-line no-underscore-dangle
+    //   id: id
     // };
 
     const finalObjectWithID = {
-      tags: tag,
+      tags: finalObject,
       // eslint-disable-next-line no-underscore-dangle
       id: id
     };
-    console.log('22222222222222222222222222222222222');
+
     console.log(finalObjectWithID);
 
     try {
@@ -131,20 +135,21 @@ const TagsEdit: React.FC = () => {
 
   const handleChangeName = ( e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
-    setTag({...tag, name: e.target.value})
+    //setTag({...tag, name: e.target.value})
   };
 
   const handleChangeTagToken = (e: React.ChangeEvent<HTMLInputElement>) => {
 
     setTagToken(e.target.value);
-    setTag({...tag, tagToken: e.target.value})
+   // setTag({...tag, tagToken: e.target.value})
   };
 
   return (
     <div
       style={{
         backgroundColor: '#37474F',
-        height: '100vh'
+        height: '100vh',
+        overflow: 'scroll'
       }}
     >
 
@@ -197,7 +202,7 @@ const TagsEdit: React.FC = () => {
               <Col xs={12} md={4}>
                 <p>Tag Name</p>
               </Col>
-              <Col xs={2} md={6}>
+              <Col xs={3} md={3}>
               <Form className="">
                   <Form.Group controlId="formBasicEmail">
 
@@ -212,10 +217,11 @@ const TagsEdit: React.FC = () => {
                   </Form.Group>
                 </Form>
               </Col>
+              <Col xs={3} md={3}></Col>
             </Row>
-            <Row className="mb-2 justify-content-md-center">
-              <Col xs={0} md={9}/>
-              <Col xs={12} md={2}>
+            <Row className="mt-3 mb-3 justify-content-md-center">
+              <Col xs={12} md={3}/>
+              <Col xs={3} md={7}>
                 <Button
                   style={{width: '160px', fontSize: '1.3em'}}
                   onClick={handleSubmit}
@@ -223,6 +229,7 @@ const TagsEdit: React.FC = () => {
                   Edit Tag
                 </Button>
               </Col>
+              <Col xs={12} md={2}/>
             </Row>
           </div>
 

@@ -4,24 +4,24 @@ import {Button, Col, Container, Row, Table} from 'react-bootstrap';
 import {NavLink} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
-import styles from './tags.css';
+import styles from './groupNums.css';
 import routes from '../../constants/routes.json';
-import {
-  setTags,
-  setEditTag,
-  setEditingTag,
-  setEditingTagId
-} from './tagsSlice';
+// import {
+//   setYearSems,
+//   setEditYearSem,
+//   setEditingYearSem,
+//   setEditingYearSemId
+// } from './yearsemsSlice';
 import { Link , Redirect } from 'react-router-dom';
 
 
 
-const Tag = (props) => (
+const GroupNum = (props) => (
   <tr>
-    <td>{props.tag.name}</td>
-    <td>{props.tag.tagToken}</td>
+    <td>{props.groupNum.groupNum}</td>
+
     <td>
-    <Button onClick={() => { props.handleEdit(props.tag._id) }} style={{width: '160px', fontSize: '1.3em'}}>
+    <Button onClick={() => { props.handleEdit(props.groupNum._id) }} style={{width: '160px', fontSize: '1.3em'}}>
 
                  edit
 
@@ -29,7 +29,7 @@ const Tag = (props) => (
               </Button>
          <Button
                 className="ml-4"
-                onClick={() => { props.handleDelete(props.tag._id) }}
+                onClick={() => { props.handleDelete(props.groupNum._id) }}
                 variant="outline-danger"
                 style={{
                   width: '160px',
@@ -38,7 +38,7 @@ const Tag = (props) => (
                 }}
               >
                 <NavLink
-                  to={routes.TAGS_LIST_VIEW}
+                  to={routes.YEARSEMS_LIST_VIEW}
                   style={{color: '#fff'}}
                 >
                  delete
@@ -52,24 +52,24 @@ const Tag = (props) => (
 
 
 // noinspection DuplicatedCode
-const TagsListView: React.FC = () => {
+const GroupNumsListView: React.FC = () => {
   const dispatch = useDispatch();
 
-  const editingTagId = useSelector(
-    (state: {
-      tags: any
-      editingTagId: string
-    }) => state.tags.editingTagId
-  )
+  // const editingYearSemId = useSelector(
+  //   (state: {
+  //     yearSems: any
+  //     editingYearSemId: string
+  //   }) => state.yearSems.editingYearSemId
+  // )
 
-  const editingTag = useSelector(
-    (state: {
-      tags: any
-      editingTagId: any
-    }) => state.tags.editingTag
-  )
+  // const editingYearSem = useSelector(
+  //   (state: {
+  //     yearSems: any
+  //     editingYearSemId: any
+  //   }) => state.yearSems.editingYearSem
+  // )
 
-  const [tagsObject, setTagsObject] = useState<any>([]);
+  const [yearSemsObject, setYearSemsObject] = useState<any>([]);
 
  const [renderEdit, setRenderEdit] = useState<boolean | null>( false );
 
@@ -80,14 +80,11 @@ const TagsListView: React.FC = () => {
 
   });
 
-  console.log("me edit ekata kalin 22222222-------------------------");
-  console.log(editingTag);
-  console.log(editingTagId);
 
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/tags/getTags`,
+        `http://localhost:5000/groupNums/getGroupNums`,
         {
           method: 'GET',
           headers: {
@@ -98,9 +95,9 @@ const TagsListView: React.FC = () => {
 
       const responseData = await response.json();
 
-      setTagsObject(responseData.tags);
-      dispatch(setTags(responseData.tags));
-      console.log(responseData.tags);
+      setYearSemsObject(responseData.groupNums);
+     // dispatch(setYearSems(responseData.yearsems));
+     // console.log(responseData.yearsems);
 
       if (!responseData) {
         // noinspection ExceptionCaughtLocallyJS
@@ -111,34 +108,34 @@ const TagsListView: React.FC = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    console.log(`in handle delete + ${id}`);
+   const handleDelete = async (id) => {
+  //   console.log(`in handle delete + ${id}`);
 
-    try {
-      const response = await fetch(
-        `http://localhost:5000/tags/deleteTags`,
-        {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({id})
-        }
-      );
+  //   try {
+  //     const response = await fetch(
+  //       `http://localhost:5000/yearSems/deleteYearSems`,
+  //       {
+  //         method: 'DELETE',
+  //         headers: {
+  //           'Content-Type': 'application/json'
+  //         },
+  //         body: JSON.stringify({id})
+  //       }
+  //     );
 
-      const responseData = await response.json();
-      // console.log(responseData.userDetails);
-      //setRenderRedirectTo(true);
+  //     const responseData = await response.json();
+  //     // console.log(responseData.userDetails);
+  //     //setRenderRedirectTo(true);
 
-      fetchData();
+  //     fetchData();
 
-      if (!responseData) {
-        // noinspection ExceptionCaughtLocallyJS
-        throw new Error(responseData.message);
-      }
-    } catch (err) {
-      console.log(err.message);
-    }
+  //     if (!responseData) {
+  //       // noinspection ExceptionCaughtLocallyJS
+  //       throw new Error(responseData.message);
+  //     }
+  //   } catch (err) {
+  //     console.log(err.message);
+  //   }
 
 
     // setTagsObject({
@@ -157,49 +154,49 @@ const TagsListView: React.FC = () => {
 
 
   const handleEdit = async (id: string) => {
-    console.log(`in handle edit + ${id}`);
+    // console.log(`in handle edit + ${id}`);
 
-    try {
-      const response = await fetch(
-        `http://localhost:5000/tags/getTags/` + id,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+    // try {
+    //   const response = await fetch(
+    //     `http://localhost:5000/yearSems/getYearSems/` + id,
+    //     {
+    //       method: 'GET',
+    //       headers: {
+    //         'Content-Type': 'application/json'
+    //       },
 
-        }
-      );
+    //     }
+    //   );
 
-      const responseData = await response.json()
-      setRenderEdit(true);
-      console.log("me edit eken passe data-------------------------");
-      console.log(responseData);
+    //   const responseData = await response.json()
+    //   setRenderEdit(true);
+    //   console.log("me edit eken passe data-------------------------");
+    //   console.log(responseData);
 
 
-       dispatch(setEditingTagId(id))
-       dispatch(setEditingTag(responseData))
-       dispatch(setEditTag(true))
+    //    dispatch(setEditingYearSemId(id))
+    //    dispatch(setEditingYearSem(responseData))
+    //    dispatch(setEditYearSem(true))
 
-    } catch (errors) {
-      const errors_ = errors
+    // } catch (errors) {
+    //   const errors_ = errors
 
-      console.log(errors)
-    }
+    //   console.log(errors)
+    // }
 
   };
 
   const renderEditTo = () => {
     if (renderEdit) {
-      return <Redirect to={routes.TAGS_EDIT}/>;
+      return <Redirect to={routes.YEARSEMS_EDIT}/>;
       //   props.history.push(loginState.redirectTo);s
     }
     return null;
   };
 
-  const tagList = ()  => {
-    return tagsObject.map(tag => {
-      return <Tag tag={tag} handleDelete={handleDelete} handleEdit={handleEdit} key={tag._id}/>;
+  const groupNumList = ()  => {
+    return yearSemsObject.map(yearSem => {
+      return <GroupNum groupNum={yearSem} handleDelete={handleDelete} handleEdit={handleEdit} key={yearSem._id}/>;
     })
   }
 
@@ -215,12 +212,12 @@ const TagsListView: React.FC = () => {
           className="p-3"
           style={{backgroundColor: '#343a40', color: '#fff'}}
         >
-          <h3>Tag Details</h3>
+          <h3>Group Number List</h3>
         </Col>
       </Row>
-      {tagsObject && (
+      {yearSemsObject && (
         <Container
-          className={`mt-2 p-4 ${styles.tagsTopWrapper}`}
+          className={`mt-2 p-4 ${styles.yearSemsTopWrapper}`}
           style={{
             border: '3px solid white',
             borderRadius: '8px',
@@ -229,12 +226,12 @@ const TagsListView: React.FC = () => {
         >
           <Row className="mt-3 mb-4 justify-content-md-left">
             <Col xs={12} md={12} className="mt-auto">
-            <Button style={{width: '160px', fontSize: '1.2em'}}>
+            <Button style={{width: '220px', fontSize: '1.2em'}}>
                 <NavLink
-                  to={routes.TAGS_ADD}
+                  to={routes.YEARSEMS_ADD}
                   style={{color: '#fff'}}
                 >
-                 Add New Tag
+                 Add New Group Num
                 </NavLink>
                 </Button>
             </Col>
@@ -246,17 +243,16 @@ const TagsListView: React.FC = () => {
                 bordered
                 hover
                 variant="dark"
-                className={`${styles.tagsViewTable}`}
+                className={`${styles.groupNumsViewTable}`}
               >
                 <thead className="thead-light">
             <tr>
-              <th>Real Name</th>
-              <th>Tag Name</th>
+              <th>Group Number</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            { tagList() }
+            { groupNumList() }
           </tbody>
 
               </Table>
@@ -271,4 +267,4 @@ const TagsListView: React.FC = () => {
   );
 };
 
-export default TagsListView;
+export default GroupNumsListView;
