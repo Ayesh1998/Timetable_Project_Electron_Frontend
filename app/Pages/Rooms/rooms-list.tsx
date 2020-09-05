@@ -371,7 +371,8 @@ const RoomsList: React.FC = () => {
                   </td>
                 </tr>
               );
-            })}
+            })
+          }
           </tbody>
         </Table>
       </div>

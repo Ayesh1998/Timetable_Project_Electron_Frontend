@@ -1,13 +1,11 @@
-/* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 import { NavLink, Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
 import styles from './groups.css';
 import routes from '../../constants/routes.json';
-import { setEditGroup, setEditingGroup, setEditingGroupId, setGroups } from './groupsSlice';
-
+import { setEditGroup, setEditingGroup, setEditingGroupId, setGroups, setSubGroups } from './groupsSlice';
 
 const Group = (props) => (
   <tr>
@@ -32,7 +30,6 @@ const Group = (props) => (
         </NavLink>
       </Button>
     </td>
-
     <td>
       <div>{`${props.group.groupId}.1`}
         <Button
@@ -56,53 +53,26 @@ const Group = (props) => (
         </Button></div>
       <br/><br/>
       <div>
-
         <Button onClick={() => {
           props.handleAddSub(props.group._id);
         }} style={{ width: '95px', fontSize: '0.9em' }}>
-
           Add
-
         </Button></div>
-
     </td>
-
   </tr>
 );
 
-
-// noinspection DuplicatedCode
 const GroupsListView: React.FC = () => {
   const dispatch = useDispatch();
-
-  const editingGroupId = useSelector(
-    (state: {
-      groups: any
-      editingGroupId: string
-    }) => state.groups.editingGroupId
-  );
-
-  const editingGroup = useSelector(
-    (state: {
-      groups: any
-      editingGroupId: any
-    }) => state.groups.editingGroup
-  );
-
   const [groupsObject, setGroupsObject] = useState<any>([]);
-
+  const [subGroupsObject, setSubGroupsObject] = useState<any>([]);
+  const [subGroupsFiltered, setSubGroupsFiltered] = useState<any>([]);
   const [renderEdit, setRenderEdit] = useState<boolean | null>(false);
 
   useEffect(() => {
-    // noinspection JSIgnoredPromiseFromCall
-    fetchData();
-
-
+    fetchData().then(() => {
+    });
   });
-
-  console.log('me edit ekata kalin 22222222-------------------------');
-  console.log(editingGroup);
-  console.log(editingGroupId);
 
   const fetchData = async () => {
     try {
@@ -115,16 +85,26 @@ const GroupsListView: React.FC = () => {
           }
         }
       );
-
       const responseData = await response.json();
-
       setGroupsObject(responseData.groups);
-      dispatch(setGroups(responseData.groups));
-      console.log(responseData.groups);
-
+      await dispatch(setGroups(responseData.groups));
       if (!responseData) {
-        // noinspection ExceptionCaughtLocallyJS
         throw new Error(responseData.message);
+      }
+      const responseSub = await fetch(
+        `http://localhost:5000/subGroups/getSubGroups`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      const responseDataSub = await responseSub.json();
+      await setSubGroupsObject(responseDataSub.subGroups);
+      await dispatch(setSubGroups(responseDataSub.subGroups));
+      if (!responseDataSub) {
+        throw new Error(responseDataSub.message);
       }
     } catch (err) {
       console.log(err.message);
@@ -132,8 +112,6 @@ const GroupsListView: React.FC = () => {
   };
 
   const handleDelete = async (id) => {
-    console.log(`in handle delete + ${id}`);
-
     try {
       const response = await fetch(
         `http://localhost:5000/groups/deleteGroups`,
@@ -145,38 +123,39 @@ const GroupsListView: React.FC = () => {
           body: JSON.stringify({ id })
         }
       );
-
       const responseData = await response.json();
-      // console.log(responseData.userDetails);
-      //setRenderRedirectTo(true);
-
-      fetchData();
-
+      await fetchData();
       if (!responseData) {
-        // noinspection ExceptionCaughtLocallyJS
         throw new Error(responseData.message);
       }
     } catch (err) {
       console.log(err.message);
     }
-
-
-    // setTagsObject({
-    //   tagsObject: tagsObject.filter(el => el._id !== id)
-    // })
-
-
-    // setTagsObjectDel({
-    //   tagsObject: tagsObject.filter(el => el._id !== id)
-    // })
-
-
   };
 
+  const handleDeleteSub = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/subGroups/deleteSubGroups`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ id })
+        }
+      );
+      const responseData = await response.json();
+      await fetchData();
+      if (!responseData) {
+        throw new Error(responseData.message);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   const handleAddSub = async (id: string) => {
-    console.log(`in handle edit + ${id}`);
-
     try {
       const response = await fetch(
         `http://localhost:5000/groups/getGroups/` + id,
@@ -185,46 +164,44 @@ const GroupsListView: React.FC = () => {
           headers: {
             'Content-Type': 'application/json'
           }
-
         }
       );
-
       const responseData = await response.json();
+      await dispatch(setEditingGroupId(id));
+      await dispatch(setEditingGroup(responseData));
+      await dispatch(setEditGroup(true));
       setRenderEdit(true);
-      console.log('me edit eken passe data-------------------------');
-      console.log(responseData);
-
-
-      dispatch(setEditingGroupId(id));
-      dispatch(setEditingGroup(responseData));
-      dispatch(setEditGroup(true));
-
     } catch (errors) {
-      const errors_ = errors;
-
       console.log(errors);
     }
-
   };
 
   const renderEditTo = () => {
     if (renderEdit) {
       return <Redirect to={routes.GROUPS_EDIT}/>;
-      //   props.history.push(loginState.redirectTo);s
     }
     return null;
   };
 
+  // const filterSubGroups = (group: any) => {
+  //   setSubGroupsFiltered([]);
+  //   for (let i = 0; i < subGroupsObject.length; i++) {
+  //     if (subGroupsObject[i].groupId === group.groupId) {
+  //       let filtered = [...subGroupsFiltered, subGroupsObject[i]];
+  //       setSubGroupsFiltered(filtered);
+  //     }
+  //   }
+  // };
+
   const groupList = () => {
-    return groupsObject.map(group => {
+    return groupsObject.map((group: { _id: any; }) => {
       return <Group group={group} handleDelete={handleDelete} handleAddSub={handleAddSub} key={group._id}/>;
     });
   };
 
   return (
-    <div style={{ backgroundColor: '#37474F', height: '100vh' }}>
+    <div style={{ backgroundColor: '#37474F' }}>
       {renderEditTo()}
-
       <NavBar/>
       <Row className="text-center mb-5">
         <Col
@@ -270,16 +247,77 @@ const GroupsListView: React.FC = () => {
                 <tr>
                   <th>Group ID</th>
                   <th>Sub Group ID</th>
-
                 </tr>
                 </thead>
                 <tbody>
                 {groupList()}
+                {/*{*/}
+                {/*  groupsObject && groupsObject.map((group: any) => {*/}
+                {/*    filterSubGroups(group);*/}
+                {/*    return (*/}
+                {/*      <tr>*/}
+                {/*        <td><NavLink to={routes.GROUPS_EDIT}>{group.groupId} </NavLink>*/}
+                {/*          <Button*/}
+                {/*            className="ml-4"*/}
+                {/*            onClick={() => {*/}
+                {/*              handleDelete(group._id);*/}
+                {/*            }}*/}
+                {/*            variant="outline-danger"*/}
+                {/*            style={{*/}
+                {/*              width: '100px',*/}
+                {/*              fontSize: '0.7em',*/}
+                {/*              borderWidth: '2px'*/}
+                {/*            }}*/}
+                {/*          >*/}
+                {/*            <NavLink*/}
+                {/*              to={routes.GROUPS_LIST_VIEW}*/}
+                {/*              style={{ color: '#fff' }}*/}
+                {/*            >*/}
+                {/*              delete*/}
+                {/*            </NavLink>*/}
+                {/*          </Button>*/}
+                {/*        </td>*/}
+                {/*        <td>*/}
+                {/*          {*/}
+                {/*            subGroupsFiltered && subGroupsFiltered.map((subGroup: any) => {*/}
+                {/*              return (*/}
+                {/*                <div>{`${subGroup.subGroupId}`}*/}
+                {/*                  <Button*/}
+                {/*                    className="ml-4"*/}
+                {/*                    onClick={() => {*/}
+                {/*                      handleDeleteSub(subGroup._id);*/}
+                {/*                    }}*/}
+                {/*                    variant="outline-danger"*/}
+                {/*                    style={{*/}
+                {/*                      width: '100px',*/}
+                {/*                      fontSize: '0.7em',*/}
+                {/*                      borderWidth: '2px'*/}
+                {/*                    }}*/}
+                {/*                  >*/}
+                {/*                    <NavLink*/}
+                {/*                      to={routes.GROUPS_LIST_VIEW}*/}
+                {/*                      style={{ color: '#fff' }}*/}
+                {/*                    >*/}
+                {/*                      delete*/}
+                {/*                    </NavLink>*/}
+                {/*                  </Button></div>*/}
+                {/*              );*/}
+                {/*            })*/}
+                {/*          }*/}
+                {/*          <br/><br/>*/}
+                {/*          <div>*/}
+                {/*            <Button onClick={() => {*/}
+                {/*              handleAddSub(group._id);*/}
+                {/*            }} style={{ width: '95px', fontSize: '0.9em' }}>*/}
+                {/*              Add*/}
+                {/*            </Button></div>*/}
+                {/*        </td>*/}
+                {/*      </tr>*/}
+                {/*    );*/}
+                {/*  })*/}
+                {/*}*/}
                 </tbody>
-
               </Table>
-
-
             </Col>
           </Row>
         </Container>
