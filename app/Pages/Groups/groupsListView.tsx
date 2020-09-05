@@ -5,9 +5,9 @@ import { useDispatch } from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
 import styles from './groups.css';
 import routes from '../../constants/routes.json';
-import { setEditGroup, setEditingGroup, setEditingGroupId, setGroups, setSubGroups } from './groupsSlice';
+import { setEditGroup, setEditingGroup, setEditingGroupId, setGroups } from './groupsSlice';
 
-const Group = (props) => (
+const Group = (props: any) => (
   <tr>
     <td><NavLink to={routes.GROUPS_EDIT}>{props.group.groupId} </NavLink>
       <Button
@@ -31,26 +31,32 @@ const Group = (props) => (
       </Button>
     </td>
     <td>
-      <div>{`${props.group.groupId}.1`}
-        <Button
-          className="ml-4"
-          onClick={() => {
-            props.handleDelete(props.group._id);
-          }}
-          variant="outline-danger"
-          style={{
-            width: '100px',
-            fontSize: '0.7em',
-            borderWidth: '2px'
-          }}
-        >
-          <NavLink
-            to={routes.GROUPS_LIST_VIEW}
-            style={{ color: '#fff' }}
-          >
-            delete
-          </NavLink>
-        </Button></div>
+      {
+        props.group.subGroups && props.group.subGroups.map((sub: any) => {
+          return (
+            <div>{`${sub.subGroupId}`}
+              <Button
+                className="ml-4"
+                onClick={() => {
+                  props.handleDeleteSub(sub._id);
+                }}
+                variant="outline-danger"
+                style={{
+                  width: '100px',
+                  fontSize: '0.7em',
+                  borderWidth: '2px'
+                }}
+              >
+                <NavLink
+                  to={routes.GROUPS_LIST_VIEW}
+                  style={{ color: '#fff' }}
+                >
+                  delete
+                </NavLink>
+              </Button></div>
+          );
+        })
+      }
       <br/><br/>
       <div>
         <Button onClick={() => {
@@ -65,8 +71,6 @@ const Group = (props) => (
 const GroupsListView: React.FC = () => {
   const dispatch = useDispatch();
   const [groupsObject, setGroupsObject] = useState<any>([]);
-  const [subGroupsObject, setSubGroupsObject] = useState<any>([]);
-  const [subGroupsFiltered, setSubGroupsFiltered] = useState<any>([]);
   const [renderEdit, setRenderEdit] = useState<boolean | null>(false);
 
   useEffect(() => {
@@ -91,27 +95,12 @@ const GroupsListView: React.FC = () => {
       if (!responseData) {
         throw new Error(responseData.message);
       }
-      const responseSub = await fetch(
-        `http://localhost:5000/subGroups/getSubGroups`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-      const responseDataSub = await responseSub.json();
-      await setSubGroupsObject(responseDataSub.subGroups);
-      await dispatch(setSubGroups(responseDataSub.subGroups));
-      if (!responseDataSub) {
-        throw new Error(responseDataSub.message);
-      }
     } catch (err) {
       console.log(err.message);
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: any) => {
     try {
       const response = await fetch(
         `http://localhost:5000/groups/deleteGroups`,
@@ -133,7 +122,7 @@ const GroupsListView: React.FC = () => {
     }
   };
 
-  const handleDeleteSub = async (id) => {
+  const handleDeleteSub = async (id: any) => {
     try {
       const response = await fetch(
         `http://localhost:5000/subGroups/deleteSubGroups`,
@@ -183,19 +172,10 @@ const GroupsListView: React.FC = () => {
     return null;
   };
 
-  // const filterSubGroups = (group: any) => {
-  //   setSubGroupsFiltered([]);
-  //   for (let i = 0; i < subGroupsObject.length; i++) {
-  //     if (subGroupsObject[i].groupId === group.groupId) {
-  //       let filtered = [...subGroupsFiltered, subGroupsObject[i]];
-  //       setSubGroupsFiltered(filtered);
-  //     }
-  //   }
-  // };
-
   const groupList = () => {
     return groupsObject.map((group: { _id: any; }) => {
-      return <Group group={group} handleDelete={handleDelete} handleAddSub={handleAddSub} key={group._id}/>;
+      return <Group group={group} handleDelete={handleDelete} handleDeleteSub={handleDeleteSub}
+                    handleAddSub={handleAddSub} key={group._id}/>;
     });
   };
 
@@ -251,71 +231,6 @@ const GroupsListView: React.FC = () => {
                 </thead>
                 <tbody>
                 {groupList()}
-                {/*{*/}
-                {/*  groupsObject && groupsObject.map((group: any) => {*/}
-                {/*    filterSubGroups(group);*/}
-                {/*    return (*/}
-                {/*      <tr>*/}
-                {/*        <td><NavLink to={routes.GROUPS_EDIT}>{group.groupId} </NavLink>*/}
-                {/*          <Button*/}
-                {/*            className="ml-4"*/}
-                {/*            onClick={() => {*/}
-                {/*              handleDelete(group._id);*/}
-                {/*            }}*/}
-                {/*            variant="outline-danger"*/}
-                {/*            style={{*/}
-                {/*              width: '100px',*/}
-                {/*              fontSize: '0.7em',*/}
-                {/*              borderWidth: '2px'*/}
-                {/*            }}*/}
-                {/*          >*/}
-                {/*            <NavLink*/}
-                {/*              to={routes.GROUPS_LIST_VIEW}*/}
-                {/*              style={{ color: '#fff' }}*/}
-                {/*            >*/}
-                {/*              delete*/}
-                {/*            </NavLink>*/}
-                {/*          </Button>*/}
-                {/*        </td>*/}
-                {/*        <td>*/}
-                {/*          {*/}
-                {/*            subGroupsFiltered && subGroupsFiltered.map((subGroup: any) => {*/}
-                {/*              return (*/}
-                {/*                <div>{`${subGroup.subGroupId}`}*/}
-                {/*                  <Button*/}
-                {/*                    className="ml-4"*/}
-                {/*                    onClick={() => {*/}
-                {/*                      handleDeleteSub(subGroup._id);*/}
-                {/*                    }}*/}
-                {/*                    variant="outline-danger"*/}
-                {/*                    style={{*/}
-                {/*                      width: '100px',*/}
-                {/*                      fontSize: '0.7em',*/}
-                {/*                      borderWidth: '2px'*/}
-                {/*                    }}*/}
-                {/*                  >*/}
-                {/*                    <NavLink*/}
-                {/*                      to={routes.GROUPS_LIST_VIEW}*/}
-                {/*                      style={{ color: '#fff' }}*/}
-                {/*                    >*/}
-                {/*                      delete*/}
-                {/*                    </NavLink>*/}
-                {/*                  </Button></div>*/}
-                {/*              );*/}
-                {/*            })*/}
-                {/*          }*/}
-                {/*          <br/><br/>*/}
-                {/*          <div>*/}
-                {/*            <Button onClick={() => {*/}
-                {/*              handleAddSub(group._id);*/}
-                {/*            }} style={{ width: '95px', fontSize: '0.9em' }}>*/}
-                {/*              Add*/}
-                {/*            </Button></div>*/}
-                {/*        </td>*/}
-                {/*      </tr>*/}
-                {/*    );*/}
-                {/*  })*/}
-                {/*}*/}
                 </tbody>
               </Table>
             </Col>
