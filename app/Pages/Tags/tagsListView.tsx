@@ -8,7 +8,6 @@ import styles from './tags.css';
 import routes from '../../constants/routes.json';
 import { setEditingTag, setEditingTagId, setEditTag, setTags } from './tagsSlice';
 
-
 const Tag = (props) => (
   <tr>
     <td>{props.tag.name}</td>
@@ -17,10 +16,7 @@ const Tag = (props) => (
       <Button onClick={() => {
         props.handleEdit(props.tag._id);
       }} style={{ width: '160px', fontSize: '1.3em' }}>
-
         edit
-
-
       </Button>
       <Button
         className="ml-4"
@@ -45,8 +41,6 @@ const Tag = (props) => (
   </tr>
 );
 
-
-// noinspection DuplicatedCode
 const TagsListView: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -65,14 +59,10 @@ const TagsListView: React.FC = () => {
   );
 
   const [tagsObject, setTagsObject] = useState<any>([]);
-
   const [renderEdit, setRenderEdit] = useState<boolean | null>(false);
 
   useEffect(() => {
-    // noinspection JSIgnoredPromiseFromCall
     fetchData();
-
-
   });
 
   console.log('me edit ekata kalin 22222222-------------------------');
@@ -90,15 +80,11 @@ const TagsListView: React.FC = () => {
           }
         }
       );
-
       const responseData = await response.json();
-
       setTagsObject(responseData.tags);
       dispatch(setTags(responseData.tags));
       console.log(responseData.tags);
-
       if (!responseData) {
-        // noinspection ExceptionCaughtLocallyJS
         throw new Error(responseData.message);
       }
     } catch (err) {
@@ -120,38 +106,18 @@ const TagsListView: React.FC = () => {
           body: JSON.stringify({ id })
         }
       );
-
       const responseData = await response.json();
-      // console.log(responseData.userDetails);
-      //setRenderRedirectTo(true);
-
       fetchData();
-
       if (!responseData) {
-        // noinspection ExceptionCaughtLocallyJS
         throw new Error(responseData.message);
       }
     } catch (err) {
       console.log(err.message);
     }
-
-
-    // setTagsObject({
-    //   tagsObject: tagsObject.filter(el => el._id !== id)
-    // })
-
-
-    // setTagsObjectDel({
-    //   tagsObject: tagsObject.filter(el => el._id !== id)
-    // })
-
-
   };
-
 
   const handleEdit = async (id: string) => {
     console.log(`in handle edit + ${id}`);
-
     try {
       const response = await fetch(
         `http://localhost:5000/tags/getTags/` + id,
@@ -160,26 +126,19 @@ const TagsListView: React.FC = () => {
           headers: {
             'Content-Type': 'application/json'
           }
-
         }
       );
-
       const responseData = await response.json();
+      await dispatch(setEditingTagId(id));
+      await dispatch(setEditingTag(responseData));
+      await dispatch(setEditTag(true));
       setRenderEdit(true);
       console.log('me edit eken passe data-------------------------');
       console.log(responseData);
-
-
-      dispatch(setEditingTagId(id));
-      dispatch(setEditingTag(responseData));
-      dispatch(setEditTag(true));
-
     } catch (errors) {
       const errors_ = errors;
-
       console.log(errors);
     }
-
   };
 
   const renderEditTo = () => {
@@ -251,10 +210,7 @@ const TagsListView: React.FC = () => {
                 <tbody>
                 {tagList()}
                 </tbody>
-
               </Table>
-
-
             </Col>
           </Row>
         </Container>

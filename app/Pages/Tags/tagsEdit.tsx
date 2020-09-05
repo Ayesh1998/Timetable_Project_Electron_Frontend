@@ -1,90 +1,48 @@
-/* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-//import CheckboxGroup from 'react-checkbox-group';
 import { Redirect } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './tags.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
+import { setEditingTag, setEditingTagId, setEditTag } from './tagsSlice';
 
-// noinspection DuplicatedCode
 const TagsEdit: React.FC = () => {
   const dispatch = useDispatch();
-  // const value = useSelector();
 
-  // let tagList = useSelector(
-  //   (state: {
-  //     tags: any
-  //   }) => state.tags.tags
-  // )
+  const editingTagId = useSelector(
+    (state: {
+      tags: any
+      editingTagId: string
+    }) => state.tags.editingTagId
+  );
 
-  // const editingTagId = useSelector(
-  //   (state: {
-  //     tags: any
-  //     editingTagId: string
-  //   }) => state.tags.editingTagId
-  // )
+  const editingTag = useSelector(
+    (state: {
+      tags: any
+      editingTagId: any
+    }) => state.tags.editingTag
+  );
 
-  // const editingTag = useSelector(
-  //   (state: {
-  //     tags: any
-  //     editingTagId: any
-  //   }) => state.tags.editingTag
-  // )
-
-  // const [tag, setTag] = useState<{
-  //   name: string,
-  //   tagToken: string
-  // }>({
-  //   name:editingTag.name,
-  //   tagToken: editingTag.tagToken
-  // })
+  const [tag, setTag] = useState<{
+    name: string,
+    tagToken: string
+  }>({
+    name: editingTag.name,
+    tagToken: editingTag.tagToken
+  });
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const [name, setName] = useState<string>('');
-  const [tagToken, setTagToken] = useState<string>('');
   const [id, setId] = useState<string>('');
 
   useEffect(() => {
-    //setTags(tagList);
-    // setTag(editingTag);
-    // setId(editingTagId);
-    // setName(editingTag.name);
-    // setTagToken(editingTag.tagToken);
-
-    // setTag(editingTag);
-    setId('5f3e33b46038693c38fb89ce');
-    setName('Lecture');
-    setTagToken('Lec');
-
+    setId(editingTagId);
   }, []);
 
-
   const handleSubmit = async () => {
-
     console.log(id);
 
-
-    const finalObject = {
-      name,
-      tagToken
-    };
-
-    // const finalObjectWithID = {
-    //   tags: tag,
-    //   // eslint-disable-next-line no-underscore-dangle
-    //   id: id
-    // };
-
     const finalObjectWithID = {
-      tags: finalObject,
-      // eslint-disable-next-line no-underscore-dangle
+      tags: tag,
       id: id
     };
 
@@ -101,16 +59,12 @@ const TagsEdit: React.FC = () => {
           body: JSON.stringify(finalObjectWithID)
         }
       );
-
       const responseData = await response.json();
       setRenderRedirectTo(true);
-      //      dispatch(setEditTag(false))
-      //      dispatch(setEditingTagId(''))
-      //      dispatch(setEditingTag(null))
-
-
+      dispatch(setEditTag(false));
+      dispatch(setEditingTagId(''));
+      dispatch(setEditingTag(null));
       if (!responseData) {
-        // noinspection ExceptionCaughtLocallyJS
         throw new Error(responseData.message);
       }
     } catch (err) {
@@ -121,20 +75,16 @@ const TagsEdit: React.FC = () => {
   const renderRedirect = () => {
     if (renderRedirectTo) {
       return <Redirect to={routes.TAGS_LIST_VIEW}/>;
-      //   props.history.push(loginState.redirectTo);s
     }
     return null;
   };
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-    //setTag({...tag, name: e.target.value})
+    setTag({ ...tag, name: e.target.value });
   };
 
   const handleChangeTagToken = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-    setTagToken(e.target.value);
-    // setTag({...tag, tagToken: e.target.value})
+    setTag({ ...tag, tagToken: e.target.value });
   };
 
   return (
@@ -180,7 +130,7 @@ const TagsEdit: React.FC = () => {
                   <Form.Control
                     type="text"
                     style={{ borderWidth: '2.5px' }}
-                    value={name}
+                    value={tag.name}
                     onChange={handleChangeName}
                     placeholder="ex:- Lecture"
                   />
@@ -203,7 +153,7 @@ const TagsEdit: React.FC = () => {
                   <Form.Control
                     type="text"
                     style={{ borderWidth: '2.5px' }}
-                    value={tagToken}
+                    value={tag.tagToken}
                     onChange={handleChangeTagToken}
                     placeholder="ex:- Lec"
                   />
