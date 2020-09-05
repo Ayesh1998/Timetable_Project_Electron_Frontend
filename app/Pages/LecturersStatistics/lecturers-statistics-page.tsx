@@ -1,9 +1,9 @@
-import React from 'react'
-import { Col, Row } from 'react-bootstrap'
-import NavBar from '../../components/NavBar/NavBar'
-import LecturersLevelStatistics from './lecturers-level-statistics'
-import LecturersFacultyStatistics from './lecturers-faculty-statistics'
-import LecturersCenterStatistics from './lecturers-center-statistics'
+import React from 'react';
+import { Col, Row } from 'react-bootstrap';
+import NavBar from '../../components/NavBar/NavBar';
+import LecturersLevelStatistics from './lecturers-level-statistics';
+import LecturersFacultyStatistics from './lecturers-faculty-statistics';
+import LecturersCenterStatistics from './lecturers-center-statistics';
 
 const LecturersStatisticsPage: React.FC = () => {
   return (
@@ -46,7 +46,7 @@ const LecturersStatisticsPage: React.FC = () => {
         </Row>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LecturersStatisticsPage
+export default LecturersStatisticsPage;

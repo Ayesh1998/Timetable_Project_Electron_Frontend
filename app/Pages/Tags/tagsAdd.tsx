@@ -1,23 +1,17 @@
 /* eslint-disable */
-import React, {useEffect, useState} from 'react';
-import {Button, Col, Container, Form, Row} from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import {RadioButton, RadioGroup} from 'react-radio-buttons';
 //import CheckboxGroup from 'react-checkbox-group';
-import {Redirect} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import styles from './tags.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-import {
-  setTags,
-  setEditTag,
-  setEditingTag,
-  setEditingTagId
-} from './tagsSlice';
+import { setTags } from './tagsSlice';
 
 // noinspection DuplicatedCode
 const TagsAdd: React.FC = () => {
@@ -25,7 +19,7 @@ const TagsAdd: React.FC = () => {
   // const value = useSelector();
 
 
-  const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>( false );
+  const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
   const [error, setError] = useState<string | null>(null);
 
   const [name, setName] = useState<string>('');
@@ -122,7 +116,7 @@ const TagsAdd: React.FC = () => {
     return null;
   };
 
-  const handleChangeName = ( e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
 
@@ -135,7 +129,8 @@ const TagsAdd: React.FC = () => {
     <div
       style={{
         backgroundColor: '#37474F',
-        height: '100vh'
+        height: '100vh',
+        overflow: 'scroll'
       }}
     >
 
@@ -146,7 +141,7 @@ const TagsAdd: React.FC = () => {
           xs={12}
           md={12}
           className="p-3"
-          style={{backgroundColor: '#343a40', color: '#fff'}}
+          style={{ backgroundColor: '#343a40', color: '#fff' }}
         >
           <h3>Add Tag</h3>
         </Col>
@@ -161,61 +156,63 @@ const TagsAdd: React.FC = () => {
       >
 
 
-          <div>
-            <Row className="mt-3 mb-3 justify-content-md-center">
-              <Col xs={12} md={4} className="mt-auto">
-                <p>Real Name</p>
-              </Col>
-              <Col xs={3} md={3}>
-                <Form className="">
-                  <Form.Group controlId="formBasicEmail">
-
-                      <Form.Control
-                        type="text"
-                        style={{borderWidth: '2.5px'}}
-                        value={name}
-                        onChange={handleChangeName}
-                        placeholder="ex:- Lecture"
-                      />
-
-
-                  </Form.Group>
-                </Form>
-              </Col>
-              <Col xs={3} md={3}/>
-            </Row>
-            <Row className="mt-3 mb-3 justify-content-md-center">
-              <Col xs={12} md={4}>
-                <p>Tag Name</p>
-              </Col>
-              <Col xs={2} md={6}>
+        <div>
+          <Row className="mt-3 mb-3 justify-content-md-center">
+            <Col xs={12} md={4} className="mt-auto">
+              <p>Real Name</p>
+            </Col>
+            <Col xs={3} md={3}>
               <Form className="">
-                  <Form.Group controlId="formBasicEmail">
+                <Form.Group controlId="formBasicEmail">
+
+                  <Form.Control
+                    type="text"
+                    style={{ borderWidth: '2.5px' }}
+                    value={name}
+                    onChange={handleChangeName}
+                    placeholder="ex:- Lecture"
+                  />
 
 
-                   <Form.Control
-                        type="text"
-                        style={{borderWidth: '2.5px'}}
-                        value={tagToken}
-                        onChange={handleChangeTagToken}
-                        placeholder="ex:- Lec"
-                      />
-                  </Form.Group>
-                </Form>
-              </Col>
-            </Row>
-            <Row className="mb-2 justify-content-md-center">
-              <Col xs={0} md={9}/>
-              <Col xs={12} md={2}>
-                <Button
-                  style={{width: '160px', fontSize: '1.3em'}}
-                  onClick={handleSubmit}
-                >
-                  Add Tag
-                </Button>
-              </Col>
-            </Row>
-          </div>
+                </Form.Group>
+              </Form>
+            </Col>
+            <Col xs={3} md={3}/>
+          </Row>
+          <Row className="mt-3 mb-3 justify-content-md-center">
+            <Col xs={12} md={4}>
+              <p>Tag Name</p>
+            </Col>
+            <Col xs={3} md={3}>
+              <Form className="">
+                <Form.Group controlId="formBasicEmail">
+
+
+                  <Form.Control
+                    type="text"
+                    style={{ borderWidth: '2.5px' }}
+                    value={tagToken}
+                    onChange={handleChangeTagToken}
+                    placeholder="ex:- Lec"
+                  />
+                </Form.Group>
+              </Form>
+            </Col>
+            <Col xs={3} md={3}></Col>
+          </Row>
+          <Row className="mt-3 mb-3 justify-content-md-center">
+            <Col xs={12} md={3}/>
+            <Col xs={3} md={7}>
+              <Button
+                style={{ width: '160px', fontSize: '1.3em' }}
+                onClick={handleSubmit}
+              >
+                Add Tag
+              </Button>
+            </Col>
+            <Col xs={12} md={2}/>
+          </Row>
+        </div>
 
       </Container>
     </div>

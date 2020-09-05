@@ -5,28 +5,28 @@
  * https://webpack.js.org/concepts/hot-module-replacement/
  */
 
-import path from 'path'
-import fs from 'fs'
-import webpack from 'webpack'
-import chalk from 'chalk'
-import {merge} from 'webpack-merge'
-import {execSync, spawn} from 'child_process'
-import baseConfig from './webpack.config.base'
-import CheckNodeEnv from '../internals/scripts/CheckNodeEnv'
+import path from 'path';
+import fs from 'fs';
+import webpack from 'webpack';
+import chalk from 'chalk';
+import { merge } from 'webpack-merge';
+import { execSync, spawn } from 'child_process';
+import baseConfig from './webpack.config.base';
+import CheckNodeEnv from '../internals/scripts/CheckNodeEnv';
 
 // When an ESLint server is running, we can't set the NODE_ENV so we'll check if it's
 // at the dev webpack config is not accidentally run in a production environment
 if (process.env.NODE_ENV === 'production') {
-  CheckNodeEnv('development')
+  CheckNodeEnv('development');
 }
 
-const port = process.env.PORT || 1212
-const publicPath = `http://localhost:${port}/dist`
-const dll = path.join(__dirname, '..', 'dll')
-const manifest = path.resolve(dll, 'renderer.json')
+const port = process.env.PORT || 1212;
+const publicPath = `http://localhost:${port}/dist`;
+const dll = path.join(__dirname, '..', 'dll');
+const manifest = path.resolve(dll, 'renderer.json');
 const requiredByDLLConfig = module.parent.filename.includes(
   'webpack.config.renderer.dev.dll'
-)
+);
 
 /**
  * Warn if the DLL is not built
@@ -36,8 +36,8 @@ if (!requiredByDLLConfig && !(fs.existsSync(dll) && fs.existsSync(manifest))) {
     chalk.black.bgYellow.bold(
       'The DLL files are missing. Sit back while we build them for you with "yarn build-dll"'
     )
-  )
-  execSync('yarn build-dll')
+  );
+  execSync('yarn build-dll');
 }
 
 // noinspection JSDeprecatedSymbols,JSCheckFunctionSignatures,JSCheckFunctionSignatures
@@ -247,7 +247,7 @@ export default merge(baseConfig, {
     inline: true,
     lazy: false,
     hot: true,
-    headers: {'Access-Control-Allow-Origin': '*'},
+    headers: { 'Access-Control-Allow-Origin': '*' },
     contentBase: path.join(__dirname, 'dist'),
     watchOptions: {
       aggregateTimeout: 300,
@@ -260,7 +260,7 @@ export default merge(baseConfig, {
     },
     before() {
       if (process.env.START_HOT) {
-        console.log('Starting Main Process...')
+        console.log('Starting Main Process...');
         // noinspection JSCheckFunctionSignatures
         spawn('npm', ['run', 'start-main-dev'], {
           shell: true,
@@ -268,8 +268,8 @@ export default merge(baseConfig, {
           stdio: 'inherit'
         })
           .on('close', (code) => process.exit(code))
-          .on('error', (spawnError) => console.error(spawnError))
+          .on('error', (spawnError) => console.error(spawnError));
       }
     }
   }
-})
+});

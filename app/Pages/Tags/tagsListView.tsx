@@ -1,19 +1,12 @@
 /* eslint-disable */
-import React, {useEffect, useState} from 'react';
-import {Button, Col, Container, Row, Table} from 'react-bootstrap';
-import {NavLink} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Container, Row, Table } from 'react-bootstrap';
+import { NavLink, Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
 import styles from './tags.css';
 import routes from '../../constants/routes.json';
-import {
-  setTags,
-  setEditTag,
-  setEditingTag,
-  setEditingTagId
-} from './tagsSlice';
-import { Link , Redirect } from 'react-router-dom';
-
+import { setEditingTag, setEditingTagId, setEditTag, setTags } from './tagsSlice';
 
 
 const Tag = (props) => (
@@ -21,34 +14,36 @@ const Tag = (props) => (
     <td>{props.tag.name}</td>
     <td>{props.tag.tagToken}</td>
     <td>
-    <Button onClick={() => { props.handleEdit(props.tag._id) }} style={{width: '160px', fontSize: '1.3em'}}>
+      <Button onClick={() => {
+        props.handleEdit(props.tag._id);
+      }} style={{ width: '160px', fontSize: '1.3em' }}>
 
-                 edit
+        edit
 
 
-              </Button>
-         <Button
-                className="ml-4"
-                onClick={() => { props.handleDelete(props.tag._id) }}
-                variant="outline-danger"
-                style={{
-                  width: '160px',
-                  fontSize: '1.3em',
-                  borderWidth: '2px'
-                }}
-              >
-                <NavLink
-                  to={routes.TAGS_LIST_VIEW}
-                  style={{color: '#fff'}}
-                >
-                 delete
-                </NavLink>
-              </Button>
+      </Button>
+      <Button
+        className="ml-4"
+        onClick={() => {
+          props.handleDelete(props.tag._id);
+        }}
+        variant="outline-danger"
+        style={{
+          width: '160px',
+          fontSize: '1.3em',
+          borderWidth: '2px'
+        }}
+      >
+        <NavLink
+          to={routes.TAGS_LIST_VIEW}
+          style={{ color: '#fff' }}
+        >
+          delete
+        </NavLink>
+      </Button>
     </td>
   </tr>
-)
-
-
+);
 
 
 // noinspection DuplicatedCode
@@ -60,18 +55,18 @@ const TagsListView: React.FC = () => {
       tags: any
       editingTagId: string
     }) => state.tags.editingTagId
-  )
+  );
 
   const editingTag = useSelector(
     (state: {
       tags: any
       editingTagId: any
     }) => state.tags.editingTag
-  )
+  );
 
   const [tagsObject, setTagsObject] = useState<any>([]);
 
- const [renderEdit, setRenderEdit] = useState<boolean | null>( false );
+  const [renderEdit, setRenderEdit] = useState<boolean | null>(false);
 
   useEffect(() => {
     // noinspection JSIgnoredPromiseFromCall
@@ -80,7 +75,7 @@ const TagsListView: React.FC = () => {
 
   });
 
-  console.log("me edit ekata kalin 22222222-------------------------");
+  console.log('me edit ekata kalin 22222222-------------------------');
   console.log(editingTag);
   console.log(editingTagId);
 
@@ -122,7 +117,7 @@ const TagsListView: React.FC = () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({id})
+          body: JSON.stringify({ id })
         }
       );
 
@@ -151,8 +146,6 @@ const TagsListView: React.FC = () => {
     // })
 
 
-
-
   };
 
 
@@ -166,25 +159,25 @@ const TagsListView: React.FC = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
-          },
+          }
 
         }
       );
 
-      const responseData = await response.json()
+      const responseData = await response.json();
       setRenderEdit(true);
-      console.log("me edit eken passe data-------------------------");
+      console.log('me edit eken passe data-------------------------');
       console.log(responseData);
 
 
-       dispatch(setEditingTagId(id))
-       dispatch(setEditingTag(responseData))
-       dispatch(setEditTag(true))
+      dispatch(setEditingTagId(id));
+      dispatch(setEditingTag(responseData));
+      dispatch(setEditTag(true));
 
     } catch (errors) {
-      const errors_ = errors
+      const errors_ = errors;
 
-      console.log(errors)
+      console.log(errors);
     }
 
   };
@@ -197,14 +190,14 @@ const TagsListView: React.FC = () => {
     return null;
   };
 
-  const tagList = ()  => {
+  const tagList = () => {
     return tagsObject.map(tag => {
       return <Tag tag={tag} handleDelete={handleDelete} handleEdit={handleEdit} key={tag._id}/>;
-    })
-  }
+    });
+  };
 
   return (
-    <div style={{backgroundColor: '#37474F', height: '100vh'}}>
+    <div style={{ backgroundColor: '#37474F', height: '100vh' }}>
       {renderEditTo()}
 
       <NavBar/>
@@ -213,7 +206,7 @@ const TagsListView: React.FC = () => {
           xs={12}
           md={12}
           className="p-3"
-          style={{backgroundColor: '#343a40', color: '#fff'}}
+          style={{ backgroundColor: '#343a40', color: '#fff' }}
         >
           <h3>Tag Details</h3>
         </Col>
@@ -227,6 +220,18 @@ const TagsListView: React.FC = () => {
             color: 'white'
           }}
         >
+          <Row className="mt-3 mb-4 justify-content-md-left">
+            <Col xs={12} md={12} className="mt-auto">
+              <Button style={{ width: '160px', fontSize: '1.2em' }}>
+                <NavLink
+                  to={routes.TAGS_ADD}
+                  style={{ color: '#fff' }}
+                >
+                  Add New Tag
+                </NavLink>
+              </Button>
+            </Col>
+          </Row>
           <Row className="mt-3 mb-4 justify-content-md-center">
             <Col xs={12} md={12} className="mt-auto">
               <Table
@@ -237,18 +242,17 @@ const TagsListView: React.FC = () => {
                 className={`${styles.tagsViewTable}`}
               >
                 <thead className="thead-light">
-            <tr>
-              <th>Real Name</th>
-              <th>Tag Name</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            { tagList() }
-          </tbody>
+                <tr>
+                  <th>Real Name</th>
+                  <th>Tag Name</th>
+                  <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {tagList()}
+                </tbody>
 
               </Table>
-
 
 
             </Col>

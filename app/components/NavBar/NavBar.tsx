@@ -1,7 +1,7 @@
-import React from 'react'
-import { Nav, Navbar, NavDropdown } from 'react-bootstrap'
-import { NavLink } from 'react-router-dom'
-import routes from '../../constants/routes.json'
+import React from 'react';
+import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
+import routes from '../../constants/routes.json';
 
 const NavBar: React.FC = () => {
   return (
@@ -27,16 +27,63 @@ const NavBar: React.FC = () => {
               Working Days and Hours
             </Nav.Link>
           </NavLink>
-          <NavLink to={routes.GROUPS_ADD}>
+          <NavDropdown title='Batches Basic Info'
+                       id='collasible-nav-dropdown'>
+            <NavDropdown.Item href='#batches/yearsems'>
+              <NavLink to={routes.YEARSEMS_LIST_VIEW}>
+                <Nav.Link href='#yearsems'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Academic Year & Semesters
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+            <NavDropdown.Divider/>
+            <NavDropdown.Item href='#batches/programmes'>
+              <NavLink to={routes.PROGRAMS_LIST_VIEW}>
+                <Nav.Link href='#programmes'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Programmes
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+            <NavDropdown.Divider/>
+            <NavDropdown.Item href='#batches/groups'>
+              <NavLink to={routes.GROUPNUMS_LIST_VIEW}>
+                <Nav.Link href='#groups'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Groups
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+            <NavDropdown.Divider/>
+            <NavDropdown.Item href='#batches/subgroups'>
+              <NavLink to={routes.SUBGROUPNUMS_LIST_VIEW}>
+                <Nav.Link href='#subgroups'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Sub Groups
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+          </NavDropdown>
+          <NavLink to={routes.GROUPS_LIST_VIEW}>
             <Nav.Link href='#groups'>
-              Groups
+              Student Batches
             </Nav.Link>
           </NavLink>
-          <NavLink to={routes.TAGS_ADD}>
+          <NavLink to={routes.TAGS_LIST_VIEW}>
             <Nav.Link href='#tags'>
               Tags
             </Nav.Link>
           </NavLink>
+
           <NavDropdown title='Locations'
                        id='collasible-nav-dropdown'>
             <NavDropdown.Item href='#locations/buildings'>
@@ -96,25 +143,25 @@ const NavBar: React.FC = () => {
               </NavLink>
             </NavDropdown.Item>
           </NavDropdown>
-          {/*<NavLink to={routes.ROOMS_UNAVAILABILITY}>*/}
-          {/*  <Nav.Link href='#rooms-unavailability'>*/}
-          {/*    Rooms Unavailability*/}
-          {/*  </Nav.Link>*/}
-          {/*</NavLink>*/}
-          {/*<NavLink to={routes.ADD_ROOMS}>*/}
-          {/*  <Nav.Link href='#add-rooms'>*/}
-          {/*    Add Rooms*/}
-          {/*  </Nav.Link>*/}
-          {/*</NavLink>*/}
-          {/*<NavLink to={routes.ASSIGN_ROOMS_FOR_SESSIONS}>*/}
-          {/*  <Nav.Link href='#assign-rooms-for-sessions'>*/}
-          {/*    Assign Rooms for Sessions*/}
-          {/*  </Nav.Link>*/}
-          {/*</NavLink>*/}
+          <NavLink to={routes.ROOMS_UNAVAILABILITY}>
+            <Nav.Link href='#rooms-unavailability'>
+              Rooms Unavailability
+            </Nav.Link>
+          </NavLink>
+          <NavLink to={routes.ADD_ROOMS}>
+            <Nav.Link href='#add-rooms'>
+              Add Rooms
+            </Nav.Link>
+          </NavLink>
+          <NavLink to={routes.ASSIGN_ROOMS_FOR_SESSIONS}>
+            <Nav.Link href='#assign-rooms-for-sessions'>
+              Assign Rooms for Sessions
+            </Nav.Link>
+          </NavLink>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
-  )
-}
+  );
+};
 
-export default NavBar
+export default NavBar;

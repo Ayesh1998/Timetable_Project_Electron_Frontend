@@ -1,22 +1,21 @@
 /* eslint-disable */
-import React, {useEffect, useState} from 'react';
-import {Button, Col, Container, Form, Row} from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import {RadioButton, RadioGroup} from 'react-radio-buttons';
 //import CheckboxGroup from 'react-checkbox-group';
-import {Redirect} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import styles from './groups.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-import {setGroups} from './groupsSlice';
+import { setGroups } from './groupsSlice';
 
 const yearSemList = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2'];
-const programList = ['SE', 'CS', 'DS' ,'IT'];
-const groupNumList = [1, 2,3,4,5,6,7,8,9,10];
+const programList = ['SE', 'CS', 'DS', 'IT'];
+const groupNumList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const subGroupNumList = [1, 2];
 
 // noinspection DuplicatedCode
@@ -25,8 +24,8 @@ const GroupsAdd: React.FC = () => {
   // const value = useSelector();
 
 
-  const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>( false );
-  const [renderRedirectTo1, setRenderRedirectTo1] = useState<boolean | null>( false );
+  const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
+  const [renderRedirectTo1, setRenderRedirectTo1] = useState<boolean | null>(false);
   const [error, setError] = useState<string | null>(null);
 
   const [academicYear, setAcademicYear] = useState<number | null>(null);
@@ -35,10 +34,10 @@ const GroupsAdd: React.FC = () => {
   const [programme, setProgramme] = useState<string>('');
   const [group, setGroup] = useState<number | null>(null);
   const [groupId, setGroupId] = useState<string>('');
-  const [availableSubGroup, setAvailableSubGroup] = useState<boolean | null>( false );
+  const [availableSubGroup, setAvailableSubGroup] = useState<boolean | null>(false);
   const [subGroups, setSubGroups] = useState<any>([]);
 
-  const [subGrouup, setSubGrouup] = useState<{subGroup: Number , subGroupId : string}>({});
+  const [subGrouup, setSubGrouup] = useState<{ subGroup: Number, subGroupId: string }>({});
 
   const [groupsObject, setGroupsObject] = useState<any>(null);
 
@@ -87,16 +86,16 @@ const GroupsAdd: React.FC = () => {
     const pro = String(programme);
     const groupforId = group.toString();
 
-    const id = 'Y' + year +'.S'+sem+'.'+pro+'.'+groupforId;
+    const id = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId;
 
     setGroupId(id);
 
 
-  }
+  };
 
   const handleSubmit = async () => {
 
-    if(subGrouup){
+    if (subGrouup) {
       var statusSubGroup = true;
     }
 
@@ -107,8 +106,8 @@ const GroupsAdd: React.FC = () => {
       programme,
       group,
       groupId,
-      subGroups : subGrouup,
-      availableSubGroup : statusSubGroup
+      subGroups: subGrouup,
+      availableSubGroup: statusSubGroup
     };
 
     console.log('22222222222222222222222222222222222');
@@ -139,7 +138,6 @@ const GroupsAdd: React.FC = () => {
     }
 
 
-
     const finalObjectSubGroup = {
       academicYear,
       academicSemester,
@@ -148,7 +146,7 @@ const GroupsAdd: React.FC = () => {
       group,
       groupId,
       subGroup: subGrouup.subGroup,
-      subGroupId : subGrouup.subGroupId
+      subGroupId: subGrouup.subGroupId
     };
 
     try {
@@ -185,39 +183,32 @@ const GroupsAdd: React.FC = () => {
     return null;
   };
 
-  const handleChangeAcademicYearAndSemester = ( e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeAcademicYearAndSemester = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setAcademicYearAndSemester(e.target.value);
 
-    if(val === 'Y1S1'){
-       setAcademicYear(1);
-       setAcademicSemester(1);
-    }
-    else if(val === 'Y1S2' ){
+    if (val === 'Y1S1') {
+      setAcademicYear(1);
+      setAcademicSemester(1);
+    } else if (val === 'Y1S2') {
       setAcademicYear(1);
       setAcademicSemester(2);
-    }
-    else if(val === 'Y2S1' ){
+    } else if (val === 'Y2S1') {
       setAcademicYear(2);
       setAcademicSemester(1);
-    }
-    else if(val === 'Y2S2' ){
+    } else if (val === 'Y2S2') {
       setAcademicYear(2);
       setAcademicSemester(2);
-    }
-    else if(val === 'Y3S1' ){
+    } else if (val === 'Y3S1') {
       setAcademicYear(3);
       setAcademicSemester(1);
-    }
-    else if(val === 'Y3S2' ){
+    } else if (val === 'Y3S2') {
       setAcademicYear(3);
       setAcademicSemester(2);
-    }
-    else if(val === 'Y4S1' ){
+    } else if (val === 'Y4S1') {
       setAcademicYear(4);
       setAcademicSemester(1);
-    }
-    else{
+    } else {
       setAcademicYear(4);
       setAcademicSemester(2);
     }
@@ -237,15 +228,14 @@ const GroupsAdd: React.FC = () => {
     var sem = String(academicSemester);
     var pro = String(programme);
     var groupforId = group.toString();
-    if(val === 1){
-       var id = 'Y' + year +'.S'+sem+'.'+pro+'.'+groupforId+'.01';
-    }
-    else{
-      var id = 'Y' + year +'.S'+sem+'.'+pro+'.'+groupforId+'.02';
+    if (val === 1) {
+      var id = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId + '.01';
+    } else {
+      var id = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId + '.02';
     }
 
 
-    setSubGrouup({ subGroup:val ,subGroupId: id});
+    setSubGrouup({ subGroup: val, subGroupId: id });
     setOther();
   };
 
@@ -253,7 +243,8 @@ const GroupsAdd: React.FC = () => {
     <div
       style={{
         backgroundColor: '#37474F',
-        height: '100vh'
+        height: '100vh',
+        overflow: 'scroll'
       }}
     >
 
@@ -264,7 +255,7 @@ const GroupsAdd: React.FC = () => {
           xs={12}
           md={12}
           className="p-3"
-          style={{backgroundColor: '#343a40', color: '#fff'}}
+          style={{ backgroundColor: '#343a40', color: '#fff' }}
         >
           <h3>Add Student Group</h3>
         </Col>
@@ -279,113 +270,114 @@ const GroupsAdd: React.FC = () => {
       >
 
 
-          <div>
-            <Row className="mt-3 mb-3 justify-content-md-center">
-              <Col xs={12} md={4} className="mt-auto">
-                <p>Academic Year and Semester</p>
-              </Col>
-              <Col xs={3} md={3}>
-                <Form className="">
-                  <Form.Group controlId="formBasicEmail">
-
-                      <Form.Control
-                        as="select"
-                        defaultValue="Choose..."
-                        style={{borderWidth: '2.5px'}}
-                        value={academicYearAndSemester}
-                        onChange={handleChangeAcademicYearAndSemester}
-                      >
-                        <option>Select</option>
-                        {yearSemList?.map((yearSem, index) => (
-                          <option>{yearSem}</option>
-                        ))}
-                      </Form.Control>
-
-                  </Form.Group>
-                </Form>
-              </Col>
-              <Col xs={3} md={3}/>
-            </Row>
-            <Row className="mt-3 mb-3 justify-content-md-center">
-              <Col xs={12} md={4}>
-                <p>Programme</p>
-              </Col>
-              <Col xs={2} md={6}>
+        <div>
+          <Row className="mt-3 mb-3 justify-content-md-center">
+            <Col xs={12} md={4} className="mt-auto">
+              <p>Academic Year and Semester</p>
+            </Col>
+            <Col xs={3} md={3}>
               <Form className="">
-                  <Form.Group controlId="formBasicEmail">
+                <Form.Group controlId="formBasicEmail">
 
-                      <Form.Control
-                        as="select"
-                        defaultValue="Choose..."
-                        style={{borderWidth: '2.5px'}}
-                        value={programme}
-                        onChange={handleChangeProgramme}
-                      >
-                        <option>Select</option>
-                        {programList?.map((program, index) => (
-                          <option>{program}</option>
-                        ))}
-                      </Form.Control>
+                  <Form.Control
+                    as="select"
+                    defaultValue="Choose..."
+                    style={{ borderWidth: '2.5px' }}
+                    value={academicYearAndSemester}
+                    onChange={handleChangeAcademicYearAndSemester}
+                  >
+                    <option>Select</option>
+                    {yearSemList?.map((yearSem, index) => (
+                      <option>{yearSem}</option>
+                    ))}
+                  </Form.Control>
 
-                  </Form.Group>
-                </Form>
-              </Col>
-            </Row>
-            <Row className="mt-3 mb-3 justify-content-md-center">
-              <Col xs={12} md={4}>
-                <p>Group Number</p>
-              </Col>
-              <Col xs={12} md={5}>
-
-                  </Col>
-                  <Col xs={12} md={5}>
-                  <Form className="">
-                  <Form.Group controlId="formBasicEmail">
-
-                      <Form.Control
-                        as="select"
-                        defaultValue="Choose..."
-                        style={{borderWidth: '2.5px'}}
-                        value={group}
-                        onChange={handleChangeGroup}
-                      >
-                        <option>Select</option>
-                        {groupNumList?.map((group, index) => (
-                          <option>{group}</option>
-                        ))}
-                      </Form.Control>
-
-                  </Form.Group>
-                </Form>
-              </Col>
-              <Col xs={3} md={1}/>
-            </Row>
-            <Row className="mt-3 mb-3 justify-content-md-center">
-              <Col xs={12} md={4}>
-                <p>Sub Group Number</p>
-              </Col>
-              <Col xs={3} md={6}>
+                </Form.Group>
+              </Form>
+            </Col>
+            <Col xs={3} md={3}/>
+          </Row>
+          <Row className="mt-3 mb-3 justify-content-md-center">
+            <Col xs={12} md={4}>
+              <p>Programme</p>
+            </Col>
+            <Col xs={3} md={3}>
               <Form className="">
-                  <Form.Group controlId="formBasicEmail">
+                <Form.Group controlId="formBasicEmail">
 
-                      <Form.Control
-                        as="select"
-                        defaultValue="Choose..."
-                        style={{borderWidth: '2.5px'}}
-                        value={subGrouup.subGroup}
-                        onChange={handleChangeSubGroups}
-                      >
-                        <option>Select</option>
-                        {subGroupNumList?.map((sub, index) => (
-                          <option>{sub}</option>
-                        ))}
-                      </Form.Control>
+                  <Form.Control
+                    as="select"
+                    defaultValue="Choose..."
+                    style={{ borderWidth: '2.5px' }}
+                    value={programme}
+                    onChange={handleChangeProgramme}
+                  >
+                    <option>Select</option>
+                    {programList?.map((program, index) => (
+                      <option>{program}</option>
+                    ))}
+                  </Form.Control>
 
-                  </Form.Group>
-                </Form>
-              </Col>
-            </Row>
-            {/* {error && (
+                </Form.Group>
+              </Form>
+            </Col>
+            <Col xs={3} md={3}></Col>
+          </Row>
+          <Row className="mt-3 mb-3 justify-content-md-center">
+            <Col xs={12} md={4}>
+              <p>Group Number</p>
+            </Col>
+            <Col xs={3} md={3}>
+
+
+              <Form className="">
+                <Form.Group controlId="formBasicEmail">
+
+                  <Form.Control
+                    as="select"
+                    defaultValue="Choose..."
+                    style={{ borderWidth: '2.5px' }}
+                    value={group}
+                    onChange={handleChangeGroup}
+                  >
+                    <option>Select</option>
+                    {groupNumList?.map((group, index) => (
+                      <option>{group}</option>
+                    ))}
+                  </Form.Control>
+
+                </Form.Group>
+              </Form>
+            </Col>
+            <Col xs={3} md={3}/>
+          </Row>
+          <Row className="mt-3 mb-3 justify-content-md-center">
+            <Col xs={12} md={4}>
+              <p>Sub Group Number</p>
+            </Col>
+            <Col xs={3} md={3}>
+              <Form className="">
+                <Form.Group controlId="formBasicEmail">
+
+                  <Form.Control
+                    as="select"
+                    defaultValue="Choose..."
+                    style={{ borderWidth: '2.5px' }}
+                    value={subGrouup.subGroup}
+                    onChange={handleChangeSubGroups}
+                  >
+                    <option>Select</option>
+                    {subGroupNumList?.map((sub, index) => (
+                      <option>{sub}</option>
+                    ))}
+                  </Form.Control>
+
+                </Form.Group>
+              </Form>
+            </Col>
+            <Col xs={3} md={3}></Col>
+          </Row>
+          {/* {error && (
               <Row className=" justify-content-md-center">
                 <Col xs={12} md={10}>
                   <p className={`text-danger ${styles.workingDaysHoursError}`}>
@@ -394,18 +386,19 @@ const GroupsAdd: React.FC = () => {
                 </Col>
               </Row>
             )} */}
-            <Row className="mb-2 justify-content-md-center">
-              <Col xs={0} md={9}/>
-              <Col xs={12} md={2}>
-                <Button
-                  style={{width: '160px', fontSize: '1.3em'}}
-                  onClick={handleSubmit}
-                >
-                  Generate a Group
-                </Button>
-              </Col>
-            </Row>
-          </div>
+          <Row className="mt-2 mb-2 justify-content-md-center">
+            <Col xs={12} md={2}/>
+            <Col xs={3} md={8}>
+              <Button
+                style={{ width: '180px', fontSize: '1.3em' }}
+                onClick={handleSubmit}
+              >
+                Generate a Group
+              </Button>
+            </Col>
+            <Col xs={12} md={2}/>
+          </Row>
+        </div>
 
       </Container>
     </div>

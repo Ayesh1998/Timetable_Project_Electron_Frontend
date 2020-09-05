@@ -2,9 +2,9 @@
  * Base webpack config used across other specific configs
  */
 
-import path from 'path'
-import webpack from 'webpack'
-import {dependencies as externals} from '../app/package.json'
+import path from 'path';
+import webpack from 'webpack';
+import { dependencies as externals } from '../app/package.json';
 
 // noinspection JSDeprecatedSymbols
 export default {
@@ -46,4 +46,4 @@ export default {
 
     new webpack.NamedModulesPlugin()
   ]
-}
+};

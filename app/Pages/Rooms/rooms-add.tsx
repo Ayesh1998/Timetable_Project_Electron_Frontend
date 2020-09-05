@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Button, Form, Spinner } from 'react-bootstrap'
-import { FaPlusCircle } from 'react-icons/fa'
-import { proxy } from '../../conf'
-import { setBuildings, setExistingRoom, setRooms } from './rooms-slice'
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button, Form, Spinner } from 'react-bootstrap';
+import { FaPlusCircle } from 'react-icons/fa';
+import { proxy } from '../../conf';
+import { setBuildings, setExistingRoom, setRooms } from './rooms-slice';
 
-let errors_: string = ''
+let errors_: string = '';
 
 const RoomsAdd: React.FC = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   let roomList = useSelector(
     (state: {
       rooms: any
     }) => state.rooms.rooms
-  )
+  );
 
   const existingRoom = useSelector(
     (state: {
       rooms: any
       existingRoom: boolean
     }) => state.rooms.existingRoom
-  )
+  );
 
-  const [loading, setLoading] = useState<boolean>(false)
-  const [buildings, setBuildingsList] = useState<any>([])
+  const [loading, setLoading] = useState<boolean>(false);
+  const [buildings, setBuildingsList] = useState<any>([]);
   const [room, setRoom] = useState<{
     roomName: string,
     buildingName: string,
@@ -35,36 +35,36 @@ const RoomsAdd: React.FC = () => {
     buildingName: '',
     roomType: '',
     roomCapacity: ''
-  })
+  });
 
   const getBuildings = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await fetch(`${proxy}/buildings/buildings`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
-      })
-      const responseData = await response.json()
-      setBuildingsList(responseData)
-      await dispatch(setBuildings(responseData))
-      setLoading(false)
+      });
+      const responseData = await response.json();
+      setBuildingsList(responseData);
+      await dispatch(setBuildings(responseData));
+      setLoading(false);
     } catch (errors) {
-      errors_ = errors
-      setLoading(false)
-      console.log(errors)
+      errors_ = errors;
+      setLoading(false);
+      console.log(errors);
     }
-  }
+  };
 
   useEffect(() => {
     getBuildings().then(() => {
-    })
-  }, [])
+    });
+  }, []);
 
   const handleSubmit = async (e: any) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
     try {
       const response = await fetch(`${proxy}/rooms/rooms`, {
         method: 'POST',
@@ -72,56 +72,56 @@ const RoomsAdd: React.FC = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(room)
-      })
-      const responseData = await response.json()
-      roomList = { ...roomList, responseData }
-      await dispatch(setRooms(roomList))
-      await dispatch(setExistingRoom(false))
+      });
+      const responseData = await response.json();
+      roomList = { ...roomList, responseData };
+      await dispatch(setRooms(roomList));
+      await dispatch(setExistingRoom(false));
       if (responseData.exists) {
-        errors_ = responseData.message
-        await dispatch(setExistingRoom(true))
+        errors_ = responseData.message;
+        await dispatch(setExistingRoom(true));
       }
-      await resetValues()
-      setLoading(false)
+      await resetValues();
+      setLoading(false);
     } catch (errors) {
-      errors_ = errors
-      setLoading(false)
-      console.log(errors)
+      errors_ = errors;
+      setLoading(false);
+      console.log(errors);
     }
-  }
+  };
 
   const handleChangeRoomName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLoading(true)
-    setRoom({ ...room, roomName: e.target.value })
-    setLoading(false)
-  }
+    setLoading(true);
+    setRoom({ ...room, roomName: e.target.value });
+    setLoading(false);
+  };
 
   const handleChangeBuildingName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLoading(true)
-    setRoom({ ...room, buildingName: e.target.value })
-    setLoading(false)
-  }
+    setLoading(true);
+    setRoom({ ...room, buildingName: e.target.value });
+    setLoading(false);
+  };
 
   const handleChangeRoomType = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLoading(true)
-    setRoom({ ...room, roomType: e.target.value })
-    setLoading(false)
-  }
+    setLoading(true);
+    setRoom({ ...room, roomType: e.target.value });
+    setLoading(false);
+  };
 
   const handleChangeRoomCapacity = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLoading(true)
-    setRoom({ ...room, roomCapacity: parseInt(e.target.value) })
-    setLoading(false)
-  }
+    setLoading(true);
+    setRoom({ ...room, roomCapacity: parseInt(e.target.value) });
+    setLoading(false);
+  };
 
   const resetValues = async () => {
-    setLoading(true)
-    room.roomName = ''
-    room.buildingName = ''
-    room.roomType = ''
-    room.roomCapacity = ''
-    setLoading(false)
-  }
+    setLoading(true);
+    room.roomName = '';
+    room.buildingName = '';
+    room.roomType = '';
+    room.roomCapacity = '';
+    setLoading(false);
+  };
 
   return (
     <div style={{
@@ -163,7 +163,7 @@ const RoomsAdd: React.FC = () => {
                             value={building.buildingName}>
                       {building.buildingName}
                     </option>
-                  )
+                  );
                 })
               }
             </Form.Control>
@@ -238,7 +238,7 @@ const RoomsAdd: React.FC = () => {
         }
       </Form>
     </div>
-  )
-}
+  );
+};
 
-export default RoomsAdd
+export default RoomsAdd;

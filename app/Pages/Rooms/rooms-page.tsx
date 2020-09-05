@@ -1,25 +1,25 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { Col, Row } from 'react-bootstrap'
-import NavBar from '../../components/NavBar/NavBar'
-import RoomsList from './rooms-list'
-import RoomsEdit from './rooms-edit'
-import RoomsAdd from './rooms-add'
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Col, Row } from 'react-bootstrap';
+import NavBar from '../../components/NavBar/NavBar';
+import RoomsList from './rooms-list';
+import RoomsEdit from './rooms-edit';
+import RoomsAdd from './rooms-add';
 
 const RoomsPage: React.FC = () => {
-  let route: any
+  let route: any;
 
   const editRoom = useSelector(
     (state: {
       rooms: any
       editRoom: boolean
     }) => state.rooms.editRoom
-  )
+  );
 
   if (editRoom)
-    route = (<RoomsEdit/>)
+    route = (<RoomsEdit/>);
   else
-    route = (<RoomsAdd/>)
+    route = (<RoomsAdd/>);
 
   return (
     <div style={{
@@ -55,7 +55,7 @@ const RoomsPage: React.FC = () => {
         </Row>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default RoomsPage
+export default RoomsPage;

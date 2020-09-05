@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Spinner, Table } from 'react-bootstrap';
-import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, Tooltip, XAxis, YAxis } from 'recharts'
-import { proxy } from '../../conf'
-import { setSubjectsOfferedYearStatistics } from './subjects-statistics-slice'
+import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { proxy } from '../../conf';
+import { setSubjectsOfferedYearStatistics } from './subjects-statistics-slice';
 
-let errors_: string = ''
-let data: any = []
+let errors_: string = '';
+let data: any = [];
 const COLORS = [
   '#0088FE',
   '#00C49F',
@@ -16,27 +16,27 @@ const COLORS = [
   '#8884D8',
   '#8DD1E1',
   '#50fa00'
-]
+];
 
 const SubjectsOfferedYearStatistics: React.FC = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const [loading, setLoading] = useState<boolean>(false)
-  const [subjectsOfferedYearStatisticsArray, setSubjectsOfferedYearStatisticsArray] = useState<any>([])
+  const [loading, setLoading] = useState<boolean>(false);
+  const [subjectsOfferedYearStatisticsArray, setSubjectsOfferedYearStatisticsArray] = useState<any>([]);
 
   const getSubjectsOfferedYearStatistics = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await fetch(`${proxy}/subjectsStatistics/subjectsCountByOfferedYear`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
-      })
-      const responseData = await response.json()
-      setSubjectsOfferedYearStatisticsArray(responseData)
-      await dispatch(setSubjectsOfferedYearStatistics(responseData))
-      data = []
+      });
+      const responseData = await response.json();
+      setSubjectsOfferedYearStatisticsArray(responseData);
+      await dispatch(setSubjectsOfferedYearStatistics(responseData));
+      data = [];
       for (let i = 0; i < responseData.length; i++) {
         data = [...data,
           {
@@ -44,20 +44,20 @@ const SubjectsOfferedYearStatistics: React.FC = () => {
             value: responseData[i].subjectsCount,
             count: responseData[i].subjectsCount
           }
-        ]
+        ];
       }
-      setLoading(false)
+      setLoading(false);
     } catch (errors) {
-      errors_ = errors
-      setLoading(false)
-      console.log(errors)
+      errors_ = errors;
+      setLoading(false);
+      console.log(errors);
     }
-  }
+  };
 
   useEffect(() => {
     getSubjectsOfferedYearStatistics().then(() => {
-    })
-  }, [])
+    });
+  }, []);
 
   return (
     <div>
@@ -125,7 +125,7 @@ const SubjectsOfferedYearStatistics: React.FC = () => {
                     {subjectsOfferedYearStatisticsArrayElement.subjectsCount}
                   </td>
                 </tr>
-              )
+              );
             })
           }
           </tbody>
@@ -191,7 +191,7 @@ const SubjectsOfferedYearStatistics: React.FC = () => {
         </PieChart>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SubjectsOfferedYearStatistics
+export default SubjectsOfferedYearStatistics;

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { Col, Row, Spinner, Table } from 'react-bootstrap'
-import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, Tooltip, XAxis, YAxis } from 'recharts'
-import { proxy } from '../../conf'
-import { setSubjectsOfferedYearSemesterStatistics } from './subjects-statistics-slice'
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Col, Row, Spinner, Table } from 'react-bootstrap';
+import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { proxy } from '../../conf';
+import { setSubjectsOfferedYearSemesterStatistics } from './subjects-statistics-slice';
 
-let errors_: string = ''
-let data: any = []
+let errors_: string = '';
+let data: any = [];
 const COLORS = [
   '#0088FE',
   '#00C49F',
@@ -16,27 +16,27 @@ const COLORS = [
   '#8884D8',
   '#8DD1E1',
   '#50fa00'
-]
+];
 
 const SubjectsOfferedYearSemesterStatistics: React.FC = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const [loading, setLoading] = useState<boolean>(false)
-  const [subjectsOfferedYearSemesterStatisticsArray, setSubjectsOfferedYearSemesterStatisticsArray] = useState<any>([])
+  const [loading, setLoading] = useState<boolean>(false);
+  const [subjectsOfferedYearSemesterStatisticsArray, setSubjectsOfferedYearSemesterStatisticsArray] = useState<any>([]);
 
   const getSubjectsOfferedYearSemesterStatistics = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await fetch(`${proxy}/subjectsStatistics/subjectsCountByOfferedYearAndSemester`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
-      })
-      const responseData = await response.json()
-      setSubjectsOfferedYearSemesterStatisticsArray(responseData)
-      await dispatch(setSubjectsOfferedYearSemesterStatistics(responseData))
-      data = []
+      });
+      const responseData = await response.json();
+      setSubjectsOfferedYearSemesterStatisticsArray(responseData);
+      await dispatch(setSubjectsOfferedYearSemesterStatistics(responseData));
+      data = [];
       for (let i = 0; i < responseData.length; i++) {
         data = [...data,
           {
@@ -44,20 +44,20 @@ const SubjectsOfferedYearSemesterStatistics: React.FC = () => {
             value: responseData[i].subjectsCount,
             count: responseData[i].subjectsCount
           }
-        ]
+        ];
       }
-      setLoading(false)
+      setLoading(false);
     } catch (errors) {
-      errors_ = errors
-      setLoading(false)
-      console.log(errors)
+      errors_ = errors;
+      setLoading(false);
+      console.log(errors);
     }
-  }
+  };
 
   useEffect(() => {
     getSubjectsOfferedYearSemesterStatistics().then(() => {
-    })
-  }, [])
+    });
+  }, []);
 
   return (
     <div>
@@ -125,7 +125,7 @@ const SubjectsOfferedYearSemesterStatistics: React.FC = () => {
                     {subjectsOfferedYearSemesterStatisticsArrayElement.subjectsCount}
                   </td>
                 </tr>
-              )
+              );
             })
           }
           </tbody>
@@ -200,7 +200,7 @@ const SubjectsOfferedYearSemesterStatistics: React.FC = () => {
         </Row>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SubjectsOfferedYearSemesterStatistics
+export default SubjectsOfferedYearSemesterStatistics;

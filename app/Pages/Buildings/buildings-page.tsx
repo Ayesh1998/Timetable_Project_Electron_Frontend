@@ -1,25 +1,25 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { Col, Row } from 'react-bootstrap'
-import NavBar from '../../components/NavBar/NavBar'
-import BuildingsList from './buildings-list'
-import BuildingsEdit from './buildings-edit'
-import BuildingsAdd from './buildings-add'
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Col, Row } from 'react-bootstrap';
+import NavBar from '../../components/NavBar/NavBar';
+import BuildingsList from './buildings-list';
+import BuildingsEdit from './buildings-edit';
+import BuildingsAdd from './buildings-add';
 
 const BuildingsPage: React.FC = () => {
-  let route: any
+  let route: any;
 
   const editBuilding = useSelector(
     (state: {
       buildings: any
       editBuilding: boolean
     }) => state.buildings.editBuilding
-  )
+  );
 
   if (editBuilding)
-    route = (<BuildingsEdit/>)
+    route = (<BuildingsEdit/>);
   else
-    route = (<BuildingsAdd/>)
+    route = (<BuildingsAdd/>);
 
   return (
     <div style={{
@@ -55,7 +55,7 @@ const BuildingsPage: React.FC = () => {
         </Row>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BuildingsPage
+export default BuildingsPage;
