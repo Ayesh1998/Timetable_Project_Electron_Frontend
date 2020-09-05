@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Card, Spinner } from 'react-bootstrap';
-import { proxy } from '../../conf';
-import { setSubjectsTotalCountStatistics } from './subjects-statistics-slice';
+import React, {useEffect, useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {Card, Spinner} from 'react-bootstrap';
+import {proxy} from '../../conf';
+import {setSubjectsTotalCountStatistics} from './subjects-statistics-slice';
 
 let errors_: string = '';
 

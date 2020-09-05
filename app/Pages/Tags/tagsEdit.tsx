@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {Button, Col, Container, Form, Row} from 'react-bootstrap';
+import {Redirect} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
 import styles from './tags.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-import { setEditingTag, setEditingTagId, setEditTag } from './tagsSlice';
+import {setEditingTag, setEditingTagId, setEditTag} from './tagsSlice';
 
 const TagsEdit: React.FC = () => {
   const dispatch = useDispatch();
@@ -80,11 +80,11 @@ const TagsEdit: React.FC = () => {
   };
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTag({ ...tag, name: e.target.value });
+    setTag({...tag, name: e.target.value});
   };
 
   const handleChangeTagToken = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTag({ ...tag, tagToken: e.target.value });
+    setTag({...tag, tagToken: e.target.value});
   };
 
   return (
@@ -103,7 +103,7 @@ const TagsEdit: React.FC = () => {
           xs={12}
           md={12}
           className="p-3"
-          style={{ backgroundColor: '#343a40', color: '#fff' }}
+          style={{backgroundColor: '#343a40', color: '#fff'}}
         >
           <h3>Edit Tag</h3>
         </Col>
@@ -129,7 +129,7 @@ const TagsEdit: React.FC = () => {
 
                   <Form.Control
                     type="text"
-                    style={{ borderWidth: '2.5px' }}
+                    style={{borderWidth: '2.5px'}}
                     value={tag.name}
                     onChange={handleChangeName}
                     placeholder="ex:- Lecture"
@@ -152,7 +152,7 @@ const TagsEdit: React.FC = () => {
 
                   <Form.Control
                     type="text"
-                    style={{ borderWidth: '2.5px' }}
+                    style={{borderWidth: '2.5px'}}
                     value={tag.tagToken}
                     onChange={handleChangeTagToken}
                     placeholder="ex:- Lec"
@@ -166,7 +166,7 @@ const TagsEdit: React.FC = () => {
             <Col xs={12} md={3}/>
             <Col xs={3} md={7}>
               <Button
-                style={{ width: '160px', fontSize: '1.3em' }}
+                style={{width: '160px', fontSize: '1.3em'}}
                 onClick={handleSubmit}
               >
                 Edit Tag

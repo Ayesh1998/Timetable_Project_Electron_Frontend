@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, Form, Spinner } from 'react-bootstrap';
-import { FaPlusCircle } from 'react-icons/fa';
-import { proxy } from '../../conf';
-import { setBuildings, setCenters, setExistingBuilding } from './buildings-slice';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {Button, Form, Spinner} from 'react-bootstrap';
+import {FaPlusCircle} from 'react-icons/fa';
+import {proxy} from '../../conf';
+import {setBuildings, setCenters, setExistingBuilding} from './buildings-slice';
 
 let errors_: string = '';
 
@@ -70,7 +70,7 @@ const BuildingsAdd: React.FC = () => {
         body: JSON.stringify(building)
       });
       const responseData = await response.json();
-      buildingList = { ...buildingList, responseData };
+      buildingList = {...buildingList, responseData};
       await dispatch(setBuildings(buildingList));
       await dispatch(setExistingBuilding(false));
       if (responseData.exists) {
@@ -88,13 +88,13 @@ const BuildingsAdd: React.FC = () => {
 
   const handleChangeBuildingName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
-    setBuilding({ ...building, buildingName: e.target.value });
+    setBuilding({...building, buildingName: e.target.value});
     setLoading(false);
   };
 
   const handleChangeCenterName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
-    setBuilding({ ...building, centerName: e.target.value });
+    setBuilding({...building, centerName: e.target.value});
     setLoading(false);
   };
 

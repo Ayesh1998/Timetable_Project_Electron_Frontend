@@ -1,12 +1,12 @@
 /* eslint-disable */
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Row, Table } from 'react-bootstrap';
-import { NavLink, Redirect } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {Button, Col, Container, Row, Table} from 'react-bootstrap';
+import {NavLink, Redirect} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
 import styles from './yearsems.css';
 import routes from '../../constants/routes.json';
-import { setEditingYearSem, setEditingYearSemId, setEditYearSem, setYearSems } from './yearsemsSlice';
+import {setEditingYearSem, setEditingYearSemId, setEditYearSem, setYearSems} from './yearsemsSlice';
 
 
 const YearSem = (props) => (
@@ -17,7 +17,7 @@ const YearSem = (props) => (
     <td>
       <Button onClick={() => {
         props.handleEdit(props.yearSem._id);
-      }} style={{ width: '160px', fontSize: '1.3em' }}>
+      }} style={{width: '160px', fontSize: '1.3em'}}>
 
         edit
 
@@ -37,7 +37,7 @@ const YearSem = (props) => (
       >
         <NavLink
           to={routes.YEARSEMS_LIST_VIEW}
-          style={{ color: '#fff' }}
+          style={{color: '#fff'}}
         >
           delete
         </NavLink>
@@ -115,7 +115,7 @@ const YearSemsListView: React.FC = () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ id })
+          body: JSON.stringify({id})
         }
       );
 
@@ -195,7 +195,7 @@ const YearSemsListView: React.FC = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#37474F', height: '100vh' }}>
+    <div style={{backgroundColor: '#37474F', height: '100vh'}}>
       {renderEditTo()}
 
       <NavBar/>
@@ -204,7 +204,7 @@ const YearSemsListView: React.FC = () => {
           xs={12}
           md={12}
           className="p-3"
-          style={{ backgroundColor: '#343a40', color: '#fff' }}
+          style={{backgroundColor: '#343a40', color: '#fff'}}
         >
           <h3>Academic Year & Semester Details</h3>
         </Col>
@@ -220,10 +220,10 @@ const YearSemsListView: React.FC = () => {
         >
           <Row className="mt-3 mb-4 justify-content-md-left">
             <Col xs={12} md={12} className="mt-auto">
-              <Button style={{ width: '220px', fontSize: '1.2em' }}>
+              <Button style={{width: '220px', fontSize: '1.2em'}}>
                 <NavLink
                   to={routes.YEARSEMS_ADD}
-                  style={{ color: '#fff' }}
+                  style={{color: '#fff'}}
                 >
                   Add New Year & Sem
                 </NavLink>

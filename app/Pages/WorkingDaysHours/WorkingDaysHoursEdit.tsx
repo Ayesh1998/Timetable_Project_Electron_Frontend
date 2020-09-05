@@ -1,12 +1,12 @@
 /* eslint-disable */
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import React, {useEffect, useState} from 'react';
+import {Button, Col, Container, Form, Row} from 'react-bootstrap';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { RadioButton, RadioGroup } from 'react-radio-buttons';
+import {RadioButton, RadioGroup} from 'react-radio-buttons';
 import CheckboxGroup from 'react-checkbox-group';
-import { Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import {Redirect} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 import styles from './working-days-hours.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
@@ -116,13 +116,13 @@ const WorkingDaysHoursEdit: React.FC = () => {
     const workingDaysFinal: { day: any }[] = [];
     const finalTimeSlots: { type: any }[] = [];
     daysSelected.map((day: any) => {
-      const tempObj = { day };
+      const tempObj = {day};
       workingDaysFinal.push(tempObj);
       return workingDaysFinal;
     });
 
     timeSlots.map((type: any) => {
-      const tempObj = { type };
+      const tempObj = {type};
       finalTimeSlots.push(tempObj);
       return finalTimeSlots;
     });
@@ -188,15 +188,15 @@ const WorkingDaysHoursEdit: React.FC = () => {
   };
 
   const handleChangeHour = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWorkingTimePerDay({ ...workingTimePerDay, hours: e.target.value });
+    setWorkingTimePerDay({...workingTimePerDay, hours: e.target.value});
   };
 
   const handleChangeMinutes = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWorkingTimePerDay({ ...workingTimePerDay, minutes: e.target.value });
+    setWorkingTimePerDay({...workingTimePerDay, minutes: e.target.value});
   };
 
   return (
-    <div style={{ backgroundColor: '#37474F', height: '100vh' }}>
+    <div style={{backgroundColor: '#37474F', height: '100vh'}}>
       {renderRedirect()}
       <NavBar/>
       <Row className="text-center mb-5">
@@ -204,7 +204,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
           xs={12}
           md={12}
           className="p-3"
-          style={{ backgroundColor: '#343a40', color: '#fff' }}
+          style={{backgroundColor: '#343a40', color: '#fff'}}
         >
           <h3>Working Days and Hours</h3>
         </Col>
@@ -250,7 +250,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
                       <Form.Control
                         as="select"
                         defaultValue={workingDaysHoursStore.numberOfWorkingDays}
-                        style={{ borderWidth: '2.5px' }}
+                        style={{borderWidth: '2.5px'}}
                         value={noOfWorkingDays}
                         onChange={handleChangeNoOfWorkingDays}
                       >
@@ -265,7 +265,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
                       <Form.Control
                         as="select"
                         defaultValue={workingDaysHoursStore.numberOfWorkingDays}
-                        style={{ borderWidth: '2.5px' }}
+                        style={{borderWidth: '2.5px'}}
                         value={noOfWorkingDays}
                         onChange={handleChangeNoOfWorkingDays}
                       >
@@ -385,7 +385,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
               <Col xs={0} md={8}/>
               <Col xs={12} md={4}>
                 <Button
-                  style={{ width: '160px', fontSize: '1.3em' }}
+                  style={{width: '160px', fontSize: '1.3em'}}
                   onClick={handleSubmit}
                 >
                   Submit

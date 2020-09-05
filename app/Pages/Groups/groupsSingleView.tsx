@@ -1,10 +1,10 @@
 /* eslint-disable */
-import React, { useEffect, useState } from 'react';
-import { Col, Container, Row, Table } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {Col, Container, Row, Table} from 'react-bootstrap';
+import {useDispatch} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
 import styles from './groups.css';
-import { setGroups } from './groupsSlice';
+import {setGroups} from './groupsSlice';
 
 // noinspection DuplicatedCode
 const GroupsSingleView: React.FC = () => {
@@ -44,14 +44,14 @@ const GroupsSingleView: React.FC = () => {
 
 
   return (
-    <div style={{ backgroundColor: '#37474F', height: '100vh' }}>
+    <div style={{backgroundColor: '#37474F', height: '100vh'}}>
       <NavBar/>
       <Row className="text-center mb-5">
         <Col
           xs={12}
           md={12}
           className="p-3"
-          style={{ backgroundColor: '#343a40', color: '#fff' }}
+          style={{backgroundColor: '#343a40', color: '#fff'}}
         >
           <h3>{groupsObject.groupId} Group Details</h3>
         </Col>

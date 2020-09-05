@@ -1,11 +1,11 @@
 /* eslint-disable */
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import React, {useEffect, useState} from 'react';
+import {Button, Col, Container, Form, Row} from 'react-bootstrap';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 //import CheckboxGroup from 'react-checkbox-group';
-import { Redirect } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import {Redirect} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import styles from './yearsems.css';
@@ -187,7 +187,7 @@ const YearSemsEdit: React.FC = () => {
           xs={12}
           md={12}
           className="p-3"
-          style={{ backgroundColor: '#343a40', color: '#fff' }}
+          style={{backgroundColor: '#343a40', color: '#fff'}}
         >
           <h3>Edit Academic Year & Semester</h3>
         </Col>
@@ -216,7 +216,7 @@ const YearSemsEdit: React.FC = () => {
                   <Form.Control
                     as="select"
                     defaultValue="Choose..."
-                    style={{ borderWidth: '2.5px' }}
+                    style={{borderWidth: '2.5px'}}
                     value={year}
                     onChange={handleChangeYear}
                   >
@@ -242,7 +242,7 @@ const YearSemsEdit: React.FC = () => {
                   <Form.Control
                     as="select"
                     defaultValue="Choose..."
-                    style={{ borderWidth: '2.5px' }}
+                    style={{borderWidth: '2.5px'}}
                     value={semester}
                     onChange={handleChangeSemester}
                   >
@@ -261,7 +261,7 @@ const YearSemsEdit: React.FC = () => {
             <Col xs={12} md={2}/>
             <Col xs={3} md={8}>
               <Button
-                style={{ width: '200px', fontSize: '1.3em' }}
+                style={{width: '200px', fontSize: '1.3em'}}
                 onClick={handleSubmit}
               >
                 Edit Year & Sem

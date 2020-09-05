@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Col, Row } from 'react-bootstrap';
+import {useSelector} from 'react-redux';
+import {Col, Row} from 'react-bootstrap';
 import NavBar from '../../components/NavBar/NavBar';
 import RoomsList from './rooms-list';
 import RoomsEdit from './rooms-edit';

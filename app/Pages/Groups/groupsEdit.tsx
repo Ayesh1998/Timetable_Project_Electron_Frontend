@@ -1,11 +1,11 @@
 /* eslint-disable */
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import React, {useEffect, useState} from 'react';
+import {Button, Col, Container, Form, Row} from 'react-bootstrap';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 //import CheckboxGroup from 'react-checkbox-group';
-import { Redirect } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import {Redirect} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import styles from './groups.css';
@@ -288,7 +288,7 @@ const GroupsEdit: React.FC = () => {
     }
 
 
-    setSubGrouup({ subGroup: val, subGroupId: id });
+    setSubGrouup({subGroup: val, subGroupId: id});
     setOther();
   };
 
@@ -307,7 +307,7 @@ const GroupsEdit: React.FC = () => {
           xs={12}
           md={12}
           className="p-3"
-          style={{ backgroundColor: '#343a40', color: '#fff' }}
+          style={{backgroundColor: '#343a40', color: '#fff'}}
         >
           <h3>Add New Sub Group</h3>
         </Col>
@@ -334,7 +334,7 @@ const GroupsEdit: React.FC = () => {
                   <Form.Control
                     as="select"
                     defaultValue="Choose..."
-                    style={{ borderWidth: '2.5px' }}
+                    style={{borderWidth: '2.5px'}}
                     value={academicYearAndSemester}
                     onChange={handleChangeAcademicYearAndSemester}
                   >
@@ -360,7 +360,7 @@ const GroupsEdit: React.FC = () => {
                   <Form.Control
                     as="select"
                     defaultValue="Choose..."
-                    style={{ borderWidth: '2.5px' }}
+                    style={{borderWidth: '2.5px'}}
                     value={programme}
                     onChange={handleChangeProgramme}
                   >
@@ -388,7 +388,7 @@ const GroupsEdit: React.FC = () => {
                   <Form.Control
                     as="select"
                     defaultValue="Choose..."
-                    style={{ borderWidth: '2.5px' }}
+                    style={{borderWidth: '2.5px'}}
                     value={group}
                     onChange={handleChangeGroup}
                   >
@@ -414,7 +414,7 @@ const GroupsEdit: React.FC = () => {
                   <Form.Control
                     as="select"
                     defaultValue="Choose..."
-                    style={{ borderWidth: '2.5px' }}
+                    style={{borderWidth: '2.5px'}}
                     value={subGrouup.subGroup}
                     onChange={handleChangeSubGroups}
                   >
@@ -442,7 +442,7 @@ const GroupsEdit: React.FC = () => {
             <Col xs={12} md={2}/>
             <Col xs={3} md={8}>
               <Button
-                style={{ width: '220px', fontSize: '1.3em' }}
+                style={{width: '220px', fontSize: '1.3em'}}
                 onClick={handleSubmit}
               >
                 Generate a SubGroup

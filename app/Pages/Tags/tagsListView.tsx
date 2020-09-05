@@ -1,12 +1,12 @@
 /* eslint-disable */
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Row, Table } from 'react-bootstrap';
-import { NavLink, Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {Button, Col, Container, Row, Table} from 'react-bootstrap';
+import {NavLink, Redirect} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
 import styles from './tags.css';
 import routes from '../../constants/routes.json';
-import { setEditingTag, setEditingTagId, setEditTag, setTags } from './tagsSlice';
+import {setEditingTag, setEditingTagId, setEditTag, setTags} from './tagsSlice';
 
 const Tag = (props) => (
   <tr>
@@ -15,7 +15,7 @@ const Tag = (props) => (
     <td>
       <Button onClick={() => {
         props.handleEdit(props.tag._id);
-      }} style={{ width: '160px', fontSize: '1.3em' }}>
+      }} style={{width: '160px', fontSize: '1.3em'}}>
         edit
       </Button>
       <Button
@@ -32,7 +32,7 @@ const Tag = (props) => (
       >
         <NavLink
           to={routes.TAGS_LIST_VIEW}
-          style={{ color: '#fff' }}
+          style={{color: '#fff'}}
         >
           delete
         </NavLink>
@@ -103,7 +103,7 @@ const TagsListView: React.FC = () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ id })
+          body: JSON.stringify({id})
         }
       );
       const responseData = await response.json();
@@ -156,7 +156,7 @@ const TagsListView: React.FC = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#37474F', height: '100vh' }}>
+    <div style={{backgroundColor: '#37474F', height: '100vh'}}>
       {renderEditTo()}
 
       <NavBar/>
@@ -165,7 +165,7 @@ const TagsListView: React.FC = () => {
           xs={12}
           md={12}
           className="p-3"
-          style={{ backgroundColor: '#343a40', color: '#fff' }}
+          style={{backgroundColor: '#343a40', color: '#fff'}}
         >
           <h3>Tag Details</h3>
         </Col>
@@ -181,10 +181,10 @@ const TagsListView: React.FC = () => {
         >
           <Row className="mt-3 mb-4 justify-content-md-left">
             <Col xs={12} md={12} className="mt-auto">
-              <Button style={{ width: '160px', fontSize: '1.2em' }}>
+              <Button style={{width: '160px', fontSize: '1.2em'}}>
                 <NavLink
                   to={routes.TAGS_ADD}
-                  style={{ color: '#fff' }}
+                  style={{color: '#fff'}}
                 >
                   Add New Tag
                 </NavLink>

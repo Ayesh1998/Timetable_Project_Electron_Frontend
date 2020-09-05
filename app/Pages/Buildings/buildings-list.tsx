@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, Card, CardColumns, Form, Modal, Row, Spinner } from 'react-bootstrap';
-import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-import { proxy } from '../../conf';
-import { setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom } from '../Rooms/rooms-slice';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {Button, Card, CardColumns, Form, Modal, Row, Spinner} from 'react-bootstrap';
+import {FaEdit, FaTrashAlt} from 'react-icons/fa';
+import {proxy} from '../../conf';
+import {setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom} from '../Rooms/rooms-slice';
 import {
   setBuildings,
   setCenters,
@@ -91,13 +91,13 @@ const BuildingsList: React.FC = () => {
 
   const handleChangeBuildingNameSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
-    setBuilding({ ...building, buildingName: e.target.value });
+    setBuilding({...building, buildingName: e.target.value});
     setLoading(false);
   };
 
   const handleChangeCenterNameSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
-    setBuilding({ ...building, centerName: e.target.value });
+    setBuilding({...building, centerName: e.target.value});
     setLoading(false);
   };
 
@@ -174,7 +174,7 @@ const BuildingsList: React.FC = () => {
               <Form.Control type='text'
                             value={building.buildingName}
                             onChange={handleChangeBuildingNameSearch}
-                            placeholder='Search by Building Name'
+                            placeholder='Search by Name'
                             title='Search by building name.'/>
             </Form.Group>
             <Form.Group controlId='formLocatedCenter'

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, Form, Spinner } from 'react-bootstrap';
-import { FaArrowAltCircleLeft, FaEdit } from 'react-icons/fa';
-import { proxy } from '../../conf';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {Button, Form, Spinner} from 'react-bootstrap';
+import {FaArrowAltCircleLeft, FaEdit} from 'react-icons/fa';
+import {proxy} from '../../conf';
 import {
   setBuildings,
   setCenters,
@@ -115,13 +115,13 @@ const BuildingsEdit: React.FC = () => {
 
   const handleChangeBuildingName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
-    setBuilding({ ...building, buildingName: e.target.value });
+    setBuilding({...building, buildingName: e.target.value});
     setLoading(false);
   };
 
   const handleChangeCenterName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
-    setBuilding({ ...building, centerName: e.target.value });
+    setBuilding({...building, centerName: e.target.value});
     setLoading(false);
   };
 

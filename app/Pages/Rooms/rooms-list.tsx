@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, Form, Modal, Spinner, Table } from 'react-bootstrap';
-import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-import { proxy } from '../../conf';
-import { setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom, setRooms } from './rooms-slice';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {Button, Form, Modal, Spinner, Table} from 'react-bootstrap';
+import {FaEdit, FaTrashAlt} from 'react-icons/fa';
+import {proxy} from '../../conf';
+import {setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom, setRooms} from './rooms-slice';
 import {
   setBuildings,
   setEditBuilding,
@@ -94,19 +94,19 @@ const RoomsList: React.FC = () => {
 
   const handleChangeRoomNameSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
-    setRoom({ ...room, roomName: e.target.value });
+    setRoom({...room, roomName: e.target.value});
     setLoading(false);
   };
 
   const handleChangeBuildingNameSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
-    setRoom({ ...room, buildingName: e.target.value });
+    setRoom({...room, buildingName: e.target.value});
     setLoading(false);
   };
 
   const handleChangeRoomTypeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
-    setRoom({ ...room, roomType: e.target.value });
+    setRoom({...room, roomType: e.target.value});
     setLoading(false);
   };
 

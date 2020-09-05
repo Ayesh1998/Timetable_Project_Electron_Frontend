@@ -1,12 +1,12 @@
 /* eslint-disable */
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Row, Table } from 'react-bootstrap';
-import { Link, NavLink, Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {Button, Col, Container, Row, Table} from 'react-bootstrap';
+import {Link, NavLink, Redirect} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
 import styles from './groups.css';
 import routes from '../../constants/routes.json';
-import { setEditGroup, setEditingGroup, setEditingGroupId, setGroups } from './groupsSlice';
+import {setEditGroup, setEditingGroup, setEditingGroupId, setGroups} from './groupsSlice';
 
 
 const Group = (props) => (
@@ -28,7 +28,7 @@ const Group = (props) => (
       >
         <NavLink
           to={routes.GROUPS_LIST_VIEW}
-          style={{ color: '#fff' }}
+          style={{color: '#fff'}}
         >
           delete
         </NavLink>
@@ -51,7 +51,7 @@ const Group = (props) => (
         >
           <NavLink
             to={routes.GROUPS_LIST_VIEW}
-            style={{ color: '#fff' }}
+            style={{color: '#fff'}}
           >
             delete
           </NavLink>
@@ -73,7 +73,7 @@ const Group = (props) => (
         >
           <NavLink
             to={routes.GROUPS_LIST_VIEW}
-            style={{ color: '#fff' }}
+            style={{color: '#fff'}}
           >
             delete
           </NavLink>
@@ -82,10 +82,10 @@ const Group = (props) => (
       <br/><br/>
       <div>
 
-        <Button style={{ width: '95px', fontSize: '0.9em' }}>
+        <Button style={{width: '95px', fontSize: '0.9em'}}>
           <NavLink
             to={routes.GROUPS_EDIT}
-            style={{ color: '#fff' }}
+            style={{color: '#fff'}}
           >
             Add
           </NavLink>
@@ -169,7 +169,7 @@ const GroupsListViewEdit: React.FC = () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ id })
+          body: JSON.stringify({id})
         }
       );
 
@@ -264,7 +264,7 @@ const GroupsListViewEdit: React.FC = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#37474F', height: '100vh' }}>
+    <div style={{backgroundColor: '#37474F', height: '100vh'}}>
       {renderEditTo()}
       {singleViewTo()}
 
@@ -274,7 +274,7 @@ const GroupsListViewEdit: React.FC = () => {
           xs={12}
           md={12}
           className="p-3"
-          style={{ backgroundColor: '#343a40', color: '#fff' }}
+          style={{backgroundColor: '#343a40', color: '#fff'}}
         >
           <h3>Student Group Details</h3>
         </Col>
@@ -290,10 +290,10 @@ const GroupsListViewEdit: React.FC = () => {
         >
           <Row className="mt-3 mb-4 justify-content-md-left">
             <Col xs={12} md={12} className="mt-auto">
-              <Button style={{ width: '160px', fontSize: '1.2em' }}>
+              <Button style={{width: '160px', fontSize: '1.2em'}}>
                 <NavLink
                   to={routes.GROUPS_ADD}
-                  style={{ color: '#fff' }}
+                  style={{color: '#fff'}}
                 >
                   Add New Group
                 </NavLink>

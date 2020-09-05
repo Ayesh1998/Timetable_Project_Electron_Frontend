@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Spinner, Table } from 'react-bootstrap';
-import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, Tooltip, XAxis, YAxis } from 'recharts';
-import { proxy } from '../../conf';
-import { setSubjectsOfferedYearStatistics } from './subjects-statistics-slice';
+import React, {useEffect, useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {Spinner, Table} from 'react-bootstrap';
+import {Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, Tooltip, XAxis, YAxis} from 'recharts';
+import {proxy} from '../../conf';
+import {setSubjectsOfferedYearStatistics} from './subjects-statistics-slice';
 
 let errors_: string = '';
 let data: any = [];

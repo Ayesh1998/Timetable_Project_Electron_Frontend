@@ -1,17 +1,17 @@
 /* eslint-disable */
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import React, {useEffect, useState} from 'react';
+import {Button, Col, Container, Form, Row} from 'react-bootstrap';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 //import CheckboxGroup from 'react-checkbox-group';
-import { Redirect } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import {Redirect} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import styles from './tags.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-import { setTags } from './tagsSlice';
+import {setTags} from './tagsSlice';
 
 // noinspection DuplicatedCode
 const TagsAdd: React.FC = () => {
@@ -141,7 +141,7 @@ const TagsAdd: React.FC = () => {
           xs={12}
           md={12}
           className="p-3"
-          style={{ backgroundColor: '#343a40', color: '#fff' }}
+          style={{backgroundColor: '#343a40', color: '#fff'}}
         >
           <h3>Add Tag</h3>
         </Col>
@@ -167,7 +167,7 @@ const TagsAdd: React.FC = () => {
 
                   <Form.Control
                     type="text"
-                    style={{ borderWidth: '2.5px' }}
+                    style={{borderWidth: '2.5px'}}
                     value={name}
                     onChange={handleChangeName}
                     placeholder="ex:- Lecture"
@@ -190,7 +190,7 @@ const TagsAdd: React.FC = () => {
 
                   <Form.Control
                     type="text"
-                    style={{ borderWidth: '2.5px' }}
+                    style={{borderWidth: '2.5px'}}
                     value={tagToken}
                     onChange={handleChangeTagToken}
                     placeholder="ex:- Lec"
@@ -204,7 +204,7 @@ const TagsAdd: React.FC = () => {
             <Col xs={12} md={3}/>
             <Col xs={3} md={7}>
               <Button
-                style={{ width: '160px', fontSize: '1.3em' }}
+                style={{width: '160px', fontSize: '1.3em'}}
                 onClick={handleSubmit}
               >
                 Add Tag

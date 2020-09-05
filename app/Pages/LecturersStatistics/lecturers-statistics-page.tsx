@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Row } from 'react-bootstrap';
+import {Col, Row} from 'react-bootstrap';
 import NavBar from '../../components/NavBar/NavBar';
 import LecturersLevelStatistics from './lecturers-level-statistics';
 import LecturersFacultyStatistics from './lecturers-faculty-statistics';

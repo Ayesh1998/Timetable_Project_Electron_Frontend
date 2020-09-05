@@ -1,6 +1,6 @@
-import { combineReducers } from 'redux';
-import { connectRouter } from 'connected-react-router';
-import { History } from 'history';
+import {combineReducers} from 'redux';
+import {connectRouter} from 'connected-react-router';
+import {History} from 'history';
 import workingDaysHoursReducer from './Pages/WorkingDaysHours/workingDaysHoursSlice';
 import groupsReducer from './Pages/Groups/groupsSlice';
 import tagsReducer from './Pages/Tags/tagsSlice';

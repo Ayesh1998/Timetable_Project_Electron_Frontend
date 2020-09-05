@@ -1,14 +1,14 @@
 /* eslint-disable */
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Row, Table } from 'react-bootstrap';
+import React, {useEffect, useState} from 'react';
+import {Button, Col, Container, Row, Table} from 'react-bootstrap';
 // import {
 //   setYearSems,
 //   setEditYearSem,
 //   setEditingYearSem,
 //   setEditingYearSemId
 // } from './yearsemsSlice';
-import { NavLink, Redirect } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import {NavLink, Redirect} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
 import styles from './subGroupNums.css';
 import routes from '../../constants/routes.json';
@@ -21,7 +21,7 @@ const SubGroupNum = (props) => (
     <td>
       <Button onClick={() => {
         props.handleEdit(props.subGroupNum._id);
-      }} style={{ width: '160px', fontSize: '1.3em' }}>
+      }} style={{width: '160px', fontSize: '1.3em'}}>
 
         edit
 
@@ -41,7 +41,7 @@ const SubGroupNum = (props) => (
       >
         <NavLink
           to={routes.YEARSEMS_LIST_VIEW}
-          style={{ color: '#fff' }}
+          style={{color: '#fff'}}
         >
           delete
         </NavLink>
@@ -199,7 +199,7 @@ const SubGroupNumsListView: React.FC = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#37474F', height: '100vh' }}>
+    <div style={{backgroundColor: '#37474F', height: '100vh'}}>
       {renderEditTo()}
 
       <NavBar/>
@@ -208,7 +208,7 @@ const SubGroupNumsListView: React.FC = () => {
           xs={12}
           md={12}
           className="p-3"
-          style={{ backgroundColor: '#343a40', color: '#fff' }}
+          style={{backgroundColor: '#343a40', color: '#fff'}}
         >
           <h3>SubGroup Number List</h3>
         </Col>
@@ -224,10 +224,10 @@ const SubGroupNumsListView: React.FC = () => {
         >
           <Row className="mt-3 mb-4 justify-content-md-left">
             <Col xs={12} md={12} className="mt-auto">
-              <Button style={{ width: '240px', fontSize: '1.2em' }}>
+              <Button style={{width: '240px', fontSize: '1.2em'}}>
                 <NavLink
                   to={routes.YEARSEMS_ADD}
-                  style={{ color: '#fff' }}
+                  style={{color: '#fff'}}
                 >
                   Add New SubGroup Num
                 </NavLink>

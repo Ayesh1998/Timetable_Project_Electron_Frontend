@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, Form, Spinner } from 'react-bootstrap';
-import { FaPlusCircle } from 'react-icons/fa';
-import { proxy } from '../../conf';
-import { setBuildings, setExistingRoom, setRooms } from './rooms-slice';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {Button, Form, Spinner} from 'react-bootstrap';
+import {FaPlusCircle} from 'react-icons/fa';
+import {proxy} from '../../conf';
+import {setBuildings, setExistingRoom, setRooms} from './rooms-slice';
 
 let errors_: string = '';
 
@@ -74,7 +74,7 @@ const RoomsAdd: React.FC = () => {
         body: JSON.stringify(room)
       });
       const responseData = await response.json();
-      roomList = { ...roomList, responseData };
+      roomList = {...roomList, responseData};
       await dispatch(setRooms(roomList));
       await dispatch(setExistingRoom(false));
       if (responseData.exists) {
@@ -92,25 +92,25 @@ const RoomsAdd: React.FC = () => {
 
   const handleChangeRoomName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
-    setRoom({ ...room, roomName: e.target.value });
+    setRoom({...room, roomName: e.target.value});
     setLoading(false);
   };
 
   const handleChangeBuildingName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
-    setRoom({ ...room, buildingName: e.target.value });
+    setRoom({...room, buildingName: e.target.value});
     setLoading(false);
   };
 
   const handleChangeRoomType = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
-    setRoom({ ...room, roomType: e.target.value });
+    setRoom({...room, roomType: e.target.value});
     setLoading(false);
   };
 
   const handleChangeRoomCapacity = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
-    setRoom({ ...room, roomCapacity: parseInt(e.target.value) });
+    setRoom({...room, roomCapacity: parseInt(e.target.value)});
     setLoading(false);
   };
 

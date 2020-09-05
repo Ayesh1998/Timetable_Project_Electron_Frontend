@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Row, Table } from 'react-bootstrap';
-import { NavLink, Redirect } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {Button, Col, Container, Row, Table} from 'react-bootstrap';
+import {NavLink, Redirect} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
 import styles from './groups.css';
 import routes from '../../constants/routes.json';
-import { setEditGroup, setEditingGroup, setEditingGroupId, setGroups } from './groupsSlice';
+import {setEditGroup, setEditingGroup, setEditingGroupId, setGroups} from './groupsSlice';
 
 const Group = (props: any) => (
   <tr>
@@ -24,7 +24,7 @@ const Group = (props: any) => (
       >
         <NavLink
           to={routes.GROUPS_LIST_VIEW}
-          style={{ color: '#fff' }}
+          style={{color: '#fff'}}
         >
           delete
         </NavLink>
@@ -49,7 +49,7 @@ const Group = (props: any) => (
               >
                 <NavLink
                   to={routes.GROUPS_LIST_VIEW}
-                  style={{ color: '#fff' }}
+                  style={{color: '#fff'}}
                 >
                   delete
                 </NavLink>
@@ -61,7 +61,7 @@ const Group = (props: any) => (
       <div>
         <Button onClick={() => {
           props.handleAddSub(props.group._id);
-        }} style={{ width: '95px', fontSize: '0.9em' }}>
+        }} style={{width: '95px', fontSize: '0.9em'}}>
           Add
         </Button></div>
     </td>
@@ -109,7 +109,7 @@ const GroupsListView: React.FC = () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ id })
+          body: JSON.stringify({id})
         }
       );
       const responseData = await response.json();
@@ -131,7 +131,7 @@ const GroupsListView: React.FC = () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ id })
+          body: JSON.stringify({id})
         }
       );
       const responseData = await response.json();
@@ -180,7 +180,7 @@ const GroupsListView: React.FC = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#37474F' }}>
+    <div style={{backgroundColor: '#37474F'}}>
       {renderEditTo()}
       <NavBar/>
       <Row className="text-center mb-5">
@@ -188,7 +188,7 @@ const GroupsListView: React.FC = () => {
           xs={12}
           md={12}
           className="p-3"
-          style={{ backgroundColor: '#343a40', color: '#fff' }}
+          style={{backgroundColor: '#343a40', color: '#fff'}}
         >
           <h3>Student Group Details</h3>
         </Col>
@@ -204,10 +204,10 @@ const GroupsListView: React.FC = () => {
         >
           <Row className="mt-3 mb-4 justify-content-md-left">
             <Col xs={12} md={12} className="mt-auto">
-              <Button style={{ width: '160px', fontSize: '1.2em' }}>
+              <Button style={{width: '160px', fontSize: '1.2em'}}>
                 <NavLink
                   to={routes.GROUPS_ADD}
-                  style={{ color: '#fff' }}
+                  style={{color: '#fff'}}
                 >
                   Add New Group
                 </NavLink>
