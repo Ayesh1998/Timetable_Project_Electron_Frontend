@@ -43,7 +43,7 @@ const RoomsEdit: React.FC = () => {
     roomName: string,
     buildingName: string,
     roomType: string,
-    roomCapacity: number | string
+    roomCapacity: string
   }>({
     roomName: editingRoom.roomName,
     buildingName: editingRoom.buildingName,
@@ -130,7 +130,7 @@ const RoomsEdit: React.FC = () => {
 
   const handleChangeRoomCapacity = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
-    setRoom({...room, roomCapacity: parseInt(e.target.value)});
+    setRoom({...room, roomCapacity: e.target.value});
     setLoading(false);
   };
 
