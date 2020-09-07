@@ -9,7 +9,8 @@ import {
   setEditBuilding,
   setEditingBuilding,
   setEditingBuildingId,
-  setExistingBuilding
+  setExistingBuilding,
+  setExistingRoomsForBuilding
 } from './buildings-slice';
 
 let errors_: string = '';
@@ -94,6 +95,7 @@ const BuildingsEdit: React.FC = () => {
       });
       const responseData = await response.json();
       await dispatch(setExistingBuilding(false));
+      await dispatch(setExistingRoomsForBuilding(false));
       if (responseData.exists) {
         errors_ = responseData.message;
         await dispatch(setExistingBuilding(true));
@@ -130,6 +132,7 @@ const BuildingsEdit: React.FC = () => {
     await dispatch(setEditBuilding(false));
     await dispatch(setEditingBuildingId(''));
     await dispatch(setEditingBuilding(null));
+    await dispatch(setExistingRoomsForBuilding(false));
     setLoading(false);
   };
 

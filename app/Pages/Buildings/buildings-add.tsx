@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Button, Form, Spinner} from 'react-bootstrap';
 import {FaPlusCircle} from 'react-icons/fa';
 import {proxy} from '../../conf';
-import {setBuildings, setCenters, setExistingBuilding} from './buildings-slice';
+import {setBuildings, setCenters, setExistingBuilding, setExistingRoomsForBuilding} from './buildings-slice';
 
 let errors_: string = '';
 
@@ -73,6 +73,7 @@ const BuildingsAdd: React.FC = () => {
       buildingList = {...buildingList, responseData};
       await dispatch(setBuildings(buildingList));
       await dispatch(setExistingBuilding(false));
+      await dispatch(setExistingRoomsForBuilding(false));
       if (responseData.exists) {
         errors_ = responseData.message;
         await dispatch(setExistingBuilding(true));

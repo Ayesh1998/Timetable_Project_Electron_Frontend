@@ -9,7 +9,8 @@ import {
   setEditBuilding,
   setEditingBuilding,
   setEditingBuildingId,
-  setExistingBuilding
+  setExistingBuilding,
+  setExistingRoomsForBuilding
 } from '../Buildings/buildings-slice';
 
 let errors_: string = '';
@@ -77,6 +78,7 @@ const RoomsList: React.FC = () => {
       await dispatch(setEditingBuildingId(''));
       await dispatch(setEditingBuilding(null));
       await dispatch(setExistingBuilding(false));
+      await dispatch(setExistingRoomsForBuilding(false));
       setLoading(false);
     } catch (errors) {
       errors_ = errors;

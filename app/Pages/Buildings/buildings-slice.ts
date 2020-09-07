@@ -8,7 +8,8 @@ const setBuildingsSlice = createSlice({
     existingBuilding: false,
     editBuilding: false,
     editingBuildingId: '',
-    editingBuilding: null
+    editingBuilding: null,
+    existingRoomsForBuilding: false
   },
   reducers: {
     setBuildings: (state, action: any) => {
@@ -28,6 +29,9 @@ const setBuildingsSlice = createSlice({
     },
     setEditingBuilding: (state, action: any) => {
       state.editingBuilding = action.payload;
+    },
+    setExistingRoomsForBuilding: (state, action: any) => {
+      state.existingRoomsForBuilding = action.payload;
     }
   }
 });
@@ -38,5 +42,6 @@ export const {setExistingBuilding} = setBuildingsSlice.actions;
 export const {setEditBuilding} = setBuildingsSlice.actions;
 export const {setEditingBuildingId} = setBuildingsSlice.actions;
 export const {setEditingBuilding} = setBuildingsSlice.actions;
+export const {setExistingRoomsForBuilding} = setBuildingsSlice.actions;
 
 export default setBuildingsSlice.reducer;

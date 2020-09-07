@@ -10,7 +10,8 @@ import {
   setEditBuilding,
   setEditingBuilding,
   setEditingBuildingId,
-  setExistingBuilding
+  setExistingBuilding,
+  setExistingRoomsForBuilding
 } from './buildings-slice';
 
 let errors_: string = '';
@@ -22,6 +23,13 @@ const BuildingsList: React.FC = () => {
     (state: {
       buildings: any
     }) => state.buildings.buildings
+  );
+
+  const existingRoomsForBuilding = useSelector(
+    (state: {
+      buildings: any
+      existingRoomsForBuilding: boolean
+    }) => state.buildings.existingRoomsForBuilding
   );
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -130,6 +138,7 @@ const BuildingsList: React.FC = () => {
         }
       });
       const responseData = await response.json();
+      await dispatch(setExistingRoomsForBuilding(false));
       await dispatch(setExistingBuilding(false));
       await dispatch(setEditingBuildingId(id));
       await dispatch(setEditingBuilding(responseData));
@@ -151,7 +160,12 @@ const BuildingsList: React.FC = () => {
           'Content-Type': 'application/json'
         }
       });
-      await response.json();
+      const responseData = await response.json();
+      await dispatch(setExistingRoomsForBuilding(false));
+      if (responseData.roomsExist) {
+        errors_ = responseData.message;
+        await dispatch(setExistingRoomsForBuilding(true));
+      }
       buildingList = buildingList.filter((building: any) => building._id !== id);
       await dispatch(setBuildings(buildingList));
       await dispatch(setEditBuilding(false));
@@ -301,7 +315,7 @@ const BuildingsList: React.FC = () => {
         </CardColumns>
       </div>
       {
-        errors_ && (
+        errors_ && existingRoomsForBuilding && (
           <div style={{
             color: 'red',
             fontSize: '18px',
