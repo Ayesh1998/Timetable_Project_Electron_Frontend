@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, {useEffect, useState} from 'react';
-import {Button, Col, Container, Form, Row} from 'react-bootstrap';
+import {Button, Col, Container, Form, Row, Modal,Spinner} from 'react-bootstrap';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 //import CheckboxGroup from 'react-checkbox-group';
@@ -18,14 +18,17 @@ const programList = ['SE', 'CS', 'DS', 'IT'];
 const groupNumList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const subGroupNumList = [1, 2];
 
+var exist = 0;
 // noinspection DuplicatedCode
 const GroupsAdd: React.FC = () => {
   const dispatch = useDispatch();
   // const value = useSelector();
 
-
+  const [loading, setLoading] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(false);
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
   const [renderRedirectTo1, setRenderRedirectTo1] = useState<boolean | null>(false);
+  const [renderRedirectToGro, setRenderRedirectToGro] = useState<boolean | null>(false);
   const [error, setError] = useState<string | null>(null);
 
   const [academicYear, setAcademicYear] = useState<number | null>(null);
@@ -34,10 +37,11 @@ const GroupsAdd: React.FC = () => {
   const [programme, setProgramme] = useState<string>('');
   const [group, setGroup] = useState<number | null>(null);
   const [groupId, setGroupId] = useState<string>('');
-  const [availableSubGroup, setAvailableSubGroup] = useState<boolean | null>(false);
-  const [subGroups, setSubGroups] = useState<any>([]);
+  // const [availableSubGroup, setAvailableSubGroup] = useState<boolean | null>(false);
+  // const [subGroups, setSubGroups] = useState<any>([]);
 
   const [subGrouup, setSubGrouup] = useState<{ subGroup: Number, subGroupId: string }>({});
+
 
   const [groupsObject, setGroupsObject] = useState<any>(null);
 
@@ -80,24 +84,107 @@ const GroupsAdd: React.FC = () => {
     return null;
   };
 
-  const setOther = () => {
-    const year = String(academicYear);
-    const sem = String(academicSemester);
-    const pro = String(programme);
-    const groupforId = group.toString();
+  // const setOther = () => {
+  //   console.log("clicked set other eka athule one222222222222222222222222")
+  //   // const year = String(academicYear);
+  //   // const sem = String(academicSemester);
+  //   // const pro = String(programme);
+  //   // const groupforId = group.toString();
 
-    const id = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId;
+  //   const gID = String(groupId);
+  //   //const groId = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId;
 
-    setGroupId(id);
+  //   var subId = gID + '.01';
+  //   var val = 1;
+
+  //   //setGroupId(groId);
+  //   setSubGrouup({subGroup: val, subGroupId: subId});
 
 
+  // };
+
+  const handleShow = () => {
+    setLoading(true);
+    setShow(true);
+    setLoading(false);
+  };
+
+  const handleClose = () => {
+    setLoading(true);
+    setShow(false);
+    setLoading(false);
   };
 
   const handleSubmit = async () => {
+    console.log("clicked sub group one222222222222222222222222")
 
-    if (subGrouup) {
-      var statusSubGroup = true;
-    }
+        const finalObjectGroup = {
+          academicYear,
+          academicSemester,
+          academicYearAndSemester,
+          programme,
+          group,
+          groupId,
+          availableSubGroup: false
+        };
+
+        groupsObject.map((rec:any) => {
+
+          if(rec.groupId === groupId){
+             exist = 1;
+
+            console.log("This group is already exists")
+            return ;
+          }
+
+
+          exist = 0;
+         });
+
+
+       if(exist === 1){
+         handleShow();
+       }
+
+
+
+       if(exist === 0 ){
+
+
+        try {
+          const response = await fetch(
+            `http://localhost:5000/groups/create`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(finalObjectGroup)
+            }
+          );
+
+          const responseData = await response.json();
+
+          console.log(responseData);
+          setRenderRedirectToGro(true);
+
+
+          if (!responseData) {
+            // noinspection ExceptionCaughtLocallyJS
+            throw new Error(responseData.message);
+          }
+        } catch (err) {
+          console.log(err.message);
+        }
+
+       }
+
+
+
+
+      };
+
+  const handleSubmitSub = async () => {
 
     const finalObjectGroup = {
       academicYear,
@@ -107,11 +194,26 @@ const GroupsAdd: React.FC = () => {
       group,
       groupId,
       subGroups: subGrouup,
-      availableSubGroup: statusSubGroup
+      availableSubGroup: true
     };
 
-    console.log('22222222222222222222222222222222222');
-    console.log(finalObjectGroup);
+    groupsObject.map((rec:any) => {
+
+      if(rec.groupId === groupId){
+         exist = 1;
+        console.log("This group is already exists")
+        return ;
+      }
+      exist = 0;
+     });
+
+
+   if(exist === 1){
+     handleShow();
+   }
+
+
+   if(exist === 0 ){
 
     try {
       const response = await fetch(
@@ -126,8 +228,10 @@ const GroupsAdd: React.FC = () => {
       );
 
       const responseData = await response.json();
+
+      console.log(responseData);
       setRenderRedirectTo(true);
-      // console.log(responseData.userDetails);
+
 
       if (!responseData) {
         // noinspection ExceptionCaughtLocallyJS
@@ -136,6 +240,9 @@ const GroupsAdd: React.FC = () => {
     } catch (err) {
       console.log(err.message);
     }
+
+  }
+
 
 
     const finalObjectSubGroup = {
@@ -149,6 +256,7 @@ const GroupsAdd: React.FC = () => {
       subGroupId: subGrouup.subGroupId
     };
 
+    if(exist === 0 ){
     try {
       const response = await fetch(
         `http://localhost:5000/subGroups/create`,
@@ -164,7 +272,7 @@ const GroupsAdd: React.FC = () => {
       const responseData = await response.json();
       setRenderRedirectTo1(true);
 
-      // console.log(responseData.userDetails);
+
 
       if (!responseData) {
         // noinspection ExceptionCaughtLocallyJS
@@ -173,6 +281,7 @@ const GroupsAdd: React.FC = () => {
     } catch (err) {
       console.log(err.message);
     }
+  }
   };
 
   const renderRedirect = () => {
@@ -183,6 +292,13 @@ const GroupsAdd: React.FC = () => {
     return null;
   };
 
+  const renderRedirectGro = () => {
+    if (renderRedirectToGro) {
+      return <Redirect to={routes.GROUPS_LIST_VIEW}/>;
+      //   props.history.push(loginState.redirectTo);s
+    }
+    return null;
+  };
   const handleChangeAcademicYearAndSemester = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setAcademicYearAndSemester(e.target.value);
@@ -219,25 +335,41 @@ const GroupsAdd: React.FC = () => {
   };
 
   const handleChangeGroup = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGroup(parseInt(e.target.value));
-  };
-
-  const handleChangeSubGroups = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = parseInt(e.target.value);
-    var year = String(academicYear);
-    var sem = String(academicSemester);
-    var pro = String(programme);
-    var groupforId = group.toString();
-    if (val === 1) {
-      var id = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId + '.01';
-    } else {
-      var id = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId + '.02';
-    }
+
+    setGroup(val);
+
+    const year = String(academicYear);
+    const sem = String(academicSemester);
+    const pro = String(programme);
+    const groupforId = val.toString();
+
+    const groId = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId;
+    setGroupId(groId);
+
+    var subNum = 1;
+    var subId = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId + '.01';
+    setSubGrouup({subGroup: subNum, subGroupId: subId});
 
 
-    setSubGrouup({subGroup: val, subGroupId: id});
-    setOther();
   };
+
+  // const handleChangeSubGroups = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const val = parseInt(e.target.value);
+  //   var year = String(academicYear);
+  //   var sem = String(academicSemester);
+  //   var pro = String(programme);
+  //   var groupforId = group.toString();
+  //   if (val === 1) {
+  //     var id = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId + '.01';
+  //   } else {
+  //     var id = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId + '.02';
+  //   }
+
+
+  //   setSubGrouup({subGroup: val, subGroupId: id});
+  //   setOther();
+  // };
 
   return (
     <div
@@ -249,7 +381,35 @@ const GroupsAdd: React.FC = () => {
     >
 
       {renderRedirect()}
+      {renderRedirectGro()}
       <NavBar/>
+      <Modal show={show}
+               onHide={handleClose}
+               >
+          <Modal.Header closeButton>
+            <Modal.Title>Warning!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>This group is already exists</Modal.Body>
+          <Modal.Footer>
+            <Button variant='danger'
+                    onClick={handleClose}
+                    style={{
+                      textTransform: 'uppercase'
+                    }}>
+              OK
+            </Button>
+
+          </Modal.Footer>
+          {
+            loading && (
+              <Spinner animation='border'
+                       style={{
+                         textAlign: 'center',
+                         marginLeft: '50%'
+                       }}/>
+            )
+          }
+        </Modal>
       <Row className="text-center mb-5">
         <Col
           xs={12}
@@ -351,7 +511,7 @@ const GroupsAdd: React.FC = () => {
             </Col>
             <Col xs={3} md={3}/>
           </Row>
-          <Row className="mt-3 mb-3 justify-content-md-center">
+         {/* <Row className="mt-3 mb-3 justify-content-md-center">
             <Col xs={12} md={4}>
               <p>Sub Group Number</p>
             </Col>
@@ -376,28 +536,37 @@ const GroupsAdd: React.FC = () => {
               </Form>
             </Col>
             <Col xs={3} md={3}></Col>
-          </Row>
-          {/* {error && (
+          </Row>*/}
+          {/*error && (
               <Row className=" justify-content-md-center">
                 <Col xs={12} md={10}>
-                  <p className={`text-danger ${styles.workingDaysHoursError}`}>
+                  <p className={`text-danger ${styles.groupsError}`}>
                     {error}
                   </p>
                 </Col>
               </Row>
-            )} */}
+          )*/}
           <Row className="mt-2 mb-2 justify-content-md-center">
             <Col xs={12} md={2}/>
-            <Col xs={3} md={8}>
+            <Col xs={3} md={4}>
               <Button
-                style={{width: '180px', fontSize: '1.3em'}}
+                style={{width: '250px', fontSize: '1.3em'}}
                 onClick={handleSubmit}
               >
-                Generate a Group
+                Generate a New Group
+              </Button>
+            </Col>
+            <Col xs={3} md={6}>
+              <Button
+                style={{width: '300px', fontSize: '1.3em'}}
+                onClick={handleSubmitSub}
+              >
+                New Group with Sub Group
               </Button>
             </Col>
             <Col xs={12} md={2}/>
           </Row>
+
         </div>
 
       </Container>
