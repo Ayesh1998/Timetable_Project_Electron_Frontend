@@ -16,7 +16,7 @@ import {setGroups} from './groupsSlice';
 const yearSemList = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2'];
 const programList = ['SE', 'CS', 'DS', 'IT'];
 const groupNumList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const subGroupNumList = [1, 2];
+//const subGroupNumList = [1, 2];
 
 var exist = 0;
 // noinspection DuplicatedCode
@@ -344,11 +344,11 @@ const GroupsAdd: React.FC = () => {
     const pro = String(programme);
     const groupforId = val.toString();
 
-    const groId = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId;
+    const groId = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId;
     setGroupId(groId);
 
     var subNum = 1;
-    var subId = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId + '.01';
+    var subId = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId + '.1';
     setSubGrouup({subGroup: subNum, subGroupId: subId});
 
 
@@ -375,8 +375,7 @@ const GroupsAdd: React.FC = () => {
     <div
       style={{
         backgroundColor: '#37474F',
-        height: '100vh',
-        overflow: 'scroll'
+        height: '100vh'
       }}
     >
 

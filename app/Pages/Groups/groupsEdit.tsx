@@ -5,13 +5,13 @@ import {Button, Col, Container, Form, Row} from 'react-bootstrap';
 // @ts-ignore
 //import CheckboxGroup from 'react-checkbox-group';
 import {Redirect} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import {useDispatch,useSelector} from 'react-redux';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import styles from './groups.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-
+import {setEditingGroup, setEditingGroupId, setEditGroup} from './groupsSlice';
 
 const yearSemList = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2'];
 const programList = ['SE', 'CS', 'DS', 'IT'];
@@ -30,40 +30,40 @@ const GroupsEdit: React.FC = () => {
   //   }) => state.groups.groups
   // )
 
-  // const editingGroupId = useSelector(
-  //   (state: {
-  //     groups: any
-  //     editingGroupId: string
-  //   }) => state.groups.editingGroupId
-  // )
+  const editingGroupId = useSelector(
+    (state: {
+      groups: any
+      editingGroupId: string
+    }) => state.groups.editingGroupId
+  )
 
-  // const editingGroup = useSelector(
-  //   (state: {
-  //     groups: any
-  //     editingGroupId: any
-  //   }) => state.groups.editingGroup
-  // )
+  const editingGroup = useSelector(
+    (state: {
+      groups: any
+      editingGroupId: any
+    }) => state.groups.editingGroup
+  )
 
-  // const [groupOne, setGroupOne] = useState<{
-  //   academicYear: number,
-  //   academicSemester: number,
-  //   academicYearAndSemester: string,
-  //   programme: string,
-  //   group: number,
-  //   groupId: string,
-  //   subGroups: any
-  //   availableSubGroup:boolean
-  // }>({
+  const [groupOne, setGroupOne] = useState<{
+    academicYear: number,
+    academicSemester: number,
+    academicYearAndSemester: string,
+    programme: string,
+    group: number,
+    groupId: string,
+    subGroups: any
+    availableSubGroup:boolean
+  }>({
 
-  //   academicYear: editingGroup.academicYear,
-  //   academicSemester: editingGroup.academicSemester,
-  //   academicYearAndSemester: editingGroup.academicYearAndSemester,
-  //   programme: editingGroup.programme,
-  //   group: editingGroup.group,
-  //   groupId: editingGroup.groupId,
-  //   subGroups: editingGroup.subGroups,
-  //   availableSubGroup:editingGroup.availableSubGroup
-  // })
+    academicYear: editingGroup.academicYear,
+    academicSemester: editingGroup.academicSemester,
+    academicYearAndSemester: editingGroup.academicYearAndSemester,
+    programme: editingGroup.programme,
+    group: editingGroup.group,
+    groupId: editingGroup.groupId,
+    subGroups: editingGroup.subGroups,
+    availableSubGroup:editingGroup.availableSubGroup
+  })
 
 
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
@@ -98,19 +98,19 @@ const GroupsEdit: React.FC = () => {
     // setAvailableSubGroup(editingGroup.availableSubGroup);
 
 
-    setId('5f3d5fb33d81ca3398789c36');
-    setAcademicYear(4);
-    setAcademicSemester(2);
-    setAcademicYearAndSemester('Y4S2');
-    setProgramme('IT');
-    setGroup(4);
-    setGroupId('Y4.S2.IT.4');
-    setSubGrouup({
-      subGroup: null,
-      subGroupId: 'Y4.S2.IT.4.01'
-    });
+    // setId('5f3d5fb33d81ca3398789c36');
+    // setAcademicYear(4);
+    // setAcademicSemester(2);
+    // setAcademicYearAndSemester('Y4S2');
+    // setProgramme('IT');
+    // setGroup(4);
+    // setGroupId('Y4.S2.IT.4');
+    // setSubGrouup({
+    //   subGroup: null,
+    //   subGroupId: 'Y4.S2.IT.4.01'});
 
-    setAvailableSubGroup(true);
+
+    // setAvailableSubGroup(true);
 
   }, []);
 
@@ -217,6 +217,10 @@ const GroupsEdit: React.FC = () => {
       const responseData = await response.json();
       setRenderRedirectTo1(true);
 
+      dispatch(setEditGroup(false));
+      dispatch(setEditingGroupId(''));
+      dispatch(setEditingGroup(null));
+
       // console.log(responseData.userDetails);
 
       if (!responseData) {
@@ -230,7 +234,7 @@ const GroupsEdit: React.FC = () => {
 
   const renderRedirect = () => {
     if (renderRedirectTo && renderRedirectTo1) {
-      return <Redirect to={routes.GROUPS_LIST_VIEW_EDIT}/>;
+      return <Redirect to={routes.GROUPS_LIST_VIEW}/>;
       //   props.history.push(loginState.redirectTo);s
     }
     return null;
@@ -335,7 +339,7 @@ const GroupsEdit: React.FC = () => {
                     as="select"
                     defaultValue="Choose..."
                     style={{borderWidth: '2.5px'}}
-                    value={academicYearAndSemester}
+                    value={groupOne.academicYearAndSemester}
                     onChange={handleChangeAcademicYearAndSemester}
                   >
                     <option>Select</option>
@@ -361,7 +365,7 @@ const GroupsEdit: React.FC = () => {
                     as="select"
                     defaultValue="Choose..."
                     style={{borderWidth: '2.5px'}}
-                    value={programme}
+                    value={groupOne.programme}
                     onChange={handleChangeProgramme}
                   >
                     <option>Select</option>
@@ -389,7 +393,7 @@ const GroupsEdit: React.FC = () => {
                     as="select"
                     defaultValue="Choose..."
                     style={{borderWidth: '2.5px'}}
-                    value={group}
+                    value={groupOne.group}
                     onChange={handleChangeGroup}
                   >
                     <option>Select</option>

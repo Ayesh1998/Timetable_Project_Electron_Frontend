@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Row, Table} from 'react-bootstrap';
 import {NavLink, Redirect} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import {useDispatch,useSelector} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
 import styles from './groups.css';
 import routes from '../../constants/routes.json';
@@ -70,6 +70,20 @@ const Group = (props: any) => (
 
 const GroupsListView: React.FC = () => {
   const dispatch = useDispatch();
+
+  const editingGroupId = useSelector(
+    (state: {
+      groups: any
+      editingGroupId: string
+    }) => state.groups.editingGroupId
+  );
+
+  const editingGroup = useSelector(
+    (state: {
+      groups: any
+      editingGroupId: any
+    }) => state.groups.editingGroup
+  );
   const [groupsObject, setGroupsObject] = useState<any>([]);
   const [renderEdit, setRenderEdit] = useState<boolean | null>(false);
 
@@ -145,6 +159,7 @@ const GroupsListView: React.FC = () => {
   };
 
   const handleAddSub = async (id: string) => {
+    await dispatch(setEditGroup(true));
     try {
       const response = await fetch(
         `http://localhost:5000/groups/getGroups/` + id,
@@ -158,7 +173,6 @@ const GroupsListView: React.FC = () => {
       const responseData = await response.json();
       await dispatch(setEditingGroupId(id));
       await dispatch(setEditingGroup(responseData));
-      await dispatch(setEditGroup(true));
       setRenderEdit(true);
     } catch (errors) {
       console.log(errors);
@@ -182,6 +196,7 @@ const GroupsListView: React.FC = () => {
   return (
     <div style={{backgroundColor: '#37474F'}}>
       {renderEditTo()}
+
       <NavBar/>
       <Row className="text-center mb-5">
         <Col
