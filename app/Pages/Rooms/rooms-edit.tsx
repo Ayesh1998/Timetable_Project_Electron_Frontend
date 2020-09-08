@@ -80,33 +80,52 @@ const RoomsEdit: React.FC = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      await dispatch(setEditRoom(true));
-      const response = await fetch(`${proxy}/rooms/rooms/` + editingRoomId, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(room)
-      });
-      const responseData = await response.json();
-      await dispatch(setExistingRoom(false));
-      if (responseData.exists) {
-        errors_ = responseData.message;
-        await dispatch(setExistingRoom(true));
-        await dispatch(setEditRoom(false));
-      } else {
-        roomList = roomList.map((room_: any) => room_ === editingRoomId ? room : room_);
-        await dispatch(setRooms(roomList));
-        await dispatch(setEditRoom(false));
-        await dispatch(setEditingRoomId(''));
-        await dispatch(setEditingRoom(null));
+    await dispatch(setExistingRoom(false));
+    if (room.roomName.trim() === '') {
+      errors_ = 'Please enter a value for the room name.';
+      await dispatch(setExistingRoom(true));
+      setLoading(false);
+    } else if (room.buildingName.trim() === '') {
+      errors_ = 'Please enter a value for the building.';
+      await dispatch(setExistingRoom(true));
+      setLoading(false);
+    } else if (room.roomType.trim() === '') {
+      errors_ = 'Please enter a value for the room type.';
+      await dispatch(setExistingRoom(true));
+      setLoading(false);
+    } else if (room.roomCapacity.trim() === '') {
+      errors_ = 'Please enter a value for the room capacity.';
+      await dispatch(setExistingRoom(true));
+      setLoading(false);
+    }
+    if (room.roomName.trim() !== '' && room.buildingName.trim() !== '' &&
+      room.roomCapacity.trim() !== '' && room.roomType.trim() !== '') {
+      try {
+        await dispatch(setEditRoom(true));
+        const response = await fetch(`${proxy}/rooms/rooms/` + editingRoomId, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(room)
+        });
+        const responseData = await response.json();
+        if (responseData.exists) {
+          errors_ = responseData.message;
+          await dispatch(setExistingRoom(true));
+        } else {
+          roomList = roomList.map((room_: any) => room_ === editingRoomId ? room : room_);
+          await dispatch(setRooms(roomList));
+          await dispatch(setEditRoom(false));
+          await dispatch(setEditingRoomId(''));
+          await dispatch(setEditingRoom(null));
+        }
+        setLoading(false);
+      } catch (errors) {
+        errors_ = errors;
+        setLoading(false);
+        console.log(errors);
       }
-      setLoading(false);
-    } catch (errors) {
-      errors_ = errors;
-      setLoading(false);
-      console.log(errors);
     }
   };
 
@@ -139,6 +158,7 @@ const RoomsEdit: React.FC = () => {
     await dispatch(setEditRoom(false));
     await dispatch(setEditingRoomId(''));
     await dispatch(setEditingRoom(null));
+    await dispatch(setExistingRoom(false));
     setLoading(false);
   };
 
