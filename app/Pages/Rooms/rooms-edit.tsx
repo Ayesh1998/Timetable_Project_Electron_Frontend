@@ -93,13 +93,17 @@ const RoomsEdit: React.FC = () => {
       errors_ = 'Please enter a value for the room type.';
       await dispatch(setExistingRoom(true));
       setLoading(false);
-    } else if (room.roomCapacity.trim() === '') {
+    } else if (String(room.roomCapacity).trim() === '') {
       errors_ = 'Please enter a value for the room capacity.';
       await dispatch(setExistingRoom(true));
       setLoading(false);
+    } else if (isNaN(Number(String(room.roomCapacity).trim()))) {
+      errors_ = 'Please enter a numerical value for the room capacity.';
+      await dispatch(setExistingRoom(true));
+      setLoading(false);
     }
-    if (room.roomName.trim() !== '' && room.buildingName.trim() !== '' &&
-      room.roomCapacity.trim() !== '' && room.roomType.trim() !== '') {
+    if (room.roomName.trim() !== '' && room.buildingName.trim() !== '' && String(room.roomCapacity).trim() !== ''
+      && room.roomType.trim() !== '' && !isNaN(Number(String(room.roomCapacity).trim()))) {
       try {
         await dispatch(setEditRoom(true));
         const response = await fetch(`${proxy}/rooms/rooms/` + editingRoomId, {
