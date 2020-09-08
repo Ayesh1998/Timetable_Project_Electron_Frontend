@@ -65,28 +65,48 @@ const RoomsAdd: React.FC = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      const response = await fetch(`${proxy}/rooms/rooms`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(room)
-      });
-      const responseData = await response.json();
-      roomList = {...roomList, responseData};
-      await dispatch(setRooms(roomList));
-      await dispatch(setExistingRoom(false));
-      if (responseData.exists) {
-        errors_ = responseData.message;
-        await dispatch(setExistingRoom(true));
+    await dispatch(setExistingRoom(false));
+    if (room.roomName.trim() === '') {
+      errors_ = 'Please enter a value for the room name.';
+      await dispatch(setExistingRoom(true));
+      setLoading(false);
+    } else if (room.buildingName.trim() === '') {
+      errors_ = 'Please enter a value for the building.';
+      await dispatch(setExistingRoom(true));
+      setLoading(false);
+    } else if (room.roomType.trim() === '') {
+      errors_ = 'Please enter a value for the room type.';
+      await dispatch(setExistingRoom(true));
+      setLoading(false);
+    } else if (room.roomCapacity.trim() === '') {
+      errors_ = 'Please enter a value for the room capacity.';
+      await dispatch(setExistingRoom(true));
+      setLoading(false);
+    }
+    if (room.roomName.trim() !== '' && room.buildingName.trim() !== '' &&
+      room.roomCapacity.trim() !== '' && room.roomType.trim() !== '') {
+      try {
+        const response = await fetch(`${proxy}/rooms/rooms`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(room)
+        });
+        const responseData = await response.json();
+        roomList = {...roomList, responseData};
+        await dispatch(setRooms(roomList));
+        if (responseData.exists) {
+          errors_ = responseData.message;
+          await dispatch(setExistingRoom(true));
+        }
+        await resetValues();
+        setLoading(false);
+      } catch (errors) {
+        errors_ = errors;
+        setLoading(false);
+        console.log(errors);
       }
-      await resetValues();
-      setLoading(false);
-    } catch (errors) {
-      errors_ = errors;
-      setLoading(false);
-      console.log(errors);
     }
   };
 
