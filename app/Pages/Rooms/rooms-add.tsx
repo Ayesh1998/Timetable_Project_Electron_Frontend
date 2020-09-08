@@ -82,9 +82,13 @@ const RoomsAdd: React.FC = () => {
       errors_ = 'Please enter a value for the room capacity.';
       await dispatch(setExistingRoom(true));
       setLoading(false);
+    } else if (isNaN(Number(room.roomCapacity.trim()))) {
+      errors_ = 'Please enter a numerical value for the room capacity.';
+      await dispatch(setExistingRoom(true));
+      setLoading(false);
     }
-    if (room.roomName.trim() !== '' && room.buildingName.trim() !== '' &&
-      room.roomCapacity.trim() !== '' && room.roomType.trim() !== '') {
+    if (room.roomName.trim() !== '' && room.buildingName.trim() !== '' && room.roomCapacity.trim() !== ''
+      && room.roomType.trim() !== '' && !isNaN(Number(room.roomCapacity.trim()))) {
       try {
         const response = await fetch(`${proxy}/rooms/rooms`, {
           method: 'POST',
