@@ -13,7 +13,7 @@ const Group = (props: any) => (
       <Button
         className="ml-4"
         onClick={() => {
-          props.handleDelete(props.group._id);
+          props.handleDelete(props.group._id,props.group.groupId);
         }}
         variant="outline-danger"
         style={{
@@ -114,7 +114,7 @@ const GroupsListView: React.FC = () => {
     }
   };
 
-  const handleDelete = async (id: any) => {
+  const handleDelete = async (id: any , gid:any) => {
     try {
       const response = await fetch(
         `http://localhost:5000/groups/deleteGroups`,
@@ -124,6 +124,27 @@ const GroupsListView: React.FC = () => {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({id})
+        }
+      );
+      const responseData = await response.json();
+      await fetchData();
+      if (!responseData) {
+        throw new Error(responseData.message);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+
+    try {
+
+      const response = await fetch(
+        `http://localhost:5000/subGroups/deleteSubGroups1`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({"groupid":gid})
         }
       );
       const responseData = await response.json();
