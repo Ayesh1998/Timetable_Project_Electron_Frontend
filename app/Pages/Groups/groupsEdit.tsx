@@ -82,30 +82,25 @@ const GroupsEdit: React.FC = () => {
   const [subGroups, setSubGroups] = useState<any>([]);
 
   const [subGrouup, setSubGrouup] = useState<{ subGroup: Number, subGroupId: string }>({});
-  const [subGrouupOld, setSubGrouupOld] = useState<{ subGroup: Number, subGroupId: string }>({});
+
 
   const [groupsObject, setGroupsObject] = useState<any>(null);
   const [id, setId] = useState<string>('');
-  var subGroOld:{subGroup: Number, subGroupId: string }[] = [];
+
 
 
   useEffect(() => {
 
      setId(editingGroupId);
 
+    //  groupOne.subGroups.map(sub =>{
 
+    //   subGroOld.push({subGroup: sub.subGroup, subGroupId:sub.subGroupId});
+    //   return subGroOld;
 
-     groupOne.subGroups.map(sub =>{
+    //  })
 
-      subGroOld.push({subGroup: sub.subGroup, subGroupId:sub.subGroupId});
-      return subGroOld;
-
-     })
-
-     console.log(`$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$444+${subGroOld[0].subGroupId}`)
-
-
-
+    //  console.log(`$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$444+${subGroOld[0].subGroupId}`)
 
 
   }, []);
@@ -144,12 +139,7 @@ const GroupsEdit: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    var subGroFinish:{subGroup: Number, subGroupId: string }[] = [];
-    subGroFinish = [...subGroOld,subGrouup];
-   // console.log(`%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%+${subGroOld[0].subGroupId}`)
-    //subGroOld.push(subGrouup);
 
-    //console.log(`%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%+${subGroOld[0].subGroupId}+${subGroOld[1].subGroupId}`)
     const finalObjectGroup = {
       academicYear:groupOne.academicYear,
       academicSemester:groupOne.academicSemester,
@@ -157,7 +147,7 @@ const GroupsEdit: React.FC = () => {
       programme:groupOne.programme,
       group:groupOne.group,
       groupId:groupOne.groupId,
-      subGroups:subGroFinish ,
+      subGroups:[...groupOne.subGroups, subGrouup] ,
       availableSubGroup: true
     };
 
