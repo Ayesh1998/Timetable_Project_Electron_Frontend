@@ -344,11 +344,27 @@ const GroupsAdd: React.FC = () => {
     const pro = String(programme);
     const groupforId = val.toString();
 
-    const groId = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId;
+
+      if(val<=9){
+        var groId = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId ;
+      }
+      else{
+        var groId = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId ;
+      }
+
+   // const groId = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId;
     setGroupId(groId);
 
     var subNum = 1;
-    var subId = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId + '.1';
+    if(val<=9){
+      var subId = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId  + '.1';
+    }
+    else{
+      var subId = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId  + '.1';
+    }
+
+
+    //var subId = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId + '.1';
     setSubGrouup({subGroup: subNum, subGroupId: subId});
 
 
