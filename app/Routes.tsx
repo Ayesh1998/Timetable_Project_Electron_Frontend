@@ -25,6 +25,9 @@ import RoomsPage from './Pages/Rooms/rooms-page';
 import LecturersStatisticsPage from './Pages/LecturersStatistics/lecturers-statistics-page';
 import StudentsStatisticsPage from './Pages/StudentsStatistics/students-statistics-page';
 import SubjectsStatisticsPage from './Pages/SubjectsStatistics/subjects-statistics-page';
+import RoomsUnavailabilityPage from './Pages/RoomsUnavailability/rooms-unavailability-page';
+import AddRoomsPage from './Pages/AddRooms/add-rooms-page';
+import AssignRoomsForSessionsPage from './Pages/AssignRoomsForSessions/assign-rooms-for-sessions-page';
 
 const LazyCounterPage = React.lazy(() =>
   import('./containers/CounterPage')
@@ -86,6 +89,12 @@ export default function Routes() {
                component={StudentsStatisticsPage}/>
         <Route path={routes.STATISTICS_OF_SUBJECTS}
                component={SubjectsStatisticsPage}/>
+        <Route path={routes.ROOMS_UNAVAILABILITY}
+               component={RoomsUnavailabilityPage}/>
+        <Route path={routes.ADD_ROOMS}
+               component={AddRoomsPage}/>
+        <Route path={routes.ASSIGN_ROOMS_FOR_SESSIONS}
+               component={AssignRoomsForSessionsPage}/>
         <Route path={routes.HOME}
                component={HomePage}/>
       </Switch>

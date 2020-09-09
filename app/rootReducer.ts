@@ -10,6 +10,9 @@ import roomsReducer from './Pages/Rooms/rooms-slice';
 import lecturersStatisticsReducer from './Pages/LecturersStatistics/lecturers-statistics-slice';
 import studentsStatisticsReducer from './Pages/StudentsStatistics/students-statistics-slice';
 import subjectsStatisticsReducer from './Pages/SubjectsStatistics/subjects-statistics-slice';
+import roomsUnavailabilityReducer from './Pages/RoomsUnavailability/rooms-unavailability-slice';
+import addRoomsReducer from './Pages/AddRooms/add-rooms-slice';
+import assignRoomsForSessionsReducer from './Pages/AssignRoomsForSessions/assign-rooms-for-sessions-slice';
 
 export default function createRootReducer(history: History) {
   return combineReducers({
@@ -22,6 +25,9 @@ export default function createRootReducer(history: History) {
     rooms: roomsReducer,
     lecturersStatistics: lecturersStatisticsReducer,
     studentsStatistics: studentsStatisticsReducer,
-    subjectsStatistics: subjectsStatisticsReducer
+    subjectsStatistics: subjectsStatisticsReducer,
+    roomsUnavailabilityReducer: roomsUnavailabilityReducer,
+    addRoomsReducer: addRoomsReducer,
+    assignRoomsForSessionsReducer: assignRoomsForSessionsReducer
   });
 }
