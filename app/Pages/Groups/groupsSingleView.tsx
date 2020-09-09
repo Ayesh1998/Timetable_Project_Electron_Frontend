@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {Col, Container, Row, Table} from 'react-bootstrap';
-import {useDispatch} from 'react-redux';
+import {useDispatch,useSelector} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
 import styles from './groups.css';
 import {setGroups} from './groupsSlice';
