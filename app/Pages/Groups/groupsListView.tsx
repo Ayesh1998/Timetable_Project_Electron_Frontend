@@ -158,6 +158,30 @@ const GroupsListView: React.FC = () => {
   };
 
   const handleDeleteSub = async (id: any , subid:any) => {
+
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/groups/deleteSubGroupUpdate`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({"subKey":id})
+        }
+      );
+      const responseData = await response.json();
+      console.log(`me group eken sub delete una eke respose +${responseData}`)
+      await fetchData();
+      if (!responseData) {
+        throw new Error(responseData.message);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+
+
     try {
       const response = await fetch(
         `http://localhost:5000/subGroups/deleteSubGroupsWithSubId`,
