@@ -38,7 +38,7 @@ const Group = (props: any) => (
               <Button
                 className="ml-4"
                 onClick={() => {
-                  props.handleDeleteSub(sub._id);
+                  props.handleDeleteSub(sub._id,sub.subGroupId);
                 }}
                 variant="outline-danger"
                 style={{
@@ -138,7 +138,7 @@ const GroupsListView: React.FC = () => {
     try {
 
       const response = await fetch(
-        `http://localhost:5000/subGroups/deleteSubGroups1`,
+        `http://localhost:5000/subGroups/ deleteAllSubGroupsWithGroId`,
         {
           method: 'DELETE',
           headers: {
@@ -157,19 +157,20 @@ const GroupsListView: React.FC = () => {
     }
   };
 
-  const handleDeleteSub = async (id: any) => {
+  const handleDeleteSub = async (id: any , subid:any) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/subGroups/deleteSubGroups`,
+        `http://localhost:5000/subGroups/deleteSubGroupsWithSubId`,
         {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({id})
+          body: JSON.stringify({"subid":subid})
         }
       );
       const responseData = await response.json();
+      console.log(`me sub group eken sub delete una eke respose +${responseData}`)
       await fetchData();
       if (!responseData) {
         throw new Error(responseData.message);
