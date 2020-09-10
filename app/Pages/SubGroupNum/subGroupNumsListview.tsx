@@ -1,12 +1,12 @@
 /* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Row, Table} from 'react-bootstrap';
-// import {
-//   setYearSems,
-//   setEditYearSem,
-//   setEditingYearSem,
-//   setEditingYearSemId
-// } from './yearsemsSlice';
+import {
+  setSubGroupNums,
+  setEditSubGroupNum,
+  setEditingSubGroupNum,
+  setEditingSubGroupNumId
+} from './subGroupNumsSlice';
 import {NavLink, Redirect} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
@@ -30,7 +30,7 @@ const SubGroupNum = (props) => (
       <Button
         className="ml-4"
         onClick={() => {
-          props.handleDelete(props.groupNum._id);
+          props.handleDelete(props.subGroupNum._id);
         }}
         variant="outline-danger"
         style={{
@@ -40,7 +40,7 @@ const SubGroupNum = (props) => (
         }}
       >
         <NavLink
-          to={routes.YEARSEMS_LIST_VIEW}
+          to={routes.SUBGROUPNUMS_LIST_VIEW}
           style={{color: '#fff'}}
         >
           delete
@@ -69,7 +69,7 @@ const SubGroupNumsListView: React.FC = () => {
   //   }) => state.yearSems.editingYearSem
   // )
 
-  const [yearSemsObject, setYearSemsObject] = useState<any>([]);
+  const [subGroupNumsObject, setSubGroupNumsObject] = useState<any>([]);
 
   const [renderEdit, setRenderEdit] = useState<boolean | null>(false);
 
@@ -95,9 +95,9 @@ const SubGroupNumsListView: React.FC = () => {
 
       const responseData = await response.json();
 
-      setYearSemsObject(responseData.subGroupNums);
-      // dispatch(setYearSems(responseData.yearsems));
-      // console.log(responseData.yearsems);
+      setSubGroupNumsObject(responseData.subGroupNums);
+      dispatch(setSubGroupNums(responseData.subGroupNums));
+      console.log(responseData.subGroupNums);
 
       if (!responseData) {
         // noinspection ExceptionCaughtLocallyJS
@@ -109,92 +109,85 @@ const SubGroupNumsListView: React.FC = () => {
   };
 
   const handleDelete = async (id) => {
-    //   console.log(`in handle delete + ${id}`);
+      console.log(`in handle delete + ${id}`);
 
-    //   try {
-    //     const response = await fetch(
-    //       `http://localhost:5000/yearSems/deleteYearSems`,
-    //       {
-    //         method: 'DELETE',
-    //         headers: {
-    //           'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({id})
-    //       }
-    //     );
+      try {
+        const response = await fetch(
+          `http://localhost:5000/subGroupNums/deleteSubGroupNums`,
+          {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({id})
+          }
+        );
 
-    //     const responseData = await response.json();
-    //     // console.log(responseData.userDetails);
-    //     //setRenderRedirectTo(true);
+        const responseData = await response.json();
+        // console.log(responseData.userDetails);
+        //setRenderRedirectTo(true);
 
-    //     fetchData();
+        fetchData();
 
-    //     if (!responseData) {
-    //       // noinspection ExceptionCaughtLocallyJS
-    //       throw new Error(responseData.message);
-    //     }
-    //   } catch (err) {
-    //     console.log(err.message);
-    //   }
+        if (!responseData) {
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error(responseData.message);
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
 
-
-    // setTagsObject({
-    //   tagsObject: tagsObject.filter(el => el._id !== id)
-    // })
-
-
-    // setTagsObjectDel({
-    //   tagsObject: tagsObject.filter(el => el._id !== id)
-    // })
 
 
   };
 
 
   const handleEdit = async (id: string) => {
-    // console.log(`in handle edit + ${id}`);
+    console.log(`in handle edit + ${id}`);
 
-    // try {
-    //   const response = await fetch(
-    //     `http://localhost:5000/yearSems/getYearSems/` + id,
-    //     {
-    //       method: 'GET',
-    //       headers: {
-    //         'Content-Type': 'application/json'
-    //       },
+    try {
+      const response = await fetch(
+        `http://localhost:5000/subGroupNums/getSubGroupNums/` + id,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
 
-    //     }
-    //   );
+        }
+      );
 
-    //   const responseData = await response.json()
-    //   setRenderEdit(true);
-    //   console.log("me edit eken passe data-------------------------");
-    //   console.log(responseData);
+      const responseData = await response.json()
+
+      console.log("me edit eken passe data-------------------------");
+      console.log(responseData);
 
 
-    //    dispatch(setEditingYearSemId(id))
-    //    dispatch(setEditingYearSem(responseData))
-    //    dispatch(setEditYearSem(true))
+       dispatch(setEditingSubGroupNumId(id))
+       dispatch(setEditingSubGroupNum(responseData))
+       dispatch(setEditSubGroupNum(true))
 
-    // } catch (errors) {
-    //   const errors_ = errors
+       setRenderEdit(true);
 
-    //   console.log(errors)
-    // }
+    } catch (errors) {
+      const errors_ = errors
+
+      console.log(errors)
+    }
 
   };
 
   const renderEditTo = () => {
     if (renderEdit) {
-      return <Redirect to={routes.YEARSEMS_EDIT}/>;
+      return <Redirect to={routes.SUBGROUPNUMS_EDIT}/>;
       //   props.history.push(loginState.redirectTo);s
     }
     return null;
   };
 
   const subGroupNumList = () => {
-    return yearSemsObject.map(yearSem => {
-      return <SubGroupNum subGroupNum={yearSem} handleDelete={handleDelete} handleEdit={handleEdit} key={yearSem._id}/>;
+    return subGroupNumsObject.map(subGroupNum => {
+      return <SubGroupNum subGroupNum={subGroupNum} handleDelete={handleDelete} handleEdit={handleEdit} key={subGroupNum._id}/>;
     });
   };
 
@@ -213,9 +206,9 @@ const SubGroupNumsListView: React.FC = () => {
           <h3>SubGroup Number List</h3>
         </Col>
       </Row>
-      {yearSemsObject && (
+      {subGroupNumsObject && (
         <Container
-          className={`mt-2 p-4 ${styles.yearSemsTopWrapper}`}
+          className={`mt-2 p-4 ${styles.subGroupNumsTopWrapper}`}
           style={{
             border: '3px solid white',
             borderRadius: '8px',
@@ -226,7 +219,7 @@ const SubGroupNumsListView: React.FC = () => {
             <Col xs={12} md={12} className="mt-auto">
               <Button style={{width: '240px', fontSize: '1.2em'}}>
                 <NavLink
-                  to={routes.YEARSEMS_ADD}
+                  to={routes.SUBGROUPNUMS_ADD}
                   style={{color: '#fff'}}
                 >
                   Add New SubGroup Num
@@ -241,7 +234,7 @@ const SubGroupNumsListView: React.FC = () => {
                 bordered
                 hover
                 variant="dark"
-                className={`${styles.groupNumsViewTable}`}
+                className={`${styles.subGroupNumsViewTable}`}
               >
                 <thead className="thead-light">
                 <tr>

@@ -1,12 +1,12 @@
 /* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Row, Table} from 'react-bootstrap';
-// import {
-//   setYearSems,
-//   setEditYearSem,
-//   setEditingYearSem,
-//   setEditingYearSemId
-// } from './yearsemsSlice';
+import {
+  setPrograms,
+  setEditProgram,
+  setEditingProgram,
+  setEditingProgramId
+} from './programsSlice';
 import {NavLink, Redirect} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
@@ -40,7 +40,7 @@ const Program = (props) => (
         }}
       >
         <NavLink
-          to={routes.YEARSEMS_LIST_VIEW}
+          to={routes.PROGRAMS_LIST_VIEW}
           style={{color: '#fff'}}
         >
           delete
@@ -69,7 +69,7 @@ const ProgramsListView: React.FC = () => {
   //   }) => state.yearSems.editingYearSem
   // )
 
-  const [yearSemsObject, setYearSemsObject] = useState<any>([]);
+  const [programsObject, setProgramsObject] = useState<any>([]);
 
   const [renderEdit, setRenderEdit] = useState<boolean | null>(false);
 
@@ -95,9 +95,9 @@ const ProgramsListView: React.FC = () => {
 
       const responseData = await response.json();
 
-      setYearSemsObject(responseData.programs);
-      // dispatch(setYearSems(responseData.yearsems));
-      // console.log(responseData.yearsems);
+      setProgramsObject(responseData.programs);
+      dispatch(setPrograms(responseData.programs));
+      console.log(responseData.programs);
 
       if (!responseData) {
         // noinspection ExceptionCaughtLocallyJS
@@ -109,92 +109,82 @@ const ProgramsListView: React.FC = () => {
   };
 
   const handleDelete = async (id) => {
-    //   console.log(`in handle delete + ${id}`);
+      console.log(`in handle delete + ${id}`);
 
-    //   try {
-    //     const response = await fetch(
-    //       `http://localhost:5000/yearSems/deleteYearSems`,
-    //       {
-    //         method: 'DELETE',
-    //         headers: {
-    //           'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({id})
-    //       }
-    //     );
+      try {
+        const response = await fetch(
+          `http://localhost:5000/programs/deletePrograms`,
+          {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({id})
+          }
+        );
 
-    //     const responseData = await response.json();
-    //     // console.log(responseData.userDetails);
-    //     //setRenderRedirectTo(true);
-
-    //     fetchData();
-
-    //     if (!responseData) {
-    //       // noinspection ExceptionCaughtLocallyJS
-    //       throw new Error(responseData.message);
-    //     }
-    //   } catch (err) {
-    //     console.log(err.message);
-    //   }
+        const responseData = await response.json();
 
 
-    // setTagsObject({
-    //   tagsObject: tagsObject.filter(el => el._id !== id)
-    // })
+        fetchData();
 
-
-    // setTagsObjectDel({
-    //   tagsObject: tagsObject.filter(el => el._id !== id)
-    // })
-
+        if (!responseData) {
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error(responseData.message);
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
 
   };
 
 
   const handleEdit = async (id: string) => {
-    // console.log(`in handle edit + ${id}`);
+    console.log(`in handle edit + ${id}`);
 
-    // try {
-    //   const response = await fetch(
-    //     `http://localhost:5000/yearSems/getYearSems/` + id,
-    //     {
-    //       method: 'GET',
-    //       headers: {
-    //         'Content-Type': 'application/json'
-    //       },
+    try {
+      const response = await fetch(
+        `http://localhost:5000/programs/getPrograms/` + id,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
 
-    //     }
-    //   );
+        }
+      );
 
-    //   const responseData = await response.json()
-    //   setRenderEdit(true);
-    //   console.log("me edit eken passe data-------------------------");
-    //   console.log(responseData);
+      const responseData = await response.json()
+
+      console.log("me edit eken passe data-------------------------");
+      console.log(responseData);
 
 
-    //    dispatch(setEditingYearSemId(id))
-    //    dispatch(setEditingYearSem(responseData))
-    //    dispatch(setEditYearSem(true))
+       dispatch(setEditingProgramId(id))
+       dispatch(setEditingProgram(responseData))
+       dispatch(setEditProgram(true))
 
-    // } catch (errors) {
-    //   const errors_ = errors
+       setRenderEdit(true);
 
-    //   console.log(errors)
-    // }
+    } catch (errors) {
+      const errors_ = errors
+
+      console.log(errors)
+    }
 
   };
 
   const renderEditTo = () => {
     if (renderEdit) {
-      return <Redirect to={routes.YEARSEMS_EDIT}/>;
+      return <Redirect to={routes.PROGRAMS_EDIT}/>;
       //   props.history.push(loginState.redirectTo);s
     }
     return null;
   };
 
   const programList = () => {
-    return yearSemsObject.map(yearSem => {
-      return <Program program={yearSem} handleDelete={handleDelete} handleEdit={handleEdit} key={yearSem._id}/>;
+    return programsObject.map(program => {
+      return <Program program={program} handleDelete={handleDelete} handleEdit={handleEdit} key={program._id}/>;
     });
   };
 
@@ -213,9 +203,9 @@ const ProgramsListView: React.FC = () => {
           <h3>Programme List</h3>
         </Col>
       </Row>
-      {yearSemsObject && (
+      {programsObject && (
         <Container
-          className={`mt-2 p-4 ${styles.yearSemsTopWrapper}`}
+          className={`mt-2 p-4 ${styles.programsTopWrapper}`}
           style={{
             border: '3px solid white',
             borderRadius: '8px',
@@ -226,7 +216,7 @@ const ProgramsListView: React.FC = () => {
             <Col xs={12} md={12} className="mt-auto">
               <Button style={{width: '240px', fontSize: '1.2em'}}>
                 <NavLink
-                  to={routes.YEARSEMS_ADD}
+                  to={routes.PROGRAMS_ADD}
                   style={{color: '#fff'}}
                 >
                   Add New Programme
@@ -241,7 +231,7 @@ const ProgramsListView: React.FC = () => {
                 bordered
                 hover
                 variant="dark"
-                className={`${styles.groupNumsViewTable}`}
+                className={`${styles.programsViewTable}`}
               >
                 <thead className="thead-light">
                 <tr>
