@@ -9,7 +9,7 @@ import {setEditGroup, setEditingGroup, setEditingGroupId, setGroups} from './gro
 
 const Group = (props: any) => (
   <tr>
-    <td><NavLink to={routes.GROUPS_EDIT}>{props.group.groupId} </NavLink>
+    <td><NavLink to={routes.GROUPS_SINGLE_VIEW}>{props.group.groupId} </NavLink>
       <Button
         className="ml-4"
         onClick={() => {
