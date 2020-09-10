@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch} from 'react-redux';
-import {Col, Row, Spinner, Table} from 'react-bootstrap';
-import {Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, Tooltip, XAxis, YAxis} from 'recharts';
-import {proxy} from '../../conf';
-import {setLecturersCenterStatistics} from './lecturers-statistics-slice';
+import React, {useEffect, useState} from 'react'
+import {useDispatch} from 'react-redux'
+import {Col, Row, Spinner, Table} from 'react-bootstrap'
+import {Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, Tooltip, XAxis, YAxis} from 'recharts'
+import {proxy} from '../../conf'
+import {setLecturersCenterStatistics} from './lecturers-statistics-slice'
 
-let errors_: string = '';
-let data: any = [];
+let errors_: string = ''
+let data: any = []
 const COLORS = [
   '#0088FE',
   '#00C49F',
@@ -16,27 +16,27 @@ const COLORS = [
   '#8884D8',
   '#8DD1E1',
   '#50fa00'
-];
+]
 
 const LecturersCenterStatistics: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const [loading, setLoading] = useState<boolean>(false);
-  const [lecturersCenterStatisticsArray, setLecturersCenterStatisticsArray] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(false)
+  const [lecturersCenterStatisticsArray, setLecturersCenterStatisticsArray] = useState<any>([])
 
   const getLecturersCenterStatistics = async () => {
     try {
-      setLoading(true);
+      setLoading(true)
       const response = await fetch(`${proxy}/lecturersStatistics/lecturerCountByCenter`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
-      });
-      const responseData = await response.json();
-      setLecturersCenterStatisticsArray(responseData);
-      await dispatch(setLecturersCenterStatistics(responseData));
-      data = [];
+      })
+      const responseData = await response.json()
+      setLecturersCenterStatisticsArray(responseData)
+      await dispatch(setLecturersCenterStatistics(responseData))
+      data = []
       for (let i = 0; i < responseData.length; i++) {
         data = [...data,
           {
@@ -44,20 +44,20 @@ const LecturersCenterStatistics: React.FC = () => {
             value: responseData[i].lecturersCount,
             count: responseData[i].lecturersCount
           }
-        ];
+        ]
       }
-      setLoading(false);
+      setLoading(false)
     } catch (errors) {
-      errors_ = errors;
-      setLoading(false);
-      console.log(errors);
+      errors_ = errors
+      setLoading(false)
+      console.log(errors)
     }
-  };
+  }
 
   useEffect(() => {
     getLecturersCenterStatistics().then(() => {
-    });
-  }, []);
+    })
+  }, [])
 
   return (
     <div>
@@ -125,7 +125,7 @@ const LecturersCenterStatistics: React.FC = () => {
                     {lecturersCenterStatisticsArrayElement.lecturersCount}
                   </td>
                 </tr>
-              );
+              )
             })
           }
           </tbody>
@@ -200,7 +200,7 @@ const LecturersCenterStatistics: React.FC = () => {
         </Row>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LecturersCenterStatistics;
+export default LecturersCenterStatistics

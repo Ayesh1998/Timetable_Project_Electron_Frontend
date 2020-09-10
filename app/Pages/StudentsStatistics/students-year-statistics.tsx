@@ -1,30 +1,30 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch} from 'react-redux';
-import {Spinner} from 'react-bootstrap';
-import {Bar, BarChart, CartesianGrid, Cell, Legend, Tooltip, XAxis, YAxis} from 'recharts';
-import {proxy} from '../../conf';
-import {setStudentsYearStatistics} from './students-statistics-slice';
+import React, {useEffect, useState} from 'react'
+import {useDispatch} from 'react-redux'
+import {Spinner} from 'react-bootstrap'
+import {Bar, BarChart, CartesianGrid, Cell, Legend, Tooltip, XAxis, YAxis} from 'recharts'
+import {proxy} from '../../conf'
+import {setStudentsYearStatistics} from './students-statistics-slice'
 
-let errors_: string = '';
-let data: any = [];
+let errors_: string = ''
+let data: any = []
 
 const StudentsYearStatistics: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false)
 
   const getStudentsYearStatistics = async () => {
     try {
-      setLoading(true);
+      setLoading(true)
       const response = await fetch(`${proxy}/studentsStatistics/groupsCountByAcademicYear`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
-      });
-      const responseData = await response.json();
-      await dispatch(setStudentsYearStatistics(responseData));
-      data = [];
+      })
+      const responseData = await response.json()
+      await dispatch(setStudentsYearStatistics(responseData))
+      data = []
       for (let i = 0; i < responseData.length; i++) {
         data = [...data,
           {
@@ -34,20 +34,20 @@ const StudentsYearStatistics: React.FC = () => {
             Groups: responseData[i].groupsCount,
             SubGroups: responseData[i].subGroupsCount
           }
-        ];
+        ]
       }
-      setLoading(false);
+      setLoading(false)
     } catch (errors) {
-      errors_ = errors;
-      setLoading(false);
-      console.log(errors);
+      errors_ = errors
+      setLoading(false)
+      console.log(errors)
     }
-  };
+  }
 
   useEffect(() => {
     getStudentsYearStatistics().then(() => {
-    });
-  }, []);
+    })
+  }, [])
 
   return (
     <div>
@@ -120,7 +120,7 @@ const StudentsYearStatistics: React.FC = () => {
         )
       }
     </div>
-  );
-};
+  )
+}
 
-export default StudentsYearStatistics;
+export default StudentsYearStatistics

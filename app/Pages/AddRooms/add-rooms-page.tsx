@@ -1,6 +1,6 @@
-import React from 'react';
-import {Col, Row} from 'react-bootstrap';
-import NavBar from '../../components/NavBar/NavBar';
+import React from 'react'
+import {Col, Row} from 'react-bootstrap'
+import NavBar from '../../components/NavBar/NavBar'
 
 const AddRoomsPage: React.FC = () => {
   return (
@@ -23,7 +23,7 @@ const AddRoomsPage: React.FC = () => {
         Add Rooms
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AddRoomsPage;
+export default AddRoomsPage

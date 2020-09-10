@@ -1,9 +1,9 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit'
 
 const setAssignRoomsForSessionsSlice = createSlice({
   name: 'assignRoomsForSessions',
   initialState: {},
   reducers: {}
-});
+})
 
-export default setAssignRoomsForSessionsSlice.reducer;
+export default setAssignRoomsForSessionsSlice.reducer

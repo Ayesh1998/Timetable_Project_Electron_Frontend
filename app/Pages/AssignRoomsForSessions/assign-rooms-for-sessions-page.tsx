@@ -1,6 +1,6 @@
-import React from 'react';
-import {Col, Row} from 'react-bootstrap';
-import NavBar from '../../components/NavBar/NavBar';
+import React from 'react'
+import {Col, Row} from 'react-bootstrap'
+import NavBar from '../../components/NavBar/NavBar'
 
 const AssignRoomsForSessionsPage: React.FC = () => {
   return (
@@ -23,7 +23,7 @@ const AssignRoomsForSessionsPage: React.FC = () => {
         Assign Rooms for Sessions
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AssignRoomsForSessionsPage;
+export default AssignRoomsForSessionsPage

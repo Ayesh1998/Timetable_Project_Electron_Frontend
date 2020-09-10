@@ -1,43 +1,43 @@
-import React from 'react';
-import {Route, Switch} from 'react-router-dom';
-import routes from './constants/routes.json';
-import App from './containers/App';
-import HomePage from './containers/HomePage';
-import WorkingDaysHoursView from './Pages/WorkingDaysHours/WorkingDaysAndHoursView';
-import WorkingDaysHours from './Pages/WorkingDaysHours/WorkingDaysHours';
-import WorkingDaysHoursEdit from './Pages/WorkingDaysHours/WorkingDaysHoursEdit';
-import GroupsAdd from './Pages/Groups/groupsAdd';
-import TagsAdd from './Pages/Tags/tagsAdd';
-import TagsEdit from './Pages/Tags/tagsEdit';
-import TagsListView from './Pages/Tags/tagsListView';
-import GroupsListView from './Pages/Groups/groupsListView';
-import GroupsListViewEdit from './Pages/Groups/groupsListViewEdit';
-import GroupsSingleView from './Pages/Groups/groupsSingleView';
-import GroupsEdit from './Pages/Groups/groupsEdit';
-import YearSemsAdd from './Pages/YearSems/yearsemsAdd';
-import YearSemsEdit from './Pages/YearSems/yearsemsEdit';
-import YearSemsListView from './Pages/YearSems/yearsemsListView';
-import GroupNumsListView from './Pages/GroupNum/groupNumsListView';
-import SubGroupNumsListView from './Pages/SubGroupNum/subGroupNumsListView';
-import ProgramsListView from './Pages/Programme/programsListView';
-import BuildingsPage from './Pages/Buildings/buildings-page';
-import RoomsPage from './Pages/Rooms/rooms-page';
-import LecturersStatisticsPage from './Pages/LecturersStatistics/lecturers-statistics-page';
-import StudentsStatisticsPage from './Pages/StudentsStatistics/students-statistics-page';
-import SubjectsStatisticsPage from './Pages/SubjectsStatistics/subjects-statistics-page';
-import RoomsUnavailabilityPage from './Pages/RoomsUnavailability/rooms-unavailability-page';
-import AddRoomsPage from './Pages/AddRooms/add-rooms-page';
-import AssignRoomsForSessionsPage from './Pages/AssignRoomsForSessions/assign-rooms-for-sessions-page';
+import React from 'react'
+import {Route, Switch} from 'react-router-dom'
+import routes from './constants/routes.json'
+import App from './containers/App'
+import HomePage from './containers/HomePage'
+import WorkingDaysHoursView from './Pages/WorkingDaysHours/WorkingDaysAndHoursView'
+import WorkingDaysHours from './Pages/WorkingDaysHours/WorkingDaysHours'
+import WorkingDaysHoursEdit from './Pages/WorkingDaysHours/WorkingDaysHoursEdit'
+import GroupsAdd from './Pages/Groups/groupsAdd'
+import TagsAdd from './Pages/Tags/tagsAdd'
+import TagsEdit from './Pages/Tags/tagsEdit'
+import TagsListView from './Pages/Tags/tagsListView'
+import GroupsListView from './Pages/Groups/groupsListView'
+import GroupsListViewEdit from './Pages/Groups/groupsListViewEdit'
+import GroupsSingleView from './Pages/Groups/groupsSingleView'
+import GroupsEdit from './Pages/Groups/groupsEdit'
+import YearSemsAdd from './Pages/YearSems/yearsemsAdd'
+import YearSemsEdit from './Pages/YearSems/yearsemsEdit'
+import YearSemsListView from './Pages/YearSems/yearsemsListView'
+import GroupNumsListView from './Pages/GroupNum/groupNumsListView'
+import SubGroupNumsListView from './Pages/SubGroupNum/subGroupNumsListView'
+import ProgramsListView from './Pages/Programme/programsListView'
+import BuildingsPage from './Pages/Buildings/buildings-page'
+import RoomsPage from './Pages/Rooms/rooms-page'
+import LecturersStatisticsPage from './Pages/LecturersStatistics/lecturers-statistics-page'
+import StudentsStatisticsPage from './Pages/StudentsStatistics/students-statistics-page'
+import SubjectsStatisticsPage from './Pages/SubjectsStatistics/subjects-statistics-page'
+import RoomsUnavailabilityPage from './Pages/RoomsUnavailability/rooms-unavailability-page'
+import AddRoomsPage from './Pages/AddRooms/add-rooms-page'
+import AssignRoomsForSessionsPage from './Pages/AssignRoomsForSessions/assign-rooms-for-sessions-page'
 
 const LazyCounterPage = React.lazy(() =>
   import('./containers/CounterPage')
-);
+)
 
 const CounterPage = (props: Record<string, any>) => (
   <React.Suspense fallback={<h1>Loading...</h1>}>
     <LazyCounterPage {...props} />
   </React.Suspense>
-);
+)
 
 export default function Routes() {
   return (
@@ -99,5 +99,5 @@ export default function Routes() {
                component={HomePage}/>
       </Switch>
     </App>
-  );
+  )
 }

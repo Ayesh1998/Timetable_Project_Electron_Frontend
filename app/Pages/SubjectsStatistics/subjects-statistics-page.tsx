@@ -1,9 +1,9 @@
-import React from 'react';
-import {Col, Row} from 'react-bootstrap';
-import NavBar from '../../components/NavBar/NavBar';
-import SubjectsTotalCountStatistics from './subjects-total-count-statistics';
-import SubjectsOfferedYearStatistics from './subjects-offered-year-statistics';
-import SubjectsOfferedYearSemesterStatistics from './subjects-offered-year-semester-statistics';
+import React from 'react'
+import {Col, Row} from 'react-bootstrap'
+import NavBar from '../../components/NavBar/NavBar'
+import SubjectsTotalCountStatistics from './subjects-total-count-statistics'
+import SubjectsOfferedYearStatistics from './subjects-offered-year-statistics'
+import SubjectsOfferedYearSemesterStatistics from './subjects-offered-year-semester-statistics'
 
 const SubjectsStatisticsPage: React.FC = () => {
   return (
@@ -52,7 +52,7 @@ const SubjectsStatisticsPage: React.FC = () => {
         </Row>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SubjectsStatisticsPage;
+export default SubjectsStatisticsPage
