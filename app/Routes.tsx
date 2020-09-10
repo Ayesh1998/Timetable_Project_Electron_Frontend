@@ -13,6 +13,7 @@ import TagsListView from './Pages/Tags/tagsListView'
 import GroupsListView from './Pages/Groups/groupsListView'
 import GroupsListViewEdit from './Pages/Groups/groupsListViewEdit'
 import GroupsSingleView from './Pages/Groups/groupsSingleView'
+import SubGroupsSingleView from './Pages/Groups/subGroupsSingleView'
 import GroupsEdit from './Pages/Groups/groupsEdit'
 import YearSemsAdd from './Pages/YearSems/yearsemsAdd'
 import YearSemsEdit from './Pages/YearSems/yearsemsEdit'
@@ -61,6 +62,8 @@ export default function Routes() {
                component={GroupsEdit}/>
         <Route path={routes.GROUPS_SINGLE_VIEW}
                component={GroupsSingleView}/>
+        <Route path={routes.GROUPS_SINGLE_SUB_VIEW}
+               component={SubGroupsSingleView}/>
         <Route path={routes.TAGS_ADD}
                component={TagsAdd}/>
         <Route path={routes.TAGS_EDIT}

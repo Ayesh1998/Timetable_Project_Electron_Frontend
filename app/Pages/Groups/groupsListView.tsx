@@ -6,15 +6,16 @@ import {useDispatch,useSelector} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
 import styles from './groups.css';
 import routes from '../../constants/routes.json';
-import {setEditGroup, setEditingGroup, setEditingGroupId, setGroups,setShowGroup, setShowingGroup, setShowingGroupId} from './groupsSlice';
+import {setEditGroup, setEditingGroup, setEditingGroupId, setGroups,setShowGroup, setShowingGroup, setShowingGroupId,setShowSubGroup, setShowingSubGroup, setShowingSubGroupId} from './groupsSlice';
 
+var res;
 const Group = (props: any) => (
   <tr>
     <td>
     <Button
 
         onClick={() => {
-          props.handleAddSub1(props.group._id);
+          props.handleDisplaySingleGroup(props.group._id);
         }}
         variant="outline-light"
         style={{
@@ -49,7 +50,20 @@ const Group = (props: any) => (
       {
         props.group.subGroups && props.group.subGroups.map((sub: any) => {
           return (
-            <div>{`${sub.subGroupId}`}
+            <div>  <Button
+
+            onClick={() => {
+              props.handleDisplaySingleSubGroup(props.group._id,sub._id);
+            }}
+            variant="outline-light"
+            style={{
+              width: '100px',
+              fontSize: '0.9em',
+              borderWidth: '0px'
+            }}
+            >
+            {sub.subGroupId}
+            </Button>
               <Button
                 className="ml-4"
                 onClick={() => {
@@ -89,6 +103,7 @@ const GroupsListView: React.FC = () => {
   const [groupsObject, setGroupsObject] = useState<any>([]);
   const [renderEdit, setRenderEdit] = useState<boolean | null>(false);
   const [renderSingle, setRenderSingle] = useState<boolean | null>(false);
+  const [renderSingleSub, setRenderSingleSub] = useState<boolean | null>(false);
 
   useEffect(() => {
     fetchData().then(() => {
@@ -207,7 +222,7 @@ const GroupsListView: React.FC = () => {
     }
   };
 
-  const handleAddSub1 = async (id: string) => {
+  const handleDisplaySingleGroup = async (id: string) => {
     console.log(`in handle add sub 1 single page eka+ ${id}`);
     await dispatch(setShowGroup(true));
 
@@ -228,6 +243,42 @@ const GroupsListView: React.FC = () => {
 
 
       setRenderSingle(true);
+
+    } catch (errors) {
+      console.log(errors);
+    }
+  };
+
+  const handleDisplaySingleSubGroup = async (id: string , subid:string) => {
+    console.log(`in handle add sub 1 single page eka+ ${id}`);
+    await dispatch(setShowSubGroup(true));
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/groups/getGroups/` + id,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      const responseData = await response.json();
+      console.log(responseData);
+
+      responseData.subGroups.map(sub => {
+        if(sub._id === subid){
+         res = sub;
+        }
+      })
+
+      await dispatch(setShowingSubGroupId(subid));
+      await dispatch(setShowingGroup(responseData));
+      await dispatch(setShowingSubGroup(res));
+
+
+
+      setRenderSingleSub(true);
 
     } catch (errors) {
       console.log(errors);
@@ -268,10 +319,18 @@ const GroupsListView: React.FC = () => {
     return null;
   };
 
+  const renderSingleSubTo = () => {
+    if (renderSingleSub) {
+      return <Redirect to={routes.GROUPS_SINGLE_SUB_VIEW}/>;
+    }
+    return null;
+  };
+
   const groupList = () => {
     return groupsObject.map((group: { _id: any; }) => {
       return <Group group={group} handleDelete={handleDelete} handleDeleteSub={handleDeleteSub}
-                    handleAddSub={handleAddSub}  handleAddSub1={handleAddSub1} key={group._id}/>;
+                    handleAddSub={handleAddSub}  handleDisplaySingleGroup={handleDisplaySingleGroup}
+                    handleDisplaySingleSubGroup={handleDisplaySingleSubGroup} key={group._id}/>;
     });
   };
 
@@ -279,6 +338,7 @@ const GroupsListView: React.FC = () => {
     <div style={{backgroundColor: '#37474F'}}>
       {renderEditTo()}
       {renderSingleTo()}
+      {renderSingleSubTo()}
 
       <NavBar/>
       <Row className="text-center mb-5">

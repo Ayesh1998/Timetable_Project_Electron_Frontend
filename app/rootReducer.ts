@@ -4,6 +4,9 @@ import {History} from 'history'
 import workingDaysHoursReducer from './Pages/WorkingDaysHours/workingDaysHoursSlice'
 import groupsReducer from './Pages/Groups/groupsSlice'
 import tagsReducer from './Pages/Tags/tagsSlice'
+import groupNumsReducer from './Pages/GroupNum/groupNumsSlice'
+import subGroupNumsReducer from './Pages/SubGroupNum/subGroupNumsSlice'
+import programsReducer from './Pages/Programme/programsSlice'
 import yearSemsReducer from './Pages/YearSems/yearsemsSlice'
 import buildingsReducer from './Pages/Buildings/buildings-slice'
 import roomsReducer from './Pages/Rooms/rooms-slice'
@@ -20,6 +23,9 @@ export default function createRootReducer(history: History) {
     workingDaysHours: workingDaysHoursReducer,
     groups: groupsReducer,
     tags: tagsReducer,
+    programs: programsReducer,
+    groupNums: groupNumsReducer,
+    subGroupNums: subGroupNumsReducer,
     yearSems: yearSemsReducer,
     buildings: buildingsReducer,
     rooms: roomsReducer,
