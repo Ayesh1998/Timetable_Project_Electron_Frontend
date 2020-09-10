@@ -13,10 +13,10 @@ import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setEditingGroup, setEditingGroupId, setEditGroup} from './groupsSlice';
 
-const yearSemList = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2'];
-const programList = ['SE', 'CS', 'DS', 'IT'];
-const groupNumList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const subGroupNumList = [1, 2];
+//const yearSemList = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2'];
+//const programList = ['SE', 'CS', 'DS', 'IT'];
+//const groupNumList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+//const subGroupNumList = [1, 2];
 
 // noinspection DuplicatedCode
 const GroupsEdit: React.FC = () => {
@@ -66,6 +66,8 @@ const GroupsEdit: React.FC = () => {
   })
 
 
+  const [subGroupNumList, setSubGroupNumList] = useState<any>([]);
+
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
   const [renderRedirectTo1, setRenderRedirectTo1] = useState<boolean | null>(false);
   const [error, setError] = useState<string | null>(null);
@@ -93,14 +95,7 @@ const GroupsEdit: React.FC = () => {
 
      setId(editingGroupId);
 
-    //  groupOne.subGroups.map(sub =>{
-
-    //   subGroOld.push({subGroup: sub.subGroup, subGroupId:sub.subGroupId});
-    //   return subGroOld;
-
-    //  })
-
-    //  console.log(`$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$444+${subGroOld[0].subGroupId}`)
+     getSubGroupNum();
 
 
   }, []);
@@ -125,6 +120,27 @@ const GroupsEdit: React.FC = () => {
 
 
   // };
+
+
+  const getSubGroupNum = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`http://localhost:5000/subGroupNums/getSubGroupNums`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const responseData = await response.json();
+      setSubGroupNumList(responseData.subGroupNums);
+      // await dispatch(setBuildings(responseData));
+      setLoading(false);
+    } catch (errors) {
+
+      console.log(errors);
+    }
+  };
+
 
   const handleShow = () => {
     setLoading(true);
@@ -402,7 +418,7 @@ const GroupsEdit: React.FC = () => {
                   >
                     <option>Select</option>
                     {subGroupNumList?.map((sub, index) => (
-                      <option>{sub}</option>
+                      <option>{sub.subGroupNum}</option>
                     ))}
                   </Form.Control>
 

@@ -13,9 +13,9 @@ import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setGroups} from './groupsSlice';
 
-const yearSemList = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2'];
-const programList = ['SE', 'CS', 'DS', 'IT'];
-const groupNumList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+//const yearSemList = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2'];
+//const programList = ['SE', 'CS', 'DS', 'IT'];
+//const groupNumList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 //const subGroupNumList = [1, 2];
 
 var exist = 0;
@@ -23,6 +23,9 @@ var exist = 0;
 const GroupsAdd: React.FC = () => {
   const dispatch = useDispatch();
   // const value = useSelector();
+  const [yearSemList, setYearSemList] = useState<any>([]);
+  const [programList, setProgramList] = useState<any>([]);
+  const [groupNumList, setGroupNumList] = useState<any>([]);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
@@ -46,36 +49,40 @@ const GroupsAdd: React.FC = () => {
   const [groupsObject, setGroupsObject] = useState<any>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/groups/getGroups`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }
-        );
 
-        const responseData = await response.json();
-        setGroupsObject(responseData.groups);
-        dispatch(setGroups(responseData.groups));
-        console.log(responseData.groups);
-
-        if (!responseData) {
-          // noinspection ExceptionCaughtLocallyJS
-          throw new Error(responseData.message);
-        }
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
 
     // noinspection JSIgnoredPromiseFromCall
     fetchData();
+    getYearAndSem();
+    getProgramme();
+    getGroupNum();
   }, []);
 
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/groups/getGroups`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      const responseData = await response.json();
+      setGroupsObject(responseData.groups);
+      dispatch(setGroups(responseData.groups));
+      console.log(responseData.groups);
+
+      if (!responseData) {
+        // noinspection ExceptionCaughtLocallyJS
+        throw new Error(responseData.message);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
   const renderRedirectToView = () => {
     if (groupsObject) {
       return <Redirect to={routes.GROUPS_LIST_VIEW}/>;
@@ -84,24 +91,63 @@ const GroupsAdd: React.FC = () => {
     return null;
   };
 
-  // const setOther = () => {
-  //   console.log("clicked set other eka athule one222222222222222222222222")
-  //   // const year = String(academicYear);
-  //   // const sem = String(academicSemester);
-  //   // const pro = String(programme);
-  //   // const groupforId = group.toString();
 
-  //   const gID = String(groupId);
-  //   //const groId = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId;
+  const getYearAndSem = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`http://localhost:5000/yearSems/getYearSems`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const responseData = await response.json();
+      setYearSemList(responseData.yearsems);
+      // await dispatch(setBuildings(responseData));
+      setLoading(false);
+    } catch (errors) {
 
-  //   var subId = gID + '.01';
-  //   var val = 1;
+      console.log(errors);
+    }
+  };
 
-  //   //setGroupId(groId);
-  //   setSubGrouup({subGroup: val, subGroupId: subId});
+  const getProgramme = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`http://localhost:5000/programs/getPrograms`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const responseData = await response.json();
+      setProgramList(responseData.programs);
+      // await dispatch(setBuildings(responseData));
+      setLoading(false);
+    } catch (errors) {
 
+      console.log(errors);
+    }
+  };
 
-  // };
+  const getGroupNum = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`http://localhost:5000/groupNums/getGroupNums`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const responseData = await response.json();
+      setGroupNumList(responseData.groupNums);
+      // await dispatch(setBuildings(responseData));
+      setLoading(false);
+    } catch (errors) {
+
+      console.log(errors);
+    }
+  };
 
   const handleShow = () => {
     setLoading(true);
@@ -463,7 +509,7 @@ const GroupsAdd: React.FC = () => {
                   >
                     <option>Select</option>
                     {yearSemList?.map((yearSem, index) => (
-                      <option>{yearSem}</option>
+                      <option>{yearSem.yearSemToken}</option>
                     ))}
                   </Form.Control>
 
@@ -489,7 +535,7 @@ const GroupsAdd: React.FC = () => {
                   >
                     <option>Select</option>
                     {programList?.map((program, index) => (
-                      <option>{program}</option>
+                      <option>{program.programToken}</option>
                     ))}
                   </Form.Control>
 
@@ -517,7 +563,7 @@ const GroupsAdd: React.FC = () => {
                   >
                     <option>Select</option>
                     {groupNumList?.map((group, index) => (
-                      <option>{group}</option>
+                      <option>{group.groupNum}</option>
                     ))}
                   </Form.Control>
 
