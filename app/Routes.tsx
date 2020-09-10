@@ -18,9 +18,15 @@ import GroupsEdit from './Pages/Groups/groupsEdit'
 import YearSemsAdd from './Pages/YearSems/yearsemsAdd'
 import YearSemsEdit from './Pages/YearSems/yearsemsEdit'
 import YearSemsListView from './Pages/YearSems/yearsemsListView'
-import GroupNumsListView from './Pages/GroupNum/groupNumsListView'
-import SubGroupNumsListView from './Pages/SubGroupNum/subGroupNumsListView'
-import ProgramsListView from './Pages/Programme/programsListView'
+import GroupNumsListView from './Pages/GroupNum/groupNumsListView';
+import GroupNumsAdd from './Pages/GroupNum/groupNumsAdd';
+import GroupNumsEdit from './Pages/GroupNum/groupNumsEdit';
+import SubGroupNumsListView from './Pages/SubGroupNum/subGroupNumsListView';
+import SubGroupNumsAdd from './Pages/SubGroupNum/subGroupNumsAdd';
+import SubGroupNumsEdit from './Pages/SubGroupNum/subGroupNumsEdit';
+import ProgramsListView from './Pages/Programme/programsListView';
+import ProgramsAdd from './Pages/Programme/programsAdd';
+import ProgramsEdit from './Pages/Programme/programsEdit';
 import BuildingsPage from './Pages/Buildings/buildings-page'
 import RoomsPage from './Pages/Rooms/rooms-page'
 import LecturersStatisticsPage from './Pages/LecturersStatistics/lecturers-statistics-page'
@@ -76,10 +82,22 @@ export default function Routes() {
                component={YearSemsEdit}/>
         <Route path={routes.YEARSEMS_LIST_VIEW}
                component={YearSemsListView}/>
+        <Route path={routes.GROUPNUMS_ADD}
+               component={GroupNumsAdd}/>
+        <Route path={routes.GROUPNUMS_EDIT}
+               component={GroupNumsEdit}/>
         <Route path={routes.GROUPNUMS_LIST_VIEW}
                component={GroupNumsListView}/>
+        <Route path={routes.SUBGROUPNUMS_ADD}
+               component={SubGroupNumsAdd}/>
+        <Route path={routes.SUBGROUPNUMS_EDIT}
+               component={SubGroupNumsEdit}/>
         <Route path={routes.SUBGROUPNUMS_LIST_VIEW}
                component={SubGroupNumsListView}/>
+         <Route path={routes.PROGRAMS_ADD}
+               component={ProgramsAdd}/>
+        <Route path={routes.PROGRAMS_EDIT}
+               component={ProgramsEdit}/>
         <Route path={routes.PROGRAMS_LIST_VIEW}
                component={ProgramsListView}/>
         <Route path={routes.BUILDINGS}

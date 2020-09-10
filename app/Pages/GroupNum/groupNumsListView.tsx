@@ -1,12 +1,12 @@
 /* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Row, Table} from 'react-bootstrap';
-// import {
-//   setYearSems,
-//   setEditYearSem,
-//   setEditingYearSem,
-//   setEditingYearSemId
-// } from './yearsemsSlice';
+import {
+  setGroupNums,
+  setEditGroupNum,
+  setEditingGroupNum,
+  setEditingGroupNumId
+} from './groupNumsSlice';
 import {NavLink, Redirect} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
@@ -40,7 +40,7 @@ const GroupNum = (props) => (
         }}
       >
         <NavLink
-          to={routes.YEARSEMS_LIST_VIEW}
+          to={routes.GROUPNUMS_LIST_VIEW}
           style={{color: '#fff'}}
         >
           delete
@@ -69,7 +69,7 @@ const GroupNumsListView: React.FC = () => {
   //   }) => state.yearSems.editingYearSem
   // )
 
-  const [yearSemsObject, setYearSemsObject] = useState<any>([]);
+  const [groupNumsObject, setGroupNumsObject] = useState<any>([]);
 
   const [renderEdit, setRenderEdit] = useState<boolean | null>(false);
 
@@ -95,7 +95,7 @@ const GroupNumsListView: React.FC = () => {
 
       const responseData = await response.json();
 
-      setYearSemsObject(responseData.groupNums);
+      setGroupNumsObject(responseData.groupNums);
       // dispatch(setYearSems(responseData.yearsems));
       // console.log(responseData.yearsems);
 
@@ -109,92 +109,86 @@ const GroupNumsListView: React.FC = () => {
   };
 
   const handleDelete = async (id) => {
-    //   console.log(`in handle delete + ${id}`);
+      console.log(`in handle delete + ${id}`);
 
-    //   try {
-    //     const response = await fetch(
-    //       `http://localhost:5000/yearSems/deleteYearSems`,
-    //       {
-    //         method: 'DELETE',
-    //         headers: {
-    //           'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({id})
-    //       }
-    //     );
+      try {
+        const response = await fetch(
+          `http://localhost:5000/groupNums/deleteGroupNums`,
+          {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({id})
+          }
+        );
 
-    //     const responseData = await response.json();
-    //     // console.log(responseData.userDetails);
-    //     //setRenderRedirectTo(true);
+        const responseData = await response.json();
+        // console.log(responseData.userDetails);
+        //setRenderRedirectTo(true);
 
-    //     fetchData();
+        fetchData();
 
-    //     if (!responseData) {
-    //       // noinspection ExceptionCaughtLocallyJS
-    //       throw new Error(responseData.message);
-    //     }
-    //   } catch (err) {
-    //     console.log(err.message);
-    //   }
-
-
-    // setTagsObject({
-    //   tagsObject: tagsObject.filter(el => el._id !== id)
-    // })
+        if (!responseData) {
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error(responseData.message);
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
 
 
-    // setTagsObjectDel({
-    //   tagsObject: tagsObject.filter(el => el._id !== id)
-    // })
 
 
   };
 
 
   const handleEdit = async (id: string) => {
-    // console.log(`in handle edit + ${id}`);
+    console.log(`in handle edit + ${id}`);
 
-    // try {
-    //   const response = await fetch(
-    //     `http://localhost:5000/yearSems/getYearSems/` + id,
-    //     {
-    //       method: 'GET',
-    //       headers: {
-    //         'Content-Type': 'application/json'
-    //       },
+    try {
+      const response = await fetch(
+        `http://localhost:5000/groupNums/getGroupNums/` + id,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
 
-    //     }
-    //   );
+        }
+      );
 
-    //   const responseData = await response.json()
-    //   setRenderEdit(true);
-    //   console.log("me edit eken passe data-------------------------");
-    //   console.log(responseData);
+      const responseData = await response.json()
+
+      console.log("me edit eken passe data-------------------------");
+      console.log(responseData);
 
 
-    //    dispatch(setEditingYearSemId(id))
-    //    dispatch(setEditingYearSem(responseData))
-    //    dispatch(setEditYearSem(true))
+       dispatch(setEditingGroupNumId(id))
+       dispatch(setEditingGroupNum(responseData))
+       dispatch(setEditGroupNum(true))
 
-    // } catch (errors) {
-    //   const errors_ = errors
+       setRenderEdit(true);
 
-    //   console.log(errors)
-    // }
+    } catch (errors) {
+      const errors_ = errors
+
+      console.log(errors)
+    }
 
   };
 
   const renderEditTo = () => {
     if (renderEdit) {
-      return <Redirect to={routes.YEARSEMS_EDIT}/>;
+      return <Redirect to={routes.GROUPNUMS_EDIT}/>;
       //   props.history.push(loginState.redirectTo);s
     }
     return null;
   };
 
   const groupNumList = () => {
-    return yearSemsObject.map(yearSem => {
-      return <GroupNum groupNum={yearSem} handleDelete={handleDelete} handleEdit={handleEdit} key={yearSem._id}/>;
+    return groupNumsObject.map(groupNum => {
+      return <GroupNum groupNum={groupNum} handleDelete={handleDelete} handleEdit={handleEdit} key={groupNum._id}/>;
     });
   };
 
@@ -213,9 +207,9 @@ const GroupNumsListView: React.FC = () => {
           <h3>Group Number List</h3>
         </Col>
       </Row>
-      {yearSemsObject && (
+      {groupNumsObject && (
         <Container
-          className={`mt-2 p-4 ${styles.yearSemsTopWrapper}`}
+          className={`mt-2 p-4 ${styles.groupNumsTopWrapper}`}
           style={{
             border: '3px solid white',
             borderRadius: '8px',
@@ -226,7 +220,7 @@ const GroupNumsListView: React.FC = () => {
             <Col xs={12} md={12} className="mt-auto">
               <Button style={{width: '220px', fontSize: '1.2em'}}>
                 <NavLink
-                  to={routes.YEARSEMS_ADD}
+                  to={routes.GROUPNUMS_ADD}
                   style={{color: '#fff'}}
                 >
                   Add New Group Num
