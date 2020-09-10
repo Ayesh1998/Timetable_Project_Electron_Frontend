@@ -8,6 +8,7 @@
   "GROUPS_LIST_VIEW_EDIT": "/listGroupEdit",
   "GROUPS_ADD": "/addGroup",
   "GROUPS_SINGLE_VIEW": "/singleGroup",
+  "GROUPS_SINGLE_SUB_VIEW": "/singleSubGroup",
   "GROUPS_EDIT": "/editGroup",
   "TAGS_LIST_VIEW": "/listTag",
   "TAGS_ADD": "/addTag",

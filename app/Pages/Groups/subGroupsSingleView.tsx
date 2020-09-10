@@ -5,18 +5,25 @@ import {useDispatch, useSelector} from 'react-redux';
 import styles from './groups.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-//import {setShowingGroup, setShowingGroupId, setShowGroup} from './groupsSlice';
 
-const subGroupNumList = [1, 2];
 
-const GroupsSingleView: React.FC = () => {
-  //const dispatch = useDispatch();
 
-  const showingGroupId = useSelector(
+
+const SubGroupsSingleView: React.FC = () => {
+
+
+  const showingSubGroupId = useSelector(
     (state: {
       groups: any
-      showingGroupId: string
-    }) => state.groups.showingGroupId
+      showingSubGroupId: string
+    }) => state.groups.showingSubGroupId
+  )
+
+  const showingSubGroup = useSelector(
+    (state: {
+      groups: any
+      showingSubGroupId: any
+    }) => state.groups.showingSubGroup
   )
 
   const showingGroup = useSelector(
@@ -25,8 +32,6 @@ const GroupsSingleView: React.FC = () => {
       showingGroupId: any
     }) => state.groups.showingGroup
   )
-
-
   const [groupOne, setGroupOne] = useState<{
     academicYear: number,
     academicSemester: number,
@@ -47,12 +52,21 @@ const GroupsSingleView: React.FC = () => {
     subGroups: showingGroup.subGroups ,
     availableSubGroup:showingGroup.availableSubGroup
   })
+
+  const [groupSub, setGroupSub] = useState<{
+
+    subGroup: number,
+    subGroupId:string
+  }>({
+    subGroup:showingSubGroup.subGroup,
+    subGroupId:showingSubGroup.subGroupId
+
+  })
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
-  const [id, setId] = useState<string>('');
-  const [subGrouup, setSubGrouup] = useState<{ subGroup: Number, subGroupId: string }>({});
+
 
   useEffect(() => {
-    console.log(`#############################3333333+${showingGroupId}`);
+
   }, []);
 
 
@@ -86,7 +100,7 @@ const GroupsSingleView: React.FC = () => {
           className="p-3"
           style={{backgroundColor: '#343a40', color: '#fff'}}
         >
-          <h3>{groupOne.groupId} Group Details</h3>
+          <h3>{groupSub.subGroupId} Sub Group Details</h3>
         </Col>
       </Row>
       <Container
@@ -193,18 +207,17 @@ const GroupsSingleView: React.FC = () => {
             <Col xs={3} md={3}></Col>
           </Row>
           <Row className="mt-3 mb-3 justify-content-md-center">
-            <Col xs={12} md={4}>
+            <Col xs={12} md={4} className="mt-auto">
               <p>Group Number</p>
             </Col>
             <Col xs={3} md={3}>
-
-
-              <Form className="">
+            <Form className="">
                 <Form.Group controlId="formBasicEmail">
 
                   <Form.Control
-                     disabled
-                     type="text"
+                  disabled
+                    type="text"
+
                     style={{borderWidth: '2.5px'}}
                     value={groupOne.group}
 
@@ -216,6 +229,7 @@ const GroupsSingleView: React.FC = () => {
             </Col>
             <Col xs={3} md={3}/>
           </Row>
+
           <Row className="mt-3 mb-3 justify-content-md-center">
             <Col xs={12} md={4} className="mt-auto">
               <p>Group ID</p>
@@ -241,32 +255,43 @@ const GroupsSingleView: React.FC = () => {
           </Row>
           <Row className="mt-3 mb-3 justify-content-md-center">
             <Col xs={12} md={4}>
-              <p>All Sub Group ID(s)</p>
+              <p>Sub Group Number</p>
+            </Col>
+            <Col xs={3} md={3}>
+
+
+              <Form className="">
+                <Form.Group controlId="formBasicEmail">
+                <Form.Control
+                     disabled
+                     type="text"
+                    style={{borderWidth: '2.5px'}}
+                    value={groupSub.subGroup}
+
+                  >
+                  </Form.Control>
+
+                </Form.Group>
+              </Form>
+            </Col>
+            <Col xs={3} md={3}/>
+          </Row>
+          <Row className="mt-3 mb-3 justify-content-md-center">
+            <Col xs={12} md={4}>
+              <p>Sub Group ID</p>
             </Col>
             <Col xs={3} md={3}>
               <Form className="">
                 <Form.Group controlId="formBasicEmail">
 
-                    {groupOne.subGroups?.map((sub, index) => (
+                <Form.Control
+                     disabled
+                     type="text"
+                    style={{borderWidth: '2.5px'}}
+                    value={groupSub.subGroupId}
 
-                      <Form.Control
-                    disabled
-                    type="text"
-
-                  value={sub.subGroupId}
-
-
-                    >
-
-
-
-                      </Form.Control>
-
-                    ))}
-
-
-
-
+                  >
+                  </Form.Control>
 
                 </Form.Group>
               </Form>
@@ -294,4 +319,4 @@ const GroupsSingleView: React.FC = () => {
   );
 };
 
-export default GroupsSingleView;
+export default SubGroupsSingleView;

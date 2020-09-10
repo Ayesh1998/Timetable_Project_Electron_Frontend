@@ -12,7 +12,10 @@ const setGroupsSlice = createSlice({
     editingGroup: null,
     showGroup: false,
     showingGroupId: '',
-    showingGroup: null
+    showingGroup: null,
+    showSubGroup: false,
+    showingSubGroupId: '',
+    showingSubGroup: null
   },
   reducers: {
     setGroups: (state, action: any) => {
@@ -38,6 +41,15 @@ const setGroupsSlice = createSlice({
     },
     setShowingGroup: (state, action: any) => {
       state.showingGroup = action.payload;
+    },
+    setShowSubGroup: (state, action: any) => {
+      state.showSubGroup = action.payload;
+    },
+    setShowingSubGroupId: (state, action: any) => {
+      state.showingSubGroupId = action.payload;
+    },
+    setShowingSubGroup: (state, action: any) => {
+      state.showingSubGroup = action.payload;
     }
   }
 });
@@ -50,6 +62,9 @@ export const {setEditingGroup} = setGroupsSlice.actions;
 export const {setShowGroup} = setGroupsSlice.actions;
 export const {setShowingGroupId} = setGroupsSlice.actions;
 export const {setShowingGroup} = setGroupsSlice.actions;
+export const {setShowSubGroup} = setGroupsSlice.actions;
+export const {setShowingSubGroupId} = setGroupsSlice.actions;
+export const {setShowingSubGroup} = setGroupsSlice.actions;
 
 export default setGroupsSlice.reducer;
 
