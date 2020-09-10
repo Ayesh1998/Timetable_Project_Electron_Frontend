@@ -5,12 +5,14 @@ import {Button, Col, Container, Form, Row} from 'react-bootstrap';
 // @ts-ignore
 //import CheckboxGroup from 'react-checkbox-group';
 import {Redirect} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import {useDispatch,useSelector} from 'react-redux';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import styles from './yearsems.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
+import {setEditingYearSem, setEditingYearSemId, setEditYearSem} from './yearsemsSlice';
+
 
 
 const yearList = [1, 2, 3, 4];
@@ -21,42 +23,39 @@ const YearSemsEdit: React.FC = () => {
   // const value = useSelector();
 
 
-  // let yearSemList = useSelector(
-  //   (state: {
-  //     yearSems: any
-  //   }) => state.yearSems.yearSems
-  // )
 
-  // const editingYearSemId = useSelector(
-  //   (state: {
-  //     yearSems: any
-  //     editingYearSemId: string
-  //   }) => state.yearSems.editingYearSemId
-  // )
+  const editingYearSemId = useSelector(
+    (state: {
+      yearSems: any
+      editingYearSemId: string
+    }) => state.yearSems.editingYearSemId
+  )
 
-  // const editingYearSem = useSelector(
-  //   (state: {
-  //     yearSems: any
-  //     editingYearSemId: any
-  //   }) => state.yearSems.editingYearSem
-  // )
+  const editingYearSem = useSelector(
+    (state: {
+      yearSems: any
+      editingYearSemId: any
+    }) => state.yearSems.editingYearSem
+  )
 
-  // const [yearSem, setYearSem] = useState<{
-  //   year: number,
-  //   semester: number,
-  //   yearSemToken:string
-  // }>({
-  //   year: editingYearSem.year,
-  //   semester: editingYearSem.semester,
-  //   yearSemToken:editingYearSem.yearSemToken
+  const [yearSem, setYearSem] = useState<{
+    year: number,
+    semester: number,
+    yearSemToken:string
+  }>({
+    year: editingYearSem.year,
+    semester: editingYearSem.semester,
+    yearSemToken:editingYearSem.yearSemToken
 
 
-  // })
+  })
+
+
 
 
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
   const [error, setError] = useState<string | null>(null);
-//111
+
   const [year, setYear] = useState<number | null>(null);
   const [semester, setSemester] = useState<number | null>(null);
   const [yearSemToken, setYearSemToken] = useState<string>('');
@@ -65,17 +64,11 @@ const YearSemsEdit: React.FC = () => {
   const [id, setId] = useState<string>('');
 
   useEffect(() => {
-    //setYearSems(yearSemList);
-    //  setYearSem(editingYearSem);
-    //  setId(editingYearSemId);
-    //  setYear(editingYearSem.year);
-    //  setSemester(editingYearSem.semester);
-    //  setYearSemToken(editingYearSem.yearSemToken);
-    //setYearSem(editingYearSem);
-    setId('5f3e26646038693c38fb89c9');
-    setYear(3);
-    setSemester(2);
-    setYearSemToken('Y3.S2');
+
+
+     setId(editingYearSemId);
+
+
 
   }, []);
 
@@ -94,11 +87,11 @@ const YearSemsEdit: React.FC = () => {
     // console.log("1111111111111111111111111111");
     // console.log(name);
     // console.log(tagToken);
-    const finalObject = {
-      year,
-      semester,
-      yearSemToken
-    };
+    // const finalObject = {
+    //   year,
+    //   semester,
+    //   yearSemToken
+    // };
 
     // const finalObjectWithID = {
     //   yearsems: yearSem,
@@ -107,7 +100,7 @@ const YearSemsEdit: React.FC = () => {
     // };
 
     const finalObjectWithID = {
-      yearsems: finalObject,
+      yearsems: yearSem,
       // eslint-disable-next-line no-underscore-dangle
       id: id
     };
@@ -130,6 +123,9 @@ const YearSemsEdit: React.FC = () => {
 
       const responseData = await response.json();
       setRenderRedirectTo(true);
+      dispatch(setEditYearSem(false));
+      dispatch(setEditingYearSemId(''));
+      dispatch(setEditingYearSem(null));
       // console.log(responseData.userDetails);
 
       if (!responseData) {
@@ -151,22 +147,23 @@ const YearSemsEdit: React.FC = () => {
 
   const handleChangeYear = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = parseInt(e.target.value);
-    setYear(val);
+    //setYear(val);
+
+    setYearSem({...yearSem, year: val});
   };
 
   const handleChangeSemester = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = parseInt(e.target.value);
-    const year1 = year.toString();
-    setSemester(e.target.value);
+    const year1 = yearSem.year.toString();
+    const semval =e.target.value;
 
-    if (val === 1) {
-      var id = 'Y' + year1 + '.S1';
-    } else {
-      var id = 'Y' + year1 + '.S2';
-    }
 
-    setYearSemToken(id);
-    setSemester(val);
+      var id = 'Y' + year1 + '.S'+ semval;
+
+
+    setYearSem({...yearSem, semester: val ,yearSemToken:id});
+    //setYearSemToken(id);
+    //setSemester(val);
 
   };
 
@@ -217,7 +214,7 @@ const YearSemsEdit: React.FC = () => {
                     as="select"
                     defaultValue="Choose..."
                     style={{borderWidth: '2.5px'}}
-                    value={year}
+                    value={yearSem.year}
                     onChange={handleChangeYear}
                   >
                     <option>Select</option>
@@ -243,7 +240,7 @@ const YearSemsEdit: React.FC = () => {
                     as="select"
                     defaultValue="Choose..."
                     style={{borderWidth: '2.5px'}}
-                    value={semester}
+                    value={yearSem.semester}
                     onChange={handleChangeSemester}
                   >
                     <option>Select</option>

@@ -150,6 +150,7 @@ const YearSemsListView: React.FC = () => {
   const handleEdit = async (id: string) => {
     console.log(`in handle edit + ${id}`);
 
+
     try {
       const response = await fetch(
         `http://localhost:5000/yearSems/getYearSems/` + id,
@@ -163,7 +164,7 @@ const YearSemsListView: React.FC = () => {
       );
 
       const responseData = await response.json();
-      setRenderEdit(true);
+
       console.log('me edit eken passe data-------------------------');
       console.log(responseData);
 
@@ -171,6 +172,8 @@ const YearSemsListView: React.FC = () => {
       dispatch(setEditingYearSemId(id));
       dispatch(setEditingYearSem(responseData));
       dispatch(setEditYearSem(true));
+
+      setRenderEdit(true);
 
     } catch (errors) {
       const errors_ = errors;
