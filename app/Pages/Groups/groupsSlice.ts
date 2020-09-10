@@ -1,3 +1,4 @@
+
 import {createSlice} from '@reduxjs/toolkit';
 import {RootState} from '../../store';
 
@@ -8,7 +9,10 @@ const setGroupsSlice = createSlice({
     subGroups: {},
     editGroup: false,
     editingGroupId: '',
-    editingGroup: null
+    editingGroup: null,
+    showGroup: false,
+    showingGroupId: '',
+    showingGroup: null
   },
   reducers: {
     setGroups: (state, action: any) => {
@@ -25,6 +29,15 @@ const setGroupsSlice = createSlice({
     },
     setEditingGroup: (state, action: any) => {
       state.editingGroup = action.payload;
+    },
+    setShowGroup: (state, action: any) => {
+      state.showGroup = action.payload;
+    },
+    setShowingGroupId: (state, action: any) => {
+      state.showingGroupId = action.payload;
+    },
+    setShowingGroup: (state, action: any) => {
+      state.showingGroup = action.payload;
     }
   }
 });
@@ -34,6 +47,9 @@ export const {setSubGroups} = setGroupsSlice.actions;
 export const {setEditGroup} = setGroupsSlice.actions;
 export const {setEditingGroupId} = setGroupsSlice.actions;
 export const {setEditingGroup} = setGroupsSlice.actions;
+export const {setShowGroup} = setGroupsSlice.actions;
+export const {setShowingGroupId} = setGroupsSlice.actions;
+export const {setShowingGroup} = setGroupsSlice.actions;
 
 export default setGroupsSlice.reducer;
 

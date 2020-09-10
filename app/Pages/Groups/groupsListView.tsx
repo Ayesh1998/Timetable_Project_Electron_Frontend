@@ -1,3 +1,4 @@
+
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Row, Table} from 'react-bootstrap';
 import {NavLink, Redirect} from 'react-router-dom';
@@ -5,11 +6,25 @@ import {useDispatch,useSelector} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
 import styles from './groups.css';
 import routes from '../../constants/routes.json';
-import {setEditGroup, setEditingGroup, setEditingGroupId, setGroups} from './groupsSlice';
+import {setEditGroup, setEditingGroup, setEditingGroupId, setGroups,setShowGroup, setShowingGroup, setShowingGroupId} from './groupsSlice';
 
 const Group = (props: any) => (
   <tr>
-    <td><NavLink to={routes.GROUPS_SINGLE_VIEW}>{props.group.groupId} </NavLink>
+    <td>
+    <Button
+
+        onClick={() => {
+          props.handleAddSub1(props.group._id);
+        }}
+        variant="outline-light"
+        style={{
+          width: '100px',
+          fontSize: '0.9em',
+          borderWidth: '0px'
+        }}
+      >
+      {props.group.groupId}
+      </Button>
       <Button
         className="ml-4"
         onClick={() => {
@@ -71,21 +86,9 @@ const Group = (props: any) => (
 const GroupsListView: React.FC = () => {
   const dispatch = useDispatch();
 
-  const editingGroupId = useSelector(
-    (state: {
-      groups: any
-      editingGroupId: string
-    }) => state.groups.editingGroupId
-  );
-
-  const editingGroup = useSelector(
-    (state: {
-      groups: any
-      editingGroupId: any
-    }) => state.groups.editingGroup
-  );
   const [groupsObject, setGroupsObject] = useState<any>([]);
   const [renderEdit, setRenderEdit] = useState<boolean | null>(false);
+  const [renderSingle, setRenderSingle] = useState<boolean | null>(false);
 
   useEffect(() => {
     fetchData().then(() => {
@@ -204,6 +207,33 @@ const GroupsListView: React.FC = () => {
     }
   };
 
+  const handleAddSub1 = async (id: string) => {
+    console.log(`in handle add sub 1 single page eka+ ${id}`);
+    await dispatch(setShowGroup(true));
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/groups/getGroups/` + id,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      const responseData = await response.json();
+      await dispatch(setShowingGroupId(id));
+      await dispatch(setShowingGroup(responseData));
+
+
+
+      setRenderSingle(true);
+
+    } catch (errors) {
+      console.log(errors);
+    }
+  };
+
   const handleAddSub = async (id: string) => {
     await dispatch(setEditGroup(true));
     try {
@@ -224,7 +254,6 @@ const GroupsListView: React.FC = () => {
       console.log(errors);
     }
   };
-
   const renderEditTo = () => {
     if (renderEdit) {
       return <Redirect to={routes.GROUPS_EDIT}/>;
@@ -232,16 +261,24 @@ const GroupsListView: React.FC = () => {
     return null;
   };
 
+  const renderSingleTo = () => {
+    if (renderSingle) {
+      return <Redirect to={routes.GROUPS_SINGLE_VIEW}/>;
+    }
+    return null;
+  };
+
   const groupList = () => {
     return groupsObject.map((group: { _id: any; }) => {
       return <Group group={group} handleDelete={handleDelete} handleDeleteSub={handleDeleteSub}
-                    handleAddSub={handleAddSub} key={group._id}/>;
+                    handleAddSub={handleAddSub}  handleAddSub1={handleAddSub1} key={group._id}/>;
     });
   };
 
   return (
     <div style={{backgroundColor: '#37474F'}}>
       {renderEditTo()}
+      {renderSingleTo()}
 
       <NavBar/>
       <Row className="text-center mb-5">
