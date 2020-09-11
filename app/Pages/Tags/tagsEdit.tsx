@@ -7,6 +7,8 @@ import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setEditingTag, setEditingTagId, setEditTag} from './tagsSlice';
 
+let errors_: string = ''
+
 const TagsEdit: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -33,6 +35,7 @@ const TagsEdit: React.FC = () => {
   });
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
   const [id, setId] = useState<string>('');
+  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
     setId(editingTagId);
@@ -41,12 +44,35 @@ const TagsEdit: React.FC = () => {
   const handleSubmit = async () => {
     console.log(id);
 
+    if(tag.name.trim() === '' && tag.tagToken.trim() === ''){
+      errors_ = 'Please enter a value for the tag name and tag token.'
+      setError(true)
+      setLoading(false)
+
+    }
+    else {
+      if (tag.name.trim() === '') {
+        errors_ = 'Please enter a value for the tag name.'
+        setError(true)
+        setLoading(false)
+
+      } else if (tag.tagToken.trim() === '') {
+        errors_ = 'Please enter a value for the tag token.'
+        setError(true)
+        setLoading(false)
+
+      }
+
+    }
+
     const finalObjectWithID = {
       tags: tag,
       id: id
     };
 
     console.log(finalObjectWithID);
+    if (tag.name.trim() !== '' && tag.tagToken.trim() !== '') {
+      setError(false)
 
     try {
       const response = await fetch(
@@ -70,6 +96,7 @@ const TagsEdit: React.FC = () => {
     } catch (err) {
       console.log(err.message);
     }
+  }
   };
 
   const renderRedirect = () => {
@@ -80,10 +107,12 @@ const TagsEdit: React.FC = () => {
   };
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
     setTag({...tag, name: e.target.value});
   };
 
   const handleChangeTagToken = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
     setTag({...tag, tagToken: e.target.value});
   };
 
@@ -174,6 +203,18 @@ const TagsEdit: React.FC = () => {
             </Col>
             <Col xs={12} md={2}/>
           </Row>
+          {
+        error && (
+          <div style={{
+            color: 'red',
+            fontSize: '18px',
+            marginTop: '7px',
+            textAlign: 'center'
+          }}>
+            {errors_}
+          </div>
+        )
+      }
         </div>
 
       </Container>

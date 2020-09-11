@@ -46,16 +46,30 @@ const TagsAdd: React.FC = () => {
     });
   }, []);
 
-  const handleSubmit = async () => {
-    if (name.trim() === '') {
-      errors_ = 'Please enter a value for the tag name.'
+  const handleSubmit = async (e: any) => {
+    // e.preventDefault()
+    if(name.trim() === '' && tagToken.trim() === ''){
+      errors_ = 'Please enter a value for the tag name and tag token.'
       setError(true)
       setLoading(false)
-    } else if (tagToken.trim() === '') {
-      errors_ = 'Please enter a value for the tag token.'
-      setError(true)
-      setLoading(false)
+
     }
+    else {
+      if (name.trim() === '') {
+        errors_ = 'Please enter a value for the tag name.'
+        setError(true)
+        setLoading(false)
+
+      } else if (tagToken.trim() === '') {
+        errors_ = 'Please enter a value for the tag token.'
+        setError(true)
+        setLoading(false)
+
+      }
+
+    }
+
+
     const finalObject = {
       name,
       tagToken
@@ -92,10 +106,12 @@ const TagsAdd: React.FC = () => {
   };
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
     setName(e.target.value);
   };
 
   const handleChangeTagToken = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
     setTagToken(e.target.value);
   };
 
@@ -171,9 +187,7 @@ const TagsAdd: React.FC = () => {
             </Col>
             <Col xs={12} md={2}/>
           </Row>
-        </div>
-      </Container>
-      {
+          {
         error && (
           <div style={{
             color: 'red',
@@ -185,6 +199,9 @@ const TagsAdd: React.FC = () => {
           </div>
         )
       }
+        </div>
+      </Container>
+
     </div>
   );
 };

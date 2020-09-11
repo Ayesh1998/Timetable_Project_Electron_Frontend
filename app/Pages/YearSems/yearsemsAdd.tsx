@@ -16,6 +16,7 @@ import {setYearSems} from './yearsemsSlice';
 
 const yearList = [1, 2, 3, 4];
 const semesterList = [1, 2];
+let errors_: string = ''
 // noinspection DuplicatedCode
 const YearSemsAdd: React.FC = () => {
   const dispatch = useDispatch();
@@ -23,13 +24,14 @@ const YearSemsAdd: React.FC = () => {
 
 
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
-  const [error, setError] = useState<string | null>(null);
-//111
+
   const [year, setYear] = useState<number | null>(null);
   const [semester, setSemester] = useState<number | null>(null);
   const [yearSemToken, setYearSemToken] = useState<string>('');
 
   const [yearsemsObject, setYearSemsObject] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,10 +76,30 @@ const YearSemsAdd: React.FC = () => {
 
 
   const handleSubmit = async () => {
-    // console.log("1111111111111111111111111111");
-    // console.log(name);
-    // console.log(tagToken);
 
+
+
+    if((year === null)&& (semester === null)){
+      errors_ = 'Please select  values for the year and semester.'
+      setError(true)
+      setLoading(false)
+      console.log("1 2")
+
+    }
+    else {
+      if (year === null) {
+        errors_ = 'Please select values for the year.'
+        setError(true)
+        setLoading(false)
+        console.log("1 ")
+
+      } else if (semester === null) {
+        errors_ = 'Please select  values for the semester.'
+        setError(true)
+        setLoading(false)
+        console.log(" 2")
+      }
+	  }
 
     const finalObject = {
       year,
@@ -89,6 +111,8 @@ const YearSemsAdd: React.FC = () => {
     console.log('22222222222222222222222222222222222');
     console.log(finalObject);
 
+    if ( yearSemToken) {
+      setError(false)
     try {
       const response = await fetch(
         `http://localhost:5000/yearSems/create`,
@@ -112,6 +136,8 @@ const YearSemsAdd: React.FC = () => {
     } catch (err) {
       console.log(err.message);
     }
+
+  }
   };
 
   const renderRedirect = () => {
@@ -123,20 +149,21 @@ const YearSemsAdd: React.FC = () => {
   };
 
   const handleChangeYear = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
     const val = parseInt(e.target.value);
-    setYear(val);
+    //setYear(val);
+    setYear(e.target.value);
   };
 
   const handleChangeSemester = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
     const val = parseInt(e.target.value);
     const year1 = year.toString();
     setSemester(e.target.value);
 
-    if (val === 1) {
-      var id = 'Y' + year1 + '.S1';
-    } else {
-      var id = 'Y' + year1 + '.S2';
-    }
+
+      var id = 'Y' + year1 + '.S' + val;
+
 
     setYearSemToken(id);
     setSemester(val);
@@ -242,6 +269,18 @@ const YearSemsAdd: React.FC = () => {
             </Col>
           </Row>
           <Col xs={12} md={2}/>
+          {
+        error && (
+          <div style={{
+            color: 'red',
+            fontSize: '18px',
+            marginTop: '7px',
+            textAlign: 'center'
+          }}>
+            {errors_}
+          </div>
+        )
+      }
         </div>
 
       </Container>
