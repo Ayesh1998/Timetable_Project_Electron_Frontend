@@ -7,6 +7,7 @@ import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setEditGroupNum, setEditingGroupNum, setEditingGroupNumId} from './groupNumsSlice';
 
+let errors_: string = ''
 const GroupNumsEdit: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -33,6 +34,8 @@ const GroupNumsEdit: React.FC = () => {
   });
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
   const [id, setId] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
     setId(editingGroupNumId);
@@ -47,6 +50,13 @@ const GroupNumsEdit: React.FC = () => {
     };
 
     console.log(finalObjectWithID);
+    if (isNaN(Number(groupNum.groupNum.trim()))) {
+      errors_ = 'Please enter a numerical value for the group number.'
+       setError(true)
+      setLoading(false)
+    }
+    if (!isNaN(Number(groupNum.groupNum.trim()))){
+      setError(false)
 
     try {
       const response = await fetch(
@@ -70,6 +80,7 @@ const GroupNumsEdit: React.FC = () => {
     } catch (err) {
       console.log(err.message);
     }
+  }
   };
 
   const renderRedirect = () => {
@@ -80,6 +91,8 @@ const GroupNumsEdit: React.FC = () => {
   };
 
   const handleChangeGroupNum = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
+
     setGroupNum({...groupNum, groupNum: e.target.value});
   };
 
@@ -140,17 +153,30 @@ const GroupNumsEdit: React.FC = () => {
           </Row>
 
           <Row className="mt-3 mb-3 justify-content-md-center">
-            <Col xs={12} md={3}/>
-            <Col xs={3} md={7}>
+            <Col xs={12} md={1}/>
+            <Col xs={3} md={10}>
               <Button
-                style={{width: '160px', fontSize: '1.3em'}}
+                style={{width: '220px', fontSize: '1.3em'}}
                 onClick={handleSubmit}
               >
                 Edit Group Number
               </Button>
             </Col>
-            <Col xs={12} md={2}/>
+            <Col xs={12} md={1}/>
           </Row>
+
+          {
+        error && (
+          <div style={{
+            color: 'red',
+            fontSize: '18px',
+            marginTop: '7px',
+            textAlign: 'center'
+          }}>
+            {errors_}
+          </div>
+        )
+      }
         </div>
 
       </Container>
