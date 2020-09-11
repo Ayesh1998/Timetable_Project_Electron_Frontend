@@ -16,7 +16,10 @@ import {setEditGroup, setEditingGroup, setEditingGroupId} from './groupsSlice';
 //const yearSemList = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2'];
 //const programList = ['SE', 'CS', 'DS', 'IT'];
 //const groupNumList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
 //const subGroupNumList = [1, 2];
+
+let errors_: string = ''
 
 // noinspection DuplicatedCode
 const GroupsEdit: React.FC = () => {
@@ -70,8 +73,8 @@ const GroupsEdit: React.FC = () => {
 
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
   const [renderRedirectTo1, setRenderRedirectTo1] = useState<boolean | null>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
 
   const [academicYear, setAcademicYear] = useState<number | null>(null);
@@ -154,6 +157,17 @@ const GroupsEdit: React.FC = () => {
   };
 
   const handleSubmit = async () => {
+
+      if (subGrouup.subGroup === null) {
+        errors_ = 'Please select values for the sub group.'
+        setError(true)
+        setLoading(false)
+
+      }
+
+
+    if ( subGrouup.subGroup) {
+      setError(false)
 
     const finalObjectGroup = {
       academicYear: groupOne.academicYear,
@@ -239,6 +253,8 @@ const GroupsEdit: React.FC = () => {
     } catch (err) {
       console.log(err.message);
     }
+
+  }
   };
 
   const renderRedirect = () => {
@@ -251,6 +267,7 @@ const GroupsEdit: React.FC = () => {
 
 
   const handleChangeSubGroups = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
     const val = parseInt(e.target.value);
     var year = String(groupOne.academicYear);
     var sem = String(groupOne.academicSemester);
@@ -444,6 +461,19 @@ const GroupsEdit: React.FC = () => {
             </Col>
             <Col xs={12} md={2}/>
           </Row>
+
+          {
+        error && (
+          <div style={{
+            color: 'red',
+            fontSize: '18px',
+            marginTop: '7px',
+            textAlign: 'center'
+          }}>
+            {errors_}
+          </div>
+        )
+      }
         </div>
 
       </Container>
