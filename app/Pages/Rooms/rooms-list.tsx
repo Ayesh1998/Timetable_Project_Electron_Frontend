@@ -4,14 +4,7 @@ import {Button, Form, Modal, Spinner, Table} from 'react-bootstrap'
 import {FaEdit, FaTrashAlt} from 'react-icons/fa'
 import {proxy} from '../../conf'
 import {setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom, setRooms} from './rooms-slice'
-import {
-  setBuildings,
-  setEditBuilding,
-  setEditingBuilding,
-  setEditingBuildingId,
-  setExistingBuilding,
-  setExistingRoomsForBuilding
-} from '../Buildings/buildings-slice'
+import {setBuildings} from '../Buildings/buildings-slice'
 
 let errors_: string = ''
 
@@ -74,11 +67,6 @@ const RoomsList: React.FC = () => {
       const responseData = await response.json()
       setBuildingsList(responseData)
       await dispatch(setBuildings(responseData))
-      await dispatch(setEditBuilding(false))
-      await dispatch(setEditingBuildingId(''))
-      await dispatch(setEditingBuilding(null))
-      await dispatch(setExistingBuilding(false))
-      await dispatch(setExistingRoomsForBuilding(false))
       setLoading(false)
     } catch (errors) {
       errors_ = errors

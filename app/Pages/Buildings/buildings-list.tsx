@@ -3,7 +3,6 @@ import {useDispatch, useSelector} from 'react-redux'
 import {Button, Card, CardColumns, Form, Modal, Row, Spinner} from 'react-bootstrap'
 import {FaEdit, FaTrashAlt} from 'react-icons/fa'
 import {proxy} from '../../conf'
-import {setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom} from '../Rooms/rooms-slice'
 import {
   setBuildings,
   setCenters,
@@ -78,10 +77,6 @@ const BuildingsList: React.FC = () => {
       const responseData = await response.json()
       setCentersList(responseData)
       await dispatch(setCenters(responseData))
-      await dispatch(setEditRoom(false))
-      await dispatch(setEditingRoomId(''))
-      await dispatch(setEditingRoom(null))
-      await dispatch(setExistingRoom(false))
       setLoading(false)
     } catch (errors) {
       errors_ = errors
