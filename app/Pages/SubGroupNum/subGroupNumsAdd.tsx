@@ -12,6 +12,8 @@ import styles from './subGroupNums.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setSubGroupNums} from './subGroupNumsSlice';
+let errors_: string = ''
+
 
 // noinspection DuplicatedCode
 const SubGroupNumsAdd: React.FC = () => {
@@ -20,9 +22,11 @@ const SubGroupNumsAdd: React.FC = () => {
 
 
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const [subGroupNum, setSubGroupNum] = useState<number | null>(null);
+const [loading, setLoading] = useState<boolean>(false)
+const [error, setError] = useState<boolean>(false);
+
+  const [subGroupNum, setSubGroupNum] = useState<string>('');
 
 
   const [subGroupNumsObject, setSubGroupNumsObject] = useState<any>(null);
@@ -81,6 +85,13 @@ const SubGroupNumsAdd: React.FC = () => {
 
     console.log('22222222222222222222222222222222222');
     console.log(finalObject);
+    if (isNaN(Number(subGroupNum.trim()))) {
+      errors_ = 'Please enter a numerical value for the sub group number.'
+       setError(true)
+      setLoading(false)
+    }
+    if ( !isNaN(Number(subGroupNum.trim()))){
+      setError(false)
 
     try {
       const response = await fetch(
@@ -105,6 +116,7 @@ const SubGroupNumsAdd: React.FC = () => {
     } catch (err) {
       console.log(err.message);
     }
+  }
   };
 
   const renderRedirect = () => {
@@ -116,6 +128,7 @@ const SubGroupNumsAdd: React.FC = () => {
   };
 
   const handleChangeSubGroupNum = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
     setSubGroupNum(e.target.value);
     console.log(e.target.value)
   };
@@ -177,17 +190,32 @@ const SubGroupNumsAdd: React.FC = () => {
           </Row>
 
           <Row className="mt-3 mb-3 justify-content-md-center">
-            <Col xs={12} md={3}/>
-            <Col xs={3} md={7}>
+            <Col xs={12} md={1}/>
+            <Col xs={3} md={10}>
               <Button
-                style={{width: '160px', fontSize: '1.3em'}}
+                style={{width: '250px', fontSize: '1.3em'}}
                 onClick={handleSubmit}
               >
                 Add Sub Group Number
               </Button>
             </Col>
-            <Col xs={12} md={2}/>
+            <Col xs={12} md={1}/>
           </Row>
+
+          {
+        error && (
+          <div style={{
+            color: 'red',
+            fontSize: '18px',
+            marginTop: '7px',
+            textAlign: 'center'
+          }}>
+            {errors_}
+          </div>
+        )
+      }
+
+
         </div>
 
       </Container>
