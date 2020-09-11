@@ -365,7 +365,7 @@ const GroupsAdd: React.FC = () => {
     } else if (val === 'Y4S1') {
       setAcademicYear(4);
       setAcademicSemester(1);
-    } else {
+    } else if (val === 'Y4S2') {
       setAcademicYear(4);
       setAcademicSemester(2);
     }

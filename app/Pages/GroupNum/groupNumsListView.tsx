@@ -117,7 +117,7 @@ const GroupNumsListView: React.FC = () => {
       // console.log(responseData.userDetails);
       //setRenderRedirectTo(true);
 
-      fetchData();
+      //fetchData();
 
       if (!responseData) {
         // noinspection ExceptionCaughtLocallyJS
@@ -181,7 +181,7 @@ const GroupNumsListView: React.FC = () => {
   };
 
   return (
-    <div style={{backgroundColor: '#37474F', height: '100vh'}}>
+    <div style={{backgroundColor: '#37474F'}}>
       {renderEditTo()}
 
       <NavBar/>

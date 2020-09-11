@@ -7,6 +7,8 @@ import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setEditingSubGroupNum, setEditingSubGroupNumId, setEditSubGroupNum} from './subGroupNumsSlice';
 
+let errors_: string = ''
+
 const SubGroupNumsEdit: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -33,6 +35,9 @@ const SubGroupNumsEdit: React.FC = () => {
   });
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
   const [id, setId] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<boolean>(false);
+
 
   useEffect(() => {
     setId(editingSubGroupNumId);
@@ -47,6 +52,13 @@ const SubGroupNumsEdit: React.FC = () => {
     };
 
     console.log(finalObjectWithID);
+    if (isNaN(Number(subGroupNum.subGroupNum.trim()))) {
+      errors_ = 'Please enter a numerical value for the sub group number.'
+       setError(true)
+      setLoading(false)
+    }
+    if ( !isNaN(Number(subGroupNum.subGroupNum.trim()))){
+      setError(false)
 
     try {
       const response = await fetch(
@@ -70,6 +82,7 @@ const SubGroupNumsEdit: React.FC = () => {
     } catch (err) {
       console.log(err.message);
     }
+  }
   };
 
   const renderRedirect = () => {
@@ -80,6 +93,7 @@ const SubGroupNumsEdit: React.FC = () => {
   };
 
   const handleChangeSubGroupNum = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
     setSubGroupNum({...subGroupNum, subGroupNum: e.target.value});
   };
 
@@ -140,17 +154,31 @@ const SubGroupNumsEdit: React.FC = () => {
           </Row>
 
           <Row className="mt-3 mb-3 justify-content-md-center">
-            <Col xs={12} md={3}/>
-            <Col xs={3} md={7}>
+            <Col xs={12} md={1}/>
+            <Col xs={3} md={10}>
               <Button
-                style={{width: '160px', fontSize: '1.3em'}}
+                style={{width: '250px', fontSize: '1.3em'}}
                 onClick={handleSubmit}
               >
                 Edit Sub Group Number
               </Button>
             </Col>
-            <Col xs={12} md={2}/>
+            <Col xs={12} md={1}/>
           </Row>
+
+
+	 {
+        error && (
+          <div style={{
+            color: 'red',
+            fontSize: '18px',
+            marginTop: '7px',
+            textAlign: 'center'
+          }}>
+            {errors_}
+          </div>
+        )
+      }
         </div>
 
       </Container>
