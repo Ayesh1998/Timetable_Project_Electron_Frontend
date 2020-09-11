@@ -128,12 +128,14 @@ const BuildingsEdit: React.FC = () => {
   const handleChangeBuildingName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
     setBuilding({...building, buildingName: e.target.value})
+    dispatch(setExistingBuilding(false))
     setLoading(false)
   }
 
   const handleChangeCenterName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
     setBuilding({...building, centerName: e.target.value})
+    dispatch(setExistingBuilding(false))
     setLoading(false)
   }
 

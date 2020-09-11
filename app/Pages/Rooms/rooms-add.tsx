@@ -5,12 +5,12 @@ import {FaPlusCircle} from 'react-icons/fa'
 import {proxy} from '../../conf'
 import {setBuildings, setExistingRoom, setRooms} from './rooms-slice'
 
+let errors_: string = ''
+
 const roomTypes = [
   'Lecture Hall',
   'Laboratory'
 ]
-
-let errors_: string = ''
 
 const RoomsAdd: React.FC = () => {
   const dispatch = useDispatch()
@@ -122,24 +122,28 @@ const RoomsAdd: React.FC = () => {
   const handleChangeRoomName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
     setRoom({...room, roomName: e.target.value})
+    dispatch(setExistingRoom(false))
     setLoading(false)
   }
 
   const handleChangeBuildingName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
     setRoom({...room, buildingName: e.target.value})
+    dispatch(setExistingRoom(false))
     setLoading(false)
   }
 
   const handleChangeRoomType = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
     setRoom({...room, roomType: e.target.value})
+    dispatch(setExistingRoom(false))
     setLoading(false)
   }
 
   const handleChangeRoomCapacity = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
     setRoom({...room, roomCapacity: e.target.value})
+    dispatch(setExistingRoom(false))
     setLoading(false)
   }
 
