@@ -27,6 +27,12 @@ const NavBar: React.FC = () => {
               Working Days and Hours
             </Nav.Link>
           </NavLink>
+          <NavLink to={routes.LECTURERS_LIST_VIEW}>
+            <Nav.Link href='#lecturers'>Lecturers</Nav.Link>
+          </NavLink>
+          <NavLink to={routes.SUBJECTS_LIST_VIEW}>
+            <Nav.Link href='#subjects'>Subjects</Nav.Link>
+          </NavLink>
           <NavDropdown title='Batches Basic Info'
                        id='collasible-nav-dropdown'>
             <NavDropdown.Item href='#batches/yearsems'>

@@ -6,6 +6,12 @@ import HomePage from './containers/HomePage'
 import WorkingDaysHoursView from './Pages/WorkingDaysHours/WorkingDaysAndHoursView'
 import WorkingDaysHours from './Pages/WorkingDaysHours/WorkingDaysHours'
 import WorkingDaysHoursEdit from './Pages/WorkingDaysHours/WorkingDaysHoursEdit'
+import LecturersAddView from './Pages/Lecturers/lecturersAddView'
+import LecturersEditView from './Pages/Lecturers/lecturersEditView'
+import LecturersListView from './Pages/Lecturers/lecturersListView'
+import SubjectsAddView from './Pages/Subjects/subjectsAddView'
+import SubjectsEditView from './Pages/Subjects/subjectsEditView'
+import SubjectsListView from './Pages/Subjects/subjectsListView'
 import GroupsAdd from './Pages/Groups/groupsAdd'
 import TagsAdd from './Pages/Tags/tagsAdd'
 import TagsEdit from './Pages/Tags/tagsEdit'
@@ -58,6 +64,19 @@ export default function Routes() {
                component={WorkingDaysHours}/>
         <Route path={routes.WORKING_DAYS_AND_HOURS_Edit}
                component={WorkingDaysHoursEdit}/>
+        <Route path={routes.LECTURERS_ADD}
+               component={LecturersAddView}/>
+        <Route path={routes.LECTURERS_EDIT}
+               component={LecturersEditView}/>
+        <Route path={routes.LECTURERS_LIST_VIEW}
+               component={LecturersListView}/>
+        <Route path={routes.SUBJECTS_ADD}
+               component={SubjectsAddView}/>
+        <Route path={routes.SUBJECTS_EDIT}
+               component={SubjectsEditView}/>
+        <Route path={routes.SUBJECTS_LIST_VIEW}
+               component={SubjectsListView}/>
+        <Route path={routes.HOME} component={HomePage}/>
         <Route path={routes.GROUPS_ADD}
                component={GroupsAdd}/>
         <Route path={routes.GROUPS_LIST_VIEW}

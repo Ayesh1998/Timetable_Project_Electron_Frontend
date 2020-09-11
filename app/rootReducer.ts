@@ -2,6 +2,8 @@ import {combineReducers} from 'redux'
 import {connectRouter} from 'connected-react-router'
 import {History} from 'history'
 import workingDaysHoursReducer from './Pages/WorkingDaysHours/workingDaysHoursSlice'
+import lecturersReducer from './Pages/Lecturers/lecturersSlice'
+import subjectsReducer from './Pages/Subjects/subjectsSlice'
 import groupsReducer from './Pages/Groups/groupsSlice'
 import tagsReducer from './Pages/Tags/tagsSlice'
 import groupNumsReducer from './Pages/GroupNum/groupNumsSlice'
@@ -21,6 +23,8 @@ export default function createRootReducer(history: History) {
   return combineReducers({
     router: connectRouter(history),
     workingDaysHours: workingDaysHoursReducer,
+    lecturers: lecturersReducer,
+    subjects: subjectsReducer,
     groups: groupsReducer,
     tags: tagsReducer,
     programs: programsReducer,

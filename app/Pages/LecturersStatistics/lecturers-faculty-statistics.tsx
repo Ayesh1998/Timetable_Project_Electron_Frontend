@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
-import {Col, Row, Spinner, Table} from 'react-bootstrap'
+import {Row, Spinner, Table} from 'react-bootstrap'
 import {Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, Tooltip, XAxis, YAxis} from 'recharts'
 import {proxy} from '../../conf'
 import {setLecturersFacultyStatistics} from './lecturers-statistics-slice'
