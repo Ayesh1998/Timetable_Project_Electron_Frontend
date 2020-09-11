@@ -158,103 +158,103 @@ const GroupsEdit: React.FC = () => {
 
   const handleSubmit = async () => {
 
-      if (subGrouup.subGroup === null) {
-        errors_ = 'Please select values for the sub group.'
-        setError(true)
-        setLoading(false)
+    if (subGrouup.subGroup === null) {
+      errors_ = 'Please select values for the sub group.'
+      setError(true)
+      setLoading(false)
 
-      }
+    }
 
 
-    if ( subGrouup.subGroup) {
+    if (subGrouup.subGroup) {
       setError(false)
 
-    const finalObjectGroup = {
-      academicYear: groupOne.academicYear,
-      academicSemester: groupOne.academicSemester,
-      academicYearAndSemester: groupOne.academicYearAndSemester,
-      programme: groupOne.programme,
-      group: groupOne.group,
-      groupId: groupOne.groupId,
-      subGroups: [...groupOne.subGroups, subGrouup],
-      availableSubGroup: true
-    };
+      const finalObjectGroup = {
+        academicYear: groupOne.academicYear,
+        academicSemester: groupOne.academicSemester,
+        academicYearAndSemester: groupOne.academicYearAndSemester,
+        programme: groupOne.programme,
+        group: groupOne.group,
+        groupId: groupOne.groupId,
+        subGroups: [...groupOne.subGroups, subGrouup],
+        availableSubGroup: true
+      };
 
-    const finalObjectWithID = {
-      groups: finalObjectGroup,
-      // eslint-disable-next-line no-underscore-dangle
-      id: id
-    };
-    console.log('22222222222222222222222222222222222');
-    console.log(finalObjectGroup);
+      const finalObjectWithID = {
+        groups: finalObjectGroup,
+        // eslint-disable-next-line no-underscore-dangle
+        id: id
+      };
+      console.log('22222222222222222222222222222222222');
+      console.log(finalObjectGroup);
 
-    try {
-      const response = await fetch(
-        `http://localhost:5000/groups/editGroups`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(finalObjectWithID)
+      try {
+        const response = await fetch(
+          `http://localhost:5000/groups/editGroups`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(finalObjectWithID)
+          }
+        );
+
+        const responseData = await response.json();
+        setRenderRedirectTo(true);
+        // console.log(responseData.userDetails);
+
+        if (!responseData) {
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error(responseData.message);
         }
-      );
-
-      const responseData = await response.json();
-      setRenderRedirectTo(true);
-      // console.log(responseData.userDetails);
-
-      if (!responseData) {
-        // noinspection ExceptionCaughtLocallyJS
-        throw new Error(responseData.message);
+      } catch (err) {
+        console.log(err.message);
       }
-    } catch (err) {
-      console.log(err.message);
-    }
 
 
-    const finalObjectSubGroup = {
-      academicYear: groupOne.academicYear,
-      academicSemester: groupOne.academicSemester,
-      academicYearAndSemester: groupOne.academicYearAndSemester,
-      programme: groupOne.programme,
-      group: groupOne.group,
-      groupId: groupOne.groupId,
-      subGroup: subGrouup.subGroup,
-      subGroupId: subGrouup.subGroupId
-    };
+      const finalObjectSubGroup = {
+        academicYear: groupOne.academicYear,
+        academicSemester: groupOne.academicSemester,
+        academicYearAndSemester: groupOne.academicYearAndSemester,
+        programme: groupOne.programme,
+        group: groupOne.group,
+        groupId: groupOne.groupId,
+        subGroup: subGrouup.subGroup,
+        subGroupId: subGrouup.subGroupId
+      };
 
 
-    try {
-      const response = await fetch(
-        `http://localhost:5000/subGroups/create`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(finalObjectSubGroup)
+      try {
+        const response = await fetch(
+          `http://localhost:5000/subGroups/create`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(finalObjectSubGroup)
+          }
+        );
+
+        const responseData = await response.json();
+        setRenderRedirectTo1(true);
+
+        dispatch(setEditGroup(false));
+        dispatch(setEditingGroupId(''));
+        dispatch(setEditingGroup(null));
+
+        // console.log(responseData.userDetails);
+
+        if (!responseData) {
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error(responseData.message);
         }
-      );
-
-      const responseData = await response.json();
-      setRenderRedirectTo1(true);
-
-      dispatch(setEditGroup(false));
-      dispatch(setEditingGroupId(''));
-      dispatch(setEditingGroup(null));
-
-      // console.log(responseData.userDetails);
-
-      if (!responseData) {
-        // noinspection ExceptionCaughtLocallyJS
-        throw new Error(responseData.message);
+      } catch (err) {
+        console.log(err.message);
       }
-    } catch (err) {
-      console.log(err.message);
-    }
 
-  }
+    }
   };
 
   const renderRedirect = () => {
@@ -463,17 +463,17 @@ const GroupsEdit: React.FC = () => {
           </Row>
 
           {
-        error && (
-          <div style={{
-            color: 'red',
-            fontSize: '18px',
-            marginTop: '7px',
-            textAlign: 'center'
-          }}>
-            {errors_}
-          </div>
-        )
-      }
+            error && (
+              <div style={{
+                color: 'red',
+                fontSize: '18px',
+                marginTop: '7px',
+                textAlign: 'center'
+              }}>
+                {errors_}
+              </div>
+            )
+          }
         </div>
 
       </Container>

@@ -52,35 +52,35 @@ const GroupNumsEdit: React.FC = () => {
     console.log(finalObjectWithID);
     if (isNaN(Number(groupNum.groupNum.trim()))) {
       errors_ = 'Please enter a numerical value for the group number.'
-       setError(true)
+      setError(true)
       setLoading(false)
     }
-    if (!isNaN(Number(groupNum.groupNum.trim()))){
+    if (!isNaN(Number(groupNum.groupNum.trim()))) {
       setError(false)
 
-    try {
-      const response = await fetch(
-        `http://localhost:5000/groupNums/editGroupNums`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(finalObjectWithID)
+      try {
+        const response = await fetch(
+          `http://localhost:5000/groupNums/editGroupNums`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(finalObjectWithID)
+          }
+        );
+        const responseData = await response.json();
+        setRenderRedirectTo(true);
+        dispatch(setEditGroupNum(false));
+        dispatch(setEditingGroupNumId(''));
+        dispatch(setEditingGroupNum(null));
+        if (!responseData) {
+          throw new Error(responseData.message);
         }
-      );
-      const responseData = await response.json();
-      setRenderRedirectTo(true);
-      dispatch(setEditGroupNum(false));
-      dispatch(setEditingGroupNumId(''));
-      dispatch(setEditingGroupNum(null));
-      if (!responseData) {
-        throw new Error(responseData.message);
+      } catch (err) {
+        console.log(err.message);
       }
-    } catch (err) {
-      console.log(err.message);
     }
-  }
   };
 
   const renderRedirect = () => {
@@ -166,17 +166,17 @@ const GroupNumsEdit: React.FC = () => {
           </Row>
 
           {
-        error && (
-          <div style={{
-            color: 'red',
-            fontSize: '18px',
-            marginTop: '7px',
-            textAlign: 'center'
-          }}>
-            {errors_}
-          </div>
-        )
-      }
+            error && (
+              <div style={{
+                color: 'red',
+                fontSize: '18px',
+                marginTop: '7px',
+                textAlign: 'center'
+              }}>
+                {errors_}
+              </div>
+            )
+          }
         </div>
 
       </Container>

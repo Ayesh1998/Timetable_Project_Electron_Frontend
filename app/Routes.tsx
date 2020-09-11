@@ -76,7 +76,6 @@ export default function Routes() {
                component={SubjectsEditView}/>
         <Route path={routes.SUBJECTS_LIST_VIEW}
                component={SubjectsListView}/>
-        <Route path={routes.HOME} component={HomePage}/>
         <Route path={routes.GROUPS_ADD}
                component={GroupsAdd}/>
         <Route path={routes.GROUPS_LIST_VIEW}

@@ -73,13 +73,12 @@ const ProgramsAdd: React.FC = () => {
 
 
   const handleSubmit = async () => {
-    if(name.trim() === '' && programToken.trim() === ''){
+    if (name.trim() === '' && programToken.trim() === '') {
       errors_ = 'Please enter a value for the programme name and  token.'
       setError(true)
       setLoading(false)
 
-    }
-    else {
+    } else {
       if (name.trim() === '') {
         errors_ = 'Please enter a value for the programme  name.'
         setError(true)
@@ -91,7 +90,7 @@ const ProgramsAdd: React.FC = () => {
         setLoading(false)
 
       }
-	  }
+    }
 
 
     const finalObject = {
@@ -102,33 +101,33 @@ const ProgramsAdd: React.FC = () => {
     console.log('22222222222222222222222222222222222');
     console.log(finalObject);
 
-if (name.trim() !== '' && programToken.trim() !== '') {
+    if (name.trim() !== '' && programToken.trim() !== '') {
       setError(false)
-    try {
-      const response = await fetch(
-        `http://localhost:5000/programs/create`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(finalObject)
+      try {
+        const response = await fetch(
+          `http://localhost:5000/programs/create`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(finalObject)
+          }
+        );
+
+        const responseData = await response.json();
+        console.log(`HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII+${responseData}`)
+        setRenderRedirectTo(true);
+        // console.log(responseData.userDetails);
+
+        if (!responseData) {
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error(responseData.message);
         }
-      );
-
-      const responseData = await response.json();
-      console.log(`HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII+${responseData}`)
-      setRenderRedirectTo(true);
-      // console.log(responseData.userDetails);
-
-      if (!responseData) {
-        // noinspection ExceptionCaughtLocallyJS
-        throw new Error(responseData.message);
+      } catch (err) {
+        console.log(err.message);
       }
-    } catch (err) {
-      console.log(err.message);
     }
-}
   };
 
   const renderRedirect = () => {
@@ -241,18 +240,17 @@ if (name.trim() !== '' && programToken.trim() !== '') {
           </Row>
 
           {
-        error && (
-          <div style={{
-            color: 'red',
-            fontSize: '18px',
-            marginTop: '7px',
-            textAlign: 'center'
-          }}>
-            {errors_}
-          </div>
-        )
-      }
-
+            error && (
+              <div style={{
+                color: 'red',
+                fontSize: '18px',
+                marginTop: '7px',
+                textAlign: 'center'
+              }}>
+                {errors_}
+              </div>
+            )
+          }
 
 
         </div>

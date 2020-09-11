@@ -44,13 +44,12 @@ const ProgramsEdit: React.FC = () => {
 
   const handleSubmit = async () => {
 
-    if(program.name.trim() === '' && program.programToken.trim() === ''){
+    if (program.name.trim() === '' && program.programToken.trim() === '') {
       errors_ = 'Please enter a value for the programme name and  token.'
       setError(true)
       setLoading(false)
 
-    }
-    else {
+    } else {
       if (program.name.trim() === '') {
         errors_ = 'Please enter a value for the programme  name.'
         setError(true)
@@ -62,7 +61,7 @@ const ProgramsEdit: React.FC = () => {
         setLoading(false)
 
       }
-	  }
+    }
 
     console.log(id);
 
@@ -74,32 +73,32 @@ const ProgramsEdit: React.FC = () => {
     console.log(finalObjectWithID);
 
 
-if (program.name.trim() !== '' && program.programToken.trim() !== '') {
-  setError(false)
+    if (program.name.trim() !== '' && program.programToken.trim() !== '') {
+      setError(false)
 
-    try {
-      const response = await fetch(
-        `http://localhost:5000/programs/editPrograms`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(finalObjectWithID)
+      try {
+        const response = await fetch(
+          `http://localhost:5000/programs/editPrograms`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(finalObjectWithID)
+          }
+        );
+        const responseData = await response.json();
+        setRenderRedirectTo(true);
+        dispatch(setEditProgram(false));
+        dispatch(setEditingProgramId(''));
+        dispatch(setEditingProgram(null));
+        if (!responseData) {
+          throw new Error(responseData.message);
         }
-      );
-      const responseData = await response.json();
-      setRenderRedirectTo(true);
-      dispatch(setEditProgram(false));
-      dispatch(setEditingProgramId(''));
-      dispatch(setEditingProgram(null));
-      if (!responseData) {
-        throw new Error(responseData.message);
+      } catch (err) {
+        console.log(err.message);
       }
-    } catch (err) {
-      console.log(err.message);
     }
-}
   };
 
   const renderRedirect = () => {
@@ -207,17 +206,17 @@ if (program.name.trim() !== '' && program.programToken.trim() !== '') {
             <Col xs={12} md={1}/>
           </Row>
           {
-        error && (
-          <div style={{
-            color: 'red',
-            fontSize: '18px',
-            marginTop: '7px',
-            textAlign: 'center'
-          }}>
-            {errors_}
-          </div>
-        )
-      }
+            error && (
+              <div style={{
+                color: 'red',
+                fontSize: '18px',
+                marginTop: '7px',
+                textAlign: 'center'
+              }}>
+                {errors_}
+              </div>
+            )
+          }
         </div>
 
       </Container>

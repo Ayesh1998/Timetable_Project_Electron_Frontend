@@ -12,6 +12,7 @@ import styles from './subGroupNums.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setSubGroupNums} from './subGroupNumsSlice';
+
 let errors_: string = ''
 
 
@@ -23,8 +24,8 @@ const SubGroupNumsAdd: React.FC = () => {
 
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
 
-const [loading, setLoading] = useState<boolean>(false)
-const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<boolean>(false);
 
   const [subGroupNum, setSubGroupNum] = useState<string>('');
 
@@ -87,36 +88,36 @@ const [error, setError] = useState<boolean>(false);
     console.log(finalObject);
     if (isNaN(Number(subGroupNum.trim()))) {
       errors_ = 'Please enter a numerical value for the sub group number.'
-       setError(true)
+      setError(true)
       setLoading(false)
     }
-    if ( !isNaN(Number(subGroupNum.trim()))){
+    if (!isNaN(Number(subGroupNum.trim()))) {
       setError(false)
 
-    try {
-      const response = await fetch(
-        `http://localhost:5000/subGroupNums/create`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(finalObject)
+      try {
+        const response = await fetch(
+          `http://localhost:5000/subGroupNums/create`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(finalObject)
+          }
+        );
+
+        const responseData = await response.json();
+        setRenderRedirectTo(true);
+        // console.log(responseData.userDetails);
+
+        if (!responseData) {
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error(responseData.message);
         }
-      );
-
-      const responseData = await response.json();
-      setRenderRedirectTo(true);
-      // console.log(responseData.userDetails);
-
-      if (!responseData) {
-        // noinspection ExceptionCaughtLocallyJS
-        throw new Error(responseData.message);
+      } catch (err) {
+        console.log(err.message);
       }
-    } catch (err) {
-      console.log(err.message);
     }
-  }
   };
 
   const renderRedirect = () => {
@@ -203,17 +204,17 @@ const [error, setError] = useState<boolean>(false);
           </Row>
 
           {
-        error && (
-          <div style={{
-            color: 'red',
-            fontSize: '18px',
-            marginTop: '7px',
-            textAlign: 'center'
-          }}>
-            {errors_}
-          </div>
-        )
-      }
+            error && (
+              <div style={{
+                color: 'red',
+                fontSize: '18px',
+                marginTop: '7px',
+                textAlign: 'center'
+              }}>
+                {errors_}
+              </div>
+            )
+          }
 
 
         </div>

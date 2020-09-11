@@ -44,13 +44,12 @@ const TagsEdit: React.FC = () => {
   const handleSubmit = async () => {
     console.log(id);
 
-    if(tag.name.trim() === '' && tag.tagToken.trim() === ''){
+    if (tag.name.trim() === '' && tag.tagToken.trim() === '') {
       errors_ = 'Please enter a value for the tag name and tag token.'
       setError(true)
       setLoading(false)
 
-    }
-    else {
+    } else {
       if (tag.name.trim() === '') {
         errors_ = 'Please enter a value for the tag name.'
         setError(true)
@@ -74,29 +73,29 @@ const TagsEdit: React.FC = () => {
     if (tag.name.trim() !== '' && tag.tagToken.trim() !== '') {
       setError(false)
 
-    try {
-      const response = await fetch(
-        `http://localhost:5000/tags/editTags`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(finalObjectWithID)
+      try {
+        const response = await fetch(
+          `http://localhost:5000/tags/editTags`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(finalObjectWithID)
+          }
+        );
+        const responseData = await response.json();
+        setRenderRedirectTo(true);
+        dispatch(setEditTag(false));
+        dispatch(setEditingTagId(''));
+        dispatch(setEditingTag(null));
+        if (!responseData) {
+          throw new Error(responseData.message);
         }
-      );
-      const responseData = await response.json();
-      setRenderRedirectTo(true);
-      dispatch(setEditTag(false));
-      dispatch(setEditingTagId(''));
-      dispatch(setEditingTag(null));
-      if (!responseData) {
-        throw new Error(responseData.message);
+      } catch (err) {
+        console.log(err.message);
       }
-    } catch (err) {
-      console.log(err.message);
     }
-  }
   };
 
   const renderRedirect = () => {
@@ -204,17 +203,17 @@ const TagsEdit: React.FC = () => {
             <Col xs={12} md={2}/>
           </Row>
           {
-        error && (
-          <div style={{
-            color: 'red',
-            fontSize: '18px',
-            marginTop: '7px',
-            textAlign: 'center'
-          }}>
-            {errors_}
-          </div>
-        )
-      }
+            error && (
+              <div style={{
+                color: 'red',
+                fontSize: '18px',
+                marginTop: '7px',
+                textAlign: 'center'
+              }}>
+                {errors_}
+              </div>
+            )
+          }
         </div>
 
       </Container>

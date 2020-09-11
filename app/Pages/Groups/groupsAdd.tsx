@@ -20,7 +20,6 @@ import {setGroups} from './groupsSlice';
 let errors_: string = ''
 
 
-
 var exist = 0;
 // noinspection DuplicatedCode
 const GroupsAdd: React.FC = () => {
@@ -32,7 +31,7 @@ const GroupsAdd: React.FC = () => {
   const [groupNumList, setGroupNumList] = useState<any>([]);
 
   const [loading, setLoading] = useState<boolean>(false)
-const [error, setError] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
   const [renderRedirectTo1, setRenderRedirectTo1] = useState<boolean | null>(false);
@@ -170,14 +169,13 @@ const [error, setError] = useState<boolean>(false);
   const handleSubmit = async () => {
     console.log("clicked sub group one222222222222222222222222")
 
-    if((academicYearAndSemester === null)&& ( programme === null)&& ( group === null)){
+    if ((academicYearAndSemester === null) && (programme === null) && (group === null)) {
       errors_ = 'Please select  values for all fields.'
       setError(true)
       setLoading(false)
 
 
-    }
-    else {
+    } else {
       if (academicYearAndSemester === null) {
         errors_ = 'Please select values for the academic year and semster.'
         setError(true)
@@ -189,90 +187,88 @@ const [error, setError] = useState<boolean>(false);
         setError(true)
         setLoading(false)
 
-      }
-      else if (group === null) {
+      } else if (group === null) {
         errors_ = 'Please select  values for the group.'
         setError(true)
         setLoading(false)
 
       }
-	  }
+    }
 
-    if ( groupId) {
+    if (groupId) {
       setError(false)
-    const finalObjectGroup = {
-      academicYear,
-      academicSemester,
-      academicYearAndSemester,
-      programme,
-      group,
-      groupId,
-      availableSubGroup: false
-    };
+      const finalObjectGroup = {
+        academicYear,
+        academicSemester,
+        academicYearAndSemester,
+        programme,
+        group,
+        groupId,
+        availableSubGroup: false
+      };
 
-    groupsObject.map((rec: any) => {
+      groupsObject.map((rec: any) => {
 
-      if (rec.groupId === groupId) {
-        exist = 1;
+        if (rec.groupId === groupId) {
+          exist = 1;
 
-        console.log("This group is already exists")
-        return;
-      }
-
-
-      exist = 0;
-    });
-
-
-    if (exist === 1) {
-      handleShow();
-    }
-
-
-    if (exist === 0) {
-
-
-      try {
-        const response = await fetch(
-          `http://localhost:5000/groups/create`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(finalObjectGroup)
-          }
-        );
-
-        const responseData = await response.json();
-
-        console.log(responseData);
-        setRenderRedirectToGro(true);
-
-
-        if (!responseData) {
-          // noinspection ExceptionCaughtLocallyJS
-          throw new Error(responseData.message);
+          console.log("This group is already exists")
+          return;
         }
-      } catch (err) {
-        console.log(err.message);
+
+
+        exist = 0;
+      });
+
+
+      if (exist === 1) {
+        handleShow();
       }
 
+
+      if (exist === 0) {
+
+
+        try {
+          const response = await fetch(
+            `http://localhost:5000/groups/create`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(finalObjectGroup)
+            }
+          );
+
+          const responseData = await response.json();
+
+          console.log(responseData);
+          setRenderRedirectToGro(true);
+
+
+          if (!responseData) {
+            // noinspection ExceptionCaughtLocallyJS
+            throw new Error(responseData.message);
+          }
+        } catch (err) {
+          console.log(err.message);
+        }
+
+      }
     }
-  }
 
 
   };
 
   const handleSubmitSub = async () => {
-    if((academicYearAndSemester === null)&& ( programme === null)&& ( group === null)){
+    if ((academicYearAndSemester === null) && (programme === null) && (group === null)) {
       errors_ = 'Please select  values for all fields.'
       setError(true)
       setLoading(false)
 
 
-    }
-    else {
+    } else {
       if (academicYearAndSemester === null) {
         errors_ = 'Please select values for the academic year and semster.'
         setError(true)
@@ -284,113 +280,112 @@ const [error, setError] = useState<boolean>(false);
         setError(true)
         setLoading(false)
 
-      }
-      else if (group === null) {
+      } else if (group === null) {
         errors_ = 'Please select  values for the group.'
         setError(true)
         setLoading(false)
 
       }
-	  }
+    }
 
-    if ( groupId) {
+    if (groupId) {
       setError(false)
 
-    const finalObjectGroup = {
-      academicYear,
-      academicSemester,
-      academicYearAndSemester,
-      programme,
-      group,
-      groupId,
-      subGroups: subGrouup,
-      availableSubGroup: true
-    };
+      const finalObjectGroup = {
+        academicYear,
+        academicSemester,
+        academicYearAndSemester,
+        programme,
+        group,
+        groupId,
+        subGroups: subGrouup,
+        availableSubGroup: true
+      };
 
-    groupsObject.map((rec: any) => {
+      groupsObject.map((rec: any) => {
 
-      if (rec.groupId === groupId) {
-        exist = 1;
-        console.log("This group is already exists")
-        return;
-      }
-      exist = 0;
-    });
-
-
-    if (exist === 1) {
-      handleShow();
-    }
-
-
-    if (exist === 0) {
-
-      try {
-        const response = await fetch(
-          `http://localhost:5000/groups/create`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(finalObjectGroup)
-          }
-        );
-
-        const responseData = await response.json();
-
-        console.log(responseData);
-        setRenderRedirectTo(true);
-
-
-        if (!responseData) {
-          // noinspection ExceptionCaughtLocallyJS
-          throw new Error(responseData.message);
+        if (rec.groupId === groupId) {
+          exist = 1;
+          console.log("This group is already exists")
+          return;
         }
-      } catch (err) {
-        console.log(err.message);
+        exist = 0;
+      });
+
+
+      if (exist === 1) {
+        handleShow();
       }
 
-    }
+
+      if (exist === 0) {
+
+        try {
+          const response = await fetch(
+            `http://localhost:5000/groups/create`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(finalObjectGroup)
+            }
+          );
+
+          const responseData = await response.json();
+
+          console.log(responseData);
+          setRenderRedirectTo(true);
 
 
-    const finalObjectSubGroup = {
-      academicYear,
-      academicSemester,
-      academicYearAndSemester,
-      programme,
-      group,
-      groupId,
-      subGroup: subGrouup.subGroup,
-      subGroupId: subGrouup.subGroupId
-    };
-
-    if (exist === 0) {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/subGroups/create`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(finalObjectSubGroup)
+          if (!responseData) {
+            // noinspection ExceptionCaughtLocallyJS
+            throw new Error(responseData.message);
           }
-        );
-
-        const responseData = await response.json();
-        setRenderRedirectTo1(true);
-
-
-        if (!responseData) {
-          // noinspection ExceptionCaughtLocallyJS
-          throw new Error(responseData.message);
+        } catch (err) {
+          console.log(err.message);
         }
-      } catch (err) {
-        console.log(err.message);
+
+      }
+
+
+      const finalObjectSubGroup = {
+        academicYear,
+        academicSemester,
+        academicYearAndSemester,
+        programme,
+        group,
+        groupId,
+        subGroup: subGrouup.subGroup,
+        subGroupId: subGrouup.subGroupId
+      };
+
+      if (exist === 0) {
+        try {
+          const response = await fetch(
+            `http://localhost:5000/subGroups/create`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(finalObjectSubGroup)
+            }
+          );
+
+          const responseData = await response.json();
+          setRenderRedirectTo1(true);
+
+
+          if (!responseData) {
+            // noinspection ExceptionCaughtLocallyJS
+            throw new Error(responseData.message);
+          }
+        } catch (err) {
+          console.log(err.message);
+        }
       }
     }
-  }
   };
 
   const renderRedirect = () => {
@@ -437,8 +432,7 @@ const [error, setError] = useState<boolean>(false);
     } else if (val === 'Y4S2') {
       setAcademicYear(4);
       setAcademicSemester(2);
-    }
-    else{
+    } else {
       setAcademicYear(5);
       setAcademicSemester(5);
     }
@@ -697,18 +691,18 @@ const [error, setError] = useState<boolean>(false);
           </Row>
 
 
-	 {
-        error && (
-          <div style={{
-            color: 'red',
-            fontSize: '18px',
-            marginTop: '7px',
-            textAlign: 'center'
-          }}>
-            {errors_}
-          </div>
-        )
-      }
+          {
+            error && (
+              <div style={{
+                color: 'red',
+                fontSize: '18px',
+                marginTop: '7px',
+                textAlign: 'center'
+              }}>
+                {errors_}
+              </div>
+            )
+          }
         </div>
 
       </Container>

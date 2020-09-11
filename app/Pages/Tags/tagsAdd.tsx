@@ -48,13 +48,12 @@ const TagsAdd: React.FC = () => {
 
   const handleSubmit = async (e: any) => {
     // e.preventDefault()
-    if(name.trim() === '' && tagToken.trim() === ''){
+    if (name.trim() === '' && tagToken.trim() === '') {
       errors_ = 'Please enter a value for the tag name and tag token.'
       setError(true)
       setLoading(false)
 
-    }
-    else {
+    } else {
       if (name.trim() === '') {
         errors_ = 'Please enter a value for the tag name.'
         setError(true)
@@ -188,17 +187,17 @@ const TagsAdd: React.FC = () => {
             <Col xs={12} md={2}/>
           </Row>
           {
-        error && (
-          <div style={{
-            color: 'red',
-            fontSize: '18px',
-            marginTop: '7px',
-            textAlign: 'center'
-          }}>
-            {errors_}
-          </div>
-        )
-      }
+            error && (
+              <div style={{
+                color: 'red',
+                fontSize: '18px',
+                marginTop: '7px',
+                textAlign: 'center'
+              }}>
+                {errors_}
+              </div>
+            )
+          }
         </div>
       </Container>
 

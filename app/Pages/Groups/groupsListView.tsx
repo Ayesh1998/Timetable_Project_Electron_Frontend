@@ -247,7 +247,7 @@ const GroupsListView: React.FC = () => {
       );
       const responseData = await response.json();
       console.log(`me sub group eken sub delete una eke respose +${responseData}`)
-     // await fetchData();
+      // await fetchData();
       if (!responseData) {
         throw new Error(responseData.message);
       }

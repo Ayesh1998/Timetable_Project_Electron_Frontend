@@ -78,15 +78,13 @@ const YearSemsAdd: React.FC = () => {
   const handleSubmit = async () => {
 
 
-
-    if((year === null)&& (semester === null)){
+    if ((year === null) && (semester === null)) {
       errors_ = 'Please select  values for the year and semester.'
       setError(true)
       setLoading(false)
       console.log("1 2")
 
-    }
-    else {
+    } else {
       if (year === null) {
         errors_ = 'Please select values for the year.'
         setError(true)
@@ -99,7 +97,7 @@ const YearSemsAdd: React.FC = () => {
         setLoading(false)
         console.log(" 2")
       }
-	  }
+    }
 
     const finalObject = {
       year,
@@ -111,33 +109,33 @@ const YearSemsAdd: React.FC = () => {
     console.log('22222222222222222222222222222222222');
     console.log(finalObject);
 
-    if ( yearSemToken) {
+    if (yearSemToken) {
       setError(false)
-    try {
-      const response = await fetch(
-        `http://localhost:5000/yearSems/create`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(finalObject)
+      try {
+        const response = await fetch(
+          `http://localhost:5000/yearSems/create`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(finalObject)
+          }
+        );
+
+        const responseData = await response.json();
+        setRenderRedirectTo(true);
+        // console.log(responseData.userDetails);
+
+        if (!responseData) {
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error(responseData.message);
         }
-      );
-
-      const responseData = await response.json();
-      setRenderRedirectTo(true);
-      // console.log(responseData.userDetails);
-
-      if (!responseData) {
-        // noinspection ExceptionCaughtLocallyJS
-        throw new Error(responseData.message);
+      } catch (err) {
+        console.log(err.message);
       }
-    } catch (err) {
-      console.log(err.message);
-    }
 
-  }
+    }
   };
 
   const renderRedirect = () => {
@@ -162,7 +160,7 @@ const YearSemsAdd: React.FC = () => {
     setSemester(e.target.value);
 
 
-      var id = 'Y' + year1 + 'S' + val;
+    var id = 'Y' + year1 + 'S' + val;
 
 
     setYearSemToken(id);
@@ -270,17 +268,17 @@ const YearSemsAdd: React.FC = () => {
           </Row>
           <Col xs={12} md={2}/>
           {
-        error && (
-          <div style={{
-            color: 'red',
-            fontSize: '18px',
-            marginTop: '7px',
-            textAlign: 'center'
-          }}>
-            {errors_}
-          </div>
-        )
-      }
+            error && (
+              <div style={{
+                color: 'red',
+                fontSize: '18px',
+                marginTop: '7px',
+                textAlign: 'center'
+              }}>
+                {errors_}
+              </div>
+            )
+          }
         </div>
 
       </Container>
