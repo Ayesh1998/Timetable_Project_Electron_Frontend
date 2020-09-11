@@ -3,8 +3,8 @@ import {createSlice} from '@reduxjs/toolkit'
 const setRoomsUnavailabilitySlice = createSlice({
   name: 'roomsUnavailability',
   initialState: {
-    roomUnavailability: false,
-    unavailableRoom: null
+    unavailableRoom: null,
+    roomUnavailability: false
   },
   reducers: {
     setUnavailableRoom: (state, action: any) => {

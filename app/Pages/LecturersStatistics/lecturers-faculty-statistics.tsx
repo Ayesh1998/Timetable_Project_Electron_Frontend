@@ -145,60 +145,57 @@ const LecturersFacultyStatistics: React.FC = () => {
         }
       </div>
       <div style={{
-        marginLeft: '-40px',
         marginTop: '20px'
       }}>
-        <Row>
-          <Col sm='7'>
-            <div>
-              <BarChart width={340}
-                        height={320}
-                        data={data}>
-                <CartesianGrid strokeDasharray='3 3'/>
-                <XAxis dataKey='name'/>
-                <YAxis/>
-                <Tooltip/>
-                <Bar dataKey='count'
-                     fill='#8884d8'
-                     label={{
-                       position: 'center',
-                       color: 'black'
-                     }}>
-                  {
-                    data.map((_entry: any, index: number) => (
-                      <Cell key={`cell-${index}`}
-                            fill={COLORS[index % COLORS.length]}/>
-                    ))
-                  }
-                </Bar>
-              </BarChart>
-            </div>
-          </Col>
-          <Col sm='5'>
-            <div>
-              <PieChart width={280}
-                        height={300}>
-                <Pie data={data}
-                     cx={120}
-                     cy={150}
-                     outerRadius={110}
-                     fill='#8884d8'
-                     dataKey='value'
-                     isAnimationActive={true}
-                     labelLine={false}
-                     label>
-                  {
-                    data.map((_entry: any, index: number) => (
-                      <Cell key={`cell-${index}`}
-                            fill={COLORS[index % COLORS.length]}/>
-                    ))
-                  }
-                </Pie>
-                <Tooltip/>
-              </PieChart>
-            </div>
-          </Col>
-        </Row>
+        <div>
+          <Row>
+            <BarChart width={500}
+                      height={300}
+                      data={data}>
+              <CartesianGrid strokeDasharray='3 3'/>
+              <XAxis dataKey='name'/>
+              <YAxis/>
+              <Tooltip/>
+              <Bar dataKey='count'
+                   fill='#8884d8'
+                   label={{
+                     position: 'center',
+                     color: 'black'
+                   }}>
+                {
+                  data.map((_entry: any, index: number) => (
+                    <Cell key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}/>
+                  ))
+                }
+              </Bar>
+            </BarChart>
+          </Row>
+        </div>
+        <div>
+          <Row>
+            <PieChart width={550}
+                      height={400}>
+              <Pie data={data}
+                   cx={280}
+                   cy={200}
+                   outerRadius={150}
+                   fill='#8884d8'
+                   dataKey='value'
+                   isAnimationActive={true}
+                   labelLine={false}
+                   label>
+                {
+                  data.map((_entry: any, index: number) => (
+                    <Cell key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}/>
+                  ))
+                }
+              </Pie>
+              <Tooltip/>
+            </PieChart>
+          </Row>
+        </div>
       </div>
     </div>
   )
