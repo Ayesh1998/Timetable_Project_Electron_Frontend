@@ -1,12 +1,7 @@
 /* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Row, Table} from 'react-bootstrap';
-import {
-  setPrograms,
-  setEditProgram,
-  setEditingProgram,
-  setEditingProgramId
-} from './programsSlice';
+import {setEditingProgram, setEditingProgramId, setEditProgram, setPrograms} from './programsSlice';
 import {NavLink, Redirect} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
@@ -109,32 +104,32 @@ const ProgramsListView: React.FC = () => {
   };
 
   const handleDelete = async (id) => {
-      console.log(`in handle delete + ${id}`);
+    console.log(`in handle delete + ${id}`);
 
-      try {
-        const response = await fetch(
-          `http://localhost:5000/programs/deletePrograms`,
-          {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({id})
-          }
-        );
-
-        const responseData = await response.json();
-
-
-        fetchData();
-
-        if (!responseData) {
-          // noinspection ExceptionCaughtLocallyJS
-          throw new Error(responseData.message);
+    try {
+      const response = await fetch(
+        `http://localhost:5000/programs/deletePrograms`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({id})
         }
-      } catch (err) {
-        console.log(err.message);
+      );
+
+      const responseData = await response.json();
+
+
+      fetchData();
+
+      if (!responseData) {
+        // noinspection ExceptionCaughtLocallyJS
+        throw new Error(responseData.message);
       }
+    } catch (err) {
+      console.log(err.message);
+    }
 
   };
 
@@ -160,11 +155,11 @@ const ProgramsListView: React.FC = () => {
       console.log(responseData);
 
 
-       dispatch(setEditingProgramId(id))
-       dispatch(setEditingProgram(responseData))
-       dispatch(setEditProgram(true))
+      dispatch(setEditingProgramId(id))
+      dispatch(setEditingProgram(responseData))
+      dispatch(setEditProgram(true))
 
-       setRenderEdit(true);
+      setRenderEdit(true);
 
     } catch (errors) {
       const errors_ = errors

@@ -1,17 +1,17 @@
 /* eslint-disable */
 import React, {useEffect, useState} from 'react';
-import {Button, Col, Container, Form, Row,Modal,Spinner} from 'react-bootstrap';
+import {Button, Col, Container, Form, Modal, Row, Spinner} from 'react-bootstrap';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 //import CheckboxGroup from 'react-checkbox-group';
 import {Redirect} from 'react-router-dom';
-import {useDispatch,useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import styles from './groups.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-import {setEditingGroup, setEditingGroupId, setEditGroup} from './groupsSlice';
+import {setEditGroup, setEditingGroup, setEditingGroupId} from './groupsSlice';
 
 //const yearSemList = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2'];
 //const programList = ['SE', 'CS', 'DS', 'IT'];
@@ -52,7 +52,7 @@ const GroupsEdit: React.FC = () => {
     group: number,
     groupId: string,
     subGroups: any
-    availableSubGroup:boolean
+    availableSubGroup: boolean
   }>({
 
     academicYear: editingGroup.academicYear,
@@ -62,7 +62,7 @@ const GroupsEdit: React.FC = () => {
     group: editingGroup.group,
     groupId: editingGroup.groupId,
     subGroups: editingGroup.subGroups,
-    availableSubGroup:editingGroup.availableSubGroup
+    availableSubGroup: editingGroup.availableSubGroup
   })
 
 
@@ -90,12 +90,11 @@ const GroupsEdit: React.FC = () => {
   const [id, setId] = useState<string>('');
 
 
-
   useEffect(() => {
 
-     setId(editingGroupId);
+    setId(editingGroupId);
 
-     getSubGroupNum();
+    getSubGroupNum();
 
 
   }, []);
@@ -157,13 +156,13 @@ const GroupsEdit: React.FC = () => {
   const handleSubmit = async () => {
 
     const finalObjectGroup = {
-      academicYear:groupOne.academicYear,
-      academicSemester:groupOne.academicSemester,
-      academicYearAndSemester:groupOne.academicYearAndSemester,
-      programme:groupOne.programme,
-      group:groupOne.group,
-      groupId:groupOne.groupId,
-      subGroups:[...groupOne.subGroups, subGrouup] ,
+      academicYear: groupOne.academicYear,
+      academicSemester: groupOne.academicSemester,
+      academicYearAndSemester: groupOne.academicYearAndSemester,
+      programme: groupOne.programme,
+      group: groupOne.group,
+      groupId: groupOne.groupId,
+      subGroups: [...groupOne.subGroups, subGrouup],
       availableSubGroup: true
     };
 
@@ -201,12 +200,12 @@ const GroupsEdit: React.FC = () => {
 
 
     const finalObjectSubGroup = {
-      academicYear:groupOne.academicYear,
-      academicSemester:groupOne.academicSemester,
-      academicYearAndSemester:groupOne.academicYearAndSemester,
-      programme:groupOne.programme,
-      group:groupOne.group,
-      groupId:groupOne.groupId,
+      academicYear: groupOne.academicYear,
+      academicSemester: groupOne.academicSemester,
+      academicYearAndSemester: groupOne.academicYearAndSemester,
+      programme: groupOne.programme,
+      group: groupOne.group,
+      groupId: groupOne.groupId,
       subGroup: subGrouup.subGroup,
       subGroupId: subGrouup.subGroupId
     };
@@ -251,7 +250,6 @@ const GroupsEdit: React.FC = () => {
   };
 
 
-
   const handleChangeSubGroups = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = parseInt(e.target.value);
     var year = String(groupOne.academicYear);
@@ -260,13 +258,11 @@ const GroupsEdit: React.FC = () => {
     var groupforId = groupOne.group.toString();
     var sub = e.target.value;
 
-      if(groupOne.group<=9){
-        var id = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId + '.'+sub;
-      }
-      else{
-        var id = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId + '.'+sub;
-      }
-
+    if (groupOne.group <= 9) {
+      var id = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId + '.' + sub;
+    } else {
+      var id = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId + '.' + sub;
+    }
 
 
     setSubGrouup({subGroup: val, subGroupId: id});
@@ -284,32 +280,32 @@ const GroupsEdit: React.FC = () => {
       {renderRedirect()}
       <NavBar/>
       <Modal show={show}
-               onHide={handleClose}
-               >
-          <Modal.Header closeButton>
-            <Modal.Title>Warning!</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>This group is already exists</Modal.Body>
-          <Modal.Footer>
-            <Button variant='danger'
-                    onClick={handleClose}
-                    style={{
-                      textTransform: 'uppercase'
-                    }}>
-              OK
-            </Button>
+             onHide={handleClose}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Warning!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>This group is already exists</Modal.Body>
+        <Modal.Footer>
+          <Button variant='danger'
+                  onClick={handleClose}
+                  style={{
+                    textTransform: 'uppercase'
+                  }}>
+            OK
+          </Button>
 
-          </Modal.Footer>
-          {
-            loading && (
-              <Spinner animation='border'
-                       style={{
-                         textAlign: 'center',
-                         marginLeft: '50%'
-                       }}/>
-            )
-          }
-        </Modal>
+        </Modal.Footer>
+        {
+          loading && (
+            <Spinner animation='border'
+                     style={{
+                       textAlign: 'center',
+                       marginLeft: '50%'
+                     }}/>
+          )
+        }
+      </Modal>
       <Row className="text-center mb-5">
         <Col
           xs={12}
@@ -336,11 +332,11 @@ const GroupsEdit: React.FC = () => {
               <p>Academic Year and Semester</p>
             </Col>
             <Col xs={3} md={3}>
-            <Form className="">
+              <Form className="">
                 <Form.Group controlId="formBasicEmail">
 
                   <Form.Control
-                  disabled
+                    disabled
                     type="text"
 
                     style={{borderWidth: '2.5px'}}
@@ -363,8 +359,8 @@ const GroupsEdit: React.FC = () => {
                 <Form.Group controlId="formBasicEmail">
 
                   <Form.Control
-                     disabled
-                     type="text"
+                    disabled
+                    type="text"
                     style={{borderWidth: '2.5px'}}
                     value={groupOne.programme}
 
@@ -388,8 +384,8 @@ const GroupsEdit: React.FC = () => {
                 <Form.Group controlId="formBasicEmail">
 
                   <Form.Control
-                     disabled
-                     type="text"
+                    disabled
+                    type="text"
                     style={{borderWidth: '2.5px'}}
                     value={groupOne.group}
 

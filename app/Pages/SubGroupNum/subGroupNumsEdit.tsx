@@ -84,7 +84,6 @@ const SubGroupNumsEdit: React.FC = () => {
   };
 
 
-
   return (
     <div
       style={{
@@ -147,7 +146,7 @@ const SubGroupNumsEdit: React.FC = () => {
                 style={{width: '160px', fontSize: '1.3em'}}
                 onClick={handleSubmit}
               >
-               Edit Sub Group Number
+                Edit Sub Group Number
               </Button>
             </Col>
             <Col xs={12} md={2}/>

@@ -1,18 +1,28 @@
-
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Row, Table} from 'react-bootstrap';
 import {NavLink, Redirect} from 'react-router-dom';
-import {useDispatch,useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
 import styles from './groups.css';
 import routes from '../../constants/routes.json';
-import {setEditGroup, setEditingGroup, setEditingGroupId, setGroups,setShowGroup, setShowingGroup, setShowingGroupId,setShowSubGroup, setShowingSubGroup, setShowingSubGroupId} from './groupsSlice';
+import {
+  setEditGroup,
+  setEditingGroup,
+  setEditingGroupId,
+  setGroups,
+  setShowGroup,
+  setShowingGroup,
+  setShowingGroupId,
+  setShowingSubGroup,
+  setShowingSubGroupId,
+  setShowSubGroup
+} from './groupsSlice';
 
 var res;
 const Group = (props: any) => (
   <tr>
     <td>
-    <Button
+      <Button
 
         onClick={() => {
           props.handleDisplaySingleGroup(props.group._id);
@@ -24,12 +34,12 @@ const Group = (props: any) => (
           borderWidth: '0px'
         }}
       >
-      {props.group.groupId}
+        {props.group.groupId}
       </Button>
       <Button
         className="ml-4"
         onClick={() => {
-          props.handleDelete(props.group._id,props.group.groupId);
+          props.handleDelete(props.group._id, props.group.groupId);
         }}
         variant="outline-danger"
         style={{
@@ -50,24 +60,24 @@ const Group = (props: any) => (
       {
         props.group.subGroups && props.group.subGroups.map((sub: any) => {
           return (
-            <div>  <Button
+            <div><Button
 
-            onClick={() => {
-              props.handleDisplaySingleSubGroup(props.group._id,sub._id);
-            }}
-            variant="outline-light"
-            style={{
-              width: '100px',
-              fontSize: '0.9em',
-              borderWidth: '0px'
-            }}
+              onClick={() => {
+                props.handleDisplaySingleSubGroup(props.group._id, sub._id);
+              }}
+              variant="outline-light"
+              style={{
+                width: '100px',
+                fontSize: '0.9em',
+                borderWidth: '0px'
+              }}
             >
-            {sub.subGroupId}
+              {sub.subGroupId}
             </Button>
               <Button
                 className="ml-4"
                 onClick={() => {
-                  props.handleDeleteSub(sub._id,sub.subGroupId);
+                  props.handleDeleteSub(sub._id, sub.subGroupId);
                 }}
                 variant="outline-danger"
                 style={{
@@ -132,7 +142,7 @@ const GroupsListView: React.FC = () => {
     }
   };
 
-  const handleDelete = async (id: any , gid:any) => {
+  const handleDelete = async (id: any, gid: any) => {
     try {
       const response = await fetch(
         `http://localhost:5000/groups/deleteGroups`,
@@ -162,7 +172,7 @@ const GroupsListView: React.FC = () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({"groupid":gid})
+          body: JSON.stringify({"groupid": gid})
         }
       );
       const responseData = await response.json();
@@ -175,7 +185,7 @@ const GroupsListView: React.FC = () => {
     }
   };
 
-  const handleDeleteSub = async (id: any , subid:any) => {
+  const handleDeleteSub = async (id: any, subid: any) => {
 
 
     try {
@@ -186,7 +196,7 @@ const GroupsListView: React.FC = () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({"subKey":id})
+          body: JSON.stringify({"subKey": id})
         }
       );
       const responseData = await response.json();
@@ -208,7 +218,7 @@ const GroupsListView: React.FC = () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({"subid":subid})
+          body: JSON.stringify({"subid": subid})
         }
       );
       const responseData = await response.json();
@@ -241,7 +251,6 @@ const GroupsListView: React.FC = () => {
       await dispatch(setShowingGroup(responseData));
 
 
-
       setRenderSingle(true);
 
     } catch (errors) {
@@ -249,7 +258,7 @@ const GroupsListView: React.FC = () => {
     }
   };
 
-  const handleDisplaySingleSubGroup = async (id: string , subid:string) => {
+  const handleDisplaySingleSubGroup = async (id: string, subid: string) => {
     console.log(`in handle add sub 1 single page eka+ ${id}`);
     await dispatch(setShowSubGroup(true));
 
@@ -267,15 +276,14 @@ const GroupsListView: React.FC = () => {
       console.log(responseData);
 
       responseData.subGroups.map(sub => {
-        if(sub._id === subid){
-         res = sub;
+        if (sub._id === subid) {
+          res = sub;
         }
       })
 
       await dispatch(setShowingSubGroupId(subid));
       await dispatch(setShowingGroup(responseData));
       await dispatch(setShowingSubGroup(res));
-
 
 
       setRenderSingleSub(true);
@@ -329,7 +337,7 @@ const GroupsListView: React.FC = () => {
   const groupList = () => {
     return groupsObject.map((group: { _id: any; }) => {
       return <Group group={group} handleDelete={handleDelete} handleDeleteSub={handleDeleteSub}
-                    handleAddSub={handleAddSub}  handleDisplaySingleGroup={handleDisplaySingleGroup}
+                    handleAddSub={handleAddSub} handleDisplaySingleGroup={handleDisplaySingleGroup}
                     handleDisplaySingleSubGroup={handleDisplaySingleSubGroup} key={group._id}/>;
     });
   };

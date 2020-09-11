@@ -1,12 +1,7 @@
 /* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Row, Table} from 'react-bootstrap';
-import {
-  setSubGroupNums,
-  setEditSubGroupNum,
-  setEditingSubGroupNum,
-  setEditingSubGroupNumId
-} from './subGroupNumsSlice';
+import {setEditingSubGroupNum, setEditingSubGroupNumId, setEditSubGroupNum, setSubGroupNums} from './subGroupNumsSlice';
 import {NavLink, Redirect} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
@@ -109,34 +104,33 @@ const SubGroupNumsListView: React.FC = () => {
   };
 
   const handleDelete = async (id) => {
-      console.log(`in handle delete + ${id}`);
+    console.log(`in handle delete + ${id}`);
 
-      try {
-        const response = await fetch(
-          `http://localhost:5000/subGroupNums/deleteSubGroupNums`,
-          {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({id})
-          }
-        );
-
-        const responseData = await response.json();
-        // console.log(responseData.userDetails);
-        //setRenderRedirectTo(true);
-
-        fetchData();
-
-        if (!responseData) {
-          // noinspection ExceptionCaughtLocallyJS
-          throw new Error(responseData.message);
+    try {
+      const response = await fetch(
+        `http://localhost:5000/subGroupNums/deleteSubGroupNums`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({id})
         }
-      } catch (err) {
-        console.log(err.message);
-      }
+      );
 
+      const responseData = await response.json();
+      // console.log(responseData.userDetails);
+      //setRenderRedirectTo(true);
+
+      fetchData();
+
+      if (!responseData) {
+        // noinspection ExceptionCaughtLocallyJS
+        throw new Error(responseData.message);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
 
 
   };
@@ -163,11 +157,11 @@ const SubGroupNumsListView: React.FC = () => {
       console.log(responseData);
 
 
-       dispatch(setEditingSubGroupNumId(id))
-       dispatch(setEditingSubGroupNum(responseData))
-       dispatch(setEditSubGroupNum(true))
+      dispatch(setEditingSubGroupNumId(id))
+      dispatch(setEditingSubGroupNum(responseData))
+      dispatch(setEditSubGroupNum(true))
 
-       setRenderEdit(true);
+      setRenderEdit(true);
 
     } catch (errors) {
       const errors_ = errors
@@ -187,7 +181,8 @@ const SubGroupNumsListView: React.FC = () => {
 
   const subGroupNumList = () => {
     return subGroupNumsObject.map(subGroupNum => {
-      return <SubGroupNum subGroupNum={subGroupNum} handleDelete={handleDelete} handleEdit={handleEdit} key={subGroupNum._id}/>;
+      return <SubGroupNum subGroupNum={subGroupNum} handleDelete={handleDelete} handleEdit={handleEdit}
+                          key={subGroupNum._id}/>;
     });
   };
 

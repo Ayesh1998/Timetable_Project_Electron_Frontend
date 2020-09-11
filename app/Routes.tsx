@@ -94,7 +94,7 @@ export default function Routes() {
                component={SubGroupNumsEdit}/>
         <Route path={routes.SUBGROUPNUMS_LIST_VIEW}
                component={SubGroupNumsListView}/>
-         <Route path={routes.PROGRAMS_ADD}
+        <Route path={routes.PROGRAMS_ADD}
                component={ProgramsAdd}/>
         <Route path={routes.PROGRAMS_EDIT}
                component={ProgramsEdit}/>

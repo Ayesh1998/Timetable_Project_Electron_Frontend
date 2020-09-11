@@ -5,7 +5,7 @@ import {Button, Col, Container, Form, Row} from 'react-bootstrap';
 // @ts-ignore
 //import CheckboxGroup from 'react-checkbox-group';
 import {Redirect} from 'react-router-dom';
-import {useDispatch,useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import styles from './yearsems.css';
@@ -14,14 +14,12 @@ import NavBar from '../../components/NavBar/NavBar';
 import {setEditingYearSem, setEditingYearSemId, setEditYearSem} from './yearsemsSlice';
 
 
-
 const yearList = [1, 2, 3, 4];
 const semesterList = [1, 2];
 // noinspection DuplicatedCode
 const YearSemsEdit: React.FC = () => {
   const dispatch = useDispatch();
   // const value = useSelector();
-
 
 
   const editingYearSemId = useSelector(
@@ -41,16 +39,14 @@ const YearSemsEdit: React.FC = () => {
   const [yearSem, setYearSem] = useState<{
     year: number,
     semester: number,
-    yearSemToken:string
+    yearSemToken: string
   }>({
     year: editingYearSem.year,
     semester: editingYearSem.semester,
-    yearSemToken:editingYearSem.yearSemToken
+    yearSemToken: editingYearSem.yearSemToken
 
 
   })
-
-
 
 
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
@@ -66,8 +62,7 @@ const YearSemsEdit: React.FC = () => {
   useEffect(() => {
 
 
-     setId(editingYearSemId);
-
+    setId(editingYearSemId);
 
 
   }, []);
@@ -155,13 +150,13 @@ const YearSemsEdit: React.FC = () => {
   const handleChangeSemester = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = parseInt(e.target.value);
     const year1 = yearSem.year.toString();
-    const semval =e.target.value;
+    const semval = e.target.value;
 
 
-      var id = 'Y' + year1 + '.S'+ semval;
+    var id = 'Y' + year1 + '.S' + semval;
 
 
-    setYearSem({...yearSem, semester: val ,yearSemToken:id});
+    setYearSem({...yearSem, semester: val, yearSemToken: id});
     //setYearSemToken(id);
     //setSemester(val);
 

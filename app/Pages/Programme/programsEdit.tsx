@@ -169,7 +169,7 @@ const ProgramsEdit: React.FC = () => {
                 style={{width: '160px', fontSize: '1.3em'}}
                 onClick={handleSubmit}
               >
-               Edit Programme
+                Edit Programme
               </Button>
             </Col>
             <Col xs={12} md={2}/>

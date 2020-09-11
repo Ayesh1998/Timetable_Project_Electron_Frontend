@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, {useEffect, useState} from 'react';
-import {Button, Col, Container, Form, Row, Modal,Spinner} from 'react-bootstrap';
+import {Button, Col, Container, Form, Modal, Row, Spinner} from 'react-bootstrap';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 //import CheckboxGroup from 'react-checkbox-group';
@@ -164,71 +164,68 @@ const GroupsAdd: React.FC = () => {
   const handleSubmit = async () => {
     console.log("clicked sub group one222222222222222222222222")
 
-        const finalObjectGroup = {
-          academicYear,
-          academicSemester,
-          academicYearAndSemester,
-          programme,
-          group,
-          groupId,
-          availableSubGroup: false
-        };
+    const finalObjectGroup = {
+      academicYear,
+      academicSemester,
+      academicYearAndSemester,
+      programme,
+      group,
+      groupId,
+      availableSubGroup: false
+    };
 
-        groupsObject.map((rec:any) => {
+    groupsObject.map((rec: any) => {
 
-          if(rec.groupId === groupId){
-             exist = 1;
+      if (rec.groupId === groupId) {
+        exist = 1;
 
-            console.log("This group is already exists")
-            return ;
+        console.log("This group is already exists")
+        return;
+      }
+
+
+      exist = 0;
+    });
+
+
+    if (exist === 1) {
+      handleShow();
+    }
+
+
+    if (exist === 0) {
+
+
+      try {
+        const response = await fetch(
+          `http://localhost:5000/groups/create`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(finalObjectGroup)
           }
+        );
+
+        const responseData = await response.json();
+
+        console.log(responseData);
+        setRenderRedirectToGro(true);
 
 
-          exist = 0;
-         });
-
-
-       if(exist === 1){
-         handleShow();
-       }
-
-
-
-       if(exist === 0 ){
-
-
-        try {
-          const response = await fetch(
-            `http://localhost:5000/groups/create`,
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(finalObjectGroup)
-            }
-          );
-
-          const responseData = await response.json();
-
-          console.log(responseData);
-          setRenderRedirectToGro(true);
-
-
-          if (!responseData) {
-            // noinspection ExceptionCaughtLocallyJS
-            throw new Error(responseData.message);
-          }
-        } catch (err) {
-          console.log(err.message);
+        if (!responseData) {
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error(responseData.message);
         }
+      } catch (err) {
+        console.log(err.message);
+      }
 
-       }
+    }
 
 
-
-
-      };
+  };
 
   const handleSubmitSub = async () => {
 
@@ -243,52 +240,51 @@ const GroupsAdd: React.FC = () => {
       availableSubGroup: true
     };
 
-    groupsObject.map((rec:any) => {
+    groupsObject.map((rec: any) => {
 
-      if(rec.groupId === groupId){
-         exist = 1;
+      if (rec.groupId === groupId) {
+        exist = 1;
         console.log("This group is already exists")
-        return ;
+        return;
       }
       exist = 0;
-     });
+    });
 
 
-   if(exist === 1){
-     handleShow();
-   }
-
-
-   if(exist === 0 ){
-
-    try {
-      const response = await fetch(
-        `http://localhost:5000/groups/create`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(finalObjectGroup)
-        }
-      );
-
-      const responseData = await response.json();
-
-      console.log(responseData);
-      setRenderRedirectTo(true);
-
-
-      if (!responseData) {
-        // noinspection ExceptionCaughtLocallyJS
-        throw new Error(responseData.message);
-      }
-    } catch (err) {
-      console.log(err.message);
+    if (exist === 1) {
+      handleShow();
     }
 
-  }
 
+    if (exist === 0) {
+
+      try {
+        const response = await fetch(
+          `http://localhost:5000/groups/create`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(finalObjectGroup)
+          }
+        );
+
+        const responseData = await response.json();
+
+        console.log(responseData);
+        setRenderRedirectTo(true);
+
+
+        if (!responseData) {
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error(responseData.message);
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
+
+    }
 
 
     const finalObjectSubGroup = {
@@ -302,32 +298,31 @@ const GroupsAdd: React.FC = () => {
       subGroupId: subGrouup.subGroupId
     };
 
-    if(exist === 0 ){
-    try {
-      const response = await fetch(
-        `http://localhost:5000/subGroups/create`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(finalObjectSubGroup)
+    if (exist === 0) {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/subGroups/create`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(finalObjectSubGroup)
+          }
+        );
+
+        const responseData = await response.json();
+        setRenderRedirectTo1(true);
+
+
+        if (!responseData) {
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error(responseData.message);
         }
-      );
-
-      const responseData = await response.json();
-      setRenderRedirectTo1(true);
-
-
-
-      if (!responseData) {
-        // noinspection ExceptionCaughtLocallyJS
-        throw new Error(responseData.message);
+      } catch (err) {
+        console.log(err.message);
       }
-    } catch (err) {
-      console.log(err.message);
     }
-  }
   };
 
   const renderRedirect = () => {
@@ -391,22 +386,20 @@ const GroupsAdd: React.FC = () => {
     const groupforId = val.toString();
 
 
-      if(val<=9){
-        var groId = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId ;
-      }
-      else{
-        var groId = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId ;
-      }
+    if (val <= 9) {
+      var groId = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId;
+    } else {
+      var groId = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId;
+    }
 
-   // const groId = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId;
+    // const groId = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId;
     setGroupId(groId);
 
     var subNum = 1;
-    if(val<=9){
-      var subId = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId  + '.1';
-    }
-    else{
-      var subId = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId  + '.1';
+    if (val <= 9) {
+      var subId = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId + '.1';
+    } else {
+      var subId = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId + '.1';
     }
 
 
@@ -445,32 +438,32 @@ const GroupsAdd: React.FC = () => {
       {renderRedirectGro()}
       <NavBar/>
       <Modal show={show}
-               onHide={handleClose}
-               >
-          <Modal.Header closeButton>
-            <Modal.Title>Warning!</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>This group is already exists</Modal.Body>
-          <Modal.Footer>
-            <Button variant='danger'
-                    onClick={handleClose}
-                    style={{
-                      textTransform: 'uppercase'
-                    }}>
-              OK
-            </Button>
+             onHide={handleClose}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Warning!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>This group is already exists</Modal.Body>
+        <Modal.Footer>
+          <Button variant='danger'
+                  onClick={handleClose}
+                  style={{
+                    textTransform: 'uppercase'
+                  }}>
+            OK
+          </Button>
 
-          </Modal.Footer>
-          {
-            loading && (
-              <Spinner animation='border'
-                       style={{
-                         textAlign: 'center',
-                         marginLeft: '50%'
-                       }}/>
-            )
-          }
-        </Modal>
+        </Modal.Footer>
+        {
+          loading && (
+            <Spinner animation='border'
+                     style={{
+                       textAlign: 'center',
+                       marginLeft: '50%'
+                     }}/>
+          )
+        }
+      </Modal>
       <Row className="text-center mb-5">
         <Col
           xs={12}
@@ -572,7 +565,7 @@ const GroupsAdd: React.FC = () => {
             </Col>
             <Col xs={3} md={3}/>
           </Row>
-         {/* <Row className="mt-3 mb-3 justify-content-md-center">
+          {/* <Row className="mt-3 mb-3 justify-content-md-center">
             <Col xs={12} md={4}>
               <p>Sub Group Number</p>
             </Col>

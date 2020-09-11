@@ -121,8 +121,6 @@ const SubGroupNumsAdd: React.FC = () => {
   };
 
 
-
-
   return (
     <div
       style={{

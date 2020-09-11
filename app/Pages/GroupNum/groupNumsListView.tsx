@@ -1,12 +1,7 @@
 /* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Row, Table} from 'react-bootstrap';
-import {
-  setGroupNums,
-  setEditGroupNum,
-  setEditingGroupNum,
-  setEditingGroupNumId
-} from './groupNumsSlice';
+import {setEditGroupNum, setEditingGroupNum, setEditingGroupNumId} from './groupNumsSlice';
 import {NavLink, Redirect} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import NavBar from '../../components/NavBar/NavBar';
@@ -109,35 +104,33 @@ const GroupNumsListView: React.FC = () => {
   };
 
   const handleDelete = async (id) => {
-      console.log(`in handle delete + ${id}`);
+    console.log(`in handle delete + ${id}`);
 
-      try {
-        const response = await fetch(
-          `http://localhost:5000/groupNums/deleteGroupNums`,
-          {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({id})
-          }
-        );
-
-        const responseData = await response.json();
-        // console.log(responseData.userDetails);
-        //setRenderRedirectTo(true);
-
-        fetchData();
-
-        if (!responseData) {
-          // noinspection ExceptionCaughtLocallyJS
-          throw new Error(responseData.message);
+    try {
+      const response = await fetch(
+        `http://localhost:5000/groupNums/deleteGroupNums`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({id})
         }
-      } catch (err) {
-        console.log(err.message);
+      );
+
+      const responseData = await response.json();
+      // console.log(responseData.userDetails);
+      //setRenderRedirectTo(true);
+
+      fetchData();
+
+      if (!responseData) {
+        // noinspection ExceptionCaughtLocallyJS
+        throw new Error(responseData.message);
       }
-
-
+    } catch (err) {
+      console.log(err.message);
+    }
 
 
   };
@@ -164,11 +157,11 @@ const GroupNumsListView: React.FC = () => {
       console.log(responseData);
 
 
-       dispatch(setEditingGroupNumId(id))
-       dispatch(setEditingGroupNum(responseData))
-       dispatch(setEditGroupNum(true))
+      dispatch(setEditingGroupNumId(id))
+      dispatch(setEditingGroupNum(responseData))
+      dispatch(setEditGroupNum(true))
 
-       setRenderEdit(true);
+      setRenderEdit(true);
 
     } catch (errors) {
       const errors_ = errors

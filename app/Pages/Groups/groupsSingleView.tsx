@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import { Button ,Col, Container, Form, Row} from 'react-bootstrap';
+import {Button, Col, Container, Form, Row} from 'react-bootstrap';
 import {Redirect} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import styles from './groups.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
@@ -35,17 +35,17 @@ const GroupsSingleView: React.FC = () => {
     group: number,
     groupId: string,
     subGroups: any
-    availableSubGroup:boolean
+    availableSubGroup: boolean
   }>({
 
     academicYear: showingGroup.academicYear,
     academicSemester: showingGroup.academicSemester,
     academicYearAndSemester: showingGroup.academicYearAndSemester,
-    programme: showingGroup.programme ,
+    programme: showingGroup.programme,
     group: showingGroup.group,
-    groupId:showingGroup.groupId ,
-    subGroups: showingGroup.subGroups ,
-    availableSubGroup:showingGroup.availableSubGroup
+    groupId: showingGroup.groupId,
+    subGroups: showingGroup.subGroups,
+    availableSubGroup: showingGroup.availableSubGroup
   })
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
   const [id, setId] = useState<string>('');
@@ -99,17 +99,17 @@ const GroupsSingleView: React.FC = () => {
       >
 
 
-<div>
-<Row className="mt-3 mb-3 justify-content-md-center">
+        <div>
+          <Row className="mt-3 mb-3 justify-content-md-center">
             <Col xs={12} md={4} className="mt-auto">
               <p>Academic Year</p>
             </Col>
             <Col xs={3} md={3}>
-            <Form className="">
+              <Form className="">
                 <Form.Group controlId="formBasicEmail">
 
                   <Form.Control
-                  disabled
+                    disabled
                     type="text"
 
                     style={{borderWidth: '2.5px'}}
@@ -128,11 +128,11 @@ const GroupsSingleView: React.FC = () => {
               <p>Academic Semester</p>
             </Col>
             <Col xs={3} md={3}>
-            <Form className="">
+              <Form className="">
                 <Form.Group controlId="formBasicEmail">
 
                   <Form.Control
-                  disabled
+                    disabled
                     type="text"
 
                     style={{borderWidth: '2.5px'}}
@@ -151,11 +151,11 @@ const GroupsSingleView: React.FC = () => {
               <p>Academic Year and Semester(Token)</p>
             </Col>
             <Col xs={3} md={3}>
-            <Form className="">
+              <Form className="">
                 <Form.Group controlId="formBasicEmail">
 
                   <Form.Control
-                  disabled
+                    disabled
                     type="text"
 
                     style={{borderWidth: '2.5px'}}
@@ -178,8 +178,8 @@ const GroupsSingleView: React.FC = () => {
                 <Form.Group controlId="formBasicEmail">
 
                   <Form.Control
-                     disabled
-                     type="text"
+                    disabled
+                    type="text"
                     style={{borderWidth: '2.5px'}}
                     value={groupOne.programme}
 
@@ -203,8 +203,8 @@ const GroupsSingleView: React.FC = () => {
                 <Form.Group controlId="formBasicEmail">
 
                   <Form.Control
-                     disabled
-                     type="text"
+                    disabled
+                    type="text"
                     style={{borderWidth: '2.5px'}}
                     value={groupOne.group}
 
@@ -221,11 +221,11 @@ const GroupsSingleView: React.FC = () => {
               <p>Group ID</p>
             </Col>
             <Col xs={3} md={3}>
-            <Form className="">
+              <Form className="">
                 <Form.Group controlId="formBasicEmail">
 
                   <Form.Control
-                  disabled
+                    disabled
                     type="text"
 
                     style={{borderWidth: '2.5px'}}
@@ -247,25 +247,21 @@ const GroupsSingleView: React.FC = () => {
               <Form className="">
                 <Form.Group controlId="formBasicEmail">
 
-                    {groupOne.subGroups?.map((sub, index) => (
+                  {groupOne.subGroups?.map((sub, index) => (
 
-                      <Form.Control
-                    disabled
-                    type="text"
+                    <Form.Control
+                      disabled
+                      type="text"
 
-                  value={sub.subGroupId}
+                      value={sub.subGroupId}
 
 
                     >
 
 
+                    </Form.Control>
 
-                      </Form.Control>
-
-                    ))}
-
-
-
+                  ))}
 
 
                 </Form.Group>
@@ -278,7 +274,7 @@ const GroupsSingleView: React.FC = () => {
             <Col xs={12} md={10}/>
             <Col xs={3} md={2}>
               <Button
-               className="pull-right"
+                className="pull-right"
                 style={{width: '80px', fontSize: '1.0em'}}
                 onClick={handleSubmit}
               >
@@ -287,7 +283,7 @@ const GroupsSingleView: React.FC = () => {
             </Col>
 
           </Row>
-          </div>
+        </div>
 
       </Container>
     </div>

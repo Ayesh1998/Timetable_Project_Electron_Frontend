@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import styles from './groupNums.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-import {setEditingGroupNum, setEditingGroupNumId, setEditGroupNum} from './groupNumsSlice';
+import {setEditGroupNum, setEditingGroupNum, setEditingGroupNumId} from './groupNumsSlice';
 
 const GroupNumsEdit: React.FC = () => {
   const dispatch = useDispatch();
@@ -84,7 +84,6 @@ const GroupNumsEdit: React.FC = () => {
   };
 
 
-
   return (
     <div
       style={{
@@ -147,7 +146,7 @@ const GroupNumsEdit: React.FC = () => {
                 style={{width: '160px', fontSize: '1.3em'}}
                 onClick={handleSubmit}
               >
-               Edit Group Number
+                Edit Group Number
               </Button>
             </Col>
             <Col xs={12} md={2}/>
