@@ -32,8 +32,8 @@ export default function createRootReducer(history: History) {
     lecturersStatistics: lecturersStatisticsReducer,
     studentsStatistics: studentsStatisticsReducer,
     subjectsStatistics: subjectsStatisticsReducer,
-    roomsUnavailabilityReducer: roomsUnavailabilityReducer,
-    addRoomsReducer: addRoomsReducer,
-    assignRoomsForSessionsReducer: assignRoomsForSessionsReducer
+    roomsUnavailability: roomsUnavailabilityReducer,
+    addRooms: addRoomsReducer,
+    assignRoomsForSessions: assignRoomsForSessionsReducer
   })
 }

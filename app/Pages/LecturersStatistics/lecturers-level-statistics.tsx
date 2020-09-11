@@ -7,6 +7,7 @@ import {setLecturersLevelStatistics} from './lecturers-statistics-slice'
 
 let errors_: string = ''
 let data: any = []
+
 const COLORS = [
   '#0088FE',
   '#00C49F',
