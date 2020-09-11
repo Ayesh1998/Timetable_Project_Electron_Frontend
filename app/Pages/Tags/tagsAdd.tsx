@@ -18,9 +18,10 @@ const TagsAdd: React.FC = () => {
   const dispatch = useDispatch();
   // const value = useSelector();
 
-
+  let errors_: string = ''
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false)
 
   const [name, setName] = useState<string>('');
   const [tagToken, setTagToken] = useState<string>('');
@@ -75,6 +76,17 @@ const TagsAdd: React.FC = () => {
     // console.log(tagToken);
 
 
+    if (name.trim() === '') {
+      errors_ = 'Please enter a value for the tag name.'
+      setError(true)
+      setLoading(false)
+    } else if (tagToken.trim() === '') {
+      errors_ = 'Please enter a value for the tag token.'
+      setError(true)
+      setLoading(false)
+    }
+
+
     const finalObject = {
       name,
       tagToken
@@ -82,6 +94,9 @@ const TagsAdd: React.FC = () => {
 
     console.log('22222222222222222222222222222222222');
     console.log(finalObject);
+
+    if (name.trim() !== '' && tagToken.trim() !== ''){
+      setError(false)
 
     try {
       const response = await fetch(
@@ -106,6 +121,9 @@ const TagsAdd: React.FC = () => {
     } catch (err) {
       console.log(err.message);
     }
+
+    }
+
   };
 
   const renderRedirect = () => {
@@ -203,6 +221,7 @@ const TagsAdd: React.FC = () => {
           <Row className="mt-3 mb-3 justify-content-md-center">
             <Col xs={12} md={3}/>
             <Col xs={3} md={7}>
+
               <Button
                 style={{width: '160px', fontSize: '1.3em'}}
                 onClick={handleSubmit}
@@ -212,6 +231,20 @@ const TagsAdd: React.FC = () => {
             </Col>
             <Col xs={12} md={2}/>
           </Row>
+
+
+        {
+           error && errors_ && (
+            <div style={{
+              color: 'red',
+              fontSize: '18px',
+              marginTop: '7px',
+              textAlign: 'center'
+            }}>
+              {errors_}
+            </div>
+          )
+        }
         </div>
 
       </Container>
