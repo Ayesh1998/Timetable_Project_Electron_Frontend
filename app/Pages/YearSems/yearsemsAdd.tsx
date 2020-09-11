@@ -162,7 +162,7 @@ const YearSemsAdd: React.FC = () => {
     setSemester(e.target.value);
 
 
-      var id = 'Y' + year1 + '.S' + val;
+      var id = 'Y' + year1 + 'S' + val;
 
 
     setYearSemToken(id);

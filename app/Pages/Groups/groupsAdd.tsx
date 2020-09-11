@@ -17,22 +17,27 @@ import {setGroups} from './groupsSlice';
 //const programList = ['SE', 'CS', 'DS', 'IT'];
 //const groupNumList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 //const subGroupNumList = [1, 2];
+let errors_: string = ''
+
+
 
 var exist = 0;
 // noinspection DuplicatedCode
 const GroupsAdd: React.FC = () => {
   const dispatch = useDispatch();
   // const value = useSelector();
+
   const [yearSemList, setYearSemList] = useState<any>([]);
   const [programList, setProgramList] = useState<any>([]);
   const [groupNumList, setGroupNumList] = useState<any>([]);
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false)
+const [error, setError] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
   const [renderRedirectTo1, setRenderRedirectTo1] = useState<boolean | null>(false);
   const [renderRedirectToGro, setRenderRedirectToGro] = useState<boolean | null>(false);
-  const [error, setError] = useState<string | null>(null);
+
 
   const [academicYear, setAcademicYear] = useState<number | null>(null);
   const [academicSemester, setAcademicSemester] = useState<number | null>(null);
@@ -164,6 +169,36 @@ const GroupsAdd: React.FC = () => {
   const handleSubmit = async () => {
     console.log("clicked sub group one222222222222222222222222")
 
+    if((academicYearAndSemester === null)&& ( programme === null)&& ( group === null)){
+      errors_ = 'Please select  values for all fields.'
+      setError(true)
+      setLoading(false)
+
+
+    }
+    else {
+      if (academicYearAndSemester === null) {
+        errors_ = 'Please select values for the academic year and semster.'
+        setError(true)
+        setLoading(false)
+        console.log("1 ")
+
+      } else if (programme === null) {
+        errors_ = 'Please select  values for the programme.'
+        setError(true)
+        setLoading(false)
+
+      }
+      else if (group === null) {
+        errors_ = 'Please select  values for the group.'
+        setError(true)
+        setLoading(false)
+
+      }
+	  }
+
+    if ( groupId) {
+      setError(false)
     const finalObjectGroup = {
       academicYear,
       academicSemester,
@@ -223,11 +258,42 @@ const GroupsAdd: React.FC = () => {
       }
 
     }
+  }
 
 
   };
 
   const handleSubmitSub = async () => {
+    if((academicYearAndSemester === null)&& ( programme === null)&& ( group === null)){
+      errors_ = 'Please select  values for all fields.'
+      setError(true)
+      setLoading(false)
+
+
+    }
+    else {
+      if (academicYearAndSemester === null) {
+        errors_ = 'Please select values for the academic year and semster.'
+        setError(true)
+        setLoading(false)
+        console.log("1 ")
+
+      } else if (programme === null) {
+        errors_ = 'Please select  values for the programme.'
+        setError(true)
+        setLoading(false)
+
+      }
+      else if (group === null) {
+        errors_ = 'Please select  values for the group.'
+        setError(true)
+        setLoading(false)
+
+      }
+	  }
+
+    if ( groupId) {
+      setError(false)
 
     const finalObjectGroup = {
       academicYear,
@@ -323,6 +389,7 @@ const GroupsAdd: React.FC = () => {
         console.log(err.message);
       }
     }
+  }
   };
 
   const renderRedirect = () => {
@@ -341,6 +408,7 @@ const GroupsAdd: React.FC = () => {
     return null;
   };
   const handleChangeAcademicYearAndSemester = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
     const val = e.target.value;
     setAcademicYearAndSemester(e.target.value);
 
@@ -369,13 +437,19 @@ const GroupsAdd: React.FC = () => {
       setAcademicYear(4);
       setAcademicSemester(2);
     }
+    else{
+      setAcademicYear(5);
+      setAcademicSemester(5);
+    }
   };
 
   const handleChangeProgramme = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
     setProgramme(e.target.value);
   };
 
   const handleChangeGroup = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
     const val = parseInt(e.target.value);
 
     setGroup(val);
@@ -621,6 +695,19 @@ const GroupsAdd: React.FC = () => {
             <Col xs={12} md={2}/>
           </Row>
 
+
+	 {
+        error && (
+          <div style={{
+            color: 'red',
+            fontSize: '18px',
+            marginTop: '7px',
+            textAlign: 'center'
+          }}>
+            {errors_}
+          </div>
+        )
+      }
         </div>
 
       </Container>
