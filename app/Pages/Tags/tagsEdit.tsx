@@ -47,21 +47,14 @@ const TagsEdit: React.FC = () => {
     if (tag.name.trim() === '' && tag.tagToken.trim() === '') {
       errors_ = 'Please enter a value for the tag name and tag token.'
       setError(true)
-      setLoading(false)
-
     } else {
       if (tag.name.trim() === '') {
         errors_ = 'Please enter a value for the tag name.'
         setError(true)
-        setLoading(false)
-
       } else if (tag.tagToken.trim() === '') {
         errors_ = 'Please enter a value for the tag token.'
         setError(true)
-        setLoading(false)
-
       }
-
     }
 
     const finalObjectWithID = {
@@ -119,11 +112,8 @@ const TagsEdit: React.FC = () => {
     <div
       style={{
         backgroundColor: '#37474F',
-        height: '100vh',
-        overflow: 'scroll'
-      }}
-    >
-
+        height: '100vh'
+      }}>
       {renderRedirect()}
       <NavBar/>
       <Row className="text-center mb-5">

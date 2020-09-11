@@ -5,16 +5,15 @@ import routes from '../../constants/routes.json'
 
 const NavBar: React.FC = () => {
   return (
-    <Navbar
-      collapseOnSelect
-      expand={false}
-      bg='dark'
-      variant='dark'
-      style={{
-        position: 'absolute',
-        zIndex: 2,
-        top: '7px'
-      }}>
+    <Navbar collapseOnSelect
+            expand={false}
+            bg='dark'
+            variant='dark'
+            style={{
+              position: 'absolute',
+              zIndex: 2,
+              top: '7px'
+            }}>
       <Navbar.Toggle aria-controls='responsive-navbar-nav'/>
       <Navbar.Collapse id='responsive-navbar-nav'>
         <Nav className='mr-auto float-left'
@@ -148,21 +147,21 @@ const NavBar: React.FC = () => {
               </NavLink>
             </NavDropdown.Item>
           </NavDropdown>
-          <NavLink to={routes.ROOMS_UNAVAILABILITY}>
-            <Nav.Link href='#rooms-unavailability'>
-              Rooms Unavailability
-            </Nav.Link>
-          </NavLink>
-          <NavLink to={routes.ADD_ROOMS}>
-            <Nav.Link href='#add-rooms'>
-              Add Rooms
-            </Nav.Link>
-          </NavLink>
-          <NavLink to={routes.ASSIGN_ROOMS_FOR_SESSIONS}>
-            <Nav.Link href='#assign-rooms-for-sessions'>
-              Assign Rooms for Sessions
-            </Nav.Link>
-          </NavLink>
+          {/*<NavLink to={routes.ROOMS_UNAVAILABILITY}>*/}
+          {/*  <Nav.Link href='#rooms-unavailability'>*/}
+          {/*    Rooms Unavailability*/}
+          {/*  </Nav.Link>*/}
+          {/*</NavLink>*/}
+          {/*<NavLink to={routes.ADD_ROOMS}>*/}
+          {/*  <Nav.Link href='#add-rooms'>*/}
+          {/*    Add Rooms*/}
+          {/*  </Nav.Link>*/}
+          {/*</NavLink>*/}
+          {/*<NavLink to={routes.ASSIGN_ROOMS_FOR_SESSIONS}>*/}
+          {/*  <Nav.Link href='#assign-rooms-for-sessions'>*/}
+          {/*    Assign Rooms for Sessions*/}
+          {/*  </Nav.Link>*/}
+          {/*</NavLink>*/}
         </Nav>
       </Navbar.Collapse>
     </Navbar>

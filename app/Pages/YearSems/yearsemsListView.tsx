@@ -194,7 +194,7 @@ const YearSemsListView: React.FC = () => {
   };
 
   return (
-    <div style={{backgroundColor: '#37474F'}}>
+    <div style={{backgroundColor: '#37474F', height: '100vh'}}>
       {renderEditTo()}
 
       <NavBar/>
