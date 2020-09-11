@@ -7,6 +7,7 @@ import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setEditingProgram, setEditingProgramId, setEditProgram} from './programsSlice';
 
+let errors_: string = ''
 const ProgramsEdit: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -33,12 +34,36 @@ const ProgramsEdit: React.FC = () => {
   });
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
   const [id, setId] = useState<string>('');
+  const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
 
   useEffect(() => {
     setId(editingProgramId);
   }, []);
 
   const handleSubmit = async () => {
+
+    if(program.name.trim() === '' && program.programToken.trim() === ''){
+      errors_ = 'Please enter a value for the programme name and  token.'
+      setError(true)
+      setLoading(false)
+
+    }
+    else {
+      if (program.name.trim() === '') {
+        errors_ = 'Please enter a value for the programme  name.'
+        setError(true)
+        setLoading(false)
+
+      } else if (program.programToken.trim() === '') {
+        errors_ = 'Please enter a value for the programme  token.'
+        setError(true)
+        setLoading(false)
+
+      }
+	  }
+
     console.log(id);
 
     const finalObjectWithID = {
@@ -47,6 +72,10 @@ const ProgramsEdit: React.FC = () => {
     };
 
     console.log(finalObjectWithID);
+
+
+if (program.name.trim() !== '' && program.programToken.trim() !== '') {
+  setError(false)
 
     try {
       const response = await fetch(
@@ -70,6 +99,7 @@ const ProgramsEdit: React.FC = () => {
     } catch (err) {
       console.log(err.message);
     }
+}
   };
 
   const renderRedirect = () => {
@@ -80,10 +110,12 @@ const ProgramsEdit: React.FC = () => {
   };
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
     setProgram({...program, name: e.target.value});
   };
 
   const handleChangeProgramToken = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
     setProgram({...program, programToken: e.target.value});
   };
 
@@ -163,8 +195,8 @@ const ProgramsEdit: React.FC = () => {
             <Col xs={3} md={3}></Col>
           </Row>
           <Row className="mt-3 mb-3 justify-content-md-center">
-            <Col xs={12} md={3}/>
-            <Col xs={3} md={7}>
+            <Col xs={12} md={1}/>
+            <Col xs={3} md={10}>
               <Button
                 style={{width: '160px', fontSize: '1.3em'}}
                 onClick={handleSubmit}
@@ -172,8 +204,20 @@ const ProgramsEdit: React.FC = () => {
                 Edit Programme
               </Button>
             </Col>
-            <Col xs={12} md={2}/>
+            <Col xs={12} md={1}/>
           </Row>
+          {
+        error && (
+          <div style={{
+            color: 'red',
+            fontSize: '18px',
+            marginTop: '7px',
+            textAlign: 'center'
+          }}>
+            {errors_}
+          </div>
+        )
+      }
         </div>
 
       </Container>
