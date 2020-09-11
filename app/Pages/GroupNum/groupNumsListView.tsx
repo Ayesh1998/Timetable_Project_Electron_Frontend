@@ -1,26 +1,29 @@
-/* eslint-disable */
 import React, {useEffect, useState} from 'react';
-import {Button, Col, Container, Row, Table} from 'react-bootstrap';
-import {setEditGroupNum, setEditingGroupNum, setEditingGroupNumId} from './groupNumsSlice';
 import {NavLink, Redirect} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
+import {Button, Col, Container, Row, Table} from 'react-bootstrap';
 import NavBar from '../../components/NavBar/NavBar';
-import styles from './groupNums.css';
 import routes from '../../constants/routes.json';
+import styles from './groupNums.css';
+import {setEditGroupNum, setEditingGroupNum, setEditingGroupNumId} from './groupNumsSlice';
+import {setRoomUnavailability, setUnavailableRoom} from '../RoomsUnavailability/rooms-unavailability-slice'
+import {setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom} from '../Rooms/rooms-slice'
+import {
+  setEditBuilding,
+  setEditingBuilding,
+  setEditingBuildingId,
+  setExistingBuilding,
+  setExistingRoomsForBuilding
+} from '../Buildings/buildings-slice'
 
-
-const GroupNum = (props) => (
+const GroupNum = (props: any) => (
   <tr>
     <td>{props.groupNum.groupNum}</td>
-
     <td>
       <Button onClick={() => {
         props.handleEdit(props.groupNum._id);
       }} style={{width: '160px', fontSize: '1.3em'}}>
-
         edit
-
-
       </Button>
       <Button
         className="ml-4"
@@ -32,12 +35,10 @@ const GroupNum = (props) => (
           width: '160px',
           fontSize: '1.3em',
           borderWidth: '2px'
-        }}
-      >
+        }}>
         <NavLink
           to={routes.GROUPNUMS_LIST_VIEW}
-          style={{color: '#fff'}}
-        >
+          style={{color: '#fff'}}>
           delete
         </NavLink>
       </Button>
@@ -45,36 +46,30 @@ const GroupNum = (props) => (
   </tr>
 );
 
-
-// noinspection DuplicatedCode
 const GroupNumsListView: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  // const editingYearSemId = useSelector(
-  //   (state: {
-  //     yearSems: any
-  //     editingYearSemId: string
-  //   }) => state.yearSems.editingYearSemId
-  // )
+  dispatch(setEditRoom(false))
+  dispatch(setEditingRoomId(''))
+  dispatch(setEditingRoom(null))
+  dispatch(setExistingRoom(false))
 
-  // const editingYearSem = useSelector(
-  //   (state: {
-  //     yearSems: any
-  //     editingYearSemId: any
-  //   }) => state.yearSems.editingYearSem
-  // )
+  dispatch(setEditBuilding(false))
+  dispatch(setEditingBuildingId(''))
+  dispatch(setEditingBuilding(null))
+  dispatch(setExistingBuilding(false))
+  dispatch(setExistingRoomsForBuilding(false))
+
+  dispatch(setRoomUnavailability(false))
+  dispatch(setUnavailableRoom(null))
 
   const [groupNumsObject, setGroupNumsObject] = useState<any>([]);
-
   const [renderEdit, setRenderEdit] = useState<boolean | null>(false);
 
   useEffect(() => {
-    // noinspection JSIgnoredPromiseFromCall
-    fetchData();
-
-
+    fetchData().then(() => {
+    });
   });
-
 
   const fetchData = async () => {
     try {

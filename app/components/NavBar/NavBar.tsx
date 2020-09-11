@@ -1,6 +1,6 @@
 import React from 'react'
-import {Nav, Navbar, NavDropdown} from 'react-bootstrap'
 import {NavLink} from 'react-router-dom'
+import {Nav, Navbar, NavDropdown} from 'react-bootstrap'
 import routes from '../../constants/routes.json'
 
 const NavBar: React.FC = () => {
@@ -83,7 +83,6 @@ const NavBar: React.FC = () => {
               Tags
             </Nav.Link>
           </NavLink>
-
           <NavDropdown title='Locations'
                        id='collasible-nav-dropdown'>
             <NavDropdown.Item href='#locations/buildings'>

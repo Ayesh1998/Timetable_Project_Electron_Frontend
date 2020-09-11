@@ -1,15 +1,22 @@
-/* eslint-disable */
 import React, {useEffect, useState} from 'react';
-import {Button, Col, Container, Row, Table} from 'react-bootstrap';
 import {NavLink, Redirect} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
+import {Button, Col, Container, Row, Table} from 'react-bootstrap';
 import NavBar from '../../components/NavBar/NavBar';
-import styles from './yearsems.css';
 import routes from '../../constants/routes.json';
+import styles from './yearsems.css';
 import {setEditingYearSem, setEditingYearSemId, setEditYearSem, setYearSems} from './yearsemsSlice';
+import {setRoomUnavailability, setUnavailableRoom} from '../RoomsUnavailability/rooms-unavailability-slice'
+import {setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom} from '../Rooms/rooms-slice'
+import {
+  setEditBuilding,
+  setEditingBuilding,
+  setEditingBuildingId,
+  setExistingBuilding,
+  setExistingRoomsForBuilding
+} from '../Buildings/buildings-slice'
 
-
-const YearSem = (props) => (
+const YearSem = (props: any) => (
   <tr>
     <td>{props.yearSem.year}</td>
     <td>{props.yearSem.semester}</td>
@@ -18,10 +25,7 @@ const YearSem = (props) => (
       <Button onClick={() => {
         props.handleEdit(props.yearSem._id);
       }} style={{width: '160px', fontSize: '1.3em'}}>
-
         edit
-
-
       </Button>
       <Button
         className="ml-4"
@@ -33,12 +37,10 @@ const YearSem = (props) => (
           width: '160px',
           fontSize: '1.3em',
           borderWidth: '2px'
-        }}
-      >
+        }}>
         <NavLink
           to={routes.YEARSEMS_LIST_VIEW}
-          style={{color: '#fff'}}
-        >
+          style={{color: '#fff'}}>
           delete
         </NavLink>
       </Button>
@@ -46,36 +48,30 @@ const YearSem = (props) => (
   </tr>
 );
 
-
-// noinspection DuplicatedCode
 const YearSemsListView: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  // const editingYearSemId = useSelector(
-  //   (state: {
-  //     yearSems: any
-  //     editingYearSemId: string
-  //   }) => state.yearSems.editingYearSemId
-  // )
+  dispatch(setEditRoom(false))
+  dispatch(setEditingRoomId(''))
+  dispatch(setEditingRoom(null))
+  dispatch(setExistingRoom(false))
 
-  // const editingYearSem = useSelector(
-  //   (state: {
-  //     yearSems: any
-  //     editingYearSemId: any
-  //   }) => state.yearSems.editingYearSem
-  // )
+  dispatch(setEditBuilding(false))
+  dispatch(setEditingBuildingId(''))
+  dispatch(setEditingBuilding(null))
+  dispatch(setExistingBuilding(false))
+  dispatch(setExistingRoomsForBuilding(false))
+
+  dispatch(setRoomUnavailability(false))
+  dispatch(setUnavailableRoom(null))
 
   const [yearSemsObject, setYearSemsObject] = useState<any>([]);
-
   const [renderEdit, setRenderEdit] = useState<boolean | null>(false);
 
   useEffect(() => {
-    // noinspection JSIgnoredPromiseFromCall
-    fetchData();
-
-
+    fetchData().then(() => {
+    });
   });
-
 
   const fetchData = async () => {
     try {

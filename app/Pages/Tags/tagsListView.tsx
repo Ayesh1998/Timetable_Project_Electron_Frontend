@@ -1,14 +1,22 @@
-/* eslint-disable */
 import React, {useEffect, useState} from 'react';
-import {Button, Col, Container, Row, Table} from 'react-bootstrap';
 import {NavLink, Redirect} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
+import {Button, Col, Container, Row, Table} from 'react-bootstrap';
 import NavBar from '../../components/NavBar/NavBar';
-import styles from './tags.css';
 import routes from '../../constants/routes.json';
+import styles from './tags.css';
 import {setEditingTag, setEditingTagId, setEditTag, setTags} from './tagsSlice';
+import {setRoomUnavailability, setUnavailableRoom} from '../RoomsUnavailability/rooms-unavailability-slice'
+import {setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom} from '../Rooms/rooms-slice'
+import {
+  setEditBuilding,
+  setEditingBuilding,
+  setEditingBuildingId,
+  setExistingBuilding,
+  setExistingRoomsForBuilding
+} from '../Buildings/buildings-slice'
 
-const Tag = (props) => (
+const Tag = (props: any) => (
   <tr>
     <td>{props.tag.name}</td>
     <td>{props.tag.tagToken}</td>
@@ -28,12 +36,10 @@ const Tag = (props) => (
           width: '160px',
           fontSize: '1.3em',
           borderWidth: '2px'
-        }}
-      >
+        }}>
         <NavLink
           to={routes.TAGS_LIST_VIEW}
-          style={{color: '#fff'}}
-        >
+          style={{color: '#fff'}}>
           delete
         </NavLink>
       </Button>
@@ -42,7 +48,21 @@ const Tag = (props) => (
 );
 
 const TagsListView: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+
+  dispatch(setEditRoom(false))
+  dispatch(setEditingRoomId(''))
+  dispatch(setEditingRoom(null))
+  dispatch(setExistingRoom(false))
+
+  dispatch(setEditBuilding(false))
+  dispatch(setEditingBuildingId(''))
+  dispatch(setEditingBuilding(null))
+  dispatch(setExistingBuilding(false))
+  dispatch(setExistingRoomsForBuilding(false))
+
+  dispatch(setRoomUnavailability(false))
+  dispatch(setUnavailableRoom(null))
 
   const editingTagId = useSelector(
     (state: {
@@ -62,7 +82,8 @@ const TagsListView: React.FC = () => {
   const [renderEdit, setRenderEdit] = useState<boolean | null>(false);
 
   useEffect(() => {
-    fetchData();
+    fetchData().then(() => {
+    });
   });
 
   console.log('me edit ekata kalin 22222222-------------------------');

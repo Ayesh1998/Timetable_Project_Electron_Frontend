@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Col, Container, Row, Table} from 'react-bootstrap';
 import {NavLink, Redirect} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
+import {Button, Col, Container, Row, Table} from 'react-bootstrap';
 import NavBar from '../../components/NavBar/NavBar';
-import styles from './groups.css';
 import routes from '../../constants/routes.json';
+import styles from './groups.css';
 import {
   setEditGroup,
   setEditingGroup,
@@ -17,13 +17,22 @@ import {
   setShowingSubGroupId,
   setShowSubGroup
 } from './groupsSlice';
+import {setRoomUnavailability, setUnavailableRoom} from '../RoomsUnavailability/rooms-unavailability-slice'
+import {setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom} from '../Rooms/rooms-slice'
+import {
+  setEditBuilding,
+  setEditingBuilding,
+  setEditingBuildingId,
+  setExistingBuilding,
+  setExistingRoomsForBuilding
+} from '../Buildings/buildings-slice'
 
-var res;
+let res: any;
+
 const Group = (props: any) => (
   <tr>
     <td>
       <Button
-
         onClick={() => {
           props.handleDisplaySingleGroup(props.group._id);
         }}
@@ -32,8 +41,7 @@ const Group = (props: any) => (
           width: '100px',
           fontSize: '0.9em',
           borderWidth: '0px'
-        }}
-      >
+        }}>
         {props.group.groupId}
       </Button>
       <Button
@@ -46,12 +54,10 @@ const Group = (props: any) => (
           width: '100px',
           fontSize: '0.7em',
           borderWidth: '2px'
-        }}
-      >
+        }}>
         <NavLink
           to={routes.GROUPS_LIST_VIEW}
-          style={{color: '#fff'}}
-        >
+          style={{color: '#fff'}}>
           delete
         </NavLink>
       </Button>
@@ -60,20 +66,19 @@ const Group = (props: any) => (
       {
         props.group.subGroups && props.group.subGroups.map((sub: any) => {
           return (
-            <div><Button
-
-              onClick={() => {
-                props.handleDisplaySingleSubGroup(props.group._id, sub._id);
-              }}
-              variant="outline-light"
-              style={{
-                width: '100px',
-                fontSize: '0.9em',
-                borderWidth: '0px'
-              }}
-            >
-              {sub.subGroupId}
-            </Button>
+            <div>
+              <Button
+                onClick={() => {
+                  props.handleDisplaySingleSubGroup(props.group._id, sub._id);
+                }}
+                variant="outline-light"
+                style={{
+                  width: '100px',
+                  fontSize: '0.9em',
+                  borderWidth: '0px'
+                }}>
+                {sub.subGroupId}
+              </Button>
               <Button
                 className="ml-4"
                 onClick={() => {
@@ -84,31 +89,51 @@ const Group = (props: any) => (
                   width: '100px',
                   fontSize: '0.7em',
                   borderWidth: '2px'
-                }}
-              >
+                }}>
                 <NavLink
                   to={routes.GROUPS_LIST_VIEW}
-                  style={{color: '#fff'}}
-                >
+                  style={{color: '#fff'}}>
                   delete
                 </NavLink>
-              </Button></div>
+              </Button>
+            </div>
           );
         })
       }
-      <br/><br/>
+      <br/>
+      <br/>
       <div>
-        <Button onClick={() => {
-          props.handleAddSub(props.group._id);
-        }} style={{width: '95px', fontSize: '0.9em'}}>
+        <Button
+          onClick={() => {
+            props.handleAddSub(props.group._id);
+          }}
+          style={{
+            width: '95px',
+            fontSize: '0.9em'
+          }}>
           Add
-        </Button></div>
+        </Button>
+      </div>
     </td>
   </tr>
 );
 
 const GroupsListView: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+
+  dispatch(setEditRoom(false))
+  dispatch(setEditingRoomId(''))
+  dispatch(setEditingRoom(null))
+  dispatch(setExistingRoom(false))
+
+  dispatch(setEditBuilding(false))
+  dispatch(setEditingBuildingId(''))
+  dispatch(setEditingBuilding(null))
+  dispatch(setExistingBuilding(false))
+  dispatch(setExistingRoomsForBuilding(false))
+
+  dispatch(setRoomUnavailability(false))
+  dispatch(setUnavailableRoom(null))
 
   const [groupsObject, setGroupsObject] = useState<any>([]);
   const [renderEdit, setRenderEdit] = useState<boolean | null>(false);
