@@ -57,10 +57,11 @@ const [error, setError] = useState<boolean>(false);
 
 
     // noinspection JSIgnoredPromiseFromCall
-    fetchData();
+
     getYearAndSem();
     getProgramme();
     getGroupNum();
+    fetchData();
   }, []);
 
   const fetchData = async () => {
