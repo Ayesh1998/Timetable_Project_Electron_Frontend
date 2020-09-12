@@ -1,17 +1,17 @@
 /* eslint-disable */
-import React, {useEffect, useState} from 'react';
-import {Button, Col, Container, Form, Row} from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 //import CheckboxGroup from 'react-checkbox-group';
-import {Redirect} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import styles from './subjects.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-import {setSubjects} from './subjectsSlice';
+import { setSubjects } from './subjectsSlice';
 
 // noinspection DuplicatedCode
 const SubjectsAdd: React.FC = () => {
@@ -44,8 +44,8 @@ const SubjectsAdd: React.FC = () => {
           {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
-            },
+              'Content-Type': 'application/json'
+            }
           }
         );
 
@@ -76,9 +76,32 @@ const SubjectsAdd: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    // console.log("1111111111111111111111111111");
-    // console.log(name);
-    // console.log(tagToken);
+
+    if (subjectCode === '') {
+      setError('Please enter an Subject Code !');
+      return;
+    }
+    if (subjectName === '') {
+      setError('Please enter a Subject Name !');
+      return;
+    }
+    if (numberOfLectureHours === '') {
+      setError('Please enter a Number Of Lecture Hours !');
+      return;
+    }
+    if (numberOfTutorialHours === '') {
+      setError('Please enter a Number Of Tutorial Hours !');
+      return;
+    }
+    if (numberOfLabHours === '') {
+      setError('Please enter a Number Of Lab Hours !');
+      return;
+    }
+    if (numberOfEvaluationHours === '') {
+      setError('Please enter a Number Of Evaluation Hours !');
+      return;
+    }
+    setError(null);
 
     const finalObject = {
       subjectCode,
@@ -88,7 +111,7 @@ const SubjectsAdd: React.FC = () => {
       numberOfLectureHours,
       numberOfTutorialHours,
       numberOfLabHours,
-      numberOfEvaluationHours,
+      numberOfEvaluationHours
     };
 
     console.log('22222222222222222222222222222222222');
@@ -98,9 +121,9 @@ const SubjectsAdd: React.FC = () => {
       const response = await fetch(`http://localhost:5000/subjects/subjects`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(finalObject),
+        body: JSON.stringify(finalObject)
       });
 
       const responseData = await response.json();
@@ -162,8 +185,7 @@ const SubjectsAdd: React.FC = () => {
   return (
     <div
       style={{
-        backgroundColor: '#37474F',
-        height: '100vh'
+        backgroundColor: '#37474F'
       }}
     >
       {renderRedirectToView()}
@@ -174,17 +196,17 @@ const SubjectsAdd: React.FC = () => {
           xs={12}
           md={12}
           className="p-3"
-          style={{backgroundColor: '#343a40', color: '#fff'}}
+          style={{ backgroundColor: '#343a40', color: '#fff' }}
         >
           <h3>Add Subject</h3>
         </Col>
       </Row>
       <Container
-        className={`mt-2 p-4 mb-5 ${styles.tagsTopWrapper}`}
+        className={`mt-2 p-4 ${styles.tagsTopWrapper}`}
         style={{
           border: '3px solid white',
           borderRadius: '8px',
-          color: 'white',
+          color: 'white'
         }}
       >
         <div>
@@ -197,7 +219,7 @@ const SubjectsAdd: React.FC = () => {
                 <Form.Group controlId="formBasicEmail">
                   <Form.Control
                     type="text"
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={subjectCode}
                     onChange={handleChangeSubjectCode}
                     placeholder="ex:- SE1050"
@@ -216,7 +238,7 @@ const SubjectsAdd: React.FC = () => {
                 <Form.Group controlId="formBasicEmail">
                   <Form.Control
                     type="text"
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={subjectName}
                     onChange={handleChangeSubjectName}
                     placeholder="ex:- SPM"
@@ -235,7 +257,7 @@ const SubjectsAdd: React.FC = () => {
                   <Form.Control
                     as="select"
                     defaultValue="Choose..."
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={offeredYear}
                     onChange={handleChangeOfferedYear}
                   >
@@ -260,7 +282,7 @@ const SubjectsAdd: React.FC = () => {
                   <Form.Control
                     as="select"
                     defaultValue="Choose..."
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={offeredSemester}
                     onChange={handleChangeOfferedSemester}
                   >
@@ -282,7 +304,7 @@ const SubjectsAdd: React.FC = () => {
                 <Form.Group controlId="formBasicEmail">
                   <Form.Control
                     type="text"
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={numberOfLectureHours}
                     onChange={handleChangeNumberOfLectureHours}
                     placeholder="ex:- "
@@ -301,7 +323,7 @@ const SubjectsAdd: React.FC = () => {
                 <Form.Group controlId="formBasicEmail">
                   <Form.Control
                     type="text"
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={numberOfTutorialHours}
                     onChange={handleChangeNumberOfTutorialHours}
                     placeholder="ex:- "
@@ -320,7 +342,7 @@ const SubjectsAdd: React.FC = () => {
                 <Form.Group controlId="formBasicEmail">
                   <Form.Control
                     type="text"
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={numberOfLabHours}
                     onChange={handleChangeNumberOfLabHours}
                     placeholder="ex:- "
@@ -339,7 +361,7 @@ const SubjectsAdd: React.FC = () => {
                 <Form.Group controlId="formBasicEmail">
                   <Form.Control
                     type="text"
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={numberOfEvaluationHours}
                     onChange={handleChangeNumberOfEvaluationHours}
                     placeholder="ex:- "
@@ -349,11 +371,14 @@ const SubjectsAdd: React.FC = () => {
             </Col>
             <Col xs={3} md={3}/>
           </Row>
+          <Row style={{ color: 'red', textAlign: 'center' }}>
+            <Col md={12}>{error && <p>{error}</p>}</Col>
+          </Row>
           <Row className="mb-2 justify-content-md-center">
             <Col xs={0} md={9}/>
             <Col xs={12} md={2}>
               <Button
-                style={{width: '160px', fontSize: '1.3em'}}
+                style={{ width: '160px', fontSize: '1.3em' }}
                 onClick={handleSubmit}
               >
                 Add Subject

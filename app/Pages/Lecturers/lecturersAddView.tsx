@@ -1,17 +1,17 @@
 /* eslint-disable */
-import React, {useEffect, useState} from 'react';
-import {Button, Col, Container, Form, Row} from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 //import CheckboxGroup from 'react-checkbox-group';
-import {Redirect} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import styles from './lecturers.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-import {setLecturers} from './lecturersSlice';
+import { setLecturers } from './lecturersSlice';
 
 // noinspection DuplicatedCode
 const LecturersAdd: React.FC = () => {
@@ -31,6 +31,7 @@ const LecturersAdd: React.FC = () => {
   const [building, setBuilding] = useState<string>('');
   const [level, setLevel] = useState<string>('');
   const [rank, setRank] = useState<string>('');
+  const [subOptions, setSubOptions] = useState<string[]>([]);
 
   const [lecturersObject, setLecturersObject] = useState<any>(null);
   const [buildingsObject, setBuildingsObject] = useState<any>(null);
@@ -44,8 +45,8 @@ const LecturersAdd: React.FC = () => {
           {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
-            },
+              'Content-Type': 'application/json'
+            }
           }
         );
 
@@ -64,8 +65,8 @@ const LecturersAdd: React.FC = () => {
           {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
-            },
+              'Content-Type': 'application/json'
+            }
           }
         );
 
@@ -85,8 +86,8 @@ const LecturersAdd: React.FC = () => {
           {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
-            },
+              'Content-Type': 'application/json'
+            }
           }
         );
 
@@ -139,7 +140,7 @@ const LecturersAdd: React.FC = () => {
       center,
       building,
       level,
-      rank,
+      rank
     };
     finalObject.rank = finalObject.level + '.' + finalObject.employeeId;
 
@@ -151,9 +152,9 @@ const LecturersAdd: React.FC = () => {
         {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify(finalObject),
+          body: JSON.stringify(finalObject)
         }
       );
 
@@ -186,6 +187,15 @@ const LecturersAdd: React.FC = () => {
   };
   const handleChangeFaculty = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFaculty(e.target.value);
+    if (e.target.value === 'Computing') {
+      setSubOptions(['IT', 'SE', 'CS', 'ISE']);
+    }
+    else if (e.target.value === 'Engineering') {
+      setSubOptions(['Civil', 'Electronic', 'Chemical']);
+    }
+    else if (e.target.value === 'Business') {
+      setSubOptions(['Management', 'Logistic', 'Finance']);
+    }
   };
   const handleChangeDepartment = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDepartment(e.target.value);
@@ -219,7 +229,7 @@ const LecturersAdd: React.FC = () => {
           xs={12}
           md={12}
           className="p-3"
-          style={{backgroundColor: '#343a40', color: '#fff'}}
+          style={{ backgroundColor: '#343a40', color: '#fff' }}
         >
           <h3>Add Lecturer</h3>
         </Col>
@@ -229,7 +239,7 @@ const LecturersAdd: React.FC = () => {
         style={{
           border: '3px solid white',
           borderRadius: '8px',
-          color: 'white',
+          color: 'white'
         }}
       >
         <div>
@@ -242,7 +252,7 @@ const LecturersAdd: React.FC = () => {
                 <Form.Group controlId="formBasicEmail">
                   <Form.Control
                     type="number"
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={employeeId}
                     onChange={handleChangeEmployeeId}
                     placeholder="ex:- 000001"
@@ -261,7 +271,7 @@ const LecturersAdd: React.FC = () => {
                 <Form.Group controlId="formBasicEmail">
                   <Form.Control
                     type="text"
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={lecturerName}
                     onChange={handleChangeLecturerName}
                     placeholder="ex:- Kasun Bandara"
@@ -280,7 +290,7 @@ const LecturersAdd: React.FC = () => {
                   <Form.Control
                     as="select"
                     defaultValue="Choose..."
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={faculty}
                     onChange={handleChangeFaculty}
                   >
@@ -288,7 +298,6 @@ const LecturersAdd: React.FC = () => {
                     <option>Computing</option>
                     <option>Engineering</option>
                     <option>Business</option>
-                    <option>Physical</option>
                   </Form.Control>
                 </Form.Group>
               </Form>
@@ -305,16 +314,14 @@ const LecturersAdd: React.FC = () => {
                   <Form.Control
                     as="select"
                     defaultValue="Choose..."
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={department}
                     onChange={handleChangeDepartment}
                   >
                     <option>Select</option>
-                    <option>IT</option>
-                    <option>SE</option>
-                    <option>CS</option>
-                    <option>ISE</option>
-                    <option>IM</option>
+                    {
+                      subOptions.length > 1 && subOptions.map((item) => (<option>{item}</option>))
+                    }
                   </Form.Control>
                 </Form.Group>
               </Form>
@@ -331,7 +338,7 @@ const LecturersAdd: React.FC = () => {
                   <Form.Control
                     as="select"
                     defaultValue="Choose..."
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={center}
                     onChange={handleChangeCenter}
                   >
@@ -360,7 +367,7 @@ const LecturersAdd: React.FC = () => {
                   <Form.Control
                     as="select"
                     defaultValue="Choose..."
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={building}
                     onChange={handleChangeBuilding}
                   >
@@ -392,7 +399,7 @@ const LecturersAdd: React.FC = () => {
                   <Form.Control
                     as="select"
                     defaultValue="Choose..."
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={level}
                     onChange={handleChangeLevel}
                   >
@@ -410,7 +417,7 @@ const LecturersAdd: React.FC = () => {
             </Col>
             <Col xs={3} md={3}/>
           </Row>
-          <Row>
+          <Row style={{ color: 'red', textAlign: 'center' }}>
             <Col md={12}>{error && <p>{error}</p>}</Col>
           </Row>
 
@@ -418,7 +425,7 @@ const LecturersAdd: React.FC = () => {
             <Col xs={0} md={9}/>
             <Col xs={12} md={2}>
               <Button
-                style={{width: '160px', fontSize: '1.3em'}}
+                style={{ width: '160px', fontSize: '1.3em' }}
                 onClick={handleSubmit}
               >
                 Add Lecturer

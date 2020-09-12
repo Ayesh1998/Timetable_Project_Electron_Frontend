@@ -1,21 +1,21 @@
 /* eslint-disable */
-import React, {useEffect, useState} from 'react';
-import {Button, Col, Container, Form, Row} from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 //import CheckboxGroup from 'react-checkbox-group';
-import {Redirect, useParams} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import { Redirect, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import styles from './lecturers.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-import {setLecturers} from './lecturersSlice';
+import { setLecturers } from './lecturersSlice';
 
 // noinspection DuplicatedCode
 const LecturersEdit: React.FC = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   console.log(id);
   const dispatch = useDispatch();
   // const value = useSelector();
@@ -49,6 +49,7 @@ const LecturersEdit: React.FC = () => {
   const [lecturersObject, setLecturersObject] = useState<any>(null);
   const [buildingsObject, setBuildingsObject] = useState<any>(null);
   const [centersObject, setCenterObject] = useState<any>(null);
+  const [subOptions, setSubOptions] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,8 +59,8 @@ const LecturersEdit: React.FC = () => {
           {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
-            },
+              'Content-Type': 'application/json'
+            }
           }
         );
 
@@ -79,8 +80,8 @@ const LecturersEdit: React.FC = () => {
           {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
-            },
+              'Content-Type': 'application/json'
+            }
           }
         );
 
@@ -100,9 +101,9 @@ const LecturersEdit: React.FC = () => {
           {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json'
             },
-            body: JSON.stringify({id: id}),
+            body: JSON.stringify({ id: id })
           }
         );
 
@@ -154,7 +155,7 @@ const LecturersEdit: React.FC = () => {
       center,
       building,
       level,
-      rank,
+      rank
     };
     finalObject.rank = finalObject.level + '.' + finalObject.employeeId;
     console.log('22222222222222222222222222222222222');
@@ -166,9 +167,9 @@ const LecturersEdit: React.FC = () => {
         {
           method: 'PUT',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify({finalObject, id: lecturerSelected._id}),
+          body: JSON.stringify({ finalObject, id: lecturerSelected._id })
         }
       );
 
@@ -201,6 +202,13 @@ const LecturersEdit: React.FC = () => {
   };
   const handleChangeFaculty = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFaculty(e.target.value);
+    if (e.target.value === 'Computing') {
+      setSubOptions(['IT', 'SE', 'CS', 'ISE']);
+    } else if (e.target.value === 'Engineering') {
+      setSubOptions(['Civil', 'Electronic', 'Chemical']);
+    } else if (e.target.value === 'Business') {
+      setSubOptions(['Management', 'Logistic', 'Finance']);
+    }
   };
   const handleChangeDepartment = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDepartment(e.target.value);
@@ -232,7 +240,7 @@ const LecturersEdit: React.FC = () => {
           xs={12}
           md={12}
           className="p-3"
-          style={{backgroundColor: '#343a40', color: '#fff'}}
+          style={{ backgroundColor: '#343a40', color: '#fff' }}
         >
           <h3>Edit Subject</h3>
         </Col>
@@ -242,7 +250,7 @@ const LecturersEdit: React.FC = () => {
         style={{
           border: '3px solid white',
           borderRadius: '8px',
-          color: 'white',
+          color: 'white'
         }}
       >
         <div>
@@ -255,7 +263,7 @@ const LecturersEdit: React.FC = () => {
                 <Form.Group controlId="formBasicEmail">
                   <Form.Control
                     type="text"
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={employeeId}
                     onChange={handleChangeEmployeeId}
                     placeholder="ex:- 000001"
@@ -274,7 +282,7 @@ const LecturersEdit: React.FC = () => {
                 <Form.Group controlId="formBasicEmail">
                   <Form.Control
                     type="text"
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={lecturerName}
                     onChange={handleChangeLecturerName}
                     placeholder="ex:- Kasun"
@@ -293,7 +301,7 @@ const LecturersEdit: React.FC = () => {
                   <Form.Control
                     as="select"
                     defaultValue="Choose..."
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={faculty}
                     onChange={handleChangeFaculty}
                   >
@@ -318,16 +326,15 @@ const LecturersEdit: React.FC = () => {
                   <Form.Control
                     as="select"
                     defaultValue="Choose..."
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={department}
                     onChange={handleChangeDepartment}
                   >
                     <option>Select</option>
-                    <option>IT</option>
-                    <option>SE</option>
-                    <option>CS</option>
-                    <option>ISE</option>
-                    <option>IM</option>
+                    {
+                      subOptions.length > 1 && subOptions.map((item) => (<option>{item}</option>))
+                    }
+
                   </Form.Control>
                 </Form.Group>
               </Form>
@@ -344,7 +351,7 @@ const LecturersEdit: React.FC = () => {
                   <Form.Control
                     as="select"
                     defaultValue="Choose..."
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={center}
                     onChange={handleChangeCenter}
                   >
@@ -376,7 +383,7 @@ const LecturersEdit: React.FC = () => {
                   <Form.Control
                     as="select"
                     defaultValue="Choose..."
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={building}
                     onChange={handleChangeBuilding}
                   >
@@ -408,7 +415,7 @@ const LecturersEdit: React.FC = () => {
                   <Form.Control
                     as="select"
                     defaultValue="Choose..."
-                    style={{borderWidth: '2.5px'}}
+                    style={{ borderWidth: '2.5px' }}
                     value={level}
                     onChange={handleChangeLevel}
                   >
@@ -426,14 +433,14 @@ const LecturersEdit: React.FC = () => {
             </Col>
             <Col xs={3} md={3}/>
           </Row>
-          <Row>
+          <Row style={{ color: 'red', textAlign: 'center' }}>
             <Col md={12}>{error && <p>{error}</p>}</Col>
           </Row>
           <Row className="mb-2 justify-content-md-center">
             <Col xs={0} md={9}/>
             <Col xs={12} md={2}>
               <Button
-                style={{width: '160px', fontSize: '1.3em'}}
+                style={{ width: '160px', fontSize: '1.3em' }}
                 onClick={handleSubmit}
               >
                 Update Lecturer

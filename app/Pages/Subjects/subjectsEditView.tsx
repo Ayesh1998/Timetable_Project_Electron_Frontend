@@ -105,9 +105,32 @@ const SubjectsEdit: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    // console.log("1111111111111111111111111111");
-    // console.log(name);
-    // console.log(tagToken);
+
+    if (subjectCode === '') {
+      setError('Please enter an Subject Code !');
+      return;
+    }
+    if (subjectName === '') {
+      setError('Please enter a Subject Name !');
+      return;
+    }
+    if (numberOfLectureHours === '') {
+      setError('Please enter a Number Of Lecture Hours !');
+      return;
+    }
+    if (numberOfTutorialHours === '') {
+      setError('Please enter a Number Of Tutorial Hours !');
+      return;
+    }
+    if (numberOfLabHours === '') {
+      setError('Please enter a Number Of Lab Hours !');
+      return;
+    }
+    if (numberOfEvaluationHours === '') {
+      setError('Please enter a Number Of Evaluation Hours !');
+      return;
+    }
+    setError(null);
 
     const finalObject = {
       subjectCode,
@@ -192,7 +215,6 @@ const SubjectsEdit: React.FC = () => {
     <div
       style={{
         backgroundColor: '#37474F',
-        height: '100vh'
       }}
     >
       {renderRedirect()}
@@ -208,7 +230,7 @@ const SubjectsEdit: React.FC = () => {
         </Col>
       </Row>
       <Container
-        className={`mt-2 p-4 mb-5 ${styles.tagsTopWrapper}`}
+        className={`mt-2 p-4 ${styles.tagsTopWrapper}`}
         style={{
           border: '3px solid white',
           borderRadius: '8px',
@@ -376,6 +398,9 @@ const SubjectsEdit: React.FC = () => {
               </Form>
             </Col>
             <Col xs={3} md={3}/>
+          </Row>
+          <Row style={{ color: 'red', textAlign: 'center' }}>
+            <Col md={12}>{error && <p>{error}</p>}</Col>
           </Row>
           <Row className="mb-2 justify-content-md-center">
             <Col xs={0} md={9}/>

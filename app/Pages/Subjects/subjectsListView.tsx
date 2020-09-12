@@ -27,7 +27,7 @@ const Subject = (props: any) => (
     <td>{props.subject.numberOfEvaluationHours}</td>
     <td>
       <Link to={'/editSubject/' + props.subject._id}>Edit</Link> |{' '}
-      <p onClick={() => {
+      <p style={{cursor:'pointer', textDecoration:'underline'}} onClick={() => {
         props.handleDelete(props.subject._id);
       }}>
         Delete
@@ -100,6 +100,10 @@ const SubjectsListView: React.FC = () => {
           body: JSON.stringify({id: id}),
         }
       );
+
+      const temp = subjectsObject.slice();
+      const tempDeletedArray = temp.filter((item: any) => item._id !== id);
+      setSubjectsObject(tempDeletedArray);
 
       const responseData = await response.json();
       // console.log(responseData.userDetails);
