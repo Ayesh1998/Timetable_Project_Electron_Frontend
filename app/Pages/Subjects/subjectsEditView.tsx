@@ -214,7 +214,7 @@ const SubjectsEdit: React.FC = () => {
   return (
     <div
       style={{
-        backgroundColor: '#37474F',
+        backgroundColor: '#37474F', height: '100vh'
       }}
     >
       {renderRedirect()}
@@ -399,8 +399,11 @@ const SubjectsEdit: React.FC = () => {
             </Col>
             <Col xs={3} md={3}/>
           </Row>
-          <Row style={{ color: 'red', textAlign: 'center' }}>
-            <Col md={12}>{error && <p>{error}</p>}</Col>
+          <Row style={{textAlign: 'center'}}>
+            <Col md={12}>{error && <p className={` ${styles.workingDaysHoursError}`} style={{
+              fontSize: '19px',
+              textShadow: '1px 0 0 red, -1px 0 0 red, 0 1px 0 red, 0 -1px 0 red, 1px 1px red, -1px -1px 0 red, 1px -1px 0 red, -1px 1px 0 red'
+            }}>{error}</p>}</Col>
           </Row>
           <Row className="mb-2 justify-content-md-center">
             <Col xs={0} md={9}/>

@@ -142,6 +142,23 @@ const WorkingDaysHours: React.FC = () => {
       setError('!! No of days in the week and days selected are not equal !!');
       return;
     }
+    if (parseInt(workingTimePerDay.hours) > 24) {
+      setError('!! No of hours should be equal or less than 24 !!');
+      return;
+    }
+    if (workingTimePerDay.hours === '00') {
+      setError('!! Please enter no of hours for working time per day !!');
+      return;
+    }
+    if (parseInt(workingTimePerDay.minutes) > 60) {
+      setError('!! No of minutes should be equal or less than 60 !!');
+      return;
+    }
+    if (timeSlots.length === 0) {
+      setError('!! Please select a time slot !!');
+      return;
+    }
+
     setError(null);
 
     try {
@@ -371,7 +388,8 @@ const WorkingDaysHours: React.FC = () => {
             {error && (
               <Row className=" justify-content-md-center">
                 <Col xs={12} md={10}>
-                  <p className={`text-danger ${styles.workingDaysHoursError}`}>
+                  <p className={` ${styles.workingDaysHoursError}`}
+                     style={{textShadow: '1px 0 0 red, -1px 0 0 red, 0 1px 0 red, 0 -1px 0 red, 1px 1px red, -1px -1px 0 red, 1px -1px 0 red, -1px 1px 0 red'}}>
                     {error}
                   </p>
                 </Col>

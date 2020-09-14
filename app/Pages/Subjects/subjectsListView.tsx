@@ -27,7 +27,7 @@ const Subject = (props: any) => (
     <td>{props.subject.numberOfEvaluationHours}</td>
     <td>
       <Link to={'/editSubject/' + props.subject._id}>Edit</Link> |{' '}
-      <p style={{cursor:'pointer', textDecoration:'underline'}} onClick={() => {
+      <p style={{cursor: 'pointer', textDecoration: 'underline'}} onClick={() => {
         props.handleDelete(props.subject._id);
       }}>
         Delete
