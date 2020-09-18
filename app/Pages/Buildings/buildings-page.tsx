@@ -56,7 +56,9 @@ const BuildingsPage: React.FC = () => {
                  marginTop: '115px'
                }}>
             <div>
-              {route}
+              {
+                route
+              }
             </div>
           </Col>
           <Col sm='8'>
