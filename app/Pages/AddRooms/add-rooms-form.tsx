@@ -1,18 +1,6 @@
-import React, {useEffect, useState} from 'react'
-// import {useDispatch, useSelector} from 'react-redux'
-// import {proxy} from '../../conf'
-
-// let errors_: string = ''
+import React from 'react'
 
 const AddRoomsForm: React.FC = () => {
-  // const dispatch = useDispatch()
-
-  // const [loading, setLoading] = useState<boolean>(false)
-
-  useEffect(() => {
-    //
-  }, [])
-
   return (
     <div style={{
       borderRadius: '8px',

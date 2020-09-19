@@ -2,6 +2,7 @@ import React from 'react'
 import {useDispatch} from 'react-redux'
 import {Col, Row} from 'react-bootstrap'
 import NavBar from '../../components/NavBar/NavBar'
+import AssignRoomsForSessionsList from './assign-rooms-for-sessions-list'
 import {setRoomUnavailability, setUnavailableRoom} from '../RoomsUnavailability/rooms-unavailability-slice'
 import {setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom} from '../Rooms/rooms-slice'
 import {
@@ -46,7 +47,7 @@ const AssignRoomsForSessionsPage: React.FC = () => {
         </Col>
       </Row>
       <div className='container'>
-        Assign Rooms for Sessions
+        <AssignRoomsForSessionsList/>
       </div>
     </div>
   )
