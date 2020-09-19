@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Button, Form, Spinner } from 'react-bootstrap'
-import { FaArrowAltCircleLeft, FaEdit } from 'react-icons/fa'
-import { proxy } from '../../conf'
+import React, {useEffect, useState} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {Button, Form, Spinner} from 'react-bootstrap'
+import {FaArrowAltCircleLeft, FaEdit} from 'react-icons/fa'
+import {proxy} from '../../conf'
 import {
   setBuildings,
   setCenters,
   setEditBuilding,
   setEditingBuilding,
   setEditingBuildingId,
-  setExistingBuilding
+  setExistingBuilding,
+  setExistingRoomsForBuilding
 } from './buildings-slice'
 
 let errors_: string = ''
@@ -83,45 +84,58 @@ const BuildingsEdit: React.FC = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     setLoading(true)
-    try {
-      await dispatch(setEditBuilding(true))
-      const response = await fetch(`${proxy}/buildings/buildings/` + editingBuildingId, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(building)
-      })
-      const responseData = await response.json()
-      await dispatch(setExistingBuilding(false))
-      if (responseData.exists) {
-        errors_ = responseData.message
-        await dispatch(setExistingBuilding(true))
-        await dispatch(setEditBuilding(false))
-      } else {
-        buildingList = buildingList.map((building_: any) => building_ === editingBuildingId ? building : building_)
-        await dispatch(setBuildings(buildingList))
-        await dispatch(setEditBuilding(false))
-        await dispatch(setEditingBuildingId(''))
-        await dispatch(setEditingBuilding(null))
+    await dispatch(setExistingBuilding(false))
+    await dispatch(setExistingRoomsForBuilding(false))
+    if (building.buildingName.trim() === '') {
+      errors_ = 'Please enter a value for the building name.'
+      await dispatch(setExistingBuilding(true))
+      setLoading(false)
+    } else if (building.centerName.trim() === '') {
+      errors_ = 'Please enter a value for the center.'
+      await dispatch(setExistingBuilding(true))
+      setLoading(false)
+    }
+    if (building.buildingName.trim() !== '' && building.centerName.trim() !== '') {
+      try {
+        await dispatch(setEditBuilding(true))
+        const response = await fetch(`${proxy}/buildings/buildings/` + editingBuildingId, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(building)
+        })
+        const responseData = await response.json()
+        if (responseData.exists) {
+          errors_ = responseData.message
+          await dispatch(setExistingBuilding(true))
+        } else {
+          buildingList = buildingList.map((building_: any) => building_ === editingBuildingId ? building : building_)
+          await dispatch(setBuildings(buildingList))
+          await dispatch(setEditBuilding(false))
+          await dispatch(setEditingBuildingId(''))
+          await dispatch(setEditingBuilding(null))
+        }
+        setLoading(false)
+      } catch (errors) {
+        errors_ = errors
+        setLoading(false)
+        console.log(errors)
       }
-      setLoading(false)
-    } catch (errors) {
-      errors_ = errors
-      setLoading(false)
-      console.log(errors)
     }
   }
 
   const handleChangeBuildingName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setBuilding({ ...building, buildingName: e.target.value })
+    setBuilding({...building, buildingName: e.target.value})
+    dispatch(setExistingBuilding(false))
     setLoading(false)
   }
 
   const handleChangeCenterName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setBuilding({ ...building, centerName: e.target.value })
+    setBuilding({...building, centerName: e.target.value})
+    dispatch(setExistingBuilding(false))
     setLoading(false)
   }
 
@@ -130,6 +144,8 @@ const BuildingsEdit: React.FC = () => {
     await dispatch(setEditBuilding(false))
     await dispatch(setEditingBuildingId(''))
     await dispatch(setEditingBuilding(null))
+    await dispatch(setExistingRoomsForBuilding(false))
+    await dispatch(setExistingBuilding(false))
     setLoading(false)
   }
 

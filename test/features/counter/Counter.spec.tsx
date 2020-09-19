@@ -1,4 +1,3 @@
-/* eslint react/jsx-props-no-spreading: off, @typescript-eslint/ban-ts-comment: off */
 import React from 'react'
 import Enzyme, {mount} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
@@ -6,7 +5,6 @@ import {BrowserRouter as Router} from 'react-router-dom'
 import renderer from 'react-test-renderer'
 import {Provider} from 'react-redux'
 import {configureStore} from '@reduxjs/toolkit'
-// @ts-ignore
 import Counter from '../../../app/features/counter/Counter'
 import * as counterSlice from '../../../app/Pages/WorkingDaysHours/workingDaysHoursSlice'
 
@@ -16,12 +14,10 @@ jest.useFakeTimers()
 function setup(
   preloadedState: { counter: { value: number } } = {counter: {value: 1}}
 ) {
-  // @ts-ignore
   const store = configureStore({
     reducer: {counter: counterSlice.default},
     preloadedState
   })
-
   const getWrapper = () =>
     mount(
       <Provider store={store}>
@@ -47,9 +43,7 @@ describe('Counter component', () => {
 
   it('should first button should call increment', () => {
     const {buttons} = setup()
-    // @ts-ignore
     const incrementSpy = jest.spyOn(counterSlice, 'increment')
-
     buttons.at(0).simulate('click')
     expect(incrementSpy).toBeCalled()
     incrementSpy.mockRestore()
@@ -66,13 +60,11 @@ describe('Counter component', () => {
         </Provider>
       )
       .toJSON()
-
     expect(tree).toMatchSnapshot()
   })
 
   it('should second button should call decrement', () => {
     const {buttons} = setup()
-    // @ts-ignore
     const decrementSyp = jest.spyOn(counterSlice, 'decrement')
     buttons.at(1).simulate('click')
     expect(decrementSyp).toBeCalled()
@@ -81,7 +73,6 @@ describe('Counter component', () => {
 
   it('should third button should call incrementIfOdd', () => {
     const {buttons} = setup()
-    // @ts-ignore
     const incrementIfOdd = jest.spyOn(counterSlice, 'incrementIfOdd')
     buttons.at(2).simulate('click')
     expect(incrementIfOdd).toBeCalled()
@@ -90,7 +81,6 @@ describe('Counter component', () => {
 
   it('should fourth button should call incrementAsync', () => {
     const {buttons} = setup()
-    // @ts-ignore
     const incrementAsync = jest.spyOn(counterSlice, 'incrementAsync')
     buttons.at(3).simulate('click')
     expect(incrementAsync).toBeCalled()
@@ -124,22 +114,18 @@ describe('Counter component', () => {
 
 describe('Test counter actions', () => {
   it('should not call incrementAsync before timer', () => {
-    // @ts-ignore
     const fn = counterSlice.incrementAsync(1000)
     expect(fn).toBeInstanceOf(Function)
     const dispatch = jest.fn()
-    // @ts-ignore
     fn(dispatch)
     jest.advanceTimersByTime(500)
     expect(dispatch).not.toBeCalled()
   })
 
   it('should call incrementAsync after timer', () => {
-    // @ts-ignore
     const fn = counterSlice.incrementAsync(1000)
     expect(fn).toBeInstanceOf(Function)
     const dispatch = jest.fn()
-    // @ts-ignore
     fn(dispatch)
     jest.advanceTimersByTime(1001)
     expect(dispatch).toBeCalled()

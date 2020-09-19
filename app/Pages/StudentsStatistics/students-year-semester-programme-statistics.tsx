@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { Spinner, Table } from 'react-bootstrap'
-import { proxy } from '../../conf'
-import { setStudentsYearSemesterProgrammeStatistics } from './students-statistics-slice'
+import React, {useEffect, useState} from 'react'
+import {useDispatch} from 'react-redux'
+import {Spinner, Table} from 'react-bootstrap'
+import {proxy} from '../../conf'
+import {setStudentsYearSemesterProgrammeStatistics} from './students-statistics-slice'
 
 let errors_: string = ''
 let data: any = []

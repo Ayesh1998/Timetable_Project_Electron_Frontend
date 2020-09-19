@@ -1,16 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Button, Form, Modal, Spinner, Table } from 'react-bootstrap'
-import { FaEdit, FaTrashAlt } from 'react-icons/fa'
-import { proxy } from '../../conf'
-import { setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom, setRooms } from './rooms-slice'
-import {
-  setBuildings,
-  setEditBuilding,
-  setEditingBuilding,
-  setEditingBuildingId,
-  setExistingBuilding
-} from '../Buildings/buildings-slice'
+import React, {useEffect, useState} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {Button, Form, Modal, Spinner, Table} from 'react-bootstrap'
+import {FaEdit, FaTrashAlt} from 'react-icons/fa'
+import {proxy} from '../../conf'
+import {setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom, setRooms} from './rooms-slice'
+import {setBuildings} from '../Buildings/buildings-slice'
 
 let errors_: string = ''
 
@@ -32,7 +26,7 @@ const RoomsList: React.FC = () => {
     roomName: string,
     buildingName: string,
     roomType: string,
-    roomCapacity: number | string
+    roomCapacity: string
   }>({
     roomName: '',
     buildingName: '',
@@ -73,10 +67,6 @@ const RoomsList: React.FC = () => {
       const responseData = await response.json()
       setBuildingsList(responseData)
       await dispatch(setBuildings(responseData))
-      await dispatch(setEditBuilding(false))
-      await dispatch(setEditingBuildingId(''))
-      await dispatch(setEditingBuilding(null))
-      await dispatch(setExistingBuilding(false))
       setLoading(false)
     } catch (errors) {
       errors_ = errors
@@ -94,19 +84,19 @@ const RoomsList: React.FC = () => {
 
   const handleChangeRoomNameSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setRoom({ ...room, roomName: e.target.value })
+    setRoom({...room, roomName: e.target.value})
     setLoading(false)
   }
 
   const handleChangeBuildingNameSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setRoom({ ...room, buildingName: e.target.value })
+    setRoom({...room, buildingName: e.target.value})
     setLoading(false)
   }
 
   const handleChangeRoomTypeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setRoom({ ...room, roomType: e.target.value })
+    setRoom({...room, roomType: e.target.value})
     setLoading(false)
   }
 
@@ -317,7 +307,7 @@ const RoomsList: React.FC = () => {
               style={{
                 borderBottom: 'solid darkblue 1px',
                 borderRight: 'solid darkblue 1px',
-                borderTop: 'solid darkblue 1px',
+                borderTop: 'solid darkblue 1px'
               }}/>
           </thead>
           <tbody>
@@ -371,7 +361,8 @@ const RoomsList: React.FC = () => {
                   </td>
                 </tr>
               )
-            })}
+            })
+          }
           </tbody>
         </Table>
       </div>

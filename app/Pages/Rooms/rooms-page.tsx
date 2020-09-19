@@ -1,12 +1,31 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { Col, Row } from 'react-bootstrap'
+import {useDispatch, useSelector} from 'react-redux'
+import {Col, Row} from 'react-bootstrap'
 import NavBar from '../../components/NavBar/NavBar'
 import RoomsList from './rooms-list'
 import RoomsEdit from './rooms-edit'
 import RoomsAdd from './rooms-add'
+import {setRoomUnavailability, setUnavailableRoom} from '../RoomsUnavailability/rooms-unavailability-slice'
+import {
+  setEditBuilding,
+  setEditingBuilding,
+  setEditingBuildingId,
+  setExistingBuilding,
+  setExistingRoomsForBuilding
+} from '../Buildings/buildings-slice'
 
 const RoomsPage: React.FC = () => {
+  const dispatch = useDispatch()
+
+  dispatch(setEditBuilding(false))
+  dispatch(setEditingBuildingId(''))
+  dispatch(setEditingBuilding(null))
+  dispatch(setExistingBuilding(false))
+  dispatch(setExistingRoomsForBuilding(false))
+
+  dispatch(setRoomUnavailability(false))
+  dispatch(setUnavailableRoom(null))
+
   let route: any
 
   const editRoom = useSelector(
@@ -44,7 +63,9 @@ const RoomsPage: React.FC = () => {
                  marginTop: '115px'
                }}>
             <div>
-              {route}
+              {
+                route
+              }
             </div>
           </Col>
           <Col sm='8'>

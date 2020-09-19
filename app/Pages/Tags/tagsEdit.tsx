@@ -1,143 +1,111 @@
-/* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Form, Row} from 'react-bootstrap';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import {RadioButton, RadioGroup} from 'react-radio-buttons';
-//import CheckboxGroup from 'react-checkbox-group';
 import {Redirect} from 'react-router-dom';
-import {useDispatch , useSelector} from 'react-redux';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+import {useDispatch, useSelector} from 'react-redux';
 import styles from './tags.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-import {
-  setTags,
-  setEditTag,
-  setEditingTag,
-  setEditingTagId
-} from './tagsSlice'
+import {setEditingTag, setEditingTagId, setEditTag} from './tagsSlice';
 
-// noinspection DuplicatedCode
+let errors_: string = ''
+
 const TagsEdit: React.FC = () => {
   const dispatch = useDispatch();
-  // const value = useSelector();
-
-  let tagList = useSelector(
-    (state: {
-      tags: any
-    }) => state.tags.tags
-  )
 
   const editingTagId = useSelector(
     (state: {
       tags: any
       editingTagId: string
     }) => state.tags.editingTagId
-  )
+  );
 
   const editingTag = useSelector(
     (state: {
       tags: any
       editingTagId: any
     }) => state.tags.editingTag
-  )
+  );
 
   const [tag, setTag] = useState<{
     name: string,
     tagToken: string
   }>({
-    name:editingTag.name,
+    name: editingTag.name,
     tagToken: editingTag.tagToken
-  })
-  const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>( false );
-  const [error, setError] = useState<string | null>(null);
-
-  const [name, setName] = useState<string>('');
-  const [tagToken, setTagToken] = useState<string>('');
+  });
+  const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
   const [id, setId] = useState<string>('');
+  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
-    //setTags(tagList);
-    setTag(editingTag);
     setId(editingTagId);
-    setName(editingTag.name);
-    setTagToken(editingTag.tagToken);
-
   }, []);
 
-
-  console.log("############################");
-  console.log(id);
-  console.log(name);
-  console.log(tagToken);
-  console.log(tag);
-
   const handleSubmit = async () => {
-     console.log("1111111111111111111111111111");
-    // console.log(name);
-     console.log(id);
+    console.log(id);
 
-
-    // const finalObject = {
-    //   name,
-    //   tagToken
-    // };
+    if (tag.name.trim() === '' && tag.tagToken.trim() === '') {
+      errors_ = 'Please enter a value for the tag name and tag token.'
+      setError(true)
+    } else {
+      if (tag.name.trim() === '') {
+        errors_ = 'Please enter a value for the tag name.'
+        setError(true)
+      } else if (tag.tagToken.trim() === '') {
+        errors_ = 'Please enter a value for the tag token.'
+        setError(true)
+      }
+    }
 
     const finalObjectWithID = {
       tags: tag,
-      // eslint-disable-next-line no-underscore-dangle
       id: id
     };
-    console.log('22222222222222222222222222222222222');
+
     console.log(finalObjectWithID);
+    if (tag.name.trim() !== '' && tag.tagToken.trim() !== '') {
+      setError(false)
 
-    try {
-      const response = await fetch(
-        `http://localhost:5000/tags/editTags`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(finalObjectWithID)
+      try {
+        const response = await fetch(
+          `http://localhost:5000/tags/editTags`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(finalObjectWithID)
+          }
+        );
+        const responseData = await response.json();
+        setRenderRedirectTo(true);
+        dispatch(setEditTag(false));
+        dispatch(setEditingTagId(''));
+        dispatch(setEditingTag(null));
+        if (!responseData) {
+          throw new Error(responseData.message);
         }
-      );
-
-      const responseData = await response.json();
-      setRenderRedirectTo(true);
-  //      dispatch(setEditTag(false))
-  //      dispatch(setEditingTagId(''))
-  //      dispatch(setEditingTag(null))
-
-
-      if (!responseData) {
-        // noinspection ExceptionCaughtLocallyJS
-        throw new Error(responseData.message);
+      } catch (err) {
+        console.log(err.message);
       }
-    } catch (err) {
-      console.log(err.message);
     }
   };
 
   const renderRedirect = () => {
     if (renderRedirectTo) {
       return <Redirect to={routes.TAGS_LIST_VIEW}/>;
-      //   props.history.push(loginState.redirectTo);s
     }
     return null;
   };
 
-  const handleChangeName = ( e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-    setTag({...tag, name: e.target.value})
+  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
+    setTag({...tag, name: e.target.value});
   };
 
   const handleChangeTagToken = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-    setTagToken(e.target.value);
-    setTag({...tag, tagToken: e.target.value})
+    setError(false)
+    setTag({...tag, tagToken: e.target.value});
   };
 
   return (
@@ -145,9 +113,7 @@ const TagsEdit: React.FC = () => {
       style={{
         backgroundColor: '#37474F',
         height: '100vh'
-      }}
-    >
-
+      }}>
       {renderRedirect()}
       <NavBar/>
       <Row className="text-center mb-5">
@@ -170,61 +136,75 @@ const TagsEdit: React.FC = () => {
       >
 
 
-          <div>
-            <Row className="mt-3 mb-3 justify-content-md-center">
-              <Col xs={12} md={4} className="mt-auto">
-                <p>Real Name</p>
-              </Col>
-              <Col xs={3} md={3}>
-                <Form className="">
-                  <Form.Group controlId="formBasicEmail">
-
-                      <Form.Control
-                        type="text"
-                        style={{borderWidth: '2.5px'}}
-                        value={name}
-                        onChange={handleChangeName}
-                        placeholder="ex:- Lecture"
-                      />
-
-
-                  </Form.Group>
-                </Form>
-              </Col>
-              <Col xs={3} md={3}/>
-            </Row>
-            <Row className="mt-3 mb-3 justify-content-md-center">
-              <Col xs={12} md={4}>
-                <p>Tag Name</p>
-              </Col>
-              <Col xs={2} md={6}>
+        <div>
+          <Row className="mt-3 mb-3 justify-content-md-center">
+            <Col xs={12} md={4} className="mt-auto">
+              <p>Real Name</p>
+            </Col>
+            <Col xs={3} md={3}>
               <Form className="">
-                  <Form.Group controlId="formBasicEmail">
+                <Form.Group controlId="formBasicEmail">
+
+                  <Form.Control
+                    type="text"
+                    style={{borderWidth: '2.5px'}}
+                    value={tag.name}
+                    onChange={handleChangeName}
+                    placeholder="ex:- Lecture"
+                  />
 
 
-                   <Form.Control
-                        type="text"
-                        style={{borderWidth: '2.5px'}}
-                        value={tagToken}
-                        onChange={handleChangeTagToken}
-                        placeholder="ex:- Lec"
-                      />
-                  </Form.Group>
-                </Form>
-              </Col>
-            </Row>
-            <Row className="mb-2 justify-content-md-center">
-              <Col xs={0} md={9}/>
-              <Col xs={12} md={2}>
-                <Button
-                  style={{width: '160px', fontSize: '1.3em'}}
-                  onClick={handleSubmit}
-                >
-                  Edit Tag
-                </Button>
-              </Col>
-            </Row>
-          </div>
+                </Form.Group>
+              </Form>
+            </Col>
+            <Col xs={3} md={3}/>
+          </Row>
+          <Row className="mt-3 mb-3 justify-content-md-center">
+            <Col xs={12} md={4}>
+              <p>Tag Name</p>
+            </Col>
+            <Col xs={3} md={3}>
+              <Form className="">
+                <Form.Group controlId="formBasicEmail">
+
+
+                  <Form.Control
+                    type="text"
+                    style={{borderWidth: '2.5px'}}
+                    value={tag.tagToken}
+                    onChange={handleChangeTagToken}
+                    placeholder="ex:- Lec"
+                  />
+                </Form.Group>
+              </Form>
+            </Col>
+            <Col xs={3} md={3}></Col>
+          </Row>
+          <Row className="mt-3 mb-3 justify-content-md-center">
+            <Col xs={12} md={3}/>
+            <Col xs={3} md={7}>
+              <Button
+                style={{width: '160px', fontSize: '1.3em'}}
+                onClick={handleSubmit}
+              >
+                Edit Tag
+              </Button>
+            </Col>
+            <Col xs={12} md={2}/>
+          </Row>
+          {
+            error && (
+              <div style={{
+                color: 'red',
+                fontSize: '18px',
+                marginTop: '7px',
+                textAlign: 'center'
+              }}>
+                {errors_}
+              </div>
+            )
+          }
+        </div>
 
       </Container>
     </div>

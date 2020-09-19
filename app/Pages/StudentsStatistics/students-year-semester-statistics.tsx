@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { Spinner } from 'react-bootstrap'
-import { Bar, BarChart, CartesianGrid, Cell, Legend, Tooltip, XAxis, YAxis } from 'recharts'
-import { proxy } from '../../conf'
-import { setStudentsYearSemesterStatistics } from './students-statistics-slice'
+import React, {useEffect, useState} from 'react'
+import {useDispatch} from 'react-redux'
+import {Spinner} from 'react-bootstrap'
+import {Bar, BarChart, CartesianGrid, Cell, Legend, Tooltip, XAxis, YAxis} from 'recharts'
+import {proxy} from '../../conf'
+import {setStudentsYearSemesterStatistics} from './students-statistics-slice'
 
 let errors_: string = ''
 let data: any = []

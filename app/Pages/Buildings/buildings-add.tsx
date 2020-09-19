@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Button, Form, Spinner } from 'react-bootstrap'
-import { FaPlusCircle } from 'react-icons/fa'
-import { proxy } from '../../conf'
-import { setBuildings, setCenters, setExistingBuilding } from './buildings-slice'
+import React, {useEffect, useState} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {Button, Form, Spinner} from 'react-bootstrap'
+import {FaPlusCircle} from 'react-icons/fa'
+import {proxy} from '../../conf'
+import {setBuildings, setCenters, setExistingBuilding, setExistingRoomsForBuilding} from './buildings-slice'
 
 let errors_: string = ''
 
@@ -61,40 +61,54 @@ const BuildingsAdd: React.FC = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     setLoading(true)
-    try {
-      const response = await fetch(`${proxy}/buildings/buildings`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(building)
-      })
-      const responseData = await response.json()
-      buildingList = { ...buildingList, responseData }
-      await dispatch(setBuildings(buildingList))
-      await dispatch(setExistingBuilding(false))
-      if (responseData.exists) {
-        errors_ = responseData.message
-        await dispatch(setExistingBuilding(true))
+    await dispatch(setExistingBuilding(false))
+    await dispatch(setExistingRoomsForBuilding(false))
+    if (building.buildingName.trim() === '') {
+      errors_ = 'Please enter a value for the building name.'
+      await dispatch(setExistingBuilding(true))
+      setLoading(false)
+    } else if (building.centerName.trim() === '') {
+      errors_ = 'Please enter a value for the center.'
+      await dispatch(setExistingBuilding(true))
+      setLoading(false)
+    }
+    if (building.buildingName.trim() !== '' && building.centerName.trim() !== '') {
+      try {
+        const response = await fetch(`${proxy}/buildings/buildings`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(building)
+        })
+        const responseData = await response.json()
+        buildingList = {...buildingList, responseData}
+        await dispatch(setBuildings(buildingList))
+        if (responseData.exists) {
+          errors_ = responseData.message
+          await dispatch(setExistingBuilding(true))
+        }
+        await resetValues()
+        setLoading(false)
+      } catch (errors) {
+        errors_ = errors
+        setLoading(false)
+        console.log(errors)
       }
-      await resetValues()
-      setLoading(false)
-    } catch (errors) {
-      errors_ = errors
-      setLoading(false)
-      console.log(errors)
     }
   }
 
   const handleChangeBuildingName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setBuilding({ ...building, buildingName: e.target.value })
+    setBuilding({...building, buildingName: e.target.value})
+    dispatch(setExistingBuilding(false))
     setLoading(false)
   }
 
   const handleChangeCenterName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setBuilding({ ...building, centerName: e.target.value })
+    setBuilding({...building, centerName: e.target.value})
+    dispatch(setExistingBuilding(false))
     setLoading(false)
   }
 

@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Button, Card, CardColumns, Form, Modal, Row, Spinner } from 'react-bootstrap'
-import { FaEdit, FaTrashAlt } from 'react-icons/fa'
-import { proxy } from '../../conf'
-import { setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom } from '../Rooms/rooms-slice'
+import React, {useEffect, useState} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {Button, Card, CardColumns, Form, Modal, Row, Spinner} from 'react-bootstrap'
+import {FaEdit, FaTrashAlt} from 'react-icons/fa'
+import {proxy} from '../../conf'
 import {
   setBuildings,
   setCenters,
   setEditBuilding,
   setEditingBuilding,
   setEditingBuildingId,
-  setExistingBuilding
+  setExistingBuilding,
+  setExistingRoomsForBuilding
 } from './buildings-slice'
 
 let errors_: string = ''
@@ -22,6 +22,13 @@ const BuildingsList: React.FC = () => {
     (state: {
       buildings: any
     }) => state.buildings.buildings
+  )
+
+  const existingRoomsForBuilding = useSelector(
+    (state: {
+      buildings: any
+      existingRoomsForBuilding: boolean
+    }) => state.buildings.existingRoomsForBuilding
   )
 
   const [loading, setLoading] = useState<boolean>(false)
@@ -70,10 +77,6 @@ const BuildingsList: React.FC = () => {
       const responseData = await response.json()
       setCentersList(responseData)
       await dispatch(setCenters(responseData))
-      await dispatch(setEditRoom(false))
-      await dispatch(setEditingRoomId(''))
-      await dispatch(setEditingRoom(null))
-      await dispatch(setExistingRoom(false))
       setLoading(false)
     } catch (errors) {
       errors_ = errors
@@ -91,13 +94,13 @@ const BuildingsList: React.FC = () => {
 
   const handleChangeBuildingNameSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setBuilding({ ...building, buildingName: e.target.value })
+    setBuilding({...building, buildingName: e.target.value})
     setLoading(false)
   }
 
   const handleChangeCenterNameSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setBuilding({ ...building, centerName: e.target.value })
+    setBuilding({...building, centerName: e.target.value})
     setLoading(false)
   }
 
@@ -130,6 +133,7 @@ const BuildingsList: React.FC = () => {
         }
       })
       const responseData = await response.json()
+      await dispatch(setExistingRoomsForBuilding(false))
       await dispatch(setExistingBuilding(false))
       await dispatch(setEditingBuildingId(id))
       await dispatch(setEditingBuilding(responseData))
@@ -151,7 +155,12 @@ const BuildingsList: React.FC = () => {
           'Content-Type': 'application/json'
         }
       })
-      await response.json()
+      const responseData = await response.json()
+      await dispatch(setExistingRoomsForBuilding(false))
+      if (responseData.roomsExist) {
+        errors_ = responseData.message
+        await dispatch(setExistingRoomsForBuilding(true))
+      }
       buildingList = buildingList.filter((building: any) => building._id !== id)
       await dispatch(setBuildings(buildingList))
       await dispatch(setEditBuilding(false))
@@ -174,7 +183,7 @@ const BuildingsList: React.FC = () => {
               <Form.Control type='text'
                             value={building.buildingName}
                             onChange={handleChangeBuildingNameSearch}
-                            placeholder='Search by Building Name'
+                            placeholder='Search by Name'
                             title='Search by building name.'/>
             </Form.Group>
             <Form.Group controlId='formLocatedCenter'
@@ -301,7 +310,7 @@ const BuildingsList: React.FC = () => {
         </CardColumns>
       </div>
       {
-        errors_ && (
+        errors_ && existingRoomsForBuilding && (
           <div style={{
             color: 'red',
             fontSize: '18px',

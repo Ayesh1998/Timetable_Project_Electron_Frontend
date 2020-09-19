@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Button, Form, Spinner } from 'react-bootstrap'
-import { FaArrowAltCircleLeft, FaEdit } from 'react-icons/fa'
-import { proxy } from '../../conf'
-import { setBuildings, setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom, setRooms } from './rooms-slice'
+import React, {useEffect, useState} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {Button, Form, Spinner} from 'react-bootstrap'
+import {FaArrowAltCircleLeft, FaEdit} from 'react-icons/fa'
+import {proxy} from '../../conf'
+import {setBuildings, setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom, setRooms} from './rooms-slice'
 
 let errors_: string = ''
+
+const roomTypes = [
+  'Lecture Hall',
+  'Laboratory'
+]
 
 const RoomsEdit: React.FC = () => {
   const dispatch = useDispatch()
@@ -43,7 +48,7 @@ const RoomsEdit: React.FC = () => {
     roomName: string,
     buildingName: string,
     roomType: string,
-    roomCapacity: number | string
+    roomCapacity: string
   }>({
     roomName: editingRoom.roomName,
     buildingName: editingRoom.buildingName,
@@ -80,57 +85,84 @@ const RoomsEdit: React.FC = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     setLoading(true)
-    try {
-      await dispatch(setEditRoom(true))
-      const response = await fetch(`${proxy}/rooms/rooms/` + editingRoomId, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(room)
-      })
-      const responseData = await response.json()
-      await dispatch(setExistingRoom(false))
-      if (responseData.exists) {
-        errors_ = responseData.message
-        await dispatch(setExistingRoom(true))
-        await dispatch(setEditRoom(false))
-      } else {
-        roomList = roomList.map((room_: any) => room_ === editingRoomId ? room : room_)
-        await dispatch(setRooms(roomList))
-        await dispatch(setEditRoom(false))
-        await dispatch(setEditingRoomId(''))
-        await dispatch(setEditingRoom(null))
+    await dispatch(setExistingRoom(false))
+    if (room.roomName.trim() === '') {
+      errors_ = 'Please enter a value for the room name.'
+      await dispatch(setExistingRoom(true))
+      setLoading(false)
+    } else if (room.buildingName.trim() === '') {
+      errors_ = 'Please enter a value for the building.'
+      await dispatch(setExistingRoom(true))
+      setLoading(false)
+    } else if (room.roomType.trim() === '') {
+      errors_ = 'Please enter a value for the room type.'
+      await dispatch(setExistingRoom(true))
+      setLoading(false)
+    } else if (String(room.roomCapacity).trim() === '') {
+      errors_ = 'Please enter a value for the room capacity.'
+      await dispatch(setExistingRoom(true))
+      setLoading(false)
+    } else if (isNaN(Number(String(room.roomCapacity).trim()))) {
+      errors_ = 'Please enter a numerical value for the room capacity.'
+      await dispatch(setExistingRoom(true))
+      setLoading(false)
+    }
+    if (room.roomName.trim() !== '' && room.buildingName.trim() !== '' && String(room.roomCapacity).trim() !== ''
+      && room.roomType.trim() !== '' && !isNaN(Number(String(room.roomCapacity).trim()))) {
+      try {
+        await dispatch(setEditRoom(true))
+        const response = await fetch(`${proxy}/rooms/rooms/` + editingRoomId, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(room)
+        })
+        const responseData = await response.json()
+        if (responseData.exists) {
+          errors_ = responseData.message
+          await dispatch(setExistingRoom(true))
+        } else {
+          roomList = roomList.map((room_: any) => room_ === editingRoomId ? room : room_)
+          await dispatch(setRooms(roomList))
+          await dispatch(setEditRoom(false))
+          await dispatch(setEditingRoomId(''))
+          await dispatch(setEditingRoom(null))
+        }
+        setLoading(false)
+      } catch (errors) {
+        errors_ = errors
+        setLoading(false)
+        console.log(errors)
       }
-      setLoading(false)
-    } catch (errors) {
-      errors_ = errors
-      setLoading(false)
-      console.log(errors)
     }
   }
 
   const handleChangeRoomName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setRoom({ ...room, roomName: e.target.value })
+    setRoom({...room, roomName: e.target.value})
+    dispatch(setExistingRoom(false))
     setLoading(false)
   }
 
   const handleChangeBuildingName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setRoom({ ...room, buildingName: e.target.value })
+    setRoom({...room, buildingName: e.target.value})
+    dispatch(setExistingRoom(false))
     setLoading(false)
   }
 
   const handleChangeRoomType = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setRoom({ ...room, roomType: e.target.value })
+    setRoom({...room, roomType: e.target.value})
+    dispatch(setExistingRoom(false))
     setLoading(false)
   }
 
   const handleChangeRoomCapacity = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setRoom({ ...room, roomCapacity: parseInt(e.target.value) })
+    setRoom({...room, roomCapacity: e.target.value})
+    dispatch(setExistingRoom(false))
     setLoading(false)
   }
 
@@ -139,6 +171,7 @@ const RoomsEdit: React.FC = () => {
     await dispatch(setEditRoom(false))
     await dispatch(setEditingRoomId(''))
     await dispatch(setEditingRoom(null))
+    await dispatch(setExistingRoom(false))
     setLoading(false)
   }
 
@@ -197,8 +230,16 @@ const RoomsEdit: React.FC = () => {
                           title='Please select the room type.'
                           size='lg'>
               <option value="">Select Room Type</option>
-              <option value="Lecture Hall">Lecture Hall</option>
-              <option value="Laboratory">Laboratory</option>
+              {
+                roomTypes.map((roomType: any) => {
+                  return (
+                    <option key={roomType}
+                            value={roomType}>
+                      {roomType}
+                    </option>
+                  )
+                })
+              }
             </Form.Control>
           </Form.Group>
         </Form.Row>

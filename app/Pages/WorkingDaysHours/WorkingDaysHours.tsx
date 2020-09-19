@@ -1,26 +1,43 @@
 /* eslint-disable */
 import React, {useEffect, useState} from 'react';
-import {Button, Col, Container, Form, Row} from 'react-bootstrap';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import {RadioButton, RadioGroup} from 'react-radio-buttons';
-import CheckboxGroup from 'react-checkbox-group';
 import {Redirect} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import styles from './working-days-hours.css';
+import {Button, Col, Container, Form, Row} from 'react-bootstrap';
+import {RadioButton, RadioGroup} from 'react-radio-buttons';
+import CheckboxGroup from 'react-checkbox-group';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
+import styles from './working-days-hours.css';
 import {setWorkingDaysHours} from './workingDaysHoursSlice';
+import {setRoomUnavailability, setUnavailableRoom} from '../RoomsUnavailability/rooms-unavailability-slice'
+import {setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom} from '../Rooms/rooms-slice'
+import {
+  setEditBuilding,
+  setEditingBuilding,
+  setEditingBuildingId,
+  setExistingBuilding,
+  setExistingRoomsForBuilding
+} from '../Buildings/buildings-slice'
 
 const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 const weekends = ['Saturday', 'Sunday'];
 
-// noinspection DuplicatedCode
 const WorkingDaysHours: React.FC = () => {
   const dispatch = useDispatch();
-  // const value = useSelector();
+
+  dispatch(setEditRoom(false))
+  dispatch(setEditingRoomId(''))
+  dispatch(setEditingRoom(null))
+  dispatch(setExistingRoom(false))
+
+  dispatch(setEditBuilding(false))
+  dispatch(setEditingBuildingId(''))
+  dispatch(setEditingBuilding(null))
+  dispatch(setExistingBuilding(false))
+  dispatch(setExistingRoomsForBuilding(false))
+
+  dispatch(setRoomUnavailability(false))
+  dispatch(setUnavailableRoom(null))
 
   const [days, setDays] = useState<string[] | null>(null);
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(
@@ -125,6 +142,23 @@ const WorkingDaysHours: React.FC = () => {
       setError('!! No of days in the week and days selected are not equal !!');
       return;
     }
+    if (parseInt(workingTimePerDay.hours) > 24) {
+      setError('!! No of hours should be equal or less than 24 !!');
+      return;
+    }
+    if (workingTimePerDay.hours === '00') {
+      setError('!! Please enter no of hours for working time per day !!');
+      return;
+    }
+    if (parseInt(workingTimePerDay.minutes) > 60) {
+      setError('!! No of minutes should be equal or less than 60 !!');
+      return;
+    }
+    if (timeSlots.length === 0) {
+      setError('!! Please select a time slot !!');
+      return;
+    }
+
     setError(null);
 
     try {
@@ -354,7 +388,8 @@ const WorkingDaysHours: React.FC = () => {
             {error && (
               <Row className=" justify-content-md-center">
                 <Col xs={12} md={10}>
-                  <p className={`text-danger ${styles.workingDaysHoursError}`}>
+                  <p className={` ${styles.workingDaysHoursError}`}
+                     style={{textShadow: '1px 0 0 red, -1px 0 0 red, 0 1px 0 red, 0 -1px 0 red, 1px 1px red, -1px -1px 0 red, 1px -1px 0 red, -1px 1px 0 red'}}>
                     {error}
                   </p>
                 </Col>
