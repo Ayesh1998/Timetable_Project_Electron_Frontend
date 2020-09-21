@@ -115,7 +115,9 @@ const StudentsYearSemesterStatistics: React.FC = () => {
             marginTop: '7px',
             textAlign: 'center'
           }}>
-            {errors_}
+            {
+              errors_
+            }
           </div>
         )
       }

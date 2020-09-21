@@ -1,8 +1,32 @@
-import React from 'react';
-import {Col, Row} from 'react-bootstrap';
-import NavBar from '../../components/NavBar/NavBar';
+import React from 'react'
+import {useDispatch} from 'react-redux'
+import {Col, Row} from 'react-bootstrap'
+import NavBar from '../../components/NavBar/NavBar'
+import RoomsUnavailabilityAdd from '../RoomsUnavailability/rooms-unavailability-add'
+import RoomsUnavailabilityList from '../RoomsUnavailability/rooms-unavailability-list'
+import {setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom} from '../Rooms/rooms-slice'
+import {
+  setEditBuilding,
+  setEditingBuilding,
+  setEditingBuildingId,
+  setExistingBuilding,
+  setExistingRoomsForBuilding
+} from '../Buildings/buildings-slice'
 
 const RoomsUnavailabilityPage: React.FC = () => {
+  const dispatch = useDispatch()
+
+  dispatch(setEditRoom(false))
+  dispatch(setEditingRoomId(''))
+  dispatch(setEditingRoom(null))
+  dispatch(setExistingRoom(false))
+
+  dispatch(setEditBuilding(false))
+  dispatch(setEditingBuildingId(''))
+  dispatch(setEditingBuilding(null))
+  dispatch(setExistingBuilding(false))
+  dispatch(setExistingRoomsForBuilding(false))
+
   return (
     <div style={{
       minWidth: 'max-content',
@@ -20,10 +44,21 @@ const RoomsUnavailabilityPage: React.FC = () => {
         </Col>
       </Row>
       <div className='container'>
-        Rooms Unavailability
+        <Row>
+          <Col sm='4'>
+            <div>
+              <RoomsUnavailabilityAdd/>
+            </div>
+          </Col>
+          <Col sm='8'>
+            <div>
+              <RoomsUnavailabilityList/>
+            </div>
+          </Col>
+        </Row>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default RoomsUnavailabilityPage;
+export default RoomsUnavailabilityPage
