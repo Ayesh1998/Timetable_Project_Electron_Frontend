@@ -1,37 +1,89 @@
 import React from 'react'
-import {Nav, Navbar, NavDropdown} from 'react-bootstrap'
 import {NavLink} from 'react-router-dom'
+import {Nav, Navbar, NavDropdown} from 'react-bootstrap'
 import routes from '../../constants/routes.json'
 
 const NavBar: React.FC = () => {
   return (
-    <Navbar
-      collapseOnSelect
-      expand={false}
-      bg='dark'
-      variant='dark'
-      style={{
-        position: 'absolute',
-        zIndex: 2,
-        top: '7px'
-      }}>
+    <Navbar collapseOnSelect
+            expand={false}
+            bg='dark'
+            variant='dark'
+            style={{
+              position: 'absolute',
+              zIndex: 2,
+              top: '7px'
+            }}>
       <Navbar.Toggle aria-controls='responsive-navbar-nav'/>
       <Navbar.Collapse id='responsive-navbar-nav'>
         <Nav className='mr-auto float-left'
              style={{
                height: '100vh'
              }}>
+          <br/>
           <NavLink to={routes.WORKING_DAYS_AND_HOURS}>
             <Nav.Link href='#working-days-and-hours'>
               Working Days and Hours
             </Nav.Link>
           </NavLink>
-          <NavLink to={routes.GROUPS_ADD}>
+          <NavLink to={routes.LECTURERS_LIST_VIEW}>
+            <Nav.Link href='#lecturers'>Lecturers</Nav.Link>
+          </NavLink>
+          <NavLink to={routes.SUBJECTS_LIST_VIEW}>
+            <Nav.Link href='#subjects'>Subjects</Nav.Link>
+          </NavLink>
+          <NavDropdown title='Batches Basic Info'
+                       id='collasible-nav-dropdown'>
+            <NavDropdown.Item href='#batches/yearsems'>
+              <NavLink to={routes.YEARSEMS_LIST_VIEW}>
+                <Nav.Link href='#yearsems'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Academic Year & Semesters
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+            <NavDropdown.Divider/>
+            <NavDropdown.Item href='#batches/programmes'>
+              <NavLink to={routes.PROGRAMS_LIST_VIEW}>
+                <Nav.Link href='#programmes'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Programmes
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+            <NavDropdown.Divider/>
+            <NavDropdown.Item href='#batches/groups'>
+              <NavLink to={routes.GROUPNUMS_LIST_VIEW}>
+                <Nav.Link href='#groups'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Groups
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+            <NavDropdown.Divider/>
+            <NavDropdown.Item href='#batches/subgroups'>
+              <NavLink to={routes.SUBGROUPNUMS_LIST_VIEW}>
+                <Nav.Link href='#subgroups'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Sub Groups
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+          </NavDropdown>
+          <NavLink to={routes.GROUPS_LIST_VIEW}>
             <Nav.Link href='#groups'>
-              Groups
+              Student Batches
             </Nav.Link>
           </NavLink>
-          <NavLink to={routes.TAGS_ADD}>
+          <NavLink to={routes.TAGS_LIST_VIEW}>
             <Nav.Link href='#tags'>
               Tags
             </Nav.Link>

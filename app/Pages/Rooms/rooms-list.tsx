@@ -3,7 +3,8 @@ import {useDispatch, useSelector} from 'react-redux'
 import {Button, Form, Modal, Spinner, Table} from 'react-bootstrap'
 import {FaEdit, FaTrashAlt} from 'react-icons/fa'
 import {proxy} from '../../conf'
-import {setBuildings, setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom, setRooms} from './rooms-slice'
+import {setEditingRoom, setEditingRoomId, setEditRoom, setExistingRoom, setRooms} from './rooms-slice'
+import {setBuildings} from '../Buildings/buildings-slice'
 
 let errors_: string = ''
 
@@ -25,12 +26,12 @@ const RoomsList: React.FC = () => {
     roomName: string,
     buildingName: string,
     roomType: string,
-    roomCapacity: number | undefined
+    roomCapacity: string
   }>({
     roomName: '',
     buildingName: '',
     roomType: '',
-    roomCapacity: undefined
+    roomCapacity: ''
   })
 
   const getRooms = async () => {
@@ -175,7 +176,10 @@ const RoomsList: React.FC = () => {
                             placeholder='Search by Room Name'
                             title='Search by room name.'/>
             </Form.Group>
-            <Form.Group controlId='formLocatedBuilding'>
+            <Form.Group controlId='formLocatedBuilding'
+                        style={{
+                          marginLeft: '3%'
+                        }}>
               <Form.Label>Located Building</Form.Label>
               <Form.Control as='select'
                             value={room.buildingName}
@@ -194,7 +198,10 @@ const RoomsList: React.FC = () => {
                 }
               </Form.Control>
             </Form.Group>
-            <Form.Group controlId='formRoomType'>
+            <Form.Group controlId='formRoomType'
+                        style={{
+                          marginLeft: '3%'
+                        }}>
               <Form.Label>Room Type</Form.Label>
               <Form.Control as='select'
                             value={room.roomType}
@@ -208,7 +215,9 @@ const RoomsList: React.FC = () => {
           </Form.Row>
         </Form>
       </div>
-      <div>
+      <div style={{
+        marginTop: '4%'
+      }}>
         <Modal show={show}
                onHide={handleClose}
                deleteId={deleteId}>
@@ -218,11 +227,17 @@ const RoomsList: React.FC = () => {
           <Modal.Body>Are you sure you want to delete this room?</Modal.Body>
           <Modal.Footer>
             <Button variant='success'
-                    onClick={handleClose}>
+                    onClick={handleClose}
+                    style={{
+                      textTransform: 'uppercase'
+                    }}>
               Close
             </Button>
             <Button variant='danger'
-                    onClick={handleDelete}>
+                    onClick={handleDelete}
+                    style={{
+                      textTransform: 'uppercase'
+                    }}>
               Delete
             </Button>
           </Modal.Footer>
@@ -248,62 +263,106 @@ const RoomsList: React.FC = () => {
             backgroundColor: '#0350a2'
           }}>
           <th style={{
-            borderBottom: 'solid darkblue 1px'
+            borderBottom: 'solid darkblue 1px',
+            borderLeft: 'solid darkblue 1px',
+            borderTop: 'solid darkblue 1px',
+            textAlign: 'center',
+            fontSize: 'large',
+            fontWeight: 'lighter',
+            color: 'white'
           }}>
             Room Name
           </th>
           <th style={{
-            borderBottom: 'solid darkblue 1px'
+            borderBottom: 'solid darkblue 1px',
+            borderTop: 'solid darkblue 1px',
+            textAlign: 'center',
+            fontSize: 'large',
+            fontWeight: 'lighter',
+            color: 'white'
           }}>
             Located Building
           </th>
           <th style={{
-            borderBottom: 'solid darkblue 1px'
+            borderBottom: 'solid darkblue 1px',
+            borderTop: 'solid darkblue 1px',
+            textAlign: 'center',
+            fontSize: 'large',
+            fontWeight: 'lighter',
+            color: 'white'
           }}>
             Room Type
           </th>
           <th style={{
-            borderBottom: 'solid darkblue 1px'
+            borderBottom: 'solid darkblue 1px',
+            borderTop: 'solid darkblue 1px',
+            textAlign: 'center',
+            fontSize: 'large',
+            fontWeight: 'lighter',
+            color: 'white'
           }}>
             Room Capacity
           </th>
-          <th style={{
-            borderBottom: 'solid darkblue 1px'
-          }}/>
-          <th style={{
-            borderBottom: 'solid darkblue 1px'
-          }}/>
+          <th colSpan={2}
+              style={{
+                borderBottom: 'solid darkblue 1px',
+                borderRight: 'solid darkblue 1px',
+                borderTop: 'solid darkblue 1px'
+              }}/>
           </thead>
           <tbody>
           {
             rooms && rooms.map((room: any) => {
               return (
                 <tr key={room._id}>
-                  <td>{room.roomName}</td>
-                  <td>{room.buildingName}</td>
-                  <td>{room.roomType}</td>
-                  <td>{room.roomCapacity}</td>
-                  <td>
-                    <Button onClick={() => editRoom(room._id)}
+                  <td style={{
+                    textAlign: 'center'
+                  }}>
+                    {room.roomName}
+                  </td>
+                  <td style={{
+                    textAlign: 'center'
+                  }}>
+                    {room.buildingName}
+                  </td>
+                  <td style={{
+                    textAlign: 'center'
+                  }}>
+                    {room.roomType}
+                  </td>
+                  <td style={{
+                    textAlign: 'center'
+                  }}>
+                    {room.roomCapacity}
+                  </td>
+                  <td style={{
+                    textAlign: 'center'
+                  }}>
+                    <button onClick={() => editRoom(room._id)}
                             style={{
                               color: 'darkgreen',
-                              backgroundColor: 'white'
+                              backgroundColor: 'transparent',
+                              border: 'none'
                             }}>
-                      <FaEdit size={25}/>
-                    </Button>
+                      <FaEdit size={20}/>
+                    </button>
                   </td>
-                  <td>
-                    <Button onClick={() => handleShow(room._id)}
+                  <td style={{
+                    textAlign: 'center'
+                  }}>
+                    <button onClick={() => handleShow(room._id)}
                             style={{
                               color: 'indianred',
-                              backgroundColor: 'white'
+                              backgroundColor: 'transparent',
+                              border: 'none'
                             }}>
-                      <FaTrashAlt size={25}/>
-                    </Button>
+                      <FaTrashAlt size={20}/>
+                    </button>
                   </td>
                 </tr>
               )
-            })}
+            })
+          }
           </tbody>
         </Table>
       </div>
@@ -315,7 +374,9 @@ const RoomsList: React.FC = () => {
             marginTop: '7px',
             textAlign: 'center'
           }}>
-            {errors_}
+            {
+              errors_
+            }
           </div>
         )
       }

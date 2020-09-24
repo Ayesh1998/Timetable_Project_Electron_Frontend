@@ -1,139 +1,119 @@
-/* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Form, Row} from 'react-bootstrap';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import {RadioButton, RadioGroup} from 'react-radio-buttons';
-//import CheckboxGroup from 'react-checkbox-group';
 import {Redirect} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+import {useDispatch, useSelector} from 'react-redux';
 import styles from './tags.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-import {setTags} from './tagsSlice';
+import {setEditingTag, setEditingTagId, setEditTag} from './tagsSlice';
 
+let errors_: string = ''
 
-// noinspection DuplicatedCode
 const TagsEdit: React.FC = () => {
   const dispatch = useDispatch();
-  // const value = useSelector();
 
+  const editingTagId = useSelector(
+    (state: {
+      tags: any
+      editingTagId: string
+    }) => state.tags.editingTagId
+  );
 
-  const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>( false );
-  const [error, setError] = useState<string | null>(null);
+  const editingTag = useSelector(
+    (state: {
+      tags: any
+      editingTagId: any
+    }) => state.tags.editingTag
+  );
 
-  const [name, setName] = useState<string>('');
-  const [tagToken, setTagToken] = useState<string>('');
-
-  const [tagsObject, setTagsObject] = useState<any>(null);
+  const [tag, setTag] = useState<{
+    name: string,
+    tagToken: string
+  }>({
+    name: editingTag.name,
+    tagToken: editingTag.tagToken
+  });
+  const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
+  const [id, setId] = useState<string>('');
+  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    setId(editingTagId);
+  }, []);
+
+  const handleSubmit = async () => {
+    console.log(id);
+
+    if (tag.name.trim() === '' && tag.tagToken.trim() === '') {
+      errors_ = 'Please enter a value for the tag name and tag token.'
+      setError(true)
+    } else {
+      if (tag.name.trim() === '') {
+        errors_ = 'Please enter a value for the tag name.'
+        setError(true)
+      } else if (tag.tagToken.trim() === '') {
+        errors_ = 'Please enter a value for the tag token.'
+        setError(true)
+      }
+    }
+
+    const finalObjectWithID = {
+      tags: tag,
+      id: id
+    };
+
+    console.log(finalObjectWithID);
+    if (tag.name.trim() !== '' && tag.tagToken.trim() !== '') {
+      setError(false)
+
       try {
         const response = await fetch(
-          `http://localhost:5000/tags/getTags`,
+          `http://localhost:5000/tags/editTags`,
           {
-            method: 'GET',
+            method: 'PUT',
             headers: {
               'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify(finalObjectWithID)
           }
         );
-
         const responseData = await response.json();
-        setTagsObject(responseData.tags);
-        dispatch(setTags(responseData.tags));
-        console.log(responseData.tags);
-
+        setRenderRedirectTo(true);
+        dispatch(setEditTag(false));
+        dispatch(setEditingTagId(''));
+        dispatch(setEditingTag(null));
         if (!responseData) {
-          // noinspection ExceptionCaughtLocallyJS
           throw new Error(responseData.message);
         }
       } catch (err) {
         console.log(err.message);
       }
-    };
-
-    // noinspection JSIgnoredPromiseFromCall
-    fetchData();
-  }, []);
-
-  const renderRedirectToView = () => {
-    if (tagsObject) {
-      return <Redirect to={routes.GROUPS_ADD}/>;
-      //   props.history.push(loginState.redirectTo);s
-    }
-    return null;
-  };
-
-
-  const handleSubmit = async () => {
-    // console.log("1111111111111111111111111111");
-    // console.log(name);
-    // console.log(tagToken);
-
-
-    const finalObject = {
-      name,
-      tagToken
-    };
-
-    console.log('22222222222222222222222222222222222');
-    console.log(finalObject);
-
-    try {
-      const response = await fetch(
-        `http://localhost:5000/tags/editTags`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(finalObject)
-        }
-      );
-
-      const responseData = await response.json();
-      setRenderRedirectTo(true);
-      // console.log(responseData.userDetails);
-
-      if (!responseData) {
-        // noinspection ExceptionCaughtLocallyJS
-        throw new Error(responseData.message);
-      }
-    } catch (err) {
-      console.log(err.message);
     }
   };
 
   const renderRedirect = () => {
     if (renderRedirectTo) {
-      return <Redirect to={routes.GROUPS_ADD}/>;
-      //   props.history.push(loginState.redirectTo);s
+      return <Redirect to={routes.TAGS_LIST_VIEW}/>;
     }
     return null;
   };
 
-  const handleChangeName = ( e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false)
+    setTag({...tag, name: e.target.value});
   };
 
   const handleChangeTagToken = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTagToken(e.target.value);
+    setError(false)
+    setTag({...tag, tagToken: e.target.value});
   };
-
 
   return (
     <div
       style={{
         backgroundColor: '#37474F',
-        height: '100vh',
-        overflow: 'scroll'
-      }}
-    >
-
+        height: '100vh'
+      }}>
       {renderRedirect()}
       <NavBar/>
       <Row className="text-center mb-5">
@@ -143,7 +123,7 @@ const TagsEdit: React.FC = () => {
           className="p-3"
           style={{backgroundColor: '#343a40', color: '#fff'}}
         >
-          <h3>Add Tag</h3>
+          <h3>Edit Tag</h3>
         </Col>
       </Row>
       <Container
@@ -156,61 +136,75 @@ const TagsEdit: React.FC = () => {
       >
 
 
-          <div>
-            <Row className="mt-3 mb-3 justify-content-md-center">
-              <Col xs={12} md={4} className="mt-auto">
-                <p>Real Name</p>
-              </Col>
-              <Col xs={3} md={3}>
-                <Form className="">
-                  <Form.Group controlId="formBasicEmail">
-
-                      <Form.Control
-                        type="text"
-                        style={{borderWidth: '2.5px'}}
-                        value={name}
-                        onChange={handleChangeName}
-                        placeholder="ex:- Lecture"
-                      />
-
-
-                  </Form.Group>
-                </Form>
-              </Col>
-              <Col xs={3} md={3}/>
-            </Row>
-            <Row className="mt-3 mb-3 justify-content-md-center">
-              <Col xs={12} md={4}>
-                <p>Tag Name</p>
-              </Col>
-              <Col xs={2} md={6}>
+        <div>
+          <Row className="mt-3 mb-3 justify-content-md-center">
+            <Col xs={12} md={4} className="mt-auto">
+              <p>Real Name</p>
+            </Col>
+            <Col xs={3} md={3}>
               <Form className="">
-                  <Form.Group controlId="formBasicEmail">
+                <Form.Group controlId="formBasicEmail">
+
+                  <Form.Control
+                    type="text"
+                    style={{borderWidth: '2.5px'}}
+                    value={tag.name}
+                    onChange={handleChangeName}
+                    placeholder="ex:- Lecture"
+                  />
 
 
-                   <Form.Control
-                        type="text"
-                        style={{borderWidth: '2.5px'}}
-                        value={tagToken}
-                        onChange={handleChangeTagToken}
-                        placeholder="ex:- Lec"
-                      />
-                  </Form.Group>
-                </Form>
-              </Col>
-            </Row>
-            <Row className="mb-2 justify-content-md-center">
-              <Col xs={0} md={9}/>
-              <Col xs={12} md={2}>
-                <Button
-                  style={{width: '160px', fontSize: '1.3em'}}
-                  onClick={handleSubmit}
-                >
-                  Add Tag
-                </Button>
-              </Col>
-            </Row>
-          </div>
+                </Form.Group>
+              </Form>
+            </Col>
+            <Col xs={3} md={3}/>
+          </Row>
+          <Row className="mt-3 mb-3 justify-content-md-center">
+            <Col xs={12} md={4}>
+              <p>Tag Name</p>
+            </Col>
+            <Col xs={3} md={3}>
+              <Form className="">
+                <Form.Group controlId="formBasicEmail">
+
+
+                  <Form.Control
+                    type="text"
+                    style={{borderWidth: '2.5px'}}
+                    value={tag.tagToken}
+                    onChange={handleChangeTagToken}
+                    placeholder="ex:- Lec"
+                  />
+                </Form.Group>
+              </Form>
+            </Col>
+            <Col xs={3} md={3}></Col>
+          </Row>
+          <Row className="mt-3 mb-3 justify-content-md-center">
+            <Col xs={12} md={3}/>
+            <Col xs={3} md={7}>
+              <Button
+                style={{width: '160px', fontSize: '1.3em'}}
+                onClick={handleSubmit}
+              >
+                Edit Tag
+              </Button>
+            </Col>
+            <Col xs={12} md={2}/>
+          </Row>
+          {
+            error && (
+              <div style={{
+                color: 'red',
+                fontSize: '18px',
+                marginTop: '7px',
+                textAlign: 'center'
+              }}>
+                {errors_}
+              </div>
+            )
+          }
+        </div>
 
       </Container>
     </div>

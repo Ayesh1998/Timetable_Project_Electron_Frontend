@@ -9,7 +9,8 @@ import {
   setEditBuilding,
   setEditingBuilding,
   setEditingBuildingId,
-  setExistingBuilding
+  setExistingBuilding,
+  setExistingRoomsForBuilding
 } from './buildings-slice'
 
 let errors_: string = ''
@@ -21,6 +22,13 @@ const BuildingsList: React.FC = () => {
     (state: {
       buildings: any
     }) => state.buildings.buildings
+  )
+
+  const existingRoomsForBuilding = useSelector(
+    (state: {
+      buildings: any
+      existingRoomsForBuilding: boolean
+    }) => state.buildings.existingRoomsForBuilding
   )
 
   const [loading, setLoading] = useState<boolean>(false)
@@ -125,6 +133,7 @@ const BuildingsList: React.FC = () => {
         }
       })
       const responseData = await response.json()
+      await dispatch(setExistingRoomsForBuilding(false))
       await dispatch(setExistingBuilding(false))
       await dispatch(setEditingBuildingId(id))
       await dispatch(setEditingBuilding(responseData))
@@ -146,7 +155,12 @@ const BuildingsList: React.FC = () => {
           'Content-Type': 'application/json'
         }
       })
-      await response.json()
+      const responseData = await response.json()
+      await dispatch(setExistingRoomsForBuilding(false))
+      if (responseData.roomsExist) {
+        errors_ = responseData.message
+        await dispatch(setExistingRoomsForBuilding(true))
+      }
       buildingList = buildingList.filter((building: any) => building._id !== id)
       await dispatch(setBuildings(buildingList))
       await dispatch(setEditBuilding(false))
@@ -169,10 +183,13 @@ const BuildingsList: React.FC = () => {
               <Form.Control type='text'
                             value={building.buildingName}
                             onChange={handleChangeBuildingNameSearch}
-                            placeholder='Search by Building Name'
+                            placeholder='Search by Name'
                             title='Search by building name.'/>
             </Form.Group>
-            <Form.Group controlId='formLocatedCenter'>
+            <Form.Group controlId='formLocatedCenter'
+                        style={{
+                          marginLeft: '3%'
+                        }}>
               <Form.Label>Located Center</Form.Label>
               <Form.Control as='select'
                             value={building.centerName}
@@ -194,7 +211,9 @@ const BuildingsList: React.FC = () => {
           </Form.Row>
         </Form>
       </div>
-      <div>
+      <div style={{
+        marginTop: '4%'
+      }}>
         <Modal show={show}
                onHide={handleClose}
                deleteId={deleteId}>
@@ -204,11 +223,17 @@ const BuildingsList: React.FC = () => {
           <Modal.Body>Are you sure you want to delete this building?</Modal.Body>
           <Modal.Footer>
             <Button variant='success'
-                    onClick={handleClose}>
+                    onClick={handleClose}
+                    style={{
+                      textTransform: 'uppercase'
+                    }}>
               Close
             </Button>
             <Button variant='danger'
-                    onClick={handleDelete}>
+                    onClick={handleDelete}
+                    style={{
+                      textTransform: 'uppercase'
+                    }}>
               Delete
             </Button>
           </Modal.Footer>
@@ -226,33 +251,47 @@ const BuildingsList: React.FC = () => {
           {
             buildings && buildings.map((building: any) => {
               return (
-                <Card key={building._id}>
+                <Card key={building._id}
+                      style={{
+                        minWidth: 'auto',
+                        minHeight: 'min-width'
+                      }}>
                   <Card.Body>
-                    <Card.Title>
+                    <Card.Title className='text-center'
+                                style={{
+                                  fontSize: 'xx-large'
+                                }}>
                       {building.buildingName}
                     </Card.Title>
-                    <Card.Text>
+                    <Card.Text className='text-center'
+                               style={{
+                                 fontSize: 'x-large'
+                               }}>
                       <small className='text-muted'>
                         {building.centerName}
                       </small>
                     </Card.Text>
-                  </Card.Body>
-                  <Card.Footer>
-                    <Row>
-                      <Button onClick={() => editBuilding(building._id)}
+                    <Row style={{
+                      marginTop: '22%'
+                    }}>
+                      <button onClick={() => editBuilding(building._id)}
                               style={{
                                 color: 'darkgreen',
-                                backgroundColor: 'white'
+                                backgroundColor: 'transparent',
+                                border: 'none',
+                                marginLeft: '23%'
                               }}>
                         <FaEdit size={25}/>
-                      </Button>
-                      <Button onClick={() => handleShow(building._id)}
+                      </button>
+                      <button onClick={() => handleShow(building._id)}
                               style={{
                                 color: 'indianred',
-                                backgroundColor: 'white'
+                                backgroundColor: 'transparent',
+                                border: 'none',
+                                marginLeft: '23%'
                               }}>
                         <FaTrashAlt size={25}/>
-                      </Button>
+                      </button>
                       {
                         loading && (
                           <Spinner animation='border'
@@ -263,7 +302,7 @@ const BuildingsList: React.FC = () => {
                         )
                       }
                     </Row>
-                  </Card.Footer>
+                  </Card.Body>
                 </Card>
               )
             })
@@ -271,14 +310,16 @@ const BuildingsList: React.FC = () => {
         </CardColumns>
       </div>
       {
-        errors_ && (
+        errors_ && existingRoomsForBuilding && (
           <div style={{
             color: 'red',
             fontSize: '18px',
             marginTop: '7px',
             textAlign: 'center'
           }}>
-            {errors_}
+            {
+              errors_
+            }
           </div>
         )
       }

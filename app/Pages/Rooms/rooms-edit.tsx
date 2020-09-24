@@ -7,6 +7,11 @@ import {setBuildings, setEditingRoom, setEditingRoomId, setEditRoom, setExisting
 
 let errors_: string = ''
 
+const roomTypes = [
+  'Lecture Hall',
+  'Laboratory'
+]
+
 const RoomsEdit: React.FC = () => {
   const dispatch = useDispatch()
 
@@ -43,7 +48,7 @@ const RoomsEdit: React.FC = () => {
     roomName: string,
     buildingName: string,
     roomType: string,
-    roomCapacity: number | undefined
+    roomCapacity: string
   }>({
     roomName: editingRoom.roomName,
     buildingName: editingRoom.buildingName,
@@ -80,57 +85,84 @@ const RoomsEdit: React.FC = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     setLoading(true)
-    try {
-      await dispatch(setEditRoom(true))
-      const response = await fetch(`${proxy}/rooms/rooms/` + editingRoomId, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(room)
-      })
-      const responseData = await response.json()
-      await dispatch(setExistingRoom(false))
-      if (responseData.exists) {
-        errors_ = responseData.message
-        await dispatch(setExistingRoom(true))
-        await dispatch(setEditRoom(false))
-      } else {
-        roomList = roomList.map((room_: any) => room_ === editingRoomId ? room : room_)
-        await dispatch(setRooms(roomList))
-        await dispatch(setEditRoom(false))
-        await dispatch(setEditingRoomId(''))
-        await dispatch(setEditingRoom(null))
+    await dispatch(setExistingRoom(false))
+    if (room.roomName.trim() === '') {
+      errors_ = 'Please enter a value for the room name.'
+      await dispatch(setExistingRoom(true))
+      setLoading(false)
+    } else if (room.buildingName.trim() === '') {
+      errors_ = 'Please enter a value for the building.'
+      await dispatch(setExistingRoom(true))
+      setLoading(false)
+    } else if (room.roomType.trim() === '') {
+      errors_ = 'Please enter a value for the room type.'
+      await dispatch(setExistingRoom(true))
+      setLoading(false)
+    } else if (String(room.roomCapacity).trim() === '') {
+      errors_ = 'Please enter a value for the room capacity.'
+      await dispatch(setExistingRoom(true))
+      setLoading(false)
+    } else if (isNaN(Number(String(room.roomCapacity).trim()))) {
+      errors_ = 'Please enter a numerical value for the room capacity.'
+      await dispatch(setExistingRoom(true))
+      setLoading(false)
+    }
+    if (room.roomName.trim() !== '' && room.buildingName.trim() !== '' && String(room.roomCapacity).trim() !== ''
+      && room.roomType.trim() !== '' && !isNaN(Number(String(room.roomCapacity).trim()))) {
+      try {
+        await dispatch(setEditRoom(true))
+        const response = await fetch(`${proxy}/rooms/rooms/` + editingRoomId, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(room)
+        })
+        const responseData = await response.json()
+        if (responseData.exists) {
+          errors_ = responseData.message
+          await dispatch(setExistingRoom(true))
+        } else {
+          roomList = roomList.map((room_: any) => room_ === editingRoomId ? room : room_)
+          await dispatch(setRooms(roomList))
+          await dispatch(setEditRoom(false))
+          await dispatch(setEditingRoomId(''))
+          await dispatch(setEditingRoom(null))
+        }
+        setLoading(false)
+      } catch (errors) {
+        errors_ = errors
+        setLoading(false)
+        console.log(errors)
       }
-      setLoading(false)
-    } catch (errors) {
-      errors_ = errors
-      setLoading(false)
-      console.log(errors)
     }
   }
 
   const handleChangeRoomName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
     setRoom({...room, roomName: e.target.value})
+    dispatch(setExistingRoom(false))
     setLoading(false)
   }
 
   const handleChangeBuildingName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
     setRoom({...room, buildingName: e.target.value})
+    dispatch(setExistingRoom(false))
     setLoading(false)
   }
 
   const handleChangeRoomType = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
     setRoom({...room, roomType: e.target.value})
+    dispatch(setExistingRoom(false))
     setLoading(false)
   }
 
   const handleChangeRoomCapacity = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
-    setRoom({...room, roomCapacity: parseInt(e.target.value)})
+    setRoom({...room, roomCapacity: e.target.value})
+    dispatch(setExistingRoom(false))
     setLoading(false)
   }
 
@@ -139,13 +171,21 @@ const RoomsEdit: React.FC = () => {
     await dispatch(setEditRoom(false))
     await dispatch(setEditingRoomId(''))
     await dispatch(setEditingRoom(null))
+    await dispatch(setExistingRoom(false))
     setLoading(false)
   }
 
   return (
-    <div>
+    <div style={{
+      borderRadius: '8px',
+      padding: '3% 9% 3% 9%',
+      border: '2px solid #007bff',
+      maxWidth: 'fit-content'
+    }}>
       <Form>
-        <Form.Row>
+        <Form.Row style={{
+          marginTop: '5%'
+        }}>
           <Form.Group controlId='formRoomName'>
             <Form.Label>Room Name</Form.Label>
             <Form.Control type='text'
@@ -154,7 +194,8 @@ const RoomsEdit: React.FC = () => {
                           placeholder='Enter Room Name'
                           pattern='[A-Za-z]{2,32}'
                           title='Please enter a valid room name.'
-                          required/>
+                          required
+                          size='lg'/>
           </Form.Group>
         </Form.Row>
         <Form.Row>
@@ -164,7 +205,8 @@ const RoomsEdit: React.FC = () => {
                           value={room.buildingName}
                           onChange={handleChangeBuildingName}
                           title='Please select the located building.'
-                          required>
+                          required
+                          size='lg'>
               <option value="">Select Located Building</option>
               {
                 buildings && buildings.map((building: any) => {
@@ -185,10 +227,19 @@ const RoomsEdit: React.FC = () => {
             <Form.Control as='select'
                           value={room.roomType}
                           onChange={handleChangeRoomType}
-                          title='Please select the room type.'>
+                          title='Please select the room type.'
+                          size='lg'>
               <option value="">Select Room Type</option>
-              <option value="Lecture Hall">Lecture Hall</option>
-              <option value="Laboratory">Laboratory</option>
+              {
+                roomTypes.map((roomType: any) => {
+                  return (
+                    <option key={roomType}
+                            value={roomType}>
+                      {roomType}
+                    </option>
+                  )
+                })
+              }
             </Form.Control>
           </Form.Group>
         </Form.Row>
@@ -201,7 +252,8 @@ const RoomsEdit: React.FC = () => {
                           placeholder='Enter Room Capacity'
                           pattern='[0-9]'
                           title='Please enter a valid room capacity.'
-                          required/>
+                          required
+                          size='lg'/>
           </Form.Group>
         </Form.Row>
         {
@@ -213,21 +265,39 @@ const RoomsEdit: React.FC = () => {
                      }}/>
           )
         }
-        <Form.Row>
+        <Form.Row style={{
+          marginTop: '10%'
+        }}>
           <Form.Group>
             <Button variant='primary'
                     type='button'
-                    onClick={handleBack}>
-              <FaArrowAltCircleLeft/>
-              BACK
+                    onClick={handleBack}
+                    style={{
+                      marginLeft: '30%',
+                      fontSize: 'large',
+                      textTransform: 'uppercase'
+                    }}>
+              <FaArrowAltCircleLeft style={{
+                marginRight: '4px',
+                marginBottom: '-2px'
+              }}/>
+              Back
             </Button>
           </Form.Group>
           <Form.Group>
             <Button variant='success'
                     type='submit'
-                    onClick={handleSubmit}>
-              <FaEdit/>
-              EDIT ROOM
+                    onClick={handleSubmit}
+                    style={{
+                      marginLeft: '60%',
+                      fontSize: 'large',
+                      textTransform: 'uppercase'
+                    }}>
+              <FaEdit style={{
+                marginRight: '4px',
+                marginBottom: '-2px'
+              }}/>
+              Edit
             </Button>
           </Form.Group>
         </Form.Row>
@@ -239,7 +309,9 @@ const RoomsEdit: React.FC = () => {
               marginTop: '7px',
               textAlign: 'center'
             }}>
-              {errors_}
+              {
+                errors_
+              }
             </div>
           )
         }

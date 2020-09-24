@@ -1,9 +1,7 @@
-import {Action, configureStore, getDefaultMiddleware} from '@reduxjs/toolkit'
+import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit'
 import {createHashHistory} from 'history'
 import {routerMiddleware} from 'connected-react-router'
 import {createLogger} from 'redux-logger'
-import {ThunkAction} from 'redux-thunk'
-// eslint-disable-next-line import/no-cycle
 import createRootReducer from './rootReducer'
 
 export const history = createHashHistory()
@@ -27,22 +25,18 @@ if (shouldIncludeLogger) {
 }
 
 export const configuredStore = (initialState?: RootState) => {
-  // Create Store
   const store = configureStore({
     reducer: rootReducer,
     middleware,
     preloadedState: initialState
   })
-
   if (process.env.NODE_ENV === 'development' && module.hot) {
     module.hot.accept(
       './rootReducer',
-      // eslint-disable-next-line global-require
       () => store.replaceReducer(require('./rootReducer').default)
     )
   }
   return store
 }
+
 export type Store = ReturnType<typeof configuredStore>
-// noinspection JSUnusedGlobalSymbols
-export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>

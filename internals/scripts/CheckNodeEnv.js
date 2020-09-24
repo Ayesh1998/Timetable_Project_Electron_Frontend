@@ -4,7 +4,6 @@ export default function CheckNodeEnv(expectedEnv) {
   if (!expectedEnv) {
     throw new Error('"expectedEnv" not set')
   }
-
   if (process.env.NODE_ENV !== expectedEnv) {
     console.log(
       chalk.whiteBright.bgRed.bold(

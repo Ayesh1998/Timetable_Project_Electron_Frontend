@@ -3,7 +3,7 @@ import {createSlice} from '@reduxjs/toolkit'
 const setSubjectsStatisticsSlice = createSlice({
   name: 'subjectsStatistics',
   initialState: {
-    subjectsTotalCountStatistics: [],
+    subjectsTotalCountStatistics: null,
     subjectsOfferedYearStatistics: [],
     subjectsOfferedYearSemesterStatistics: []
   },
