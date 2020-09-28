@@ -154,7 +154,7 @@ const NavBar: React.FC = () => {
           </NavLink>
           <NavLink to={routes.ADD_ROOMS}>
             <Nav.Link href='#add-rooms'>
-              Add Rooms
+              Add Preferred Rooms
             </Nav.Link>
           </NavLink>
           <NavLink to={routes.ASSIGN_ROOMS_FOR_SESSIONS}>
