@@ -35,6 +35,8 @@ const SubjectsAdd: React.FC = () => {
   const [numberOfEvaluationHours, setNumberOfEvaluationHours] = useState<string>('');
 
   const [subjectsObject, setSubjectsObject] = useState<any>(null);
+  const [label, setLabel] = useState<string>('');
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -111,7 +113,8 @@ const SubjectsAdd: React.FC = () => {
       numberOfLectureHours,
       numberOfTutorialHours,
       numberOfLabHours,
-      numberOfEvaluationHours
+      numberOfEvaluationHours,
+      label
     };
 
     console.log('22222222222222222222222222222222222');
@@ -180,6 +183,12 @@ const SubjectsAdd: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     setNumberOfEvaluationHours(e.target.value);
+
+    const subject = subjectName;
+    const code = subjectCode;
+
+    var id = subject + '(' + code + ')';
+    setLabel(id);
   };
 
   return (
