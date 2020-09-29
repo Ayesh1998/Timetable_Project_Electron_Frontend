@@ -31,6 +31,7 @@
   "PROGRAMS_LIST_VIEW": "/programme",
   "PROGRAMS_ADD": "/addProgramme",
   "PROGRAMS_EDIT": "/editProgramme/:id",
+  "CONSECUTIVE_SESSIONS":"/addConsecutiveSessions",
   "BUILDINGS": "/buildings",
   "ROOMS": "/rooms",
   "STATISTICS_OF_LECTURERS": "/statistics-of-lecturers",

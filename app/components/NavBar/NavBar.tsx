@@ -112,6 +112,52 @@ const NavBar: React.FC = () => {
               </NavLink>
             </NavDropdown.Item>
           </NavDropdown>
+          <NavDropdown title='Sessions'
+                       id='collasible-nav-dropdown'>
+            <NavDropdown.Item href='#batches/consecutiveSessions'>
+              <NavLink to={routes.CONSECUTIVE_SESSIONS}>
+                <Nav.Link href='#consecutiveSessions'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Add Consecutive Sessions
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+            <NavDropdown.Divider/>
+            <NavDropdown.Item href='#batches/programmes'>
+              <NavLink to={routes.PROGRAMS_LIST_VIEW}>
+                <Nav.Link href='#programmes'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Programmes
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+            <NavDropdown.Divider/>
+            <NavDropdown.Item href='#batches/groups'>
+              <NavLink to={routes.GROUPNUMS_LIST_VIEW}>
+                <Nav.Link href='#groups'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Groups
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+            <NavDropdown.Divider/>
+            <NavDropdown.Item href='#batches/subgroups'>
+              <NavLink to={routes.SUBGROUPNUMS_LIST_VIEW}>
+                <Nav.Link href='#subgroups'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Sub Groups
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+          </NavDropdown>
           <NavDropdown title='Statistics'
                        id='collasible-nav-dropdown'>
             <NavDropdown.Item href='#statistics/statistics-of-lecturers'>

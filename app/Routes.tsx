@@ -33,6 +33,7 @@ import SubGroupNumsEdit from './Pages/SubGroupNum/subGroupNumsEdit'
 import ProgramsListView from './Pages/Programme/programsListView'
 import ProgramsAdd from './Pages/Programme/programsAdd'
 import ProgramsEdit from './Pages/Programme/programsEdit'
+import ConsecutiveSessionsAdd from './Pages/ConsecutiveSession/consecutiveSessionsAdd'
 import BuildingsPage from './Pages/Buildings/buildings-page'
 import RoomsPage from './Pages/Rooms/rooms-page'
 import LecturersStatisticsPage from './Pages/LecturersStatistics/lecturers-statistics-page'
@@ -118,6 +119,8 @@ export default function Routes() {
                component={ProgramsEdit}/>
         <Route path={routes.PROGRAMS_LIST_VIEW}
                component={ProgramsListView}/>
+        <Route path={routes.CONSECUTIVE_SESSIONS}
+               component={ConsecutiveSessionsAdd}/>
         <Route path={routes.BUILDINGS}
                component={BuildingsPage}/>
         <Route path={routes.ROOMS}
