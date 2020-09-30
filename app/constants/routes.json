@@ -38,5 +38,6 @@
   "STATISTICS_OF_STUDENTS": "/statistics-of-students",
   "ROOMS_UNAVAILABILITY": "/rooms-unavailability",
   "ADD_ROOMS": "/add-rooms",
-  "ASSIGN_ROOMS_FOR_SESSIONS": "/assign-rooms-for-sessions"
+  "ASSIGN_ROOMS_FOR_SESSIONS": "/assign-rooms-for-sessions",
+  "GENERATE_TIMETABLES": "/generate-timetables"
 }

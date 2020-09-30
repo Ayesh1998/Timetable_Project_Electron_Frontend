@@ -41,6 +41,7 @@ import SubjectsStatisticsPage from './Pages/SubjectsStatistics/subjects-statisti
 import RoomsUnavailabilityPage from './Pages/RoomsUnavailability/rooms-unavailability-page'
 import AddRoomsPage from './Pages/AddRooms/add-rooms-page'
 import AssignRoomsForSessionsPage from './Pages/AssignRoomsForSessions/assign-rooms-for-sessions-page'
+import TimetableScreen from './Pages/TimetableGenerate/TimetableScreen';
 
 const LazyCounterPage = React.lazy(() =>
   import('./containers/CounterPage')
@@ -56,6 +57,7 @@ export default function Routes() {
   return (
     <App>
       <Switch>
+
         <Route path={routes.COUNTER}
                component={CounterPage}/>
         <Route path={routes.WORKING_DAYS_AND_HOURS_VIEW}
@@ -134,6 +136,8 @@ export default function Routes() {
                component={AddRoomsPage}/>
         <Route path={routes.ASSIGN_ROOMS_FOR_SESSIONS}
                component={AssignRoomsForSessionsPage}/>
+        <Route path={routes.GENERATE_TIMETABLES}
+               component={TimetableScreen}/>
         <Route path={routes.HOME}
                component={HomePage}/>
       </Switch>
