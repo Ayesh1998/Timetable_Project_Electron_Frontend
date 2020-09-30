@@ -125,13 +125,13 @@ const NavBar: React.FC = () => {
               </NavLink>
             </NavDropdown.Item>
             <NavDropdown.Divider/>
-            <NavDropdown.Item href='#batches/programmes'>
-              <NavLink to={routes.PROGRAMS_LIST_VIEW}>
-                <Nav.Link href='#programmes'
+            <NavDropdown.Item href='#batches/notavailableTimes'>
+              <NavLink to={routes.NOT_AVAILABLE_TIMES}>
+                <Nav.Link href='#notavailableTimes'
                           style={{
                             color: 'black'
                           }}>
-                  Programmes
+                  Allocate Not Available Times
                 </Nav.Link>
               </NavLink>
             </NavDropdown.Item>

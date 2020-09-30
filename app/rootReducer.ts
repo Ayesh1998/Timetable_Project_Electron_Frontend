@@ -19,6 +19,7 @@ import roomsUnavailabilityReducer from './Pages/RoomsUnavailability/rooms-unavai
 import addRoomsReducer from './Pages/AddRooms/add-rooms-slice'
 import assignRoomsForSessionsReducer from './Pages/AssignRoomsForSessions/assign-rooms-for-sessions-slice'
 import consecutiveSessionsReducer from './Pages/ConsecutiveSession/consecutiveSessionsSlice'
+import notAvailablesReducer from './Pages/NotAvailable/notAvailablesSlice'
 
 export default function createRootReducer(history: History) {
   return combineReducers({
@@ -41,5 +42,6 @@ export default function createRootReducer(history: History) {
     addRooms: addRoomsReducer,
     assignRoomsForSessions: assignRoomsForSessionsReducer,
     consecutiveSessions: consecutiveSessionsReducer,
+    notAvailables: notAvailablesReducer
   })
 }
