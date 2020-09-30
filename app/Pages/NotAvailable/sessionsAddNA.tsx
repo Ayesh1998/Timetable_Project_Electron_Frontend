@@ -372,7 +372,7 @@ const SessionsAddNA: React.FC = () => {
         <Modal.Header closeButton>
           <Modal.Title>Warning!</Modal.Title>
         </Modal.Header>
-        <Modal.Body>This session already has not available time. If you want you can replace that or keep it as it is.</Modal.Body>
+        <Modal.Body>This session already has a not available time. If you want you can replace that or keep it as it is.</Modal.Body>
         <Modal.Footer>
           <Button variant='danger'
                   onClick={handleClose}
