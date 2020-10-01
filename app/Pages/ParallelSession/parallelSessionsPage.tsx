@@ -21,9 +21,13 @@ import {
 import {proxy} from '../../conf';
 import TwoSessionAdd from './twoSessionAdd.tsx';
 import ThreeSessionAdd from './threeSessionAdd.tsx';
+import { selectCount } from '../WorkingDaysHours/workingDaysHoursSlice';
 
-const categoryList = ['(A,B,C)', '(E,F)', '(H,J)'];
+//const categoryList = ['(A,B,C)', '(E,F)', '(H,J)'];
+
+
 const weekends = ['Saturday', 'Sunday'];
+var catCount;
 
 const ParallelSessionsPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -46,6 +50,7 @@ const ParallelSessionsPage: React.FC = () => {
   const [session, setSession] =useState<boolean | null>(false);
   const [two, setTwo] =useState<boolean | null>(false);
   const [three, setThree] =useState<boolean | null>(false);
+  const [categoryList, setCategoryList1] = useState<any>([]);
 
   const [days, setDays] = useState<string[] | null>(null);
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(
@@ -67,59 +72,94 @@ const ParallelSessionsPage: React.FC = () => {
     hours: '00',
     minutes: '00'
   });
-  const [subject, setSubject] = useState<any>(null);
-  const [id1, setId1] = useState<string>('');
+  const [ccount, setCCount] = useState<any>(null);
+  const [category, setCategory] = useState<string>('');
+  const categoryList1:{any} [] =[];
 
-  // useEffect(() => {   //----------1.meke distinct method  ekata cl karala  ena category tika ganna
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         `${proxy}subjects/subjects`,
-  //         {
-  //           method: 'GET',
-  //           headers: {
-  //             'Content-Type': 'application/json'
-  //           }
-  //         }
-  //       );
 
-  //       const responseData = await response.json();
-  //       setSubject(responseData);
-  //       set
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  //       console.log(responseData.workingDaysAndHours);
+  const fetchData = async () => {
 
-  //       if (!responseData) {
-  //         // noinspection ExceptionCaughtLocallyJS
-  //         throw new Error(responseData.message);
-  //       }
-  //     } catch (err) {
-  //       console.log(err.message);
-  //     }
-  //   };
+    try {
+      const response = await fetch(
+        `${proxy}/parallelSessions/getCategories`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
 
-  //   // noinspection JSIgnoredPromiseFromCall
-  //   fetchData();
-  // }, []);
+      const responseData = await response.json();
 
+      console.log(responseData.category);
+
+
+     setCategoryList1(responseData.category);
+
+
+
+
+      if (!responseData) {
+        // noinspection ExceptionCaughtLocallyJS
+        throw new Error(responseData.message);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   const handleCategory = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setId1(e.target.value);
+    setCategory(e.target.value);
+
+
+    var catid = e.target.value;
+    console.log(catid);
     //-------------------2.category eka find ekakata yawala ena data walin category count eka alla ganna
 
-    var count = 2;
-    if(count === 2){
-      setTwo(true);
-      setThree(false);
-    }
-    if(count === 3){
-      setTwo(false);
-      setThree(true);
-    }
+    getCategoryCount(catid);
+
+
 
   };
+
+  const getCategoryCount = async (cid) => {
+    console.log(category)
+    try {
+
+      const response = await fetch(`${proxy}/parallelSessions/getCategoryCount`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"category":cid})
+      })
+      const responseData = await response.json()
+     console.log(responseData);
+
+     var count = responseData.categoryCount;
+     if(count === 2){
+       setTwo(true);
+       setThree(false);
+     }
+     if(count === 3){
+       setTwo(false);
+       setThree(true);
+     }
+
+    } catch (errors) {
+
+
+      console.log(errors)
+    }
+  }
+
 
   // const handleSubmit = async () => {
   //   const workingDaysFinal: { day: any }[] = [];
@@ -242,7 +282,7 @@ const ParallelSessionsPage: React.FC = () => {
                     as="select"
                     defaultValue="Choose..."
                     style={{borderWidth: '2.5px'}}
-                    value={id1}
+                    value={category}
                     onChange={handleCategory}
                   >
                     <option>Select</option>
