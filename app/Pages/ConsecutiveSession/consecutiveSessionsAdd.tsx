@@ -222,6 +222,7 @@ const ConsecutiveSessionsAdd: React.FC = () => {
     setError(false)
 
     setId1(e.target.value);
+    setConsecutiveId1(false);
     getSession1(e.target.value);
 
 
@@ -231,6 +232,7 @@ const ConsecutiveSessionsAdd: React.FC = () => {
 
     setError(false)
     setId2(e.target.value);
+    setConsecutiveId2(false);
     getSession2(e.target.value);
 
 

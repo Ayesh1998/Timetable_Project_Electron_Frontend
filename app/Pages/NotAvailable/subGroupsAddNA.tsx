@@ -289,6 +289,7 @@ const SubGroupsAddNA: React.FC = () => {
     setError(false)
 
     setId1(e.target.value);
+    setExistUnavaialability(true);
     getGroup1(e.target.value);
 
 
