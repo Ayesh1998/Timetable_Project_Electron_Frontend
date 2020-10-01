@@ -289,6 +289,7 @@ const SessionsAddNA: React.FC = () => {
     setError(false)
 
     setId1(e.target.value);
+    setExistUnavaialability(false);
     getSession1(e.target.value);
 
 

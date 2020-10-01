@@ -23,8 +23,7 @@ import SessionsAddNA from './sessionsAddNA.tsx';
 import LecturersAddNA from './lecturersAddNA.tsx';
 import GroupsAddNA from './groupsAddNA.tsx';
 import SubGroupsAddNA from './subGroupsAddNA.tsx';
-const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-const weekends = ['Saturday', 'Sunday'];
+
 
 const NotAvailablesPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -48,66 +47,12 @@ const NotAvailablesPage: React.FC = () => {
   const [group, setGroup] =useState<boolean | null>(false);
   const [subGroup, setSubGroup] =useState<boolean | null>(false);
 
-  const [days, setDays] = useState<string[] | null>(null);
+
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(
     false
   );
-  const [error, setError] = useState<string | null>(null);
-  const [weekType, setWeekType] = useState<string | null>(null);
-  const [noOfWorkingDays, setNoOfWorkingDays] = useState<any>(null);
-  const [noOfWorkingDaysDropDown, setNoOfWorkingDaysDropDown] = useState<number | null>(null);
-  const [daysSelected, setDaysSelected] = useState<any>([]);
-  const [timeSlots, setTimeSlots] = useState<any>([
-    'One Hour',
-    'Thirty Minutes'
-  ]);
-  const [workingTimePerDay, setWorkingTimePerDay] = useState<{
-    hours: string;
-    minutes: string;
-  }>({
-    hours: '00',
-    minutes: '00'
-  });
-  const [workingDaysAndHoursObject, setWorkingDaysAndHoursObject] = useState<any>(null);
 
-  useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await fetch(
-    //       `http://localhost:5000/workingDaysHours/getWorkingDaysAndHours`,
-    //       {
-    //         method: 'GET',
-    //         headers: {
-    //           'Content-Type': 'application/json'
-    //         }
-    //       }
-    //     );
 
-    //     const responseData = await response.json();
-    //     setWorkingDaysAndHoursObject(responseData.workingDaysAndHours[0]);
-    //     dispatch(setWorkingDaysHours(responseData.workingDaysAndHours[0]));
-    //     console.log(responseData.workingDaysAndHours);
-
-    //     if (!responseData) {
-    //       // noinspection ExceptionCaughtLocallyJS
-    //       throw new Error(responseData.message);
-    //     }
-    //   } catch (err) {
-    //     console.log(err.message);
-    //   }
-    // };
-
-    // // noinspection JSIgnoredPromiseFromCall
-    // fetchData();
-  }, []);
-
-  const renderRedirectToView = () => {
-    if (workingDaysAndHoursObject) {
-      return <Redirect to={routes.WORKING_DAYS_AND_HOURS_VIEW}/>;
-      //   props.history.push(loginState.redirectTo);s
-    }
-    return null;
-  };
 
   const handleRole = (value: string) => {
     console.log("handle role eka ahule")
@@ -142,76 +87,6 @@ const NotAvailablesPage: React.FC = () => {
 
   };
 
-  const handleSubmit = async () => {
-    const workingDaysFinal: { day: any }[] = [];
-    const finalTimeSlots: { type: any }[] = [];
-    daysSelected.map((day: any) => {
-      const tempObj = {day};
-      workingDaysFinal.push(tempObj);
-      return workingDaysFinal;
-    });
-
-    timeSlots.map((type: any) => {
-      const tempObj = {type};
-      finalTimeSlots.push(tempObj);
-      return finalTimeSlots;
-    });
-
-    const finalObject = {
-      numberOfWorkingDays: noOfWorkingDays,
-      workingDays: workingDaysFinal,
-      workingTimePerDay,
-      weekType,
-      timeSlots: finalTimeSlots
-    };
-    // eslint-disable-next-line radix
-    if (parseInt(noOfWorkingDays) !== daysSelected.length) {
-      setError('!! No of days in the week and days selected are not equal !!');
-      return;
-    }
-    if (parseInt(workingTimePerDay.hours) > 24) {
-      setError('!! No of hours should be equal or less than 24 !!');
-      return;
-    }
-    if (workingTimePerDay.hours === '00') {
-      setError('!! Please enter no of hours for working time per day !!');
-      return;
-    }
-    if (parseInt(workingTimePerDay.minutes) > 60) {
-      setError('!! No of minutes should be equal or less than 60 !!');
-      return;
-    }
-    if (timeSlots.length === 0) {
-      setError('!! Please select a time slot !!');
-      return;
-    }
-
-    setError(null);
-
-    try {
-      const response = await fetch(
-        `http://localhost:5000/workingDaysHours/create`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(finalObject)
-        }
-      );
-
-      const responseData = await response.json();
-      setRenderRedirectTo(true);
-      // console.log(responseData.userDetails);
-
-      if (!responseData) {
-        // noinspection ExceptionCaughtLocallyJS
-        throw new Error(responseData.message);
-      }
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
 
   const renderRedirect = () => {
     if (renderRedirectTo) {
@@ -221,19 +96,6 @@ const NotAvailablesPage: React.FC = () => {
     return null;
   };
 
-  const handleChangeNoOfWorkingDays = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setNoOfWorkingDays(e.target.value);
-  };
-
-  const handleChangeHour = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWorkingTimePerDay({...workingTimePerDay, hours: e.target.value});
-  };
-
-  const handleChangeMinutes = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWorkingTimePerDay({...workingTimePerDay, minutes: e.target.value});
-  };
 
   return (
     <div
@@ -242,7 +104,7 @@ const NotAvailablesPage: React.FC = () => {
         height: '100vh'
       }}
     >
-      {renderRedirectToView()}
+
       {renderRedirect()}
       <NavBar/>
       <Row className="text-center mb-5">

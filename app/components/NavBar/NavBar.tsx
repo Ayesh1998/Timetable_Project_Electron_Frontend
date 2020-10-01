@@ -142,18 +142,18 @@ const NavBar: React.FC = () => {
                           style={{
                             color: 'black'
                           }}>
-                  Groups
+                  Add
                 </Nav.Link>
               </NavLink>
             </NavDropdown.Item>
             <NavDropdown.Divider/>
-            <NavDropdown.Item href='#batches/subgroups'>
-              <NavLink to={routes.SUBGROUPNUMS_LIST_VIEW}>
-                <Nav.Link href='#subgroups'
+            <NavDropdown.Item href='#batches/parallelSessions'>
+              <NavLink to={routes.PARALLEL_SESSIONS}>
+                <Nav.Link href='#parallelSessions'
                           style={{
                             color: 'black'
                           }}>
-                  Sub Groups
+                  Add Parallel Session
                 </Nav.Link>
               </NavLink>
             </NavDropdown.Item>

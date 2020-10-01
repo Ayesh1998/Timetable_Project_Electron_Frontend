@@ -35,6 +35,7 @@ import ProgramsAdd from './Pages/Programme/programsAdd'
 import ProgramsEdit from './Pages/Programme/programsEdit'
 import ConsecutiveSessionsAdd from './Pages/ConsecutiveSession/consecutiveSessionsAdd'
 import NotAvailablesPage from './Pages/NotAvailable/notAvailablesPage'
+import ParallelSessionsPage from './Pages/ParallelSession/parallelSessionsPage'
 import BuildingsPage from './Pages/Buildings/buildings-page'
 import RoomsPage from './Pages/Rooms/rooms-page'
 import LecturersStatisticsPage from './Pages/LecturersStatistics/lecturers-statistics-page'
@@ -124,6 +125,8 @@ export default function Routes() {
                component={ConsecutiveSessionsAdd}/>
         <Route path={routes.NOT_AVAILABLE_TIMES}
                component={NotAvailablesPage}/>
+       <Route path={routes.PARALLEL_SESSIONS}
+               component={ParallelSessionsPage}/>
         <Route path={routes.BUILDINGS}
                component={BuildingsPage}/>
         <Route path={routes.ROOMS}
