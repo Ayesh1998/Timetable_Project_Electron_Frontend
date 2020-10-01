@@ -10,6 +10,8 @@
   "SUBJECTS_ADD": "/addSubject",
   "SUBJECTS_EDIT": "/editSubject/:id",
   "SUBJECTS_LIST_VIEW": "/listSubjects",
+  "SESSIONS_ADD": "/addSessions",
+  "SESSIONS_LIST": "/listSessions",
   "GROUPS_LIST_VIEW": "/listGroup",
   "GROUPS_LIST_VIEW_EDIT": "/listGroupEdit",
   "GROUPS_ADD": "/addGroup",
