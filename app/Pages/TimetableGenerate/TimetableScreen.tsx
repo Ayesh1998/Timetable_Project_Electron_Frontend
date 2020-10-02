@@ -16,9 +16,17 @@ const TimetableScreen: React.FC = () => {
   ];
 
   const lecturerOptions = [
-    { value: 'Kodagoda', label: 'Kodagoda' },
-    { value: 'Room', label: 'Room' },
-    { value: 'Lecturer', label: 'Lecturer' }
+    { value: 'Janith Gamage', label: 'Janith Gamage' },
+    { value: 'Roshan Gamage', label: 'Roshan Gamage' },
+    { value: 'Kavindu Gamage', label: 'Kavindu Gamage' },
+    { value: 'Janaka Gamage', label: 'Janaka Gamage' },
+    { value: 'Kasun Gamage', label: 'Kasun Gamage' },
+    { value: 'Sasindu Gamage', label: 'Sasindu Gamage' },
+    { value: 'Pubudu Gamage', label: 'Pubudu Gamagee' },
+    { value: 'Kaveesha Gamage', label: 'Kaveesha Gamage' },
+    { value: 'Mahela Gamage', label: 'Mahela Gamagee' },
+    { value: 'Pasan Silva', label: 'Pasan Silva' },
+    { value: 'Wimal Silva', label: 'Wimal Silva' },
   ];
 
   const buildingOptions = [
@@ -37,13 +45,22 @@ const TimetableScreen: React.FC = () => {
   const groupOptions = [
     { value: '01', label: '01' },
     { value: '02', label: '02' },
-    { value: '03', label: '03' }
+    { value: '03', label: '03' },
+    { value: '04', label: '04' },
+    { value: '05', label: '05' },
+    { value: '06', label: '06' },
+    { value: '07', label: '07' },
+    { value: '08', label: '08' },
+    { value: '09', label: '09' },
+    { value: '10', label: '10' },
   ];
 
   const degreeOptions = [
-    { value: 'IT', label: 'IT' },
-    { value: 'SE', label: 'SE' },
-    { value: 'CS', label: 'CS' }
+    { value: 'IT', label: 'Information Technology' },
+    { value: 'SE', label: 'Software Engineering' },
+    { value: 'CS', label: 'Computer Science' },
+    { value: 'DS', label: 'Data Science' },
+    { value: 'CSN', label: 'Computer System Network' },
   ];
 
   const semesterOptions = [
@@ -53,8 +70,17 @@ const TimetableScreen: React.FC = () => {
 
   const roomOptions = [
     { value: 'B405-Pclab', label: 'B405-Pclab' },
-    { value: 'Room', label: 'Room' },
-    { value: 'Lecturer', label: 'Lecturer' }
+    { value: 'Mini Auditorium', label: 'Mini Auditorium' },
+    { value: 'N3E', label: 'N3E' },
+    { value: 'E301', label: 'E301' },
+    { value: 'A502', label: 'A502' },
+    { value: 'A501', label: 'A501' },
+    { value: 'N3D', label: 'N3D' },
+    { value: 'N3C', label: 'N3C' },
+    { value: 'Auditorium', label: 'Auditorium' },
+    { value: 'A301', label: 'A301' },
+    { value: 'A302', label: 'A302' },
+    { value: 'D301', label: 'D301' },
   ];
 
   const [isFilters, setIsFilters] = useState(false);
