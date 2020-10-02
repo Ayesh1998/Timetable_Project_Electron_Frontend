@@ -17,6 +17,7 @@ import studentsStatisticsReducer from './Pages/StudentsStatistics/students-stati
 import subjectsStatisticsReducer from './Pages/SubjectsStatistics/subjects-statistics-slice'
 import roomsUnavailabilityReducer from './Pages/RoomsUnavailability/rooms-unavailability-slice'
 import addRoomsReducer from './Pages/AddRooms/add-rooms-slice'
+import sessionsReducer from './Pages/Sessions/sessionsSlice'
 import assignRoomsForSessionsReducer from './Pages/AssignRoomsForSessions/assign-rooms-for-sessions-slice'
 import consecutiveSessionsReducer from './Pages/ConsecutiveSession/consecutiveSessionsSlice'
 import notAvailablesReducer from './Pages/NotAvailable/notAvailablesSlice'
@@ -46,6 +47,7 @@ export default function createRootReducer(history: History) {
     consecutiveSessions: consecutiveSessionsReducer,
     notAvailables: notAvailablesReducer,
     parallelSessions: parallelSessionsReducer,
-    parallelCategorys: parallelCategorysReducer
+    parallelCategorys: parallelCategorysReducer,
+    sessions: sessionsReducer
   })
 }
