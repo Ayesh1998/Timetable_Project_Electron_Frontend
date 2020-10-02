@@ -9,12 +9,13 @@ type TimetableGeneratorProps = {
   year: string | null;
   group: string | null;
   lecturer: string | null;
+  room: string | null;
   isGenerate: boolean | null;
 };
 
 const TimetableGenerator: React.FC<TimetableGeneratorProps> = (props) => {
 
-  const { group, year, semester, degree, lecturer, isGenerate } = props;
+  const { group, year, semester, degree, lecturer, isGenerate, room } = props;
   const [columnsNo, setColumnsNo] = useState([1, 2, 3, 4, 5]);
   const [rowsNo, setRowsNo] = useState([]);
   const [startTime, setStartTime] = useState('08:30');
@@ -242,16 +243,406 @@ const TimetableGenerator: React.FC<TimetableGeneratorProps> = (props) => {
 
   };
 
+  const getSessionForStudents = (sessions, year, group, semester, startTime, degree) => {
+    console.log(group);
+    console.log(degree);
+
+    const sessinsForStudents = sessions.filter((data) => {
+      const regex1 = /^([^.]+)/g;
+      const regex2 = /([^.]+(?=\())/g;
+      const regex3 = /\.([^.]*)./g;
+      const regex4 = /([^(]+(?=\)))/g;
+
+      const year1 = data.groupRef.match(regex1);
+      const group1 = data.groupRef.match(regex2);
+      const sem = data.groupRef.match(regex3);
+      const degree1 = data.groupRef.match(regex4);
+      console.log(degree1);
+      console.log(group1);
+
+      const semFinal = sem[0].split('.').join('');
+
+      return ((year1[0] === year) && (group1[0] === group) && (semFinal === semester) && (degree1[0] === degree));
+    });
+
+    console.log(sessinsForStudents);
+
+    const sessionsForMonday = sessinsForStudents.filter((data) => data.day === 'Monday');
+    const sessionsForTuesday = sessinsForStudents.filter((data) => data.day === 'Tuesday');
+    const sessionsForWednesday = sessinsForStudents.filter((data) => data.day === 'Wednesday');
+    const sessionsForThursday = sessinsForStudents.filter((data) => data.day === 'Thursday');
+    const sessionsForFriday = sessinsForStudents.filter((data) => data.day === 'Friday');
+    let mondaySessionsFinal = [];
+
+    const resMonday = [...Array(generateNoOfTimeSlots(60, '08:30:00', '17:30:00'))].map((_, i) => {
+
+      const regex1 = /^([^:]+)/g;
+      const regex2 = /[^:]+$/g;
+      const hours = startTime.match(regex1);
+      const minutes = startTime.match(regex2);
+      let increasingHours = 0;
+      if (timeSlotTime === '60') {
+        if (!hours) {
+          return;
+        }
+        // console.log(i);
+        increasingHours = parseInt(hours[0]) + (i);
+      }
+
+      const sessions1 = sessionsForMonday.filter((data) => {
+        const hoursData = data.startTime.match(regex1);
+        // console.log(hoursData);
+        // console.log(increasingHours);
+        const minutesData = data.startTime.match(regex2);
+        return (parseInt(hoursData[0]) === increasingHours);
+      });
+
+      // console.log(sessions1);
+      return (sessions1);
+    });
+
+    const resTuesday = [...Array(generateNoOfTimeSlots(60, '08:30:00', '17:30:00'))].map((_, i) => {
+
+      const regex1 = /^([^:]+)/g;
+      const regex2 = /[^:]+$/g;
+      const hours = startTime.match(regex1);
+      const minutes = startTime.match(regex2);
+      let increasingHours = 0;
+      if (timeSlotTime === '60') {
+        if (!hours) {
+          return;
+        }
+        // console.log(i);
+        increasingHours = parseInt(hours[0]) + (i);
+      }
+
+      const sessions1 = sessionsForTuesday.filter((data) => {
+        const hoursData = data.startTime.match(regex1);
+        // console.log(hoursData);
+        // console.log(increasingHours);
+        const minutesData = data.startTime.match(regex2);
+        return (parseInt(hoursData[0]) === increasingHours);
+      });
+
+      // console.log(sessions1);
+      return (sessions1);
+    });
+
+    const resWednesday = [...Array(generateNoOfTimeSlots(60, '08:30:00', '17:30:00'))].map((_, i) => {
+
+      const regex1 = /^([^:]+)/g;
+      const regex2 = /[^:]+$/g;
+      const hours = startTime.match(regex1);
+      const minutes = startTime.match(regex2);
+      let increasingHours = 0;
+      if (timeSlotTime === '60') {
+        if (!hours) {
+          return;
+        }
+        // console.log(i);
+        increasingHours = parseInt(hours[0]) + (i);
+      }
+
+      const sessions1 = sessionsForWednesday.filter((data) => {
+        const hoursData = data.startTime.match(regex1);
+        // console.log(hoursData);
+        // console.log(increasingHours);
+        const minutesData = data.startTime.match(regex2);
+        return (parseInt(hoursData[0]) === increasingHours);
+      });
+
+      // console.log(sessions1);
+      return (sessions1);
+    });
+
+    const resThursday = [...Array(generateNoOfTimeSlots(60, '08:30:00', '17:30:00'))].map((_, i) => {
+
+      const regex1 = /^([^:]+)/g;
+      const regex2 = /[^:]+$/g;
+      const hours = startTime.match(regex1);
+      const minutes = startTime.match(regex2);
+      let increasingHours = 0;
+      if (timeSlotTime === '60') {
+        if (!hours) {
+          return;
+        }
+        // console.log(i);
+        increasingHours = parseInt(hours[0]) + (i);
+      }
+
+      const sessions1 = sessionsForThursday.filter((data) => {
+        const hoursData = data.startTime.match(regex1);
+        // console.log(hoursData);
+        // console.log(increasingHours);
+        const minutesData = data.startTime.match(regex2);
+        return (parseInt(hoursData[0]) === increasingHours);
+      });
+
+      // console.log(sessions1);
+      return (sessions1);
+    });
+
+    const resFriday = [...Array(generateNoOfTimeSlots(60, '08:30:00', '17:30:00'))].map((_, i) => {
+
+      const regex1 = /^([^:]+)/g;
+      const regex2 = /[^:]+$/g;
+      const hours = startTime.match(regex1);
+      const minutes = startTime.match(regex2);
+      let increasingHours = 0;
+      if (timeSlotTime === '60') {
+        if (!hours) {
+          return;
+        }
+        // console.log(i);
+        increasingHours = parseInt(hours[0]) + (i);
+      }
+
+      const sessions1 = sessionsForFriday.filter((data) => {
+        const hoursData = data.startTime.match(regex1);
+        // console.log(hoursData);
+        // console.log(increasingHours);
+        const minutesData = data.startTime.match(regex2);
+        return (parseInt(hoursData[0]) === increasingHours);
+      });
+
+      // console.log(sessions1);
+      return (sessions1);
+    });
+
+    let mondayFinal = [];
+    let tuesdayFinal = [];
+    let wednesdayFinal = [];
+    let thursdayFinal = [];
+    let fridayFinal = [];
+
+    resMonday.map((data, index) => {
+      mondayFinal.push(data[0]);
+      return index;
+    });
+    resTuesday.map((data, index) => {
+      tuesdayFinal.push(data[0]);
+      return index;
+    });
+    resWednesday.map((data, index) => {
+      wednesdayFinal.push(data[0]);
+      return index;
+    });
+    resThursday.map((data, index) => {
+      thursdayFinal.push(data[0]);
+      return index;
+    });
+    resFriday.map((data, index) => {
+      fridayFinal.push(data[0]);
+      return index;
+    });
+
+    return [mondayFinal, tuesdayFinal, wednesdayFinal, thursdayFinal, fridayFinal];
+
+  };
+
+
+  const getSessionForRoom = (sessions, room, startTime) => {
+    const sessinsForRoom = sessions.filter((data) => data.roomRef === room);
+    const sessionsForMonday = sessinsForRoom.filter((data) => data.day === 'Monday');
+    const sessionsForTuesday = sessinsForRoom.filter((data) => data.day === 'Tuesday');
+    const sessionsForWednesday = sessinsForRoom.filter((data) => data.day === 'Wednesday');
+    const sessionsForThursday = sessinsForRoom.filter((data) => data.day === 'Thursday');
+    const sessionsForFriday = sessinsForRoom.filter((data) => data.day === 'Friday');
+    let mondaySessionsFinal = [];
+
+    const resMonday = [...Array(generateNoOfTimeSlots(60, '08:30:00', '17:30:00'))].map((_, i) => {
+
+      const regex1 = /^([^:]+)/g;
+      const regex2 = /[^:]+$/g;
+      const hours = startTime.match(regex1);
+      const minutes = startTime.match(regex2);
+      let increasingHours = 0;
+      if (timeSlotTime === '60') {
+        if (!hours) {
+          return;
+        }
+        // console.log(i);
+        increasingHours = parseInt(hours[0]) + (i);
+      }
+
+      const sessions1 = sessionsForMonday.filter((data) => {
+        const hoursData = data.startTime.match(regex1);
+        // console.log(hoursData);
+        // console.log(increasingHours);
+        const minutesData = data.startTime.match(regex2);
+        return (parseInt(hoursData[0]) === increasingHours);
+      });
+
+      // console.log(sessions1);
+      return (sessions1);
+    });
+
+    const resTuesday = [...Array(generateNoOfTimeSlots(60, '08:30:00', '17:30:00'))].map((_, i) => {
+
+      const regex1 = /^([^:]+)/g;
+      const regex2 = /[^:]+$/g;
+      const hours = startTime.match(regex1);
+      const minutes = startTime.match(regex2);
+      let increasingHours = 0;
+      if (timeSlotTime === '60') {
+        if (!hours) {
+          return;
+        }
+        // console.log(i);
+        increasingHours = parseInt(hours[0]) + (i);
+      }
+
+      const sessions1 = sessionsForTuesday.filter((data) => {
+        const hoursData = data.startTime.match(regex1);
+        // console.log(hoursData);
+        // console.log(increasingHours);
+        const minutesData = data.startTime.match(regex2);
+        return (parseInt(hoursData[0]) === increasingHours);
+      });
+
+      // console.log(sessions1);
+      return (sessions1);
+    });
+
+    const resWednesday = [...Array(generateNoOfTimeSlots(60, '08:30:00', '17:30:00'))].map((_, i) => {
+
+      const regex1 = /^([^:]+)/g;
+      const regex2 = /[^:]+$/g;
+      const hours = startTime.match(regex1);
+      const minutes = startTime.match(regex2);
+      let increasingHours = 0;
+      if (timeSlotTime === '60') {
+        if (!hours) {
+          return;
+        }
+        // console.log(i);
+        increasingHours = parseInt(hours[0]) + (i);
+      }
+
+      const sessions1 = sessionsForWednesday.filter((data) => {
+        const hoursData = data.startTime.match(regex1);
+        // console.log(hoursData);
+        // console.log(increasingHours);
+        const minutesData = data.startTime.match(regex2);
+        return (parseInt(hoursData[0]) === increasingHours);
+      });
+
+      // console.log(sessions1);
+      return (sessions1);
+    });
+
+    const resThursday = [...Array(generateNoOfTimeSlots(60, '08:30:00', '17:30:00'))].map((_, i) => {
+
+      const regex1 = /^([^:]+)/g;
+      const regex2 = /[^:]+$/g;
+      const hours = startTime.match(regex1);
+      const minutes = startTime.match(regex2);
+      let increasingHours = 0;
+      if (timeSlotTime === '60') {
+        if (!hours) {
+          return;
+        }
+        // console.log(i);
+        increasingHours = parseInt(hours[0]) + (i);
+      }
+
+      const sessions1 = sessionsForThursday.filter((data) => {
+        const hoursData = data.startTime.match(regex1);
+        // console.log(hoursData);
+        // console.log(increasingHours);
+        const minutesData = data.startTime.match(regex2);
+        return (parseInt(hoursData[0]) === increasingHours);
+      });
+
+      // console.log(sessions1);
+      return (sessions1);
+    });
+
+    const resFriday = [...Array(generateNoOfTimeSlots(60, '08:30:00', '17:30:00'))].map((_, i) => {
+
+      const regex1 = /^([^:]+)/g;
+      const regex2 = /[^:]+$/g;
+      const hours = startTime.match(regex1);
+      const minutes = startTime.match(regex2);
+      let increasingHours = 0;
+      if (timeSlotTime === '60') {
+        if (!hours) {
+          return;
+        }
+        // console.log(i);
+        increasingHours = parseInt(hours[0]) + (i);
+      }
+
+      const sessions1 = sessionsForFriday.filter((data) => {
+        const hoursData = data.startTime.match(regex1);
+        // console.log(hoursData);
+        // console.log(increasingHours);
+        const minutesData = data.startTime.match(regex2);
+        return (parseInt(hoursData[0]) === increasingHours);
+      });
+
+      // console.log(sessions1);
+      return (sessions1);
+    });
+
+    let mondayFinal = [];
+    let tuesdayFinal = [];
+    let wednesdayFinal = [];
+    let thursdayFinal = [];
+    let fridayFinal = [];
+
+    resMonday.map((data, index) => {
+      mondayFinal.push(data[0]);
+      return index;
+    });
+    resTuesday.map((data, index) => {
+      tuesdayFinal.push(data[0]);
+      return index;
+    });
+    resWednesday.map((data, index) => {
+      wednesdayFinal.push(data[0]);
+      return index;
+    });
+    resThursday.map((data, index) => {
+      thursdayFinal.push(data[0]);
+      return index;
+    });
+    resFriday.map((data, index) => {
+      fridayFinal.push(data[0]);
+      return index;
+    });
+
+    return [mondayFinal, tuesdayFinal, wednesdayFinal, thursdayFinal, fridayFinal];
+
+  };
+
   useEffect(() => {
     // console.log(getSessionForLecturer(sessions, lecturer, startTime));
     if (lecturer != '') {
-      console.log('effect');
-      console.log(getSessionForLecturer(sessions, lecturer, startTime));
       setFinalSessionsLecturer(
         getSessionForLecturer(sessions, lecturer, startTime)
       );
     }
+
   }, [lecturer]);
+
+  useEffect(() => {
+    if ((year != '') && (semester != '') && (group != '')) {
+      setFinalSessionsLecturer(
+        getSessionForStudents(sessions, year, group, semester, startTime, degree)
+      );
+    }
+  }, [year, semester, group, degree]);
+
+  useEffect(() => {
+    // console.log(getSessionForLecturer(sessions, lecturer, startTime));
+    if (room != '') {
+      setFinalSessionsLecturer(
+        getSessionForRoom(sessions, room, startTime)
+      );
+    }
+
+  }, [room]);
 
 
   const generateTable = () => {
@@ -302,8 +693,6 @@ const TimetableGenerator: React.FC<TimetableGeneratorProps> = (props) => {
                 {finalSessionsLecturer &&
                 finalSessionsLecturer[index1 - 1].map((data, index2) => {
                   if (!data) {
-                    console.log('-----');
-                    console.log();
                     if (!finalSessionsLecturer[index1 - 1][index2 - 1]) {
                       return (<td key={index2} style={{ display: 'block', textAlign: 'center' }}> - </td>);
                     }
@@ -314,6 +703,8 @@ const TimetableGenerator: React.FC<TimetableGeneratorProps> = (props) => {
 
                   }
                   return (<td key={index2} style={{ display: 'block' }}>{data.subjectRef}</td>);
+                //   return (<td key={index2} style={{ display: 'block' }}><span>{data.groupRef}<span><br><span>{data.subjectCodeRef}<span><br></td>
+                // );
                 })
                 }
               </tr>

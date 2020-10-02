@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Col, Row, Container, Button } from 'react-bootstrap';
 import Select from 'react-select';
+import Pdf from 'react-to-pdf';
 import NavBar from '../../components/NavBar/NavBar';
 import TimetableGenerator from './TimetableGenerator';
-import Pdf from 'react-to-pdf';
 
 const ref = React.createRef();
 
@@ -52,7 +52,7 @@ const TimetableScreen: React.FC = () => {
   ];
 
   const roomOptions = [
-    { value: 'Student', label: 'Student' },
+    { value: 'B405-Pclab', label: 'B405-Pclab' },
     { value: 'Room', label: 'Room' },
     { value: 'Lecturer', label: 'Lecturer' }
   ];
@@ -150,24 +150,6 @@ const TimetableScreen: React.FC = () => {
 
     if (role === 'Room') {
       return (<Row className="">
-        <Col
-          xs={12}
-          md={2}
-          className="p-3"
-        >
-          <span className="">Building</span>
-        </Col>
-        <Col
-          xs={12}
-          md={2}
-          className="p-3"
-        >
-          <Select
-            value={seletedBuildingOption}
-            onChange={handleChangeBuilding}
-            options={buildingOptions}
-          />
-        </Col>
         <Col
           xs={12}
           md={2}
@@ -347,6 +329,7 @@ const TimetableScreen: React.FC = () => {
               group={group}
               lecturer={lecturer}
               isGenerate={isGenerate}
+              room={room}
             />
           </Col>
         </Row>

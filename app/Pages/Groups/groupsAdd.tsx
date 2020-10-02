@@ -454,11 +454,10 @@ const GroupsAdd: React.FC = () => {
     const pro = String(programme);
     const groupforId = val.toString();
 
-
     if (val <= 9) {
-      var groId = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId;
+      var groId = 'Y' + year + '.S' + sem  + '.0' + groupforId + '(' + pro + ')';
     } else {
-      var groId = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId;
+      var groId = 'Y' + year + '.S' + sem + '.' + groupforId + '(' + pro + ')';
     }
 
     // const groId = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId;
@@ -466,9 +465,9 @@ const GroupsAdd: React.FC = () => {
 
     var subNum = 1;
     if (val <= 9) {
-      var subId = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId + '.1';
+      var subId = 'Y' + year + '.S' + sem + '.0' + groupforId + '.1' + '(' + pro + ')';
     } else {
-      var subId = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId + '.1';
+      var subId = 'Y' + year + '.S' + sem + '.' + groupforId + '.1' + '(' + pro + ')';
     }
 
 
