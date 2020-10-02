@@ -38,6 +38,14 @@ const Session = (props: any) => (
     <td>{props.session.duration}</td>
     <td>{props.session.parallelId}</td>
     <td>{props.session.consecutiveId}</td>
+    {
+      props.session.isSameRoom ? (
+        <td>True</td>
+      ) : (
+        <td/>
+      )
+    }
+
     {/*<td>{props.session.isSameRoom}</td>*/}
     {/*    <td> */}
     {/*      <Link to={`/editLecturer/${props.lecturer._id}`}>edit</Link> | */}
@@ -489,7 +497,7 @@ const SessionsListView: React.FC = () => {
                   <th>Duration</th>
                   <th>Parallel</th>
                   <th>Consecutive</th>
-                  {/*<th>isSameRoom<th>*/}
+                  <th>isSameRoom</th>
                 </tr>
                 </thead>
                 <tbody>{sessionList()}</tbody>
