@@ -257,7 +257,7 @@ const TwoSessionAdd: React.FC = () => {
 
   const renderRedirect = () => {
     if (renderRedirectTo && renderRedirectTo1) {
-      return <Redirect to={routes.TAGS_LIST_VIEW}/>;
+      return <Redirect to={routes.SESSIONS_LIST}/>;
       //   props.history.push(loginState.redirectTo);s
     }
     return null;
