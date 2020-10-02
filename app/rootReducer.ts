@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import sessionsReducer from './Pages/Sessions/sessionsSlice';
 import {connectRouter} from 'connected-react-router'
 import {History} from 'history'
 import workingDaysHoursReducer from './Pages/WorkingDaysHours/workingDaysHoursSlice'
