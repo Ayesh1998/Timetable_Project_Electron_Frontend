@@ -91,30 +91,6 @@ const NavBar: React.FC = () => {
               Tags
             </Nav.Link>
           </NavLink>
-          <NavDropdown title='Locations'
-                       id='collasible-nav-dropdown'>
-            <NavDropdown.Item href='#locations/buildings'>
-              <NavLink to={routes.BUILDINGS}>
-                <Nav.Link href='#buildings'
-                          style={{
-                            color: 'black'
-                          }}>
-                  Buildings
-                </Nav.Link>
-              </NavLink>
-            </NavDropdown.Item>
-            <NavDropdown.Divider/>
-            <NavDropdown.Item href='#locations/rooms'>
-              <NavLink to={routes.ROOMS}>
-                <Nav.Link href='#rooms'
-                          style={{
-                            color: 'black'
-                          }}>
-                  Rooms
-                </Nav.Link>
-              </NavLink>
-            </NavDropdown.Item>
-          </NavDropdown>
           <NavDropdown title='Sessions'
                        id='collasible-nav-dropdown'>
             <NavDropdown.Item href='#batches/consecutiveSessions'>
@@ -157,6 +133,30 @@ const NavBar: React.FC = () => {
                             color: 'black'
                           }}>
                   Add Parallel Session
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+          </NavDropdown>
+          <NavDropdown title='Locations'
+                       id='collasible-nav-dropdown'>
+            <NavDropdown.Item href='#locations/buildings'>
+              <NavLink to={routes.BUILDINGS}>
+                <Nav.Link href='#buildings'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Buildings
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+            <NavDropdown.Divider/>
+            <NavDropdown.Item href='#locations/rooms'>
+              <NavLink to={routes.ROOMS}>
+                <Nav.Link href='#rooms'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Rooms
                 </Nav.Link>
               </NavLink>
             </NavDropdown.Item>
