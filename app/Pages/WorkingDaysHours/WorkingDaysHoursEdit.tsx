@@ -11,6 +11,7 @@ import styles from './working-days-hours.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 // import { setWorkingDaysHours } from './workingDaysHoursSlice';
+import {proxy} from '../../conf'
 
 const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 const weekends = ['Saturday', 'Sunday'];
@@ -166,7 +167,7 @@ const WorkingDaysHoursEdit: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/workingDaysHours/editWorkingDaysAndHours`,
+        `${proxy}/workingDaysHours/editWorkingDaysAndHours`,
         {
           method: 'PUT',
           headers: {

@@ -7,6 +7,7 @@ import NavBar from '../../components/NavBar/NavBar';
 import styles from './working-days-hours.css';
 import routes from '../../constants/routes.json';
 import {setWorkingDaysHours} from './workingDaysHoursSlice';
+import {proxy} from '../../conf'
 
 // noinspection DuplicatedCode
 const WorkingDaysHoursView: React.FC = () => {
@@ -17,7 +18,7 @@ const WorkingDaysHoursView: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/workingDaysHours/getWorkingDaysAndHours`,
+          `${proxy}/workingDaysHours/getWorkingDaysAndHours`,
           {
             method: 'GET',
             headers: {
@@ -51,7 +52,7 @@ const WorkingDaysHoursView: React.FC = () => {
     };
     try {
       const response = await fetch(
-        `http://localhost:5000/workingDaysHours/deleteWorkingDaysAndHours`,
+        `${proxy}/workingDaysHours/deleteWorkingDaysAndHours`,
         {
           method: 'DELETE',
           headers: {

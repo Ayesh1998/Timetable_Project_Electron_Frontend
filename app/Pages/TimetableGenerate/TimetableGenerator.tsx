@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Col, Row, Table, Container, Button } from 'react-bootstrap';
 import moment from 'moment';
 import sessions from '../../constants/data';
+import {proxy} from '../../conf'
 
 type TimetableGeneratorProps = {
   degree: string | null;
@@ -58,7 +59,7 @@ const TimetableGenerator: React.FC<TimetableGeneratorProps> = (props) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/sessions/getSessionList`,
+          `${proxy}/sessions/getSessionList`,
           {
             method: 'GET',
             headers: {

@@ -4,6 +4,7 @@ import Select from 'react-select';
 import Pdf from 'react-to-pdf';
 import NavBar from '../../components/NavBar/NavBar';
 import TimetableGenerator from './TimetableGenerator';
+import {proxy} from '../../conf'
 
 const ref = React.createRef();
 
