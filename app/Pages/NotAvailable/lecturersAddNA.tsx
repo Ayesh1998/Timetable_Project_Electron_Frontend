@@ -236,7 +236,7 @@ const LecturersAddNA: React.FC = () => {
 
   const renderRedirect = () => {
     if (renderRedirectTo) {
-      return <Redirect to={routes.TAGS_LIST_VIEW}/>;
+      return <Redirect to={routes.LECTURERS_LIST_VIEW}/>;
       //   props.history.push(loginState.redirectTo);s
     }
     return null;
@@ -244,7 +244,7 @@ const LecturersAddNA: React.FC = () => {
 
   const renderRedirectGro = () => {
     if (renderRedirectToGro) {
-      return <Redirect to={routes.GROUPS_LIST_VIEW}/>;
+      return <Redirect to={routes.LECTURERS_LIST_VIEW}/>;
       //   props.history.push(loginState.redirectTo);s
     }
     return null;

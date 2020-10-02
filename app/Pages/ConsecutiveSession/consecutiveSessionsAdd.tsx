@@ -366,7 +366,7 @@ const ConsecutiveSessionsAdd: React.FC = () => {
                   >
                     <option>Select</option>
                     {session1List?.map((session, index) => (
-                      <option value={session._id}>{session.label}</option>
+                      <option value={session._id}>{session.sessionId}-{session.label}</option>
                     ))}
                   </Form.Control>
 
@@ -392,7 +392,7 @@ const ConsecutiveSessionsAdd: React.FC = () => {
                   >
                     <option>Select</option>
                     {session2List?.map((session, index) => (
-                      <option value={session._id}>{session.label}</option>
+                      <option value={session._id}>{session.sessionId}-{session.label}</option>
                     ))}
                   </Form.Control>
 
