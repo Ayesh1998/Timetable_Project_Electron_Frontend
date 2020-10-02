@@ -44,6 +44,7 @@ import SubjectsStatisticsPage from './Pages/SubjectsStatistics/subjects-statisti
 import RoomsUnavailabilityPage from './Pages/RoomsUnavailability/rooms-unavailability-page'
 import AddRoomsPage from './Pages/AddRooms/add-rooms-page'
 import AssignRoomsForSessionsPage from './Pages/AssignRoomsForSessions/assign-rooms-for-sessions-page'
+import ParallelCategoryPage from './Pages/ParallelCategory/parallelCategoryPage'
 
 const LazyCounterPage = React.lazy(() =>
   import('./containers/CounterPage')
@@ -127,6 +128,8 @@ export default function Routes() {
                component={NotAvailablesPage}/>
        <Route path={routes.PARALLEL_SESSIONS}
                component={ParallelSessionsPage}/>
+       <Route path={routes.CATEGORY}
+               component={ParallelCategoryPage}/>
         <Route path={routes.BUILDINGS}
                component={BuildingsPage}/>
         <Route path={routes.ROOMS}
