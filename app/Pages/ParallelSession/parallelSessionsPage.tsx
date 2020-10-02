@@ -22,6 +22,7 @@ import {proxy} from '../../conf';
 import TwoSessionAdd from './twoSessionAdd.tsx';
 import ThreeSessionAdd from './threeSessionAdd.tsx';
 import { selectCount } from '../WorkingDaysHours/workingDaysHoursSlice';
+import {setParallelSessions,setEditParallelSession,setEditingParallelSessionId,setEditingParallelSession} from './parallelSessionsSlice';
 
 //const categoryList = ['(A,B,C)', '(E,F)', '(H,J)'];
 
@@ -118,12 +119,13 @@ const ParallelSessionsPage: React.FC = () => {
   ) => {
     setCategory(e.target.value);
 
-
+    dispatch(setEditingParallelSessionId(e.target.value));
     var catid = e.target.value;
     console.log(catid);
     //-------------------2.category eka find ekakata yawala ena data walin category count eka alla ganna
 
     getCategoryCount(catid);
+    getSubjectCat(catid);
 
 
 
@@ -161,76 +163,38 @@ const ParallelSessionsPage: React.FC = () => {
   }
 
 
-  // const handleSubmit = async () => {
-  //   const workingDaysFinal: { day: any }[] = [];
-  //   const finalTimeSlots: { type: any }[] = [];
-  //   daysSelected.map((day: any) => {
-  //     const tempObj = {day};
-  //     workingDaysFinal.push(tempObj);
-  //     return workingDaysFinal;
-  //   });
+  const  getSubjectCat = async (cid) => {
 
-  //   timeSlots.map((type: any) => {
-  //     const tempObj = {type};
-  //     finalTimeSlots.push(tempObj);
-  //     return finalTimeSlots;
-  //   });
+    var scode:{res:any} [] = [];
 
-  //   const finalObject = {
-  //     numberOfWorkingDays: noOfWorkingDays,
-  //     workingDays: workingDaysFinal,
-  //     workingTimePerDay,
-  //     weekType,
-  //     timeSlots: finalTimeSlots
-  //   };
-  //   // eslint-disable-next-line radix
-  //   if (parseInt(noOfWorkingDays) !== daysSelected.length) {
-  //     setError('!! No of days in the week and days selected are not equal !!');
-  //     return;
-  //   }
-  //   if (parseInt(workingTimePerDay.hours) > 24) {
-  //     setError('!! No of hours should be equal or less than 24 !!');
-  //     return;
-  //   }
-  //   if (workingTimePerDay.hours === '00') {
-  //     setError('!! Please enter no of hours for working time per day !!');
-  //     return;
-  //   }
-  //   if (parseInt(workingTimePerDay.minutes) > 60) {
-  //     setError('!! No of minutes should be equal or less than 60 !!');
-  //     return;
-  //   }
-  //   if (timeSlots.length === 0) {
-  //     setError('!! Please select a time slot !!');
-  //     return;
-  //   }
+    try {
 
-  //   setError(null);
+      const response = await fetch(`${proxy}/parallelSessions/getSubjectCat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"category":cid})
+      })
+      const responseData = await response.json()
+     console.log(responseData);
+     responseData.map((res:any) =>{
+       console.log(res.subjectCode)
+       var code =res.subjectCode;
+       scode.push(code);
+       return scode
 
-  //   try {
-  //     const response = await fetch(
-  //       `http://localhost:5000/workingDaysHours/create`,
-  //       {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json'
-  //         },
-  //         body: JSON.stringify(finalObject)
-  //       }
-  //     );
+     })
 
-  //     const responseData = await response.json();
-  //     setRenderRedirectTo(true);
-  //     // console.log(responseData.userDetails);
+     console.log(scode);
+     dispatch(setParallelSessions(scode));
 
-  //     if (!responseData) {
-  //       // noinspection ExceptionCaughtLocallyJS
-  //       throw new Error(responseData.message);
-  //     }
-  //   } catch (err) {
-  //     console.log(err.message);
-  //   }
-  // };
+    } catch (errors) {
+
+
+      console.log(errors)
+    }
+  }
 
   const renderRedirect = () => {
     if (renderRedirectTo) {
