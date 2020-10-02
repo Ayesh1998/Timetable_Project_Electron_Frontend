@@ -41,6 +41,7 @@ const SessionsAdd: React.FC = () => {
   const [tagsObject, setTagsObject] = useState<any>(null);
 
   const [lecturers, setLecturers] = useState<any>([]);
+  const [label, setLabel] = useState<string>('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -208,7 +209,8 @@ const SessionsAdd: React.FC = () => {
       groupRef,
       subGroupRef,
       studentCount,
-      duration
+      duration,
+      label
     };
 
     console.log(finalObject);
@@ -290,6 +292,15 @@ const SessionsAdd: React.FC = () => {
   };
   const handleChangeDuration = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDuration(e.target.value);
+    var id;
+    if(groupRef){
+      id = subjectRef+ '(' +subjectCodeRef + ')-'+groupRef+'-'+ tagRef;
+    }
+    if(subGroupRef){
+      id = subjectRef+ '(' +subjectCodeRef + ')-'+subGroupRef+'-'+ tagRef;
+    }
+    console.log(id)
+    setLabel(id);
   };
 
 
