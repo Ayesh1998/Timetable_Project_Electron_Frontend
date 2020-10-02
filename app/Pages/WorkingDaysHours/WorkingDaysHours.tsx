@@ -18,6 +18,7 @@ import {
   setExistingBuilding,
   setExistingRoomsForBuilding
 } from '../Buildings/buildings-slice'
+import {proxy} from '../../conf'
 
 const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 const weekends = ['Saturday', 'Sunday'];
@@ -65,7 +66,7 @@ const WorkingDaysHours: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/workingDaysHours/getWorkingDaysAndHours`,
+          `${proxy}/workingDaysHours/getWorkingDaysAndHours`,
           {
             method: 'GET',
             headers: {
@@ -163,7 +164,7 @@ const WorkingDaysHours: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/workingDaysHours/create`,
+        `${proxy}/workingDaysHours/create`,
         {
           method: 'POST',
           headers: {
