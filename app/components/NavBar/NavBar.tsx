@@ -32,6 +32,9 @@ const NavBar: React.FC = () => {
           <NavLink to={routes.SUBJECTS_LIST_VIEW}>
             <Nav.Link href='#subjects'>Subjects</Nav.Link>
           </NavLink>
+          <NavLink to={routes.SESSIONS_LIST}>
+            <Nav.Link href='#sessions'>Sessions</Nav.Link>
+          </NavLink>
           <NavDropdown title='Batches Basic Info'
                        id='collasible-nav-dropdown'>
             <NavDropdown.Item href='#batches/yearsems'>
@@ -112,6 +115,52 @@ const NavBar: React.FC = () => {
               </NavLink>
             </NavDropdown.Item>
           </NavDropdown>
+          <NavDropdown title='Sessions'
+                       id='collasible-nav-dropdown'>
+            <NavDropdown.Item href='#batches/consecutiveSessions'>
+              <NavLink to={routes.CONSECUTIVE_SESSIONS}>
+                <Nav.Link href='#consecutiveSessions'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Add Consecutive Sessions
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+            <NavDropdown.Divider/>
+            <NavDropdown.Item href='#batches/notavailableTimes'>
+              <NavLink to={routes.NOT_AVAILABLE_TIMES}>
+                <Nav.Link href='#notavailableTimes'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Allocate Not Available Times
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+            <NavDropdown.Divider/>
+            <NavDropdown.Item href='#batches/categorys'>
+              <NavLink to={routes.CATEGORY}>
+                <Nav.Link href='#categorys'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Add Module for Category
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+            <NavDropdown.Divider/>
+            <NavDropdown.Item href='#batches/parallelSessions'>
+              <NavLink to={routes.PARALLEL_SESSIONS}>
+                <Nav.Link href='#parallelSessions'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Add Parallel Session
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+          </NavDropdown>
           <NavDropdown title='Statistics'
                        id='collasible-nav-dropdown'>
             <NavDropdown.Item href='#statistics/statistics-of-lecturers'>
@@ -154,7 +203,7 @@ const NavBar: React.FC = () => {
           </NavLink>
           <NavLink to={routes.ADD_ROOMS}>
             <Nav.Link href='#add-rooms'>
-              Add Rooms
+              Add Preferred Rooms
             </Nav.Link>
           </NavLink>
           <NavLink to={routes.ASSIGN_ROOMS_FOR_SESSIONS}>
