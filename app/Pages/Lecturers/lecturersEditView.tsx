@@ -55,7 +55,7 @@ const LecturersEdit: React.FC = () => {
     const fetchData = async () => {
       try {
         const responseBuildings = await fetch(
-          `http://localhost:5000/buildings/buildings`,
+          `${proxy}/buildings/buildings`,
           {
             method: 'GET',
             headers: {
@@ -76,7 +76,7 @@ const LecturersEdit: React.FC = () => {
         }
 
         const responseCenters = await fetch(
-          `http://localhost:5000/centers/centers`,
+          `${proxy}/centers/centers`,
           {
             method: 'GET',
             headers: {
@@ -97,7 +97,7 @@ const LecturersEdit: React.FC = () => {
         }
 
         const response = await fetch(
-          `http://localhost:5000/lecturers/lecturers`,
+          `${proxy}/lecturers/lecturers`,
           {
             method: 'GET',
             headers: {
@@ -163,7 +163,7 @@ const LecturersEdit: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/lecturers/lecturers`,
+        `${proxy}/lecturers/lecturers`,
         {
           method: 'PUT',
           headers: {

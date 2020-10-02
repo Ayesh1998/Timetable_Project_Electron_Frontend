@@ -23,6 +23,7 @@ import {
   setExistingBuilding,
   setExistingRoomsForBuilding,
 } from '../Buildings/buildings-slice';
+import { proxy } from '../../conf';
 
 const Session = (props: any) => (
   <tr>
@@ -87,7 +88,7 @@ const SessionsListView: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/sessions/getSessionList`,
+          `${proxy}/sessions/getSessionList`,
           {
             method: 'GET',
             headers: {
@@ -121,7 +122,7 @@ const SessionsListView: React.FC = () => {
   const handleDelete = async (id: any) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/lecturers/lecturers/${id}`,
+        `${proxy}/lecturers/lecturers/${id}`,
         {
           method: 'DELETE',
           headers: {

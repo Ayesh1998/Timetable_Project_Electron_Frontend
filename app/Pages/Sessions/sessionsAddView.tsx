@@ -12,6 +12,7 @@ import styles from './sessions.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setSessions} from './sessionsSlice';
+import { proxy } from '../../conf';
 
 // noinspection DuplicatedCode
 const SessionsAdd: React.FC = () => {
@@ -46,7 +47,7 @@ const SessionsAdd: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/sessions/getSessionList`,
+          `${proxy}/sessions/getSessionList`,
           {
             method: 'GET',
             headers: {
@@ -66,7 +67,7 @@ const SessionsAdd: React.FC = () => {
         }
 
         const responseLecturers = await fetch(
-          `http://localhost:5000/lecturers/lecturers`,
+          `${proxy}/lecturers/lecturers`,
           {
             method: 'GET',
             headers: {
@@ -86,7 +87,7 @@ const SessionsAdd: React.FC = () => {
         }
 
         const responseSubjects = await fetch(
-          `http://localhost:5000/subjects/subjects`,
+          `${proxy}/subjects/subjects`,
           {
             method: 'GET',
             headers: {
@@ -105,7 +106,7 @@ const SessionsAdd: React.FC = () => {
           throw new Error(responseDataSubjects.message);
         }
         const responseGroup = await fetch(
-          `http://localhost:5000/groups/getGroups`,
+          `${proxy}/groups/getGroups`,
           {
             method: 'GET',
             headers: {
@@ -125,7 +126,7 @@ const SessionsAdd: React.FC = () => {
         }
 
         const responseSubGroup = await fetch(
-          `http://localhost:5000/subGroups/getSubGroups`,
+          `${proxy}/subGroups/getSubGroups`,
           {
             method: 'GET',
             headers: {
@@ -145,7 +146,7 @@ const SessionsAdd: React.FC = () => {
         }
 
         const responseTags = await fetch(
-          `http://localhost:5000/tags/getTags`,
+          `${proxy}/tags/getTags`,
           {
             method: 'GET',
             headers: {
@@ -223,7 +224,7 @@ const SessionsAdd: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/sessions/addSessions`,
+        `${proxy}/sessions/addSessions`,
         {
           method: 'POST',
           headers: {
