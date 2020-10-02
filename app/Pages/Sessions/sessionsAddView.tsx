@@ -181,18 +181,32 @@ const SessionsAdd: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    // if (employeeId === '') {
-    //   setError('Please enter an Employee ID !');
-    //   return;
-    // }
-    // if (employeeId.length !== 6) {
-    //   setError('Please enter an valied Employee ID !');
-    //   return;
-    // }
-    // if (lecturerName === '') {
-    //   setError('Please enter an Employee Name !');
-    //   return;
-    // }
+    if (subjectRef === '') {
+      setError('Please select subject !');
+      return;
+    }
+    if (subjectCodeRef === '') {
+      setError('Please select Subject Code !');
+      return;
+    }
+    if (subjectRef === '') {
+      setError('Please select Tag !');
+      return;
+    }
+
+    if (studentCount === '') {
+      setError('Please enter an Student Count!');
+      return;
+    }
+    if (duration === '') {
+      setError('Please enter an Duration !');
+      return;
+    }
+    if (groupRef !== '' && subGroupRef !== '' ) {
+      setError('Please Select only one group !');
+      return;
+    }
+
     setError(null);
     const finalObject = {
       lecturers,
@@ -343,19 +357,32 @@ const SessionsAdd: React.FC = () => {
                 </Form.Group>
               </Form>
             </Col>
-            <Col xs={3} md={3}/>
-          </Row>
-          <Row className="mb-2 justify-content-md-center">
-            <Col xs={0} md={9}/>
+            <Col xs={3} md={1}/>
+          {/*</Row>*/}
+          {/*<Row className="mb-2 justify-content-md-center">*/}
+          {/*  <Col xs={0} md={9}/>*/}
             <Col xs={12} md={2}>
               <Button
-                style={{width: '160px', fontSize: '1.3em'}}
+                style={{width: '100px', fontSize: '0.9em'}}
                 onClick={handleLecturerArray}
               >
                 Add Lecturer
               </Button>
             </Col>
-
+          </Row>
+          <Row style={{textAlign: 'center'}}>
+            <Col md={10}>
+            {/*  <Col xs={2} md={6}>*/}
+              <Form className="">
+                <Form.Group controlId="formBasicEmail">
+                  <Form.Control
+                    type="text"
+                    style={{borderWidth: '2.5px', width: '450px', height: '100px', marginLeft: '51.5%'}}
+                    value = {lecturerObject}
+                  />
+                </Form.Group>
+              </Form>
+            </Col>
           </Row>
           <Row className="mt-3 mb-3 justify-content-md-center">
             <Col xs={12} md={4}>

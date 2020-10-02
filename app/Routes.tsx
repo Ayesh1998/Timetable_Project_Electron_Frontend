@@ -41,7 +41,7 @@ import SubjectsStatisticsPage from './Pages/SubjectsStatistics/subjects-statisti
 import RoomsUnavailabilityPage from './Pages/RoomsUnavailability/rooms-unavailability-page';
 import AddRoomsPage from './Pages/AddRooms/add-rooms-page';
 import SessionsAddView from './Pages/Sessions/sessionsAddView';
-import SessionsListView from './Pages/Sessions/sessionsListView'
+import SessionsListView from './Pages/Sessions/sessionsListView';
 import AssignRoomsForSessionsPage from './Pages/AssignRoomsForSessions/assign-rooms-for-sessions-page';
 
 const LazyCounterPage = React.lazy(() => import('./containers/CounterPage'));
