@@ -6,6 +6,7 @@ import styles from './programs.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setEditingProgram, setEditingProgramId, setEditProgram} from './programsSlice';
+import {proxy} from '../../conf'
 
 let errors_: string = ''
 const ProgramsEdit: React.FC = () => {
@@ -78,7 +79,7 @@ const ProgramsEdit: React.FC = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/programs/editPrograms`,
+          `${proxy}/programs/editPrograms`,
           {
             method: 'PUT',
             headers: {

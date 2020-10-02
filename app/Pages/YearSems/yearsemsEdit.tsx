@@ -12,6 +12,7 @@ import styles from './yearsems.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setEditingYearSem, setEditingYearSemId, setEditYearSem} from './yearsemsSlice';
+import {proxy} from '../../conf'
 
 
 const yearList = [1, 2, 3, 4];
@@ -106,7 +107,7 @@ const YearSemsEdit: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/yearSems/editYearSems`,
+        `${proxy}/yearSems/editYearSems`,
         {
           method: 'PUT',
           headers: {

@@ -12,6 +12,7 @@ import styles from './yearsems.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setYearSems} from './yearsemsSlice';
+import {proxy} from '../../conf'
 
 
 const yearList = [1, 2, 3, 4];
@@ -37,7 +38,7 @@ const YearSemsAdd: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/yearSems/getYearSems`,
+          `${proxy}/yearSems/getYearSems`,
           {
             method: 'GET',
             headers: {
@@ -113,7 +114,7 @@ const YearSemsAdd: React.FC = () => {
       setError(false)
       try {
         const response = await fetch(
-          `http://localhost:5000/yearSems/create`,
+          `${proxy}/yearSems/create`,
           {
             method: 'POST',
             headers: {
