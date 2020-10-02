@@ -211,6 +211,11 @@ const NavBar: React.FC = () => {
               Assign Rooms for Sessions
             </Nav.Link>
           </NavLink>
+          <NavLink to={routes.GENERATE_TIMETABLES}>
+            <Nav.Link href='#generate_timetables'>
+              Generate Timetables
+            </Nav.Link>
+          </NavLink>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

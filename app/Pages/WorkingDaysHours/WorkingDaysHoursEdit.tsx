@@ -43,11 +43,11 @@ const WorkingDaysHoursEdit: React.FC = () => {
     'Thirty Minutes'
   ]);
   const [workingTimePerDay, setWorkingTimePerDay] = useState<{
-    hours: string;
-    minutes: string;
+    startTime: string;
+    endTime: string;
   }>({
-    hours: '00',
-    minutes: '00'
+    startTime: '00',
+    endTime: '00'
   });
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   // const [workingDaysAndHoursObject, setWorkingDaysAndHoursObject] = useState<
@@ -77,8 +77,8 @@ const WorkingDaysHoursEdit: React.FC = () => {
       });
 
       setWorkingTimePerDay({
-        hours: workingDaysHoursStore.workingTimePerDay.hours,
-        minutes: workingDaysHoursStore.workingTimePerDay.minutes
+        startTime: workingDaysHoursStore.workingTimePerDay.startTime,
+        endTime: workingDaysHoursStore.workingTimePerDay.endTime
       });
       setTimeSlots(tempTimeSlotsArray);
       setDaysSelected(tempDaysArray);
@@ -98,8 +98,8 @@ const WorkingDaysHoursEdit: React.FC = () => {
         return tempDaysArray;
       });
       setWorkingTimePerDay({
-        hours: workingDaysHoursStore.workingTimePerDay.hours,
-        minutes: workingDaysHoursStore.workingTimePerDay.minutes
+        startTime: workingDaysHoursStore.workingTimePerDay.startTime,
+        endTime: workingDaysHoursStore.workingTimePerDay.endTime
       });
       setTimeSlots(tempTimeSlotsArray);
       setDaysSelected(tempDaysArray);
@@ -146,18 +146,18 @@ const WorkingDaysHoursEdit: React.FC = () => {
       setError('!! No of days in the week and days selected are not equal !!');
       return;
     }
-    if (workingTimePerDay.hours === '00') {
-      setError('!! Please enter no of hours for working time per day !!');
-      return;
-    }
-    if (parseInt(workingTimePerDay.hours) > 24) {
-      setError('!! No of hours should be equal or less than 24 !!');
-      return;
-    }
-    if (parseInt(workingTimePerDay.minutes) > 60) {
-      setError('!! No of minutes should be equal or less than 60 !!');
-      return;
-    }
+    // if (workingTimePerDay.hours === '00') {
+    //   setError('!! Please enter no of hours for working time per day !!');
+    //   return;
+    // }
+    // if (parseInt(workingTimePerDay.hours) > 24) {
+    //   setError('!! No of hours should be equal or less than 24 !!');
+    //   return;
+    // }
+    // if (parseInt(workingTimePerDay.minutes) > 60) {
+    //   setError('!! No of minutes should be equal or less than 60 !!');
+    //   return;
+    // }
     if (timeSlots.length === 0) {
       setError('!! Please select a time slot !!');
       return;
@@ -204,11 +204,11 @@ const WorkingDaysHoursEdit: React.FC = () => {
   };
 
   const handleChangeHour = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWorkingTimePerDay({...workingTimePerDay, hours: e.target.value});
+    setWorkingTimePerDay({...workingTimePerDay, startTime: e.target.value});
   };
 
   const handleChangeMinutes = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWorkingTimePerDay({...workingTimePerDay, minutes: e.target.value});
+    setWorkingTimePerDay({...workingTimePerDay, endTime: e.target.value});
   };
 
   return (
@@ -327,33 +327,33 @@ const WorkingDaysHoursEdit: React.FC = () => {
                 <Row>
                   <Col xs={12} md={5}>
                     <Form.Group controlId="formGridEmail">
-                      <Form.Label>Hours</Form.Label>
+                      <Form.Label>Start time</Form.Label>
                       <Form.Control
                         style={{
-                          width: '60px',
+                          width: '150px',
                           display: 'inline',
                           marginLeft: '10px'
                         }}
-                        type="number"
-                        value={workingTimePerDay.hours}
+                        type="text"
+                        value={workingTimePerDay.startTime}
                         onChange={handleChangeHour}
-                        placeholder="Hours"
+                        placeholder="Start time"
                       />
                     </Form.Group>
                   </Col>
                   <Col xs={12} md={5}>
                     <Form.Group controlId="formGridPassword">
-                      <Form.Label>Minutes</Form.Label>
+                      <Form.Label>End time</Form.Label>
                       <Form.Control
                         style={{
-                          width: '60px',
+                          width: '150px',
                           display: 'inline',
                           marginLeft: '10px'
                         }}
-                        type="number"
-                        value={workingTimePerDay.minutes}
+                        type="text"
+                        value={workingTimePerDay.endTime}
                         onChange={handleChangeMinutes}
-                        placeholder="Minutes"
+                        placeholder="End time"
                       />
                     </Form.Group>
                   </Col>
