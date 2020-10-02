@@ -88,13 +88,13 @@ const NotAvailablesPage: React.FC = () => {
   };
 
 
-  const renderRedirect = () => {
-    if (renderRedirectTo) {
-      return <Redirect to={routes.WORKING_DAYS_AND_HOURS_VIEW}/>;
-      //   props.history.push(loginState.redirectTo);s
-    }
-    return null;
-  };
+  // const renderRedirect = () => {
+  //   if (renderRedirectTo) {
+  //     return <Redirect to={routes.WORKING_DAYS_AND_HOURS_VIEW}/>;
+  //     //   props.history.push(loginState.redirectTo);s
+  //   }
+  //   return null;
+  // };
 
 
   return (
@@ -105,7 +105,7 @@ const NotAvailablesPage: React.FC = () => {
       }}
     >
 
-      {renderRedirect()}
+
       <NavBar/>
       <Row className="text-center mb-5">
         <Col

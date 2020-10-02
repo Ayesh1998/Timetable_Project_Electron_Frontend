@@ -8,24 +8,23 @@ import {Redirect} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import styles from './consecutiveSessions.css';
+import styles from './parallelCategory.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-import {setConsecutiveSessions} from './consecutiveSessionsSlice';
+import {setParallelCategorys} from './parallelCategorySlice';
 import {proxy} from '../../conf';
-import CheckboxGroup from 'react-checkbox-group';
+
 
 let errors_: string = ''
 
 
 var exist = 0;
 // noinspection DuplicatedCode
-const ConsecutiveSessionsAdd: React.FC = () => {
-  const dispatch = useDispatch();
-  // const value = useSelector();
+const TwoModuleAdd: React.FC = () => {
 
-  const [session1List, setSession1List] = useState<any>([]);
-  const [session2List, setSession2List] = useState<any>([]);
+  const [module1List, setModule1List] = useState<any>([]);
+  const [module2List, setModule2List] = useState<any>([]);
+  const [module3List, setModule3List] = useState<any>([]);
 
 
   const [loading, setLoading] = useState<boolean>(false)
@@ -33,24 +32,32 @@ const ConsecutiveSessionsAdd: React.FC = () => {
   const [show, setShow] = useState<boolean>(false);
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(false);
   const [renderRedirectTo1, setRenderRedirectTo1] = useState<boolean | null>(false);
+  const [renderRedirectTo2, setRenderRedirectTo2] = useState<boolean | null>(false);
   const [renderRedirectToGro, setRenderRedirectToGro] = useState<boolean | null>(false);
 
-  const [isConsecutive, setIsConsecutive] = useState<boolean | null>(false);
-  const [consecutiveId1, setConsecutiveId1] = useState<boolean | null>(false);
-  const [consecutiveId2, setConsecutiveId2] = useState<boolean | null>(false);
-  const [isSameRoom, setIsSameRoom] = useState<boolean | null>(false);
-  const [isSameRoomTrue, setIsSameRoomTrue] = useState<string>('');
+  const [category1, setCategory1] = useState<boolean | null>(false);
+  const [category2, setCategory2] = useState<boolean | null>(false);
+  const [category3, setCategory3] = useState<boolean | null>(false);
+
   const [id1, setId1] = useState<string>('');
 
   const [id2, setId2] = useState<string>('');
+  const [id3, setId3] = useState<string>('');
 
-  const [sessionId1,setSessionId1] = useState<number | null>(null);
-  const [sessionId2,setSessionId2] = useState<number | null>(null);
+  const [subjectName1,setSubjectName1] = useState<number | null>(null);
+  const [subjectName2,setSubjectName2] = useState<number | null>(null);
+  const [subjectName3,setSubjectName3] = useState<number | null>(null);
+
+  const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday','Saturday', 'Sunday'];
+
+  const durationList = [1, 2, 3];
+  const [categoryCount, setCategoryCount] = useState<number | null>(null);
+  const [category, setCategory] = useState<string>('');
 
 
 
 
-  const [sessionsObject, setSessionsObject] = useState<any>(null);
+  const [modulesObject, setModulesObject] = useState<any>(null);
 
   useEffect(() => {
     fetchData();
@@ -59,7 +66,7 @@ const ConsecutiveSessionsAdd: React.FC = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `${proxy}/sessions/getSessionList`,
+        `${proxy}/subjects/subjects`,
         {
           method: 'GET',
           headers: {
@@ -69,10 +76,11 @@ const ConsecutiveSessionsAdd: React.FC = () => {
       );
 
       const responseData = await response.json();
-      setSessionsObject(responseData);
-      setSession1List(responseData);
-      setSession2List(responseData);
-      dispatch(setConsecutiveSessions(responseData));
+      setModulesObject(responseData);
+      setModule1List(responseData);
+      setModule2List(responseData);
+      setModule3List(responseData);
+
       console.log(responseData);
 
       if (!responseData) {
@@ -83,13 +91,7 @@ const ConsecutiveSessionsAdd: React.FC = () => {
       console.log(err.message);
     }
   };
-  // const renderRedirectToView = () => {
-  //   if (setSessionsObject) {
-  //     return <Redirect to={routes.GROUPS_LIST_VIEW}/>;
-  //     //   props.history.push(loginState.redirectTo);s
-  //   }
-  //   return null;
-  // };
+
 
   const handleShow = () => {
     setLoading(true);
@@ -104,17 +106,13 @@ const ConsecutiveSessionsAdd: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    var sameRoom;
-    var sid = parseInt(String(sessionId1) + ''+ String(sessionId2));
+
+    var cid = ('('+String(subjectName1) + ','+ String(subjectName2)+')');
+    console.log(cid);
 
 
-    if(isSameRoomTrue.trim() != ''){
-      sameRoom = true;
-    }
 
-    else sameRoom = false;
-
-    if ((id1.trim() === '') && (id2.trim() === '')) {
+    if ((id1.trim() === '') && (id2.trim() === '') ) {
       errors_ = 'Please select  values for all fields.'
       setError(true)
       setLoading(false)
@@ -122,13 +120,13 @@ const ConsecutiveSessionsAdd: React.FC = () => {
 
     } else {
       if (id1.trim() === '') {
-        errors_ = 'Please select session1 .'
+        errors_ = 'Please select module1 .'
         setError(true)
         setLoading(false)
         console.log("1 ")
 
       } else if (id2.trim() === '') {
-        errors_ = 'Please select session2.'
+        errors_ = 'Please select module2.'
         setError(true)
         setLoading(false)
 
@@ -136,7 +134,7 @@ const ConsecutiveSessionsAdd: React.FC = () => {
     }
 
 
-        if (consecutiveId1 || consecutiveId2) {
+        if (category1 || category2) {
           exist = 1;
         }
 
@@ -149,18 +147,16 @@ const ConsecutiveSessionsAdd: React.FC = () => {
       }
 
 
-    if ((id1.trim() != '') && (id2.trim() != '') && (consecutiveId1 === false) && (consecutiveId2 === false)) {
+   if ((id1.trim() != '') && (id2.trim() != '')&&(category1=== false) && (category2=== false)) {
       const finalObjectGroup = {
-        isConsecutive,
-        consecutiveId:sid,
-        isSameRoom :sameRoom
-
+      category : cid,
+      categoryCount : 2
       };
 
-
+      console.log(finalObjectGroup);
       try {
 
-        const response = await fetch(`${proxy}/consecutiveSessions/addConsecutiveSession/` + id1, {
+        const response = await fetch(`${proxy}/subjects/addCategory/` + id1, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -179,7 +175,7 @@ const ConsecutiveSessionsAdd: React.FC = () => {
 
       try {
 
-        const response = await fetch(`${proxy}/consecutiveSessions/addConsecutiveSession/` + id2, {
+        const response = await fetch(`${proxy}/subjects/addCategory/` + id2, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -196,8 +192,7 @@ const ConsecutiveSessionsAdd: React.FC = () => {
         console.log(errors)
       }
 
-     }
-
+    }
 
 
   };
@@ -205,57 +200,51 @@ const ConsecutiveSessionsAdd: React.FC = () => {
 
   const renderRedirect = () => {
     if (renderRedirectTo && renderRedirectTo1) {
-      return <Redirect to={routes.TAGS_LIST_VIEW}/>;
+      return <Redirect to={routes.SUBJECTS_LIST_VIEW}/>;
       //   props.history.push(loginState.redirectTo);s
     }
     return null;
   };
 
-  const renderRedirectGro = () => {
-    if (renderRedirectToGro) {
-      return <Redirect to={routes.GROUPS_LIST_VIEW}/>;
-      //   props.history.push(loginState.redirectTo);s
-    }
-    return null;
-  };
-  const handleSession1 = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handleModule1 = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError(false)
 
     setId1(e.target.value);
-    setConsecutiveId1(false);
-    getSession1(e.target.value);
+    setCategory1(false);
+    getModule1(e.target.value);
 
 
   };
 
-  const handleSession2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleModule2 = (e: React.ChangeEvent<HTMLInputElement>) => {
 
     setError(false)
     setId2(e.target.value);
-    setConsecutiveId2(false);
-    getSession2(e.target.value);
+    setCategory2(false);
+    getModule2(e.target.value);
 
-
-    setIsConsecutive(true);
-    //setConsecutiveId(100010001);
-    //setIsSameRoom(true);
   };
 
-  const getSession1 = async (id: string) => {
+
+
+
+  const getModule1 = async (id: string) => {
+    console.log(id);
     setLoading(true)
     try {
-      const response = await fetch(`${proxy}/sessions/getSessions/` + id, {
+      const response = await fetch(`${proxy}/subjects/subjects1/` + id, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
       })
       const responseData = await response.json()
-      setSessionId1(responseData.sessionId);
-      console.log(responseData.sessionId);
+      setSubjectName1(responseData.subjectName);
 
-      if(responseData.consecutiveId){
-        setConsecutiveId1(true);
+
+      if(responseData.category){
+        setCategory1(true);
       }
 
 
@@ -267,20 +256,20 @@ const ConsecutiveSessionsAdd: React.FC = () => {
     }
   }
 
-  const getSession2 = async (id: string) => {
+  const getModule2 = async (id: string) => {
     setLoading(true)
     try {
-      const response = await fetch(`${proxy}/sessions/getSessions/` + id, {
+      const response = await fetch(`${proxy}/subjects/subjects1/` + id, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
       })
       const responseData = await response.json()
-      setSessionId2(responseData.sessionId);
+      setSubjectName2(responseData.subjectName);
 
-      if(responseData.consecutiveId){
-        setConsecutiveId2(true);
+      if(responseData.category){
+        setCategory2(true);
       }
 
       setLoading(false)
@@ -290,24 +279,26 @@ const ConsecutiveSessionsAdd: React.FC = () => {
       console.log(errors)
     }
   }
+
+
   return (
     <div
       style={{
         backgroundColor: '#37474F',
-        height: '100vh'
+
       }}
     >
 
       {renderRedirect()}
 
-      <NavBar/>
+
       <Modal show={show}
              onHide={handleClose}
       >
         <Modal.Header closeButton>
           <Modal.Title>Warning!</Modal.Title>
         </Modal.Header>
-        <Modal.Body>This consecutive sessions are already exists</Modal.Body>
+        <Modal.Body>Some modules already added to a category</Modal.Body>
         <Modal.Footer>
           <Button variant='danger'
                   onClick={handleClose}
@@ -328,16 +319,7 @@ const ConsecutiveSessionsAdd: React.FC = () => {
           )
         }
       </Modal>
-      <Row className="text-center mb-5">
-        <Col
-          xs={12}
-          md={12}
-          className="p-3"
-          style={{backgroundColor: '#343a40', color: '#fff'}}
-        >
-          <h3>Add Consecutive Session</h3>
-        </Col>
-      </Row>
+
       <Container
         className={`mt-2 p-4 mb-5 ${styles.groupsTopWrapper}`}
         style={{
@@ -351,7 +333,7 @@ const ConsecutiveSessionsAdd: React.FC = () => {
         <div>
           <Row className="mt-3 mb-3 justify-content-md-center">
             <Col xs={12} md={4} className="mt-auto">
-              <p>Select Session1</p>
+              <p>Select Module1</p>
             </Col>
             <Col xs={3} md={4}>
               <Form className="">
@@ -362,11 +344,11 @@ const ConsecutiveSessionsAdd: React.FC = () => {
                     defaultValue="Choose..."
                     style={{borderWidth: '2.5px'}}
                     value={id1}
-                    onChange={handleSession1}
+                    onChange={handleModule1}
                   >
                     <option>Select</option>
-                    {session1List?.map((session, index) => (
-                      <option value={session._id}>{session.sessionId}-{session.label}</option>
+                    {module1List?.map((module, index) => (
+                      <option value={module._id}>{module.offeredYear}.{module.offeredSemester}-{module.subjectName}({module.subjectCode})</option>
                     ))}
                   </Form.Control>
 
@@ -377,7 +359,7 @@ const ConsecutiveSessionsAdd: React.FC = () => {
           </Row>
           <Row className="mt-3 mb-3 justify-content-md-center">
             <Col xs={12} md={4}>
-              <p>Select Session2</p>
+              <p>Select Module2</p>
             </Col>
             <Col xs={3} md={4}>
               <Form className="">
@@ -388,11 +370,11 @@ const ConsecutiveSessionsAdd: React.FC = () => {
                     defaultValue="Choose..."
                     style={{borderWidth: '2.5px'}}
                     value={id2}
-                    onChange={handleSession2}
+                    onChange={handleModule2}
                   >
                     <option>Select</option>
-                    {session2List?.map((session, index) => (
-                      <option value={session._id}>{session.sessionId}-{session.label}</option>
+                    {module2List?.map((module, index) => (
+                      <option value={module._id}>{module.offeredYear}.{module.offeredSemester}-{module.subjectName}({module.subjectCode})</option>
                     ))}
                   </Form.Control>
 
@@ -402,41 +384,18 @@ const ConsecutiveSessionsAdd: React.FC = () => {
             <Col xs={3} md={2}></Col>
           </Row>
 
-          <Row className="mt-3 mb-3 justify-content-md-center">
-              <Col xs={12} md={2}>
-
-              </Col>
-              <Col xs={2} md={6}>
 
 
-                <CheckboxGroup
-                  name="setIsSameRoom"
-                  value={isSameRoomTrue}
-                  onChange={setIsSameRoomTrue}
-                >
-                  {(Checkbox) => (
-                    <>
-
-                        <label className="mr-sm-2 mr-md-3" >
-                          <Checkbox value="require"/> require for the same room also
-                        </label>
-
-                    </>
-                  )}
-                </CheckboxGroup>
-              </Col>
-              <Col xs={12} md={4}/>
 
 
-            </Row>
           <Row className="mt-2 mb-2 justify-content-md-center">
             <Col xs={12} md={2}/>
             <Col xs={3} md={6}>
               <Button
-                style={{width: '150px', fontSize: '1.3em'}}
+                style={{width: '170px', fontSize: '1.3em'}}
                 onClick={handleSubmit}
               >
-                Add
+                Create Category
               </Button>
             </Col>
 
@@ -463,4 +422,4 @@ const ConsecutiveSessionsAdd: React.FC = () => {
   );
 };
 
-export default ConsecutiveSessionsAdd;
+export default TwoModuleAdd;

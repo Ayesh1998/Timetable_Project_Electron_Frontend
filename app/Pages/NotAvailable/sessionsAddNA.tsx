@@ -236,7 +236,7 @@ const SessionsAddNA: React.FC = () => {
 
   const renderRedirect = () => {
     if (renderRedirectTo) {
-      return <Redirect to={routes.TAGS_LIST_VIEW}/>;
+      return <Redirect to={routes.HOME}/>;
       //   props.history.push(loginState.redirectTo);s
     }
     return null;
@@ -423,7 +423,7 @@ const SessionsAddNA: React.FC = () => {
                   >
                     <option>Select</option>
                     {session1List?.map((session, index) => (
-                      <option value={session._id}>{session.label}</option>
+                      <option value={session._id}>{session.sessionId}-{session.label}</option>
                     ))}
                   </Form.Control>
 

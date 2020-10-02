@@ -236,7 +236,7 @@ const GroupsAddNA: React.FC = () => {
 
   const renderRedirect = () => {
     if (renderRedirectTo) {
-      return <Redirect to={routes.TAGS_LIST_VIEW}/>;
+      return <Redirect to={routes.HOME}/>;
       //   props.history.push(loginState.redirectTo);s
     }
     return null;
