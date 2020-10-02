@@ -17,7 +17,12 @@ import studentsStatisticsReducer from './Pages/StudentsStatistics/students-stati
 import subjectsStatisticsReducer from './Pages/SubjectsStatistics/subjects-statistics-slice'
 import roomsUnavailabilityReducer from './Pages/RoomsUnavailability/rooms-unavailability-slice'
 import addRoomsReducer from './Pages/AddRooms/add-rooms-slice'
+import sessionsReducer from './Pages/Sessions/sessionsSlice'
 import assignRoomsForSessionsReducer from './Pages/AssignRoomsForSessions/assign-rooms-for-sessions-slice'
+import consecutiveSessionsReducer from './Pages/ConsecutiveSession/consecutiveSessionsSlice'
+import notAvailablesReducer from './Pages/NotAvailable/notAvailablesSlice'
+import parallelSessionsReducer from './Pages/ParallelSession/ParallelSessionsSlice'
+import parallelCategorysReducer from './Pages/ParallelCategory/ParallelCategorySlice'
 
 export default function createRootReducer(history: History) {
   return combineReducers({
@@ -38,6 +43,11 @@ export default function createRootReducer(history: History) {
     subjectsStatistics: subjectsStatisticsReducer,
     roomsUnavailability: roomsUnavailabilityReducer,
     addRooms: addRoomsReducer,
-    assignRoomsForSessions: assignRoomsForSessionsReducer
+    assignRoomsForSessions: assignRoomsForSessionsReducer,
+    consecutiveSessions: consecutiveSessionsReducer,
+    notAvailables: notAvailablesReducer,
+    parallelSessions: parallelSessionsReducer,
+    parallelCategorys: parallelCategorysReducer,
+    sessions: sessionsReducer
   })
 }
