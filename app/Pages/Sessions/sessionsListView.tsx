@@ -8,20 +8,20 @@ import styles from './sessions.css';
 import { setSessions } from './sessionsSlice';
 import {
   setRoomUnavailability,
-  setUnavailableRoom,
+  setUnavailableRoom
 } from '../RoomsUnavailability/rooms-unavailability-slice';
 import {
   setEditingRoom,
   setEditingRoomId,
   setEditRoom,
-  setExistingRoom,
+  setExistingRoom
 } from '../Rooms/rooms-slice';
 import {
   setEditBuilding,
   setEditingBuilding,
   setEditingBuildingId,
   setExistingBuilding,
-  setExistingRoomsForBuilding,
+  setExistingRoomsForBuilding
 } from '../Buildings/buildings-slice';
 import { proxy } from '../../conf';
 
@@ -38,6 +38,7 @@ const Session = (props: any) => (
     <td>{props.session.duration}</td>
     <td>{props.session.parallelId}</td>
     <td>{props.session.consecutiveId}</td>
+    {/*<td>{props.session.isSameRoom}</td>*/}
     {/*    <td> */}
     {/*      <Link to={`/editLecturer/${props.lecturer._id}`}>edit</Link> | */}
     {/* {' '} */}
@@ -55,6 +56,11 @@ const Session = (props: any) => (
 
 const SessionsListView: React.FC = () => {
   const dispatch = useDispatch();
+
+  const [lecturersNameObject, setLecturersNameObject] = useState<any>(null);
+  const [subjectObject, setSubjectObject] = useState<any>(null);
+  const [groupObject, setGroupObject] = useState<any>(null);
+  const [subGroupObject, setSubGroupObject] = useState<any>(null);
 
   dispatch(setEditRoom(false));
   dispatch(setEditingRoomId(''));
@@ -81,7 +87,7 @@ const SessionsListView: React.FC = () => {
     lecturers: '',
     subjectRef: '',
     groupRef: '',
-    subGroupRef: '',
+    subGroupRef: ''
   });
 
   useEffect(() => {
@@ -92,8 +98,8 @@ const SessionsListView: React.FC = () => {
           {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
-            },
+              'Content-Type': 'application/json'
+            }
           }
         );
 
@@ -105,6 +111,85 @@ const SessionsListView: React.FC = () => {
         dispatch(setSessions(responseData));
         console.log(2222);
         console.log(responseData);
+
+        const responseLecturers = await fetch(
+          `${proxy}/lecturers/lecturers`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+
+        const responseDataLecturers = await responseLecturers.json();
+        setLecturersNameObject(responseDataLecturers);
+        console.log('111111111111222211111111111');
+        console.log(responseDataLecturers);
+
+        if (!responseDataLecturers) {
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error(responseDataLecturers.message);
+        }
+
+        const responseSubjects = await fetch(
+          `${proxy}/subjects/subjects`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+
+        const responseDataSubjects = await responseSubjects.json();
+        setSubjectObject(responseDataSubjects);
+        console.log('111111111111222211111111111');
+        console.log(responseDataSubjects);
+
+        if (!responseDataSubjects) {
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error(responseDataSubjects.message);
+        }
+        const responseGroup = await fetch(
+          `${proxy}/groups/getGroups`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+
+        const responseDataGroup = await responseGroup.json();
+        setGroupObject(responseDataGroup);
+        console.log('group');
+        console.log(responseDataGroup);
+
+        if (!responseDataGroup) {
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error(responseDataGroup.message);
+        }
+
+        const responseSubGroup = await fetch(
+          `${proxy}/subGroups/getSubGroups`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+
+        const responseDataSubGroup = await responseSubGroup.json();
+        setSubGroupObject(responseDataSubGroup);
+        console.log('sub group');
+        console.log(responseDataSubGroup);
+
+        if (!responseDataSubGroup) {
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error(responseDataSubGroup.message);
+        }
 
         if (!responseData) {
           // noinspection ExceptionCaughtLocallyJS
@@ -126,9 +211,9 @@ const SessionsListView: React.FC = () => {
         {
           method: 'DELETE',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ id }),
+          body: JSON.stringify({ id })
         }
       );
 
@@ -148,17 +233,56 @@ const SessionsListView: React.FC = () => {
     }
   };
 
+
+  const handleChangeLecturerSearch = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setLoading(true);
+    setsessionS({ ...sessionS, subGroupRef: e.target.value });
+
+    const temp = sessionsObject.filter((data) => {
+      // console.log(data.lecturers[0]);
+      // console.log(e.target.value);
+      return ((data.lecturers[0].lecturerRef) === (e.target.value ))
+    });
+    // console.log(sessionsObject);
+    // console.log(temp);
+    setSessionsObject(temp)
+    setLoading(false);
+  };
+
   const handleChangeSubjectSearch = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     setLoading(true);
     setsessionS({ ...sessionS, subjectRef: e.target.value });
+
+    const temp1 = sessionsObject().filter((data) => {
+      // console.log(data.lecturers[0]);
+      // console.log(e.target.value);
+      return ((data.subjectRef[0]) === (e.target.value ))
+    });
+    // console.log(sessionsObject);
+    // console.log(temp);
+    setSubjectObject(temp1)
+    setLoading(false);
+
     setLoading(false);
   };
 
   const handleChangeGroupSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
     setsessionS({ ...sessionS, groupRef: e.target.value });
+
+    const temp2 = sessionsObject().filter((data) => {
+      // console.log(data.lecturers[0]);
+      // console.log(e.target.value);
+      return ((data.groupRef[0]) === (e.target.value ))
+    });
+    // console.log(sessionsObject);
+    // console.log(temp);
+    setGroupObject(temp2)
+
     setLoading(false);
   };
 
@@ -167,6 +291,14 @@ const SessionsListView: React.FC = () => {
   ) => {
     setLoading(true);
     setsessionS({ ...sessionS, subGroupRef: e.target.value });
+    const temp3 = sessionsObject().filter((data) => {
+      // console.log(data.lecturers[0]);
+      // console.log(e.target.value);
+      return ((data.subGroupRef[0]) === (e.target.value ))
+    });
+    // console.log(sessionsObject);
+    // console.log(temp);
+    setGroupObject(temp3)
     setLoading(false);
   };
 
@@ -185,7 +317,7 @@ const SessionsListView: React.FC = () => {
 
   return (
     <div style={{ backgroundColor: '#37474F' }}>
-      <NavBar />
+      <NavBar/>
 
       <Row className="text-center mb-5">
         <Col
@@ -203,7 +335,7 @@ const SessionsListView: React.FC = () => {
               fontSize: '1.3em',
               color: 'white',
               marginLeft: '63.5%',
-              marginTop: '20px',
+              marginTop: '20px'
             }}
           >
             <Link
@@ -211,7 +343,7 @@ const SessionsListView: React.FC = () => {
               style={{
                 width: '160px',
                 fontSize: '1.0em',
-                color: 'white',
+                color: 'white'
               }}
             >
               Add Session
@@ -223,13 +355,37 @@ const SessionsListView: React.FC = () => {
         <Form>
           <Form.Row
             style={{
-              marginTop: '-2%',
+              marginTop: '-2%'
             }}
           >
             <Form.Group
               controlId="formLocatedBuilding"
               style={{
-                marginLeft: '45%',
+                marginLeft: '20%'
+              }}
+            >
+              <Form.Label>Lecturer Name</Form.Label>
+              <Form.Control
+                as="select"
+                value={sessionS.groupRef}
+                onChange={handleChangeLecturerSearch}
+                title="Search by located building."
+              >
+                <option value="">Search by Lecturer Name</option>
+                {lecturersNameObject &&
+                lecturersNameObject.map((lecturersNameObject: any) => {
+                  return (
+                    <option key={lecturersNameObject._id} value={lecturersNameObject.lecturerName}>
+                      {lecturersNameObject.lecturerName}
+                    </option>
+                  );
+                })}
+              </Form.Control>
+            </Form.Group>
+            <Form.Group
+              controlId="formLocatedBuilding"
+              style={{
+                marginLeft: '3%'
               }}
             >
               <Form.Label>Subject Name</Form.Label>
@@ -240,20 +396,20 @@ const SessionsListView: React.FC = () => {
                 title="Search by located building."
               >
                 <option value="">Search by Subject</option>
-                {session &&
-                  session.map((session: any) => {
-                    return (
-                      <option key={session._id} value={session.subjectRef}>
-                        {session.subjectRef}
-                      </option>
-                    );
-                  })}
+                {subjectObject &&
+                subjectObject.map((subjectObject: any) => {
+                  return (
+                    <option key={subjectObject._id} value={subjectObject.subjectName}>
+                      {subjectObject.subjectName}
+                    </option>
+                  );
+                })}
               </Form.Control>
             </Form.Group>
             <Form.Group
               controlId="formLocatedBuilding"
               style={{
-                marginLeft: '3%',
+                marginLeft: '3%'
               }}
             >
               <Form.Label>Group ID</Form.Label>
@@ -264,20 +420,20 @@ const SessionsListView: React.FC = () => {
                 title="Search by located building."
               >
                 <option value="">Search by Group ID</option>
-                {session &&
-                  session.map((session: any) => {
-                    return (
-                      <option key={session._id} value={session.groupRef}>
-                        {session.groupRef}
-                      </option>
-                    );
-                  })}
+                {groupObject &&
+                groupObject.groups.map((groupObject: any) => {
+                  return (
+                    <option key={groupObject._id} value={groupObject.groupId}>
+                      {groupObject.groupId}
+                    </option>
+                  );
+                })}
               </Form.Control>
             </Form.Group>
             <Form.Group
               controlId="formLocatedBuilding"
               style={{
-                marginLeft: '3%',
+                marginLeft: '3%'
               }}
             >
               <Form.Label> Sub Group ID</Form.Label>
@@ -288,14 +444,14 @@ const SessionsListView: React.FC = () => {
                 title="Search by located building."
               >
                 <option value="">Search by Group ID</option>
-                {session &&
-                  session.map((session: any) => {
-                    return (
-                      <option key={session._id} value={session.subGroupRef}>
-                        {session.subGroupRef}
-                      </option>
-                    );
-                  })}
+                {subGroupObject &&
+                subGroupObject.subGroups.map((subGroupObject: any) => {
+                  return (
+                    <option key={subGroupObject._id} value={subGroupObject.subGroupId}>
+                      {subGroupObject.subGroupId}
+                    </option>
+                  );
+                })}
               </Form.Control>
             </Form.Group>
           </Form.Row>
@@ -308,7 +464,7 @@ const SessionsListView: React.FC = () => {
           style={{
             border: '3px solid white',
             borderRadius: '8px',
-            color: 'white',
+            color: 'white'
           }}
         >
           <Row className="mt-3 mb-4 justify-content-md-center">
@@ -321,19 +477,20 @@ const SessionsListView: React.FC = () => {
                 className={`${styles.workingDaysHoursViewTable}`}
               >
                 <thead className="thead-light">
-                  <tr>
-                    <th>Session ID</th>
-                    <th>Lecturers Name</th>
-                    <th>Subject Code</th>
-                    <th>Subject Name</th>
-                    <th>Tag</th>
-                    <th>Group </th>
-                    <th>Sub Group</th>
-                    <th>Student Count</th>
-                    <th>Duration</th>
-                    <th>Parallel</th>
-                    <th>Consecutive</th>
-                  </tr>
+                <tr>
+                  <th>Session ID</th>
+                  <th>Lecturers Name</th>
+                  <th>Subject Code</th>
+                  <th>Subject Name</th>
+                  <th>Tag</th>
+                  <th>Group</th>
+                  <th>Sub Group</th>
+                  <th>Student Count</th>
+                  <th>Duration</th>
+                  <th>Parallel</th>
+                  <th>Consecutive</th>
+                  {/*<th>isSameRoom<th>*/}
+                </tr>
                 </thead>
                 <tbody>{sessionList()}</tbody>
               </Table>
