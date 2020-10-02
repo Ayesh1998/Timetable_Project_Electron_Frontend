@@ -10,6 +10,8 @@
   "SUBJECTS_ADD": "/addSubject",
   "SUBJECTS_EDIT": "/editSubject/:id",
   "SUBJECTS_LIST_VIEW": "/listSubjects",
+  "SESSIONS_ADD": "/addSessions",
+  "SESSIONS_LIST": "/listSessions",
   "GROUPS_LIST_VIEW": "/listGroup",
   "GROUPS_LIST_VIEW_EDIT": "/listGroupEdit",
   "GROUPS_ADD": "/addGroup",
@@ -31,6 +33,10 @@
   "PROGRAMS_LIST_VIEW": "/programme",
   "PROGRAMS_ADD": "/addProgramme",
   "PROGRAMS_EDIT": "/editProgramme/:id",
+  "CONSECUTIVE_SESSIONS":"/addConsecutiveSessions",
+  "PARALLEL_SESSIONS":"/addParallelSessions",
+  "NOT_AVAILABLE_TIMES" : "/notAvailableTimes",
+  "CATEGORY":"/addCategory",
   "BUILDINGS": "/buildings",
   "ROOMS": "/rooms",
   "STATISTICS_OF_LECTURERS": "/statistics-of-lecturers",
@@ -38,5 +44,6 @@
   "STATISTICS_OF_STUDENTS": "/statistics-of-students",
   "ROOMS_UNAVAILABILITY": "/rooms-unavailability",
   "ADD_ROOMS": "/add-rooms",
-  "ASSIGN_ROOMS_FOR_SESSIONS": "/assign-rooms-for-sessions"
+  "ASSIGN_ROOMS_FOR_SESSIONS": "/assign-rooms-for-sessions",
+  "GENERATE_TIMETABLES": "/generate-timetables"
 }

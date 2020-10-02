@@ -33,6 +33,9 @@ import SubGroupNumsEdit from './Pages/SubGroupNum/subGroupNumsEdit'
 import ProgramsListView from './Pages/Programme/programsListView'
 import ProgramsAdd from './Pages/Programme/programsAdd'
 import ProgramsEdit from './Pages/Programme/programsEdit'
+import ConsecutiveSessionsAdd from './Pages/ConsecutiveSession/consecutiveSessionsAdd'
+import NotAvailablesPage from './Pages/NotAvailable/notAvailablesPage'
+import ParallelSessionsPage from './Pages/ParallelSession/parallelSessionsPage'
 import BuildingsPage from './Pages/Buildings/buildings-page'
 import RoomsPage from './Pages/Rooms/rooms-page'
 import LecturersStatisticsPage from './Pages/LecturersStatistics/lecturers-statistics-page'
@@ -41,6 +44,10 @@ import SubjectsStatisticsPage from './Pages/SubjectsStatistics/subjects-statisti
 import RoomsUnavailabilityPage from './Pages/RoomsUnavailability/rooms-unavailability-page'
 import AddRoomsPage from './Pages/AddRooms/add-rooms-page'
 import AssignRoomsForSessionsPage from './Pages/AssignRoomsForSessions/assign-rooms-for-sessions-page'
+import TimetableScreen from './Pages/TimetableGenerate/TimetableScreen';
+import ParallelCategoryPage from './Pages/ParallelCategory/parallelCategoryPage'
+import SessionsAddView from './Pages/Sessions/sessionsAddView';
+import SessionsListView from './Pages/Sessions/sessionsListView';
 
 const LazyCounterPage = React.lazy(() =>
   import('./containers/CounterPage')
@@ -56,6 +63,7 @@ export default function Routes() {
   return (
     <App>
       <Switch>
+
         <Route path={routes.COUNTER}
                component={CounterPage}/>
         <Route path={routes.WORKING_DAYS_AND_HOURS_VIEW}
@@ -76,6 +84,10 @@ export default function Routes() {
                component={SubjectsEditView}/>
         <Route path={routes.SUBJECTS_LIST_VIEW}
                component={SubjectsListView}/>
+        <Route path={routes.SESSIONS_ADD} 
+               component={SessionsAddView}/>
+        <Route path={routes.SESSIONS_LIST} 
+               component={SessionsListView}/>
         <Route path={routes.GROUPS_ADD}
                component={GroupsAdd}/>
         <Route path={routes.GROUPS_LIST_VIEW}
@@ -118,6 +130,14 @@ export default function Routes() {
                component={ProgramsEdit}/>
         <Route path={routes.PROGRAMS_LIST_VIEW}
                component={ProgramsListView}/>
+        <Route path={routes.CONSECUTIVE_SESSIONS}
+               component={ConsecutiveSessionsAdd}/>
+        <Route path={routes.NOT_AVAILABLE_TIMES}
+               component={NotAvailablesPage}/>
+       <Route path={routes.PARALLEL_SESSIONS}
+               component={ParallelSessionsPage}/>
+       <Route path={routes.CATEGORY}
+               component={ParallelCategoryPage}/>
         <Route path={routes.BUILDINGS}
                component={BuildingsPage}/>
         <Route path={routes.ROOMS}
@@ -134,6 +154,8 @@ export default function Routes() {
                component={AddRoomsPage}/>
         <Route path={routes.ASSIGN_ROOMS_FOR_SESSIONS}
                component={AssignRoomsForSessionsPage}/>
+        <Route path={routes.GENERATE_TIMETABLES}
+               component={TimetableScreen}/>
         <Route path={routes.HOME}
                component={HomePage}/>
       </Switch>
