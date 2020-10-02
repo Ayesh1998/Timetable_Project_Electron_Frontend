@@ -43,7 +43,7 @@ const AddRoomsPage: React.FC = () => {
                backgroundColor: '#343a40',
                color: '#fff'
              }}>
-          <h1>Add Rooms</h1>
+          <h1>Add Preferred Rooms</h1>
         </Col>
       </Row>
       <div className='container'>
