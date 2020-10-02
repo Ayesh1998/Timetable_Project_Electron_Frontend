@@ -1,7 +1,7 @@
-import React from 'react'
-import {Route, Switch} from 'react-router-dom'
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import App from './containers/App';
 import routes from './constants/routes.json'
-import App from './containers/App'
 import HomePage from './containers/HomePage'
 import WorkingDaysHoursView from './Pages/WorkingDaysHours/WorkingDaysAndHoursView'
 import WorkingDaysHours from './Pages/WorkingDaysHours/WorkingDaysHours'
@@ -84,9 +84,9 @@ export default function Routes() {
                component={SubjectsEditView}/>
         <Route path={routes.SUBJECTS_LIST_VIEW}
                component={SubjectsListView}/>
-        <Route path={routes.SESSIONS_ADD} 
+        <Route path={routes.SESSIONS_ADD}
                component={SessionsAddView}/>
-        <Route path={routes.SESSIONS_LIST} 
+        <Route path={routes.SESSIONS_LIST}
                component={SessionsListView}/>
         <Route path={routes.GROUPS_ADD}
                component={GroupsAdd}/>

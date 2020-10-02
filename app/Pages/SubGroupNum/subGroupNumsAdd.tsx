@@ -12,6 +12,7 @@ import styles from './subGroupNums.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setSubGroupNums} from './subGroupNumsSlice';
+import {proxy} from '../../conf'
 
 let errors_: string = ''
 
@@ -36,7 +37,7 @@ const SubGroupNumsAdd: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/subGroupNums/getSubGroupNums`,
+          `${proxy}/subGroupNums/getSubGroupNums`,
           {
             method: 'GET',
             headers: {
@@ -96,7 +97,7 @@ const SubGroupNumsAdd: React.FC = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/subGroupNums/create`,
+          `${proxy}/subGroupNums/create`,
           {
             method: 'POST',
             headers: {

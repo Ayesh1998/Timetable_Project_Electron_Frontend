@@ -12,6 +12,7 @@ import styles from './sessions.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setSessions} from './sessionsSlice';
+import { proxy } from '../../conf';
 
 // noinspection DuplicatedCode
 const SessionsAdd: React.FC = () => {
@@ -47,7 +48,7 @@ const SessionsAdd: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/sessions/getSessionList`,
+          `${proxy}/sessions/getSessionList`,
           {
             method: 'GET',
             headers: {
@@ -67,7 +68,7 @@ const SessionsAdd: React.FC = () => {
         }
 
         const responseLecturers = await fetch(
-          `http://localhost:5000/lecturers/lecturers`,
+          `${proxy}/lecturers/lecturers`,
           {
             method: 'GET',
             headers: {
@@ -87,7 +88,7 @@ const SessionsAdd: React.FC = () => {
         }
 
         const responseSubjects = await fetch(
-          `http://localhost:5000/subjects/subjects`,
+          `${proxy}/subjects/subjects`,
           {
             method: 'GET',
             headers: {
@@ -106,7 +107,7 @@ const SessionsAdd: React.FC = () => {
           throw new Error(responseDataSubjects.message);
         }
         const responseGroup = await fetch(
-          `http://localhost:5000/groups/getGroups`,
+          `${proxy}/groups/getGroups`,
           {
             method: 'GET',
             headers: {
@@ -126,7 +127,7 @@ const SessionsAdd: React.FC = () => {
         }
 
         const responseSubGroup = await fetch(
-          `http://localhost:5000/subGroups/getSubGroups`,
+          `${proxy}/subGroups/getSubGroups`,
           {
             method: 'GET',
             headers: {
@@ -146,7 +147,7 @@ const SessionsAdd: React.FC = () => {
         }
 
         const responseTags = await fetch(
-          `http://localhost:5000/tags/getTags`,
+          `${proxy}/tags/getTags`,
           {
             method: 'GET',
             headers: {
@@ -182,12 +183,39 @@ const SessionsAdd: React.FC = () => {
   };
 
   const handleSubmit = async () => {
+    if (subjectRef === '') {
+      setError('Please select subject !');
+      return;
+    }
+    if (subjectCodeRef === '') {
+      setError('Please select Subject Code !');
+      return;
+    }
+    if (subjectRef === '') {
+      setError('Please select Tag !');
+      return;
+    }
+
+    if (studentCount === '') {
+      setError('Please enter an Student Count!');
+      return;
+    }
+    if (duration === '') {
+      setError('Please enter an Duration !');
+      return;
+    }
+    if (groupRef !== '' && subGroupRef !== '' ) {
+      setError('Please Select only one group !');
+      return;
+    }
+    
     if (groupRef === "") {
       groupRef = null
     }
     if (subGroupRef === "") {
       subGroupRef = null
     }
+    
     // if (employeeId === '') {
     //   setError('Please enter an Employee ID !');
     //   return;
@@ -200,6 +228,7 @@ const SessionsAdd: React.FC = () => {
     //   setError('Please enter an Employee Name !');
     //   return;
     // }
+    
     setError(null);
     const finalObject = {
       lecturers,
@@ -217,7 +246,7 @@ const SessionsAdd: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/sessions/addSessions`,
+        `${proxy}/sessions/addSessions`,
         {
           method: 'POST',
           headers: {
@@ -360,19 +389,32 @@ const SessionsAdd: React.FC = () => {
                 </Form.Group>
               </Form>
             </Col>
-            <Col xs={3} md={3}/>
-          </Row>
-          <Row className="mb-2 justify-content-md-center">
-            <Col xs={0} md={9}/>
+            <Col xs={3} md={1}/>
+          {/*</Row>*/}
+          {/*<Row className="mb-2 justify-content-md-center">*/}
+          {/*  <Col xs={0} md={9}/>*/}
             <Col xs={12} md={2}>
               <Button
-                style={{width: '160px', fontSize: '1.3em'}}
+                style={{width: '100px', fontSize: '0.9em'}}
                 onClick={handleLecturerArray}
               >
                 Add Lecturer
               </Button>
             </Col>
-
+          </Row>
+          <Row style={{textAlign: 'center'}}>
+            <Col md={10}>
+            {/*  <Col xs={2} md={6}>*/}
+              <Form className="">
+                <Form.Group controlId="formBasicEmail">
+                  <Form.Control
+                    type="text"
+                    style={{borderWidth: '2.5px', width: '450px', height: '100px', marginLeft: '51.5%'}}
+                    value = {lecturerObject}
+                  />
+                </Form.Group>
+              </Form>
+            </Col>
           </Row>
           <Row className="mt-3 mb-3 justify-content-md-center">
             <Col xs={12} md={4}>

@@ -7,6 +7,7 @@ import NavBar from '../../components/NavBar/NavBar';
 import styles from './groups.css';
 import routes from '../../constants/routes.json';
 import {setEditGroup, setEditingGroup, setEditingGroupId, setGroups} from './groupsSlice';
+import {proxy} from '../../conf'
 
 
 const Group = (props) => (
@@ -134,7 +135,7 @@ const GroupsListViewEdit: React.FC = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/groups/getGroups`,
+        `${proxy}/groups/getGroups`,
         {
           method: 'GET',
           headers: {
@@ -163,7 +164,7 @@ const GroupsListViewEdit: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/groups/deleteGroups`,
+        `${proxy}/groups/deleteGroups`,
         {
           method: 'DELETE',
           headers: {
@@ -206,7 +207,7 @@ const GroupsListViewEdit: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/groups/getGroups/` + id,
+        `${proxy}/groups/getGroups/` + id,
         {
           method: 'GET',
           headers: {

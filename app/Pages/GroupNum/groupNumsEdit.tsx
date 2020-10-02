@@ -6,6 +6,7 @@ import styles from './groupNums.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setEditGroupNum, setEditingGroupNum, setEditingGroupNumId} from './groupNumsSlice';
+import {proxy} from '../../conf'
 
 let errors_: string = ''
 const GroupNumsEdit: React.FC = () => {
@@ -60,7 +61,7 @@ const GroupNumsEdit: React.FC = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/groupNums/editGroupNums`,
+          `${proxy}/groupNums/editGroupNums`,
           {
             method: 'PUT',
             headers: {

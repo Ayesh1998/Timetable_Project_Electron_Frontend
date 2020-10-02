@@ -14,6 +14,7 @@ import {
   setExistingBuilding,
   setExistingRoomsForBuilding
 } from '../Buildings/buildings-slice'
+import { proxy } from '../../conf';
 
 const Subject = (props: any) => (
   <tr>
@@ -60,7 +61,7 @@ const SubjectsListView: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/subjects/subjects`,
+          `${proxy}/subjects/subjects`,
           {
             method: 'GET',
             headers: {
@@ -92,7 +93,7 @@ const SubjectsListView: React.FC = () => {
     console.log(id);
     try {
       const response = await fetch(
-        `http://localhost:5000/subjects/subjects/${id}`,
+        `${proxy}/subjects/subjects/${id}`,
         {
           method: 'DELETE',
           headers: {

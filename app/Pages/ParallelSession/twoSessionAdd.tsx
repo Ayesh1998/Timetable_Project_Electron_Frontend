@@ -87,6 +87,7 @@ const TwoSessionAdd: React.FC = () => {
   const [sessionsObject, setSessionsObject] = useState<any>(null);
 
   useEffect(() => {
+    console.log(parallelSessions[0]);
     //fetchData();
     getSessions1(parallelSessions[0]);
     getSessions2(parallelSessions[1]);

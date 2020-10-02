@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Col, Row, Table, Container, Button } from 'react-bootstrap';
 import moment from 'moment';
 import sessions from '../../constants/data';
+import {proxy} from '../../conf'
 
 type TimetableGeneratorProps = {
   degree: string | null;
@@ -53,6 +54,38 @@ const TimetableGenerator: React.FC<TimetableGeneratorProps> = (props) => {
     const slots = (parseInt(tempHoursInMinutes) + parseInt(time.minutes)) / timeSlotTime;
     return slots;
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${proxy}/sessions/getSessionList`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          }
+        );
+
+        const responseData = await response.json();
+        console.log(responseData);
+
+        // setSessionsObject(responseData);
+        // dispatch(setSessions(responseData));
+
+        if (!responseData) {
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error(responseData.message);
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+
+    // noinspection JSIgnoredPromiseFromCall
+    fetchData();
+  }, []);
 
   console.log(generateNoOfTimeSlots(60, '08:30:00', '17:30:00'));
 
@@ -679,8 +712,9 @@ const TimetableGenerator: React.FC<TimetableGeneratorProps> = (props) => {
                 return;
               }
               return (<td key={index} style={{ display: 'block', textAlign: 'center' }}>
-                <span>{increasingHours - 1} : {minutes[0]}</span><span> - </span>
-                <span>{increasingHours} : {minutes[0]}</span></td>);
+                <span
+                  style={{ display: 'block' }}> - </span><span>{increasingHours - 1} : {minutes[0]}</span><span> - </span>
+                <span>{increasingHours} : {minutes[0]}</span> <span style={{ display: 'block' }}> - </span></td>);
             })
           }
         </tr>
@@ -694,17 +728,27 @@ const TimetableGenerator: React.FC<TimetableGeneratorProps> = (props) => {
                 finalSessionsLecturer[index1 - 1].map((data, index2) => {
                   if (!data) {
                     if (!finalSessionsLecturer[index1 - 1][index2 - 1]) {
-                      return (<td key={index2} style={{ display: 'block', textAlign: 'center' }}> - </td>);
+                      return (<td key={index2} style={{ display: 'block', textAlign: 'center' }}> -    <span
+                        style={{ display: 'block' }}> - </span>
+                        <span
+                          style={{ display: 'block' }}> - </span></td>);
                     }
                     if (finalSessionsLecturer[index1 - 1][index2 - 1].duration === '2') {
                       return (<td key={index2}
-                                  style={{ display: 'block' }}>{finalSessionsLecturer[index1 - 1][index2 - 1].subjectRef}</td>);
+                                  style={{ display: 'block' }}>{finalSessionsLecturer[index1 - 1][index2 - 1].groupRef}
+                        <span
+                          style={{ display: 'block' }}>{finalSessionsLecturer[index1 - 1][index2 - 1].subjectRef} </span>
+                        <span
+                          style={{ display: 'block' }}>{finalSessionsLecturer[index1 - 1][index2 - 1].subjectRef} </span>
+                      </td>);
                     }
 
                   }
-                  return (<td key={index2} style={{ display: 'block' }}>{data.subjectRef}</td>);
-                //   return (<td key={index2} style={{ display: 'block' }}><span>{data.groupRef}<span><br><span>{data.subjectCodeRef}<span><br></td>
-                // );
+                  return (<td key={index2} style={{ display: 'block' }}>{data.groupRef} <span
+                    style={{ display: 'block' }}>{data.subjectRef} </span> <span
+                    style={{ display: 'block' }}>{data.subjectRef} </span></td>);
+                  //   return (<td key={index2} style={{ display: 'block' }}><span>{data.groupRef}<span><br><span>{data.subjectCodeRef}<span><br></td>
+                  // );
                 })
                 }
               </tr>
@@ -722,7 +766,6 @@ const TimetableGenerator: React.FC<TimetableGeneratorProps> = (props) => {
     <div>
       {isGenerate && generateTable()}
     </div>
-
   );
 };
 

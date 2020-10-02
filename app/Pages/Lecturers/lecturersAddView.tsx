@@ -12,6 +12,7 @@ import styles from './lecturers.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setLecturers} from './lecturersSlice';
+import { proxy } from '../../conf';
 
 // noinspection DuplicatedCode
 const LecturersAdd: React.FC = () => {
@@ -41,7 +42,7 @@ const LecturersAdd: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/lecturers/lecturers`,
+          `${proxy}/lecturers/lecturers`,
           {
             method: 'GET',
             headers: {
@@ -61,7 +62,7 @@ const LecturersAdd: React.FC = () => {
         }
 
         const responseBuildings = await fetch(
-          `http://localhost:5000/buildings/buildings`,
+          `${proxy}/buildings/buildings`,
           {
             method: 'GET',
             headers: {
@@ -82,7 +83,7 @@ const LecturersAdd: React.FC = () => {
         }
 
         const responseCenters = await fetch(
-          `http://localhost:5000/centers/centers`,
+          `${proxy}0/centers/centers`,
           {
             method: 'GET',
             headers: {
@@ -148,7 +149,7 @@ const LecturersAdd: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/lecturers/lecturers`,
+        `${proxy}/lecturers/lecturers`,
         {
           method: 'POST',
           headers: {

@@ -12,6 +12,7 @@ import styles from './groupNums.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setGroupNums} from './groupNumsSlice';
+import {proxy} from '../../conf'
 
 let errors_: string = ''
 // noinspection DuplicatedCode
@@ -33,7 +34,7 @@ const GroupNumsAdd: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/groupNums/getGroupNums`,
+          `${proxy}/groupNums/getGroupNums`,
           {
             method: 'GET',
             headers: {
@@ -95,7 +96,7 @@ const GroupNumsAdd: React.FC = () => {
       try {
 
         const response = await fetch(
-          `http://localhost:5000/groupNums/create`,
+          `${proxy}/groupNums/create`,
           {
             method: 'POST',
             headers: {

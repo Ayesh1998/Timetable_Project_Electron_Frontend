@@ -26,6 +26,7 @@ import {
   setExistingBuilding,
   setExistingRoomsForBuilding
 } from '../Buildings/buildings-slice'
+import {proxy} from '../../conf'
 
 let res: any
 
@@ -147,7 +148,7 @@ const GroupsListView: React.FC = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/groups/getGroups`,
+        `${proxy}/groups/getGroups`,
         {
           method: 'GET',
           headers: {
@@ -169,7 +170,7 @@ const GroupsListView: React.FC = () => {
   const handleDelete = async (id: any, groupId: any) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/groups/deleteGroups`,
+        `${proxy}/groups/deleteGroups`,
         {
           method: 'DELETE',
           headers: {
@@ -191,7 +192,7 @@ const GroupsListView: React.FC = () => {
   const handleDeleteSub = async (id: any, subId: any) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/groups/deleteSubGroupUpdate`,
+        `${proxy}/groups/deleteSubGroupUpdate`,
         {
           method: 'PUT',
           headers: {
@@ -214,7 +215,7 @@ const GroupsListView: React.FC = () => {
     await dispatch(setShowGroup(true))
     try {
       const response = await fetch(
-        `http://localhost:5000/groups/getGroups/` + id,
+        `${proxy}/groups/getGroups/` + id,
         {
           method: 'GET',
           headers: {
@@ -235,7 +236,7 @@ const GroupsListView: React.FC = () => {
     await dispatch(setShowSubGroup(true))
     try {
       const response = await fetch(
-        `http://localhost:5000/groups/getGroups/` + id,
+        `${proxy}/groups/getGroups/` + id,
         {
           method: 'GET',
           headers: {
@@ -262,7 +263,7 @@ const GroupsListView: React.FC = () => {
     await dispatch(setEditGroup(true))
     try {
       const response = await fetch(
-        `http://localhost:5000/groups/getGroups/` + id,
+        `${proxy}/groups/getGroups/` + id,
         {
           method: 'GET',
           headers: {

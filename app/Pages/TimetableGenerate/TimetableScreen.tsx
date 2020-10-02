@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Col, Row, Container, Button } from 'react-bootstrap';
+import { Col, Row, Container, Button, Modal } from 'react-bootstrap';
 import Select from 'react-select';
 import Pdf from 'react-to-pdf';
 import NavBar from '../../components/NavBar/NavBar';
 import TimetableGenerator from './TimetableGenerator';
+import {proxy} from '../../conf'
 
 const ref = React.createRef();
 
@@ -16,9 +17,17 @@ const TimetableScreen: React.FC = () => {
   ];
 
   const lecturerOptions = [
-    { value: 'Kodagoda', label: 'Kodagoda' },
-    { value: 'Room', label: 'Room' },
-    { value: 'Lecturer', label: 'Lecturer' }
+    { value: 'Janith Gamage', label: 'Janith Gamage' },
+    { value: 'Roshan Gamage', label: 'Roshan Gamage' },
+    { value: 'Kavindu Gamage', label: 'Kavindu Gamage' },
+    { value: 'Janaka Gamage', label: 'Janaka Gamage' },
+    { value: 'Kasun Gamage', label: 'Kasun Gamage' },
+    { value: 'Sasindu Gamage', label: 'Sasindu Gamage' },
+    { value: 'Pubudu Gamage', label: 'Pubudu Gamagee' },
+    { value: 'Kaveesha Gamage', label: 'Kaveesha Gamage' },
+    { value: 'Mahela Gamage', label: 'Mahela Gamagee' },
+    { value: 'Pasan Silva', label: 'Pasan Silva' },
+    { value: 'Wimal Silva', label: 'Wimal Silva' },
   ];
 
   const buildingOptions = [
@@ -37,13 +46,22 @@ const TimetableScreen: React.FC = () => {
   const groupOptions = [
     { value: '01', label: '01' },
     { value: '02', label: '02' },
-    { value: '03', label: '03' }
+    { value: '03', label: '03' },
+    { value: '04', label: '04' },
+    { value: '05', label: '05' },
+    { value: '06', label: '06' },
+    { value: '07', label: '07' },
+    { value: '08', label: '08' },
+    { value: '09', label: '09' },
+    { value: '10', label: '10' },
   ];
 
   const degreeOptions = [
-    { value: 'IT', label: 'IT' },
-    { value: 'SE', label: 'SE' },
-    { value: 'CS', label: 'CS' }
+    { value: 'IT', label: 'Information Technology' },
+    { value: 'SE', label: 'Software Engineering' },
+    { value: 'CS', label: 'Computer Science' },
+    { value: 'DS', label: 'Data Science' },
+    { value: 'CSN', label: 'Computer System Network' },
   ];
 
   const semesterOptions = [
@@ -53,8 +71,17 @@ const TimetableScreen: React.FC = () => {
 
   const roomOptions = [
     { value: 'B405-Pclab', label: 'B405-Pclab' },
-    { value: 'Room', label: 'Room' },
-    { value: 'Lecturer', label: 'Lecturer' }
+    { value: 'Mini Auditorium', label: 'Mini Auditorium' },
+    { value: 'N3E', label: 'N3E' },
+    { value: 'E301', label: 'E301' },
+    { value: 'A502', label: 'A502' },
+    { value: 'A501', label: 'A501' },
+    { value: 'N3D', label: 'N3D' },
+    { value: 'N3C', label: 'N3C' },
+    { value: 'Auditorium', label: 'Auditorium' },
+    { value: 'A301', label: 'A301' },
+    { value: 'A302', label: 'A302' },
+    { value: 'D301', label: 'D301' },
   ];
 
   const [isFilters, setIsFilters] = useState(false);
@@ -75,6 +102,10 @@ const TimetableScreen: React.FC = () => {
   const [semester, setSemester] = useState<string | null>('');
   const [group, setGroup] = useState<string | null>('');
   const [isGenerate, setIsGenerate] = useState(false);
+  const [show, setShow] = useState(false);
+  const [errors, setErrors] = useState('');
+
+  const handleClose = () => setShow(false);
 
   const handleChangeRole = selectedOption => {
     setSeletedRoleOption(selectedOption);
@@ -118,6 +149,22 @@ const TimetableScreen: React.FC = () => {
 
   const handleGenerate = () => {
     setIsGenerate(true);
+    if (lecturer != '') {
+      setErrors('There are conflicts in these session with following ids. 24342334343434, 256723765345454,2345435463d,23445fgd65454' +
+        '34534rrt5646,34546786792,454256856t356,34567547337568,35437375648765');
+      setShow(true);
+    }
+    if (room != '') {
+      setErrors('There are conflicts in these session with following ids. 724342334343434, 156723765345454,2345435463d,23445fgd65454' +
+        '34534rrt5646,34546786792,454256856t356,34567547337568,35437375648765, 34534rrt5646,34546786792,454256856t356,34567547337568,35437375648765 ');
+      setShow(true);
+    }
+    if (semester != '') {
+      setErrors('There are conflicts in these session with following ids. 824342334343434, 656723765345454,2345435463d,23445fgd65454' +
+        '34534rrt5646,34546786792,454256856t356,34567547337568,35437375648765,824342334343434, 656723765345454,2345435463d');
+      setShow(true);
+    }
+
   };
 
 
@@ -319,6 +366,18 @@ const TimetableScreen: React.FC = () => {
           </Col>
         </Row>}
         {isFilters && secondOptionsGenerator()}
+
+        <Modal size="lg" show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Conflicts Occurred</Modal.Title>
+          </Modal.Header>
+          <Modal.Body style={{ overflow: 'auto'}}>{errors}</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
         <Row className=" mb-5">
           <Col xs={12} md={12} className="p-3" ref={ref}>
