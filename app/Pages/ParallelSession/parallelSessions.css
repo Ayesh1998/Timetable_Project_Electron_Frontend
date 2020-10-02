@@ -1,24 +1,26 @@
-.lecturersTopWrapper p {
+.parallelSessionsTopWrapper p {
   font-size: 1.2em !important;
   font-family: "Roboto", serif;
   font-weight: bold;
 }
 
-.lecturersTopWrapper h3 {
+.parallelSessionsTopWrapper h3 {
   font-size: 1.2em !important;
   font-family: "Roboto", serif;
   font-weight: bold;
 }
 
-.lecturersViewTable td {
-  padding-left: 0px;
-  padding-right: 0px;
+.parallelSessionsViewTable td {
+  padding-left: 50px;
 }
 
-.lecturersError {
+.parallelSessionsError {
   position: relative;
   letter-spacing: 1px;
   font-size: 1.5em;
   text-align: center;
   font-weight: 900;
 }
+
+
+

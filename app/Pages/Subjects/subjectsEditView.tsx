@@ -29,6 +29,7 @@ const SubjectsEdit: React.FC = () => {
   const [renderRedirectTo, setRenderRedirectTo] = useState<boolean | null>(
     false
   );
+
   const [error, setError] = useState<string | null>(null);
   // _id: "5f3e78b7acebd669289df87a"
   // offeredYear: 2
@@ -63,6 +64,7 @@ const SubjectsEdit: React.FC = () => {
   const [numberOfEvaluationHours, setNumberOfEvaluationHours] = useState<string>(subjectSelected.numberOfEvaluationHours);
 
   const [subjectsObject, setSubjectsObject] = useState<any>(null);
+  const [label, setLabel] = useState<string>('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -141,6 +143,7 @@ const SubjectsEdit: React.FC = () => {
       numberOfTutorialHours,
       numberOfLabHours,
       numberOfEvaluationHours,
+      label : subjectName + '(' + subjectCode+ ')'
     };
 
     console.log('22222222222222222222222222222222222');
@@ -176,11 +179,15 @@ const SubjectsEdit: React.FC = () => {
     return null;
   };
 
+
+
   const handleChangeSubjectCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSubjectCode(e.target.value);
+
   };
   const handleChangeSubjectName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSubjectName(e.target.value);
+
   };
   const handleChangeOfferedYear = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOfferedYear(e.target.value);
@@ -209,7 +216,11 @@ const SubjectsEdit: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     setNumberOfEvaluationHours(e.target.value);
+
   };
+
+
+
 
   return (
     <div

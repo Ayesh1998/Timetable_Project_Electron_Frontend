@@ -26,6 +26,7 @@ const Subject = (props: any) => (
     <td>{props.subject.numberOfTutorialHours}</td>
     <td>{props.subject.numberOfLabHours}</td>
     <td>{props.subject.numberOfEvaluationHours}</td>
+    <td>{props.subject.category}</td>
     <td>
       <Link to={'/editSubject/' + props.subject._id}>Edit</Link> |{' '}
       <p style={{cursor: 'pointer', textDecoration: 'underline'}} onClick={() => {
@@ -193,6 +194,7 @@ const SubjectsListView: React.FC = () => {
                   <th>Number Of Tutorial Hours</th>
                   <th>Number Of Lab Hours</th>
                   <th>Number Of Evaluation Hours</th>
+                  <th>Category ID</th>
                   <th>Action</th>
                 </tr>
                 </thead>

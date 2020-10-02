@@ -26,6 +26,9 @@ const Lecturer = (props: any) => (
     <td>{props.lecturer.building}</td>
     <td>{props.lecturer.level}</td>
     <td>{props.lecturer.rank}</td>
+    <td>{props.day}</td>
+    <td>{props.startTime}</td>
+    <td>{props.endTime}</td>
     <td>
       <Link to={'/editLecturer/' + props.lecturer._id}>edit</Link> |{' '}
       <p style={{cursor: 'pointer', textDecoration: 'underline'}} onClick={() => {
@@ -122,12 +125,30 @@ const LecturersListView: React.FC = () => {
 
   const lectureList = () => {
     return lecturersObject.map((lecturer) => {
-      console.log(lecturer);
+      console.log(lecturer.unavailability[0]);
+      var day;
+      var startTime;
+      var endTime;
+
+      if(lecturer.unavailability[0]){
+        day = lecturer.unavailability[0].day;
+        startTime = lecturer.unavailability[0].startTime;
+        endTime = lecturer.unavailability[0].endTime ;
+      }
+    else{
+        day = " ";
+        startTime = " ";
+        endTime = " ";
+      }
+
       return (
         <Lecturer
           lecturer={lecturer}
           handleDelete={handleDelete}
           key={lecturer._id}
+          day={day}
+          startTime={startTime}
+          endTime={endTime}
         />
       );
     });
@@ -170,7 +191,7 @@ const LecturersListView: React.FC = () => {
       </Row>
       {lecturersObject && (
         <Container
-          className={`mt-2 p-4 ${styles.workingDaysHoursTopWrapper}`}
+          className={`mt-2 p-4 ${styles.lecturersTopWrapper}`}
           style={{
             border: '3px solid white',
             borderRadius: '8px',
@@ -184,7 +205,7 @@ const LecturersListView: React.FC = () => {
                 bordered
                 hover
                 variant="dark"
-                className={`${styles.workingDaysHoursViewTable}`}
+                className={`${styles.lecturersViewTable}`}
               >
                 <thead className="thead-light">
                 <tr>
@@ -196,6 +217,9 @@ const LecturersListView: React.FC = () => {
                   <th>Building</th>
                   <th>Level</th>
                   <th>Rank</th>
+                  <th>Day(Not Available)</th>
+                  <th>Start Time(Not Available)</th>
+                  <th>End Time(Not Available)</th>
                   <th>Action</th>
                 </tr>
                 </thead>
