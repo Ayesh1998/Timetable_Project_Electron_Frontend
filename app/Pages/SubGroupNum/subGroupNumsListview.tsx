@@ -15,6 +15,7 @@ import {
   setExistingBuilding,
   setExistingRoomsForBuilding
 } from '../Buildings/buildings-slice'
+import {proxy} from '../../conf'
 
 const SubGroupNum = (props: any) => (
   <tr>
@@ -75,7 +76,7 @@ const SubGroupNumsListView: React.FC = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/subGroupNums/getSubGroupNums`,
+        `${proxy}/subGroupNums/getSubGroupNums`,
         {
           method: 'GET',
           headers: {
@@ -104,7 +105,7 @@ const SubGroupNumsListView: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/subGroupNums/deleteSubGroupNums`,
+        `${proxy}/subGroupNums/deleteSubGroupNums`,
         {
           method: 'DELETE',
           headers: {
@@ -137,7 +138,7 @@ const SubGroupNumsListView: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/subGroupNums/getSubGroupNums/` + id,
+        `${proxy}/subGroupNums/getSubGroupNums/` + id,
         {
           method: 'GET',
           headers: {

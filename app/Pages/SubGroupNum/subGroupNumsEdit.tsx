@@ -6,6 +6,7 @@ import styles from './subGroupNums.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setEditingSubGroupNum, setEditingSubGroupNumId, setEditSubGroupNum} from './subGroupNumsSlice';
+import {proxy} from '../../conf'
 
 let errors_: string = ''
 
@@ -62,7 +63,7 @@ const SubGroupNumsEdit: React.FC = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/subGroupNums/editSubGroupNums`,
+          `${proxy}/subGroupNums/editSubGroupNums`,
           {
             method: 'PUT',
             headers: {

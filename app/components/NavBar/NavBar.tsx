@@ -91,31 +91,7 @@ const NavBar: React.FC = () => {
               Tags
             </Nav.Link>
           </NavLink>
-          <NavDropdown title='Locations'
-                       id='collasible-nav-dropdown'>
-            <NavDropdown.Item href='#locations/buildings'>
-              <NavLink to={routes.BUILDINGS}>
-                <Nav.Link href='#buildings'
-                          style={{
-                            color: 'black'
-                          }}>
-                  Buildings
-                </Nav.Link>
-              </NavLink>
-            </NavDropdown.Item>
-            <NavDropdown.Divider/>
-            <NavDropdown.Item href='#locations/rooms'>
-              <NavLink to={routes.ROOMS}>
-                <Nav.Link href='#rooms'
-                          style={{
-                            color: 'black'
-                          }}>
-                  Rooms
-                </Nav.Link>
-              </NavLink>
-            </NavDropdown.Item>
-          </NavDropdown>
-          <NavDropdown title='Sessions'
+          <NavDropdown title='Special Sessions'
                        id='collasible-nav-dropdown'>
             <NavDropdown.Item href='#batches/consecutiveSessions'>
               <NavLink to={routes.CONSECUTIVE_SESSIONS}>
@@ -157,6 +133,30 @@ const NavBar: React.FC = () => {
                             color: 'black'
                           }}>
                   Add Parallel Session
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+          </NavDropdown>
+          <NavDropdown title='Locations'
+                       id='collasible-nav-dropdown'>
+            <NavDropdown.Item href='#locations/buildings'>
+              <NavLink to={routes.BUILDINGS}>
+                <Nav.Link href='#buildings'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Buildings
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+            <NavDropdown.Divider/>
+            <NavDropdown.Item href='#locations/rooms'>
+              <NavLink to={routes.ROOMS}>
+                <Nav.Link href='#rooms'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Rooms
                 </Nav.Link>
               </NavLink>
             </NavDropdown.Item>
@@ -209,6 +209,11 @@ const NavBar: React.FC = () => {
           <NavLink to={routes.ASSIGN_ROOMS_FOR_SESSIONS}>
             <Nav.Link href='#assign-rooms-for-sessions'>
               Assign Rooms for Sessions
+            </Nav.Link>
+          </NavLink>
+          <NavLink to={routes.GENERATE_TIMETABLES}>
+            <Nav.Link href='#generate_timetables'>
+              Generate Timetables
             </Nav.Link>
           </NavLink>
         </Nav>

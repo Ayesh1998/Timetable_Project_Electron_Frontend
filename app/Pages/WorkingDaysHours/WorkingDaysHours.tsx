@@ -53,11 +53,11 @@ const WorkingDaysHours: React.FC = () => {
     'Thirty Minutes'
   ]);
   const [workingTimePerDay, setWorkingTimePerDay] = useState<{
-    hours: string;
-    minutes: string;
+    startTime: string;
+    endTime: string;
   }>({
-    hours: '00',
-    minutes: '00'
+    startTime: '00',
+    endTime: '00'
   });
   const [workingDaysAndHoursObject, setWorkingDaysAndHoursObject] = useState<any>(null);
 
@@ -142,18 +142,18 @@ const WorkingDaysHours: React.FC = () => {
       setError('!! No of days in the week and days selected are not equal !!');
       return;
     }
-    if (parseInt(workingTimePerDay.hours) > 24) {
-      setError('!! No of hours should be equal or less than 24 !!');
-      return;
-    }
-    if (workingTimePerDay.hours === '00') {
-      setError('!! Please enter no of hours for working time per day !!');
-      return;
-    }
-    if (parseInt(workingTimePerDay.minutes) > 60) {
-      setError('!! No of minutes should be equal or less than 60 !!');
-      return;
-    }
+    // if (parseInt(workingTimePerDay.) > 24) {
+    //   setError('!! No of hours should be equal or less than 24 !!');
+    //   return;
+    // }
+    // if (workingTimePerDay.hours === '00') {
+    //   setError('!! Please enter no of hours for working time per day !!');
+    //   return;
+    // }
+    // if (parseInt(workingTimePerDay.minutes) > 60) {
+    //   setError('!! No of minutes should be equal or less than 60 !!');
+    //   return;
+    // }
     if (timeSlots.length === 0) {
       setError('!! Please select a time slot !!');
       return;
@@ -200,12 +200,12 @@ const WorkingDaysHours: React.FC = () => {
     setNoOfWorkingDays(e.target.value);
   };
 
-  const handleChangeHour = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWorkingTimePerDay({...workingTimePerDay, hours: e.target.value});
+  const handleChangeStartTime = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setWorkingTimePerDay({...workingTimePerDay, startTime: e.target.value});
   };
 
-  const handleChangeMinutes = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWorkingTimePerDay({...workingTimePerDay, minutes: e.target.value});
+  const handleChangeEndTime = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setWorkingTimePerDay({...workingTimePerDay, endTime: e.target.value});
   };
 
   return (
@@ -324,33 +324,33 @@ const WorkingDaysHours: React.FC = () => {
                 <Row>
                   <Col xs={12} md={5}>
                     <Form.Group controlId="formGridEmail">
-                      <Form.Label>Hours</Form.Label>
+                      <Form.Label>Start Time</Form.Label>
                       <Form.Control
                         style={{
-                          width: '60px',
+                          width: '15s0px',
                           display: 'inline',
                           marginLeft: '10px'
                         }}
-                        type="number"
-                        value={workingTimePerDay.hours}
-                        onChange={handleChangeHour}
-                        placeholder="Hours"
+                        type="text"
+                        value={workingTimePerDay.startTime}
+                        onChange={handleChangeStartTime}
+                        placeholder="Start time"
                       />
                     </Form.Group>
                   </Col>
                   <Col xs={12} md={5}>
                     <Form.Group controlId="formGridPassword">
-                      <Form.Label>Minutes</Form.Label>
+                      <Form.Label>End Time</Form.Label>
                       <Form.Control
                         style={{
-                          width: '60px',
+                          width: '150px',
                           display: 'inline',
                           marginLeft: '10px'
                         }}
-                        type="number"
-                        value={workingTimePerDay.minutes}
-                        onChange={handleChangeMinutes}
-                        placeholder="Minutes"
+                        type="text"
+                        value={workingTimePerDay.endTime}
+                        onChange={handleChangeEndTime}
+                        placeholder="End time"
                       />
                     </Form.Group>
                   </Col>

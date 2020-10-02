@@ -28,8 +28,8 @@ const SessionsAdd: React.FC = () => {
   const [subjectRef, setSubjectRef] = useState<string>('');
   const [subjectCodeRef, setSubjectCodeRef] = useState<string>('');
   const [tagRef, setTagRef] = useState<string>('');
-  const [groupRef, setGroupRef] = useState<string>('');
-  const [subGroupRef, setSubGroupRef] = useState<string>('');
+  let [groupRef, setGroupRef] = useState<any>('');
+  let [subGroupRef, setSubGroupRef] = useState<any>('');
   const [studentCount, setStudentCount] = useState<string>('');
   const [duration, setDuration] = useState<string>('');
 
@@ -42,6 +42,7 @@ const SessionsAdd: React.FC = () => {
   const [tagsObject, setTagsObject] = useState<any>(null);
 
   const [lecturers, setLecturers] = useState<any>([]);
+  const [label, setLabel] = useState<string>('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -207,7 +208,27 @@ const SessionsAdd: React.FC = () => {
       setError('Please Select only one group !');
       return;
     }
-
+    
+    if (groupRef === "") {
+      groupRef = null
+    }
+    if (subGroupRef === "") {
+      subGroupRef = null
+    }
+    
+    // if (employeeId === '') {
+    //   setError('Please enter an Employee ID !');
+    //   return;
+    // }
+    // if (employeeId.length !== 6) {
+    //   setError('Please enter an valied Employee ID !');
+    //   return;
+    // }
+    // if (lecturerName === '') {
+    //   setError('Please enter an Employee Name !');
+    //   return;
+    // }
+    
     setError(null);
     const finalObject = {
       lecturers,
@@ -217,7 +238,8 @@ const SessionsAdd: React.FC = () => {
       groupRef,
       subGroupRef,
       studentCount,
-      duration
+      duration,
+      label
     };
 
     console.log(finalObject);
@@ -299,6 +321,15 @@ const SessionsAdd: React.FC = () => {
   };
   const handleChangeDuration = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDuration(e.target.value);
+    var id;
+    if(groupRef){
+      id = subjectRef+ '(' +subjectCodeRef + ')-'+groupRef+'-'+ tagRef;
+    }
+    if(subGroupRef){
+      id = subjectRef+ '(' +subjectCodeRef + ')-'+subGroupRef+'-'+ tagRef;
+    }
+    console.log(id)
+    setLabel(id);
   };
 
 
@@ -518,8 +549,8 @@ const SessionsAdd: React.FC = () => {
                     {subGroupObject &&
                     subGroupObject.subGroups.map((subGroups: any) => {
                       return (
-                        <option key={subGroups._id} value={subGroups.groupId}>
-                          {subGroups.groupId}
+                        <option key={subGroups._id} value={subGroups.subGroupId}>
+                          {subGroups.subGroupId}
                         </option>
                       );
                     })}

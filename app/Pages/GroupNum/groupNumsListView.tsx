@@ -16,6 +16,8 @@ import {
   setExistingRoomsForBuilding
 } from '../Buildings/buildings-slice'
 
+import {proxy} from '../../conf'
+
 const GroupNum = (props: any) => (
   <tr>
     <td>{props.groupNum.groupNum}</td>
@@ -74,7 +76,7 @@ const GroupNumsListView: React.FC = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/groupNums/getGroupNums`,
+        `${proxy}/groupNums/getGroupNums`,
         {
           method: 'GET',
           headers: {
@@ -103,7 +105,7 @@ const GroupNumsListView: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/groupNums/deleteGroupNums`,
+        `${proxy}/groupNums/deleteGroupNums`,
         {
           method: 'DELETE',
           headers: {
@@ -136,7 +138,7 @@ const GroupNumsListView: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/groupNums/getGroupNums/` + id,
+        `${proxy}/groupNums/getGroupNums/` + id,
         {
           method: 'GET',
           headers: {

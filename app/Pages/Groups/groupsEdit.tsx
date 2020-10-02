@@ -12,6 +12,7 @@ import styles from './groups.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setEditGroup, setEditingGroup, setEditingGroupId} from './groupsSlice';
+import {proxy} from '../../conf'
 
 //const yearSemList = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2'];
 //const programList = ['SE', 'CS', 'DS', 'IT'];
@@ -127,7 +128,7 @@ const GroupsEdit: React.FC = () => {
   const getSubGroupNum = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5000/subGroupNums/getSubGroupNums`, {
+      const response = await fetch(`${proxy}/subGroupNums/getSubGroupNums`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -190,7 +191,7 @@ const GroupsEdit: React.FC = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/groups/editGroups`,
+          `${proxy}/groups/editGroups`,
           {
             method: 'PUT',
             headers: {
@@ -227,7 +228,7 @@ const GroupsEdit: React.FC = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/subGroups/create`,
+          `${proxy}/subGroups/create`,
           {
             method: 'POST',
             headers: {
@@ -276,9 +277,9 @@ const GroupsEdit: React.FC = () => {
     var sub = e.target.value;
 
     if (groupOne.group <= 9) {
-      var id = 'Y' + year + '.S' + sem + '.' + pro + '.0' + groupforId + '.' + sub;
+      var id = 'Y' + year + '.S' + sem  + '.0' + groupforId + '.' + sub + '(' + pro + ')';
     } else {
-      var id = 'Y' + year + '.S' + sem + '.' + pro + '.' + groupforId + '.' + sub;
+      var id = 'Y' + year + '.S' + sem + '.' + groupforId + '.' + sub + '(' + pro + ')';
     }
 
 

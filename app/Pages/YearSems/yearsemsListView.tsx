@@ -15,6 +15,7 @@ import {
   setExistingBuilding,
   setExistingRoomsForBuilding
 } from '../Buildings/buildings-slice'
+import {proxy} from '../../conf'
 
 const YearSem = (props: any) => (
   <tr>
@@ -76,7 +77,7 @@ const YearSemsListView: React.FC = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/yearSems/getYearSems`,
+        `${proxy}/yearSems/getYearSems`,
         {
           method: 'GET',
           headers: {
@@ -105,7 +106,7 @@ const YearSemsListView: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/yearSems/deleteYearSems`,
+        `${proxy}/yearSems/deleteYearSems`,
         {
           method: 'DELETE',
           headers: {
@@ -149,7 +150,7 @@ const YearSemsListView: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/yearSems/getYearSems/` + id,
+        `${proxy}/yearSems/getYearSems/` + id,
         {
           method: 'GET',
           headers: {
