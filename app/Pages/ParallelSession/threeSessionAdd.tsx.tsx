@@ -5,15 +5,16 @@ import {Button, Col, Container, Form, Modal, Row, Spinner} from 'react-bootstrap
 // @ts-ignore
 //import CheckboxGroup from 'react-checkbox-group';
 import {Redirect} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import {useDispatch,useSelector} from 'react-redux';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import styles from './parallelSessions.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-import {setParallelSessions} from './parallelSessionsSlice';
+
 import {proxy} from '../../conf';
 import CheckboxGroup from 'react-checkbox-group';
+import {setParallelSessions,setEditParallelSession,setEditingParallelSessionId,setEditingParallelSession} from './parallelSessionsSlice';
 
 let errors_: string = ''
 
@@ -23,6 +24,24 @@ var exist = 0;
 const ThreeSessionAdd: React.FC = () => {
   const dispatch = useDispatch();
   // const value = useSelector();
+
+
+  const editingParallelSessionId = useSelector(
+    (state: {
+      parallelSessions: any
+      editingParallelSessionId: string
+    }) => state.parallelSessions.editingParallelSessionId
+  );
+
+
+
+
+  const parallelSessions = useSelector(
+    (state: {
+      parallelSessions: any
+      editingParallelSessionId: string
+    }) => state.parallelSessions.parallelSessions
+  );
 
   const [session1List, setSession1List] = useState<any>([]);
   const [session2List, setSession2List] = useState<any>([]);
@@ -65,41 +84,87 @@ const ThreeSessionAdd: React.FC = () => {
   const [day, setDay] = useState<string>('');
 
 
-
-
-  const [sessionsObject, setSessionsObject] = useState<any>(null);
-
   useEffect(() => {
-    fetchData();
+    console.log(editingParallelSessionId);
+    console.log(parallelSessions)
+    //fetchData();
+
+    getSessions1(parallelSessions[0]);
+    getSessions2(parallelSessions[1]);
+    getSessions3(parallelSessions[2]);
   }, []);
 
-  const fetchData = async () => {
+  const getSessions1 = async (cid) => {
+
     try {
-      const response = await fetch(
-        `${proxy}/sessions/getSessionList`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      );
 
+      const response = await fetch(`${proxy}/sessions/getSessionsCode`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"subjectCodeRef":cid})
+      })
       const responseData = await response.json();
-      setSessionsObject(responseData);
       setSession1List(responseData);
-      setSession2List(responseData);
-      setSession3List(responseData);
-      dispatch(setParallelSessions(responseData));
-      console.log(responseData);
 
-      if (!responseData) {
-        // noinspection ExceptionCaughtLocallyJS
-        throw new Error(responseData.message);
-      }
-    } catch (err) {
-      console.log(err.message);
+
+    } catch (errors) {
+
+
+      console.log(errors)
     }
+
+  };
+
+
+  const getSessions2 = async (cid) => {
+
+
+    try {
+
+      const response = await fetch(`${proxy}/sessions/getSessionsCode`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"subjectCodeRef":cid})
+      })
+      const responseData = await response.json();
+      setSession2List(responseData);
+
+
+    } catch (errors) {
+
+
+      console.log(errors)
+    }
+
+  };
+
+
+  const getSessions3 = async (cid) => {
+
+
+    try {
+
+      const response = await fetch(`${proxy}/sessions/getSessionsCode`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"subjectCodeRef":cid})
+      })
+      const responseData = await response.json();
+      setSession3List(responseData);
+
+
+    } catch (errors) {
+
+
+      console.log(errors)
+    }
+
   };
   // const renderRedirectToView = () => {
   //   if (setSessionsObject) {
