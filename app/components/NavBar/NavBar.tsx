@@ -32,6 +32,9 @@ const NavBar: React.FC = () => {
           <NavLink to={routes.SUBJECTS_LIST_VIEW}>
             <Nav.Link href='#subjects'>Subjects</Nav.Link>
           </NavLink>
+          <NavLink to={routes.SESSIONS_LIST}>
+            <Nav.Link href='#sessions'>Sessions</Nav.Link>
+          </NavLink>
           <NavDropdown title='Batches Basic Info'
                        id='collasible-nav-dropdown'>
             <NavDropdown.Item href='#batches/yearsems'>
