@@ -347,11 +347,21 @@ const AssignSessionsForRoomsList: React.FC = () => {
                   }}>
                     {session.sessionId}
                   </td>
-                  <td style={{
-                    textAlign: 'center'
-                  }}>
-                    {session.lecturers[0].lecturerRef}
-                  </td>
+                  {
+                    session.lecturers.length > 0 ? (
+                      <td style={{
+                        textAlign: 'center'
+                      }}>
+                        {session.lecturers[0].lecturerRef}
+                      </td>
+                    ) : (
+                      <td style={{
+                        textAlign: 'center'
+                      }}>
+                        null
+                      </td>
+                    )
+                  }
                   <td style={{
                     textAlign: 'center'
                   }}>
@@ -369,11 +379,17 @@ const AssignSessionsForRoomsList: React.FC = () => {
                       }}>
                         {session.groupRef}
                       </td>
-                    ) : (
+                    ) : session.subGroupRef !== null ? (
                       <td style={{
                         textAlign: 'center'
                       }}>
                         {session.subGroupRef}
+                      </td>
+                    ) : (
+                      <td style={{
+                        textAlign: 'center'
+                      }}>
+                        null
                       </td>
                     )
                   }
