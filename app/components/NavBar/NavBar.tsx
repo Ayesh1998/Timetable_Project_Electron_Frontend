@@ -91,7 +91,7 @@ const NavBar: React.FC = () => {
               Tags
             </Nav.Link>
           </NavLink>
-          <NavDropdown title='Sessions'
+          <NavDropdown title='Special Sessions'
                        id='collasible-nav-dropdown'>
             <NavDropdown.Item href='#batches/consecutiveSessions'>
               <NavLink to={routes.CONSECUTIVE_SESSIONS}>
