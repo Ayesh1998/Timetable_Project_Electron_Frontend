@@ -59,7 +59,7 @@ const ParallelCategoryPage: React.FC = () => {
   const handleModule = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-
+    setModule(e.target.value);
     var count = parseInt(e.target.value);
 
 
