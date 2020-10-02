@@ -6,6 +6,7 @@ import styles from './tags.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setEditingTag, setEditingTagId, setEditTag} from './tagsSlice';
+import {proxy} from '../../conf'
 
 let errors_: string = ''
 
@@ -68,7 +69,7 @@ const TagsEdit: React.FC = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/tags/editTags`,
+          `${proxy}/tags/editTags`,
           {
             method: 'PUT',
             headers: {

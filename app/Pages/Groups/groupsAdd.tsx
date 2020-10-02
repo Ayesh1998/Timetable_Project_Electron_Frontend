@@ -13,6 +13,7 @@ import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setGroups} from './groupsSlice';
 
+import {proxy} from '../../conf'
 //const yearSemList = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2'];
 //const programList = ['SE', 'CS', 'DS', 'IT'];
 //const groupNumList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -66,7 +67,7 @@ const GroupsAdd: React.FC = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/groups/getGroups`,
+        `${proxy}/groups/getGroups`,
         {
           method: 'GET',
           headers: {
@@ -100,7 +101,7 @@ const GroupsAdd: React.FC = () => {
   const getYearAndSem = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5000/yearSems/getYearSems`, {
+      const response = await fetch(`${proxy}/yearSems/getYearSems`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -119,7 +120,7 @@ const GroupsAdd: React.FC = () => {
   const getProgramme = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5000/programs/getPrograms`, {
+      const response = await fetch(`${proxy}/programs/getPrograms`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -138,7 +139,7 @@ const GroupsAdd: React.FC = () => {
   const getGroupNum = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5000/groupNums/getGroupNums`, {
+      const response = await fetch(`${proxy}/groupNums/getGroupNums`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -231,7 +232,7 @@ const GroupsAdd: React.FC = () => {
 
         try {
           const response = await fetch(
-            `http://localhost:5000/groups/create`,
+            `${proxy}/groups/create`,
             {
               method: 'POST',
               headers: {
@@ -322,7 +323,7 @@ const GroupsAdd: React.FC = () => {
 
         try {
           const response = await fetch(
-            `http://localhost:5000/groups/create`,
+            `${proxy}/groups/create`,
             {
               method: 'POST',
               headers: {
@@ -363,7 +364,7 @@ const GroupsAdd: React.FC = () => {
       if (exist === 0) {
         try {
           const response = await fetch(
-            `http://localhost:5000/subGroups/create`,
+            `${proxy}/subGroups/create`,
             {
               method: 'POST',
               headers: {

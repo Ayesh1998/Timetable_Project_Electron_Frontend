@@ -15,6 +15,7 @@ import {
   setExistingBuilding,
   setExistingRoomsForBuilding
 } from '../Buildings/buildings-slice'
+import {proxy} from '../../conf'
 
 const Tag = (props: any) => (
   <tr>
@@ -93,7 +94,7 @@ const TagsListView: React.FC = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/tags/getTags`,
+        `${proxy}/tags/getTags`,
         {
           method: 'GET',
           headers: {
@@ -118,7 +119,7 @@ const TagsListView: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/tags/deleteTags`,
+        `${proxy}/tags/deleteTags`,
         {
           method: 'DELETE',
           headers: {

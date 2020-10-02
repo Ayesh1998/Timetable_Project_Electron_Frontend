@@ -12,6 +12,7 @@ import styles from './programs.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setPrograms} from './programsSlice';
+import {proxy} from '../../conf'
 
 let errors_: string = ''
 
@@ -34,7 +35,7 @@ const ProgramsAdd: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/programs/getPrograms`,
+          `${proxy}/programs/getPrograms`,
           {
             method: 'GET',
             headers: {
@@ -105,7 +106,7 @@ const ProgramsAdd: React.FC = () => {
       setError(false)
       try {
         const response = await fetch(
-          `http://localhost:5000/programs/create`,
+          `${proxy}/programs/create`,
           {
             method: 'POST',
             headers: {

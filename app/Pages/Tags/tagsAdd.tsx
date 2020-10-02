@@ -6,6 +6,7 @@ import routes from '../../constants/routes.json';
 import styles from './tags.css';
 import NavBar from '../../components/NavBar/NavBar';
 import {setTags} from './tagsSlice';
+import {proxy} from '../../conf'
 
 let errors_: string = ''
 
@@ -23,7 +24,7 @@ const TagsAdd: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/tags/getTags`,
+          `${proxy}/tags/getTags`,
           {
             method: 'GET',
             headers: {
@@ -77,7 +78,7 @@ const TagsAdd: React.FC = () => {
       setError(false)
       try {
         const response = await fetch(
-          `http://localhost:5000/tags/create`,
+          `${proxy}/tags/create`,
           {
             method: 'POST',
             headers: {

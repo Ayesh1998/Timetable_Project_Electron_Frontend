@@ -15,6 +15,7 @@ import {
   setExistingBuilding,
   setExistingRoomsForBuilding
 } from '../Buildings/buildings-slice'
+import {proxy} from '../../conf'
 
 const Program = (props: any) => (
   <tr>
@@ -76,7 +77,7 @@ const ProgramsListView: React.FC = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/programs/getPrograms`,
+        `${proxy}/programs/getPrograms`,
         {
           method: 'GET',
           headers: {
@@ -105,7 +106,7 @@ const ProgramsListView: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/programs/deletePrograms`,
+        `${proxy}/programs/deletePrograms`,
         {
           method: 'DELETE',
           headers: {
@@ -136,7 +137,7 @@ const ProgramsListView: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/programs/getPrograms/` + id,
+        `${proxy}/programs/getPrograms/` + id,
         {
           method: 'GET',
           headers: {
