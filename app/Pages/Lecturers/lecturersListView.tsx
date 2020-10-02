@@ -14,6 +14,7 @@ import {
   setExistingBuilding,
   setExistingRoomsForBuilding
 } from '../Buildings/buildings-slice';
+import { proxy } from '../../conf';
 
 const Lecturer = (props: any) => (
   <tr>
@@ -62,7 +63,7 @@ const LecturersListView: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/lecturers/lecturers`,
+          `${proxy}/lecturers/lecturers`,
           {
             method: 'GET',
             headers: {
@@ -96,7 +97,7 @@ const LecturersListView: React.FC = () => {
   const handleDelete = async (id: any) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/lecturers/lecturers/${id}`,
+        `${proxy}/lecturers/lecturers/${id}`,
         {
           method: 'DELETE',
           headers: {

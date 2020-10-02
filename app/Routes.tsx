@@ -1,7 +1,9 @@
-import React from 'react'
-import {Route, Switch} from 'react-router-dom'
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import App from './containers/App';
+import SessionsAddView from './Pages/Sessions/sessionsAddView';
+import SessionsListView from './Pages/Sessions/sessionsListView';
 import routes from './constants/routes.json'
-import App from './containers/App'
 import HomePage from './containers/HomePage'
 import WorkingDaysHoursView from './Pages/WorkingDaysHours/WorkingDaysAndHoursView'
 import WorkingDaysHours from './Pages/WorkingDaysHours/WorkingDaysHours'

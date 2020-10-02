@@ -70,7 +70,7 @@ const SubjectsEdit: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/subjects/subjects`,
+          `${proxy}/subjects/subjects`,
           {
             method: 'GET',
             headers: {
@@ -150,7 +150,7 @@ const SubjectsEdit: React.FC = () => {
     console.log(finalObject);
 
     try {
-      const response = await fetch(`http://localhost:5000/subjects/subjects`, {
+      const response = await fetch(`${proxy}/subjects/subjects`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
