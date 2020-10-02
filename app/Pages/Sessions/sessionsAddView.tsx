@@ -27,8 +27,8 @@ const SessionsAdd: React.FC = () => {
   const [subjectRef, setSubjectRef] = useState<string>('');
   const [subjectCodeRef, setSubjectCodeRef] = useState<string>('');
   const [tagRef, setTagRef] = useState<string>('');
-  const [groupRef, setGroupRef] = useState<string>('');
-  const [subGroupRef, setSubGroupRef] = useState<string>('');
+  let [groupRef, setGroupRef] = useState<any>('');
+  let [subGroupRef, setSubGroupRef] = useState<any>('');
   const [studentCount, setStudentCount] = useState<string>('');
   const [duration, setDuration] = useState<string>('');
 
@@ -181,6 +181,12 @@ const SessionsAdd: React.FC = () => {
   };
 
   const handleSubmit = async () => {
+    if (groupRef === "") {
+      groupRef = null
+    }
+    if (subGroupRef === "") {
+      subGroupRef = null
+    }
     // if (employeeId === '') {
     //   setError('Please enter an Employee ID !');
     //   return;
@@ -490,8 +496,8 @@ const SessionsAdd: React.FC = () => {
                     {subGroupObject &&
                     subGroupObject.subGroups.map((subGroups: any) => {
                       return (
-                        <option key={subGroups._id} value={subGroups.groupId}>
-                          {subGroups.groupId}
+                        <option key={subGroups._id} value={subGroups.subGroupId}>
+                          {subGroups.subGroupId}
                         </option>
                       );
                     })}
