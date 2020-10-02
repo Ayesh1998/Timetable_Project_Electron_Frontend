@@ -34,6 +34,7 @@
   "CONSECUTIVE_SESSIONS":"/addConsecutiveSessions",
   "PARALLEL_SESSIONS":"/addParallelSessions",
   "NOT_AVAILABLE_TIMES" : "/notAvailableTimes",
+  "CATEGORY":"/addCategory",
   "BUILDINGS": "/buildings",
   "ROOMS": "/rooms",
   "STATISTICS_OF_LECTURERS": "/statistics-of-lecturers",

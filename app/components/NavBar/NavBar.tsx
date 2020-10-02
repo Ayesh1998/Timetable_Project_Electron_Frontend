@@ -136,13 +136,13 @@ const NavBar: React.FC = () => {
               </NavLink>
             </NavDropdown.Item>
             <NavDropdown.Divider/>
-            <NavDropdown.Item href='#batches/groups'>
-              <NavLink to={routes.GROUPNUMS_LIST_VIEW}>
-                <Nav.Link href='#groups'
+            <NavDropdown.Item href='#batches/categorys'>
+              <NavLink to={routes.CATEGORY}>
+                <Nav.Link href='#categorys'
                           style={{
                             color: 'black'
                           }}>
-                  Add
+                  Add Module for Category
                 </Nav.Link>
               </NavLink>
             </NavDropdown.Item>
