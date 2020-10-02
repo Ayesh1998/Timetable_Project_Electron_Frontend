@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, Row, Container, Button } from 'react-bootstrap';
+import { Col, Row, Container, Button, Modal } from 'react-bootstrap';
 import Select from 'react-select';
 import Pdf from 'react-to-pdf';
 import NavBar from '../../components/NavBar/NavBar';
@@ -75,6 +75,10 @@ const TimetableScreen: React.FC = () => {
   const [semester, setSemester] = useState<string | null>('');
   const [group, setGroup] = useState<string | null>('');
   const [isGenerate, setIsGenerate] = useState(false);
+  const [show, setShow] = useState(false);
+  const [errors, setErrors] = useState('');
+
+  const handleClose = () => setShow(false);
 
   const handleChangeRole = selectedOption => {
     setSeletedRoleOption(selectedOption);
@@ -118,6 +122,22 @@ const TimetableScreen: React.FC = () => {
 
   const handleGenerate = () => {
     setIsGenerate(true);
+    if (lecturer != '') {
+      setErrors('There are conflicts in these session with following ids. 24342334343434, 256723765345454,2345435463d,23445fgd65454' +
+        '34534rrt5646,34546786792,454256856t356,34567547337568,35437375648765');
+      setShow(true);
+    }
+    if (room != '') {
+      setErrors('There are conflicts in these session with following ids. 724342334343434, 156723765345454,2345435463d,23445fgd65454' +
+        '34534rrt5646,34546786792,454256856t356,34567547337568,35437375648765, 34534rrt5646,34546786792,454256856t356,34567547337568,35437375648765 ');
+      setShow(true);
+    }
+    if (semester != '') {
+      setErrors('There are conflicts in these session with following ids. 824342334343434, 656723765345454,2345435463d,23445fgd65454' +
+        '34534rrt5646,34546786792,454256856t356,34567547337568,35437375648765,824342334343434, 656723765345454,2345435463d');
+      setShow(true);
+    }
+
   };
 
 
@@ -319,6 +339,18 @@ const TimetableScreen: React.FC = () => {
           </Col>
         </Row>}
         {isFilters && secondOptionsGenerator()}
+
+        <Modal size="lg" show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Conflicts Occurred</Modal.Title>
+          </Modal.Header>
+          <Modal.Body style={{ overflow: 'auto'}}>{errors}</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
         <Row className=" mb-5">
           <Col xs={12} md={12} className="p-3" ref={ref}>

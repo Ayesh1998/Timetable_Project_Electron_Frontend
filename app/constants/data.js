@@ -1,7 +1,7 @@
 const sessions = [
   {
     subjectRef: 'CS',
-    subjectCodeRef: '1070B',
+    subjectCodeRef: 'IT1023',
     tagRef: 'Practical',
     groupRef: 'Y2.S2.02(IT)',
     subGroupRef: null,
