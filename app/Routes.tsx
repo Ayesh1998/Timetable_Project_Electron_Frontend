@@ -34,8 +34,10 @@ import ProgramsListView from './Pages/Programme/programsListView'
 import ProgramsAdd from './Pages/Programme/programsAdd'
 import ProgramsEdit from './Pages/Programme/programsEdit'
 import ConsecutiveSessionsAdd from './Pages/ConsecutiveSession/consecutiveSessionsAdd'
+import ConsecutiveSessionsAdd1 from './Pages/ConsecutiveSession1/consecutiveSessionsAdd'
 import NotAvailablesPage from './Pages/NotAvailable/notAvailablesPage'
 import ParallelSessionsPage from './Pages/ParallelSession/parallelSessionsPage'
+import ParallelSessionsPage1 from './Pages/ParallelSession1/parallelSessionsPage'
 import BuildingsPage from './Pages/Buildings/buildings-page'
 import RoomsPage from './Pages/Rooms/rooms-page'
 import LecturersStatisticsPage from './Pages/LecturersStatistics/lecturers-statistics-page'
@@ -138,6 +140,10 @@ export default function Routes() {
                component={ParallelSessionsPage}/>
        <Route path={routes.CATEGORY}
                component={ParallelCategoryPage}/>
+               <Route path={routes.CONSECUTIVE_SESSIONS1}
+               component={ConsecutiveSessionsAdd1}/>
+         <Route path={routes.PARALLEL_SESSIONS1}
+               component={ParallelSessionsPage1}/>
         <Route path={routes.BUILDINGS}
                component={BuildingsPage}/>
         <Route path={routes.ROOMS}
