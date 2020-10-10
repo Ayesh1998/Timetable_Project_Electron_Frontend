@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Col, Container, Form, Row, Table } from 'react-bootstrap';
 import { session } from 'electron';
 import NavBar from '../../components/NavBar/NavBar';
@@ -28,7 +28,8 @@ import { proxy } from '../../conf';
 const Session = (props: any) => (
   <tr>
     <td>{props.session.sessionId}</td>
-    <td>{props.session.lecturers[0].lecturerRef}</td>
+    <td>{
+      props.session.lecturers.map((item) => item.lecturerRef + ', ') }</td>
     <td>{props.session.subjectCodeRef}</td>
     <td>{props.session.subjectRef}</td>
     <td>{props.session.tagRef}</td>
@@ -212,6 +213,13 @@ const SessionsListView: React.FC = () => {
     fetchData();
   }, []);
 
+  const sessionsStore = useSelector(
+    (state: { sessions: any }) => state.sessions
+  );
+
+  console.log('---------');
+  console.log(sessionsStore);
+
   const handleDelete = async (id: any) => {
     try {
       const response = await fetch(
@@ -245,68 +253,83 @@ const SessionsListView: React.FC = () => {
   const handleChangeLecturerSearch = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
+
+    if(e.target.value === 'reset'){
+
+      return setSessionsObject(sessionsStore.sessions);
+    }
     setLoading(true);
     setsessionS({ ...sessionS, subGroupRef: e.target.value });
 
-    const temp = sessionsObject.filter((data) => {
+    const temp = sessionsStore.sessions.filter((data) => {
       // console.log(data.lecturers[0]);
       // console.log(e.target.value);
       return ((data.lecturers[0].lecturerRef) === (e.target.value ))
     });
     // console.log(sessionsObject);
     // console.log(temp);
-    setSessionsObject(temp)
+    setSessionsObject(temp);
     setLoading(false);
   };
 
   const handleChangeSubjectSearch = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setLoading(true);
-    setsessionS({ ...sessionS, subjectRef: e.target.value });
+    if(e.target.value === 'reset'){
 
-    const temp1 = sessionsObject().filter((data) => {
+      return setSessionsObject(sessionsStore.sessions);
+    }
+    setLoading(true);
+    setsessionS({ ...sessionS, subGroupRef: e.target.value });
+
+    const temp = sessionsStore.sessions.filter((data) => {
       // console.log(data.lecturers[0]);
       // console.log(e.target.value);
-      return ((data.subjectRef[0]) === (e.target.value ))
+      return ((data.subjectRef) === (e.target.value ))
     });
     // console.log(sessionsObject);
     // console.log(temp);
-    setSubjectObject(temp1)
-    setLoading(false);
-
+    setSessionsObject(temp);
     setLoading(false);
   };
 
   const handleChangeGroupSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLoading(true);
-    setsessionS({ ...sessionS, groupRef: e.target.value });
+    if(e.target.value === 'reset'){
 
-    const temp2 = sessionsObject().filter((data) => {
+      return setSessionsObject(sessionsStore.sessions);
+    }
+    setLoading(true);
+    setsessionS({ ...sessionS, subGroupRef: e.target.value });
+
+    const temp = sessionsStore.sessions.filter((data) => {
       // console.log(data.lecturers[0]);
       // console.log(e.target.value);
-      return ((data.groupRef[0]) === (e.target.value ))
+      return ((data.groupRef) === (e.target.value ))
     });
     // console.log(sessionsObject);
     // console.log(temp);
-    setGroupObject(temp2)
-
+    setSessionsObject(temp);
     setLoading(false);
   };
 
   const handleChangeSubGroupSearch = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
+    if(e.target.value === 'reset'){
+
+      return setSessionsObject(sessionsStore.sessions);
+    }
     setLoading(true);
     setsessionS({ ...sessionS, subGroupRef: e.target.value });
-    const temp3 = sessionsObject().filter((data) => {
+
+    const temp = sessionsStore.sessions.filter((data) => {
       // console.log(data.lecturers[0]);
       // console.log(e.target.value);
-      return ((data.subGroupRef[0]) === (e.target.value ))
+      return ((data.subGroupRef) === (e.target.value ))
     });
     // console.log(sessionsObject);
     // console.log(temp);
-    setGroupObject(temp3)
+    setSessionsObject(temp);
     setLoading(false);
   };
 
@@ -388,6 +411,7 @@ const SessionsListView: React.FC = () => {
                     </option>
                   );
                 })}
+                <option value="reset">Reset</option>
               </Form.Control>
             </Form.Group>
             <Form.Group
@@ -412,6 +436,7 @@ const SessionsListView: React.FC = () => {
                     </option>
                   );
                 })}
+                <option value="reset">Reset</option>
               </Form.Control>
             </Form.Group>
             <Form.Group
@@ -436,6 +461,7 @@ const SessionsListView: React.FC = () => {
                     </option>
                   );
                 })}
+                <option value="reset">Reset</option>
               </Form.Control>
             </Form.Group>
             <Form.Group
@@ -460,6 +486,7 @@ const SessionsListView: React.FC = () => {
                     </option>
                   );
                 })}
+                <option value="reset">Reset</option>
               </Form.Control>
             </Form.Group>
           </Form.Row>
