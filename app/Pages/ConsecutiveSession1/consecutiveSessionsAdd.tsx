@@ -14,10 +14,8 @@ import NavBar from '../../components/NavBar/NavBar';
 import {setConsecutiveSessions} from './consecutiveSessionsSlice';
 import {proxy} from '../../conf';
 import CheckboxGroup from 'react-checkbox-group';
-import { session } from 'electron';
 
 let errors_: string = ''
-
 
 
 var exist = 0;
@@ -25,8 +23,6 @@ var exist = 0;
 const ConsecutiveSessionsAdd: React.FC = () => {
   const dispatch = useDispatch();
   // const value = useSelector();
-  var s1;
-  var s2;
 
   const [session1List, setSession1List] = useState<any>([]);
   const [session2List, setSession2List] = useState<any>([]);
@@ -44,7 +40,6 @@ const ConsecutiveSessionsAdd: React.FC = () => {
   const [consecutiveId2, setConsecutiveId2] = useState<boolean | null>(false);
   const [isSameRoom, setIsSameRoom] = useState<boolean | null>(false);
   const [isSameRoomTrue, setIsSameRoomTrue] = useState<string>('');
-  const [con, setCon] = useState<boolean | null>(false);
   const [id1, setId1] = useState<string>('');
 
   const [id2, setId2] = useState<string>('');
@@ -52,132 +47,49 @@ const ConsecutiveSessionsAdd: React.FC = () => {
   const [sessionId1,setSessionId1] = useState<number | null>(null);
   const [sessionId2,setSessionId2] = useState<number | null>(null);
 
-  const [subjectCodeRef1,setSubjectCodeRef1] = useState<number | null>(null);
-  const [subjectCodeRef2,setSubjectCodeRef2] = useState<number | null>(null);
-
-  const [groupRef1,setGroupRef1] = useState<number | null>(null);
-  const [groupRef2,setGroupRef2] = useState<number | null>(null);
-
 
 
 
   const [sessionsObject, setSessionsObject] = useState<any>(null);
 
   useEffect(() => {
-    getSessions1();
+    fetchData();
+  }, []);
 
-    if(s1 && s2){
-      getSessions2();
-    }
-    else{
-      getSessions3();
-    }
-
-  },[]);
-
-  // useEffect(() => {
-  //  // fetchData();
-  //   getSessions1();
-  //   getSessions2();
-  // });
-
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       `${proxy}/sessions/getSessionList`,
-  //       {
-  //         method: 'GET',
-  //         headers: {
-  //           'Content-Type': 'application/json'
-  //         }
-  //       }
-  //     );
-
-  //     const responseData = await response.json();
-  //     setSessionsObject(responseData);
-  //     //setSession1List(responseData);
-  //     setSession2List(responseData);
-  //     dispatch(setConsecutiveSessions(responseData));
-  //     console.log(responseData);
-
-  //     if (!responseData) {
-  //       // noinspection ExceptionCaughtLocallyJS
-  //       throw new Error(responseData.message);
-  //     }
-  //   } catch (err) {
-  //     console.log(err.message);
-  //   }
-  // };
-
-  const getSessions1 = async () => {
-
-
+  const fetchData = async () => {
     try {
+      const response = await fetch(
+        `${proxy}/sessions/getSessionList`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
 
-      const response = await fetch(`${proxy}/sessions/getSessionsLec`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"tagRef": "Lecture"})
-      })
       const responseData = await response.json();
+      setSessionsObject(responseData);
       setSession1List(responseData);
-
-
-    } catch (errors) {
-
-
-      console.log(errors)
-    }
-
-  };
-
-  const getSessions2 = async () => {
-
-
-    try {
-
-      const response = await fetch(`${proxy}/sessions/getSessionsTut`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"tagRef": "Tutorial" , "subjectCodeRef": s1, "groupRef": s2})
-      })
-      const responseData = await response.json();
       setSession2List(responseData);
+      dispatch(setConsecutiveSessions(responseData));
+      console.log(responseData);
 
-
-    } catch (errors) {
-
-
-      console.log(errors)
+      if (!responseData) {
+        // noinspection ExceptionCaughtLocallyJS
+        throw new Error(responseData.message);
+      }
+    } catch (err) {
+      console.log(err.message);
     }
-
   };
-
-  const getSessions3 = async () => {
-
-
-    try {
-
-      const response = await fetch(`${proxy}/sessions/getSessionsTuto`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"tagRef": "Tutorial"})
-      })
-      const responseData = await response.json();
-      setSession2List(responseData);
-
-
-    } catch (errors) {
-      console.log(errors)
-    }
-
-  };
+  // const renderRedirectToView = () => {
+  //   if (setSessionsObject) {
+  //     return <Redirect to={routes.GROUPS_LIST_VIEW}/>;
+  //     //   props.history.push(loginState.redirectTo);s
+  //   }
+  //   return null;
+  // };
 
   const handleShow = () => {
     setLoading(true);
@@ -193,12 +105,6 @@ const ConsecutiveSessionsAdd: React.FC = () => {
 
   const handleSubmit = async () => {
     var sameRoom;
-    console.log(sessionId1)
-    console.log(sessionId2)
-    console.log(id1)
-    console.log(id2)
-    console.log(consecutiveId1)
-    console.log(consecutiveId2)
     var sid = parseInt(String(sessionId1) + ''+ String(sessionId2));
 
 
@@ -219,7 +125,7 @@ const ConsecutiveSessionsAdd: React.FC = () => {
         errors_ = 'Please select session1 .'
         setError(true)
         setLoading(false)
-
+        console.log("1 ")
 
       } else if (id2.trim() === '') {
         errors_ = 'Please select session2.'
@@ -314,17 +220,10 @@ const ConsecutiveSessionsAdd: React.FC = () => {
   };
   const handleSession1 = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError(false)
-    setCon(true);
+
     setId1(e.target.value);
-    console.log(e.target.value)
     setConsecutiveId1(false);
     getSession1(e.target.value);
-
-    //getSessionALec();
-
-    //getSessions2();
-
-
 
 
   };
@@ -333,8 +232,6 @@ const ConsecutiveSessionsAdd: React.FC = () => {
 
     setError(false)
     setId2(e.target.value);
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2")
-    console.log(e.target.value)
     setConsecutiveId2(false);
     getSession2(e.target.value);
 
@@ -356,16 +253,6 @@ const ConsecutiveSessionsAdd: React.FC = () => {
       const responseData = await response.json()
       setSessionId1(responseData.sessionId);
       console.log(responseData.sessionId);
-      // setSubjectCodeRef1(responseData.subjectCodeRef);
-      // setGroupRef1(responseData.groupRef);
-
-        s1=responseData.subjectCodeRef;
-        s2=responseData.groupRef;
-
-        console.log(s1)
-        console.log(s2)
-
-
 
       if(responseData.consecutiveId){
         setConsecutiveId1(true);
@@ -391,8 +278,6 @@ const ConsecutiveSessionsAdd: React.FC = () => {
       })
       const responseData = await response.json()
       setSessionId2(responseData.sessionId);
-      setSubjectCodeRef2(responseData.subjectCodeRef);
-      setGroupRef2(responseData.groupRef);
 
       if(responseData.consecutiveId){
         setConsecutiveId2(true);
@@ -405,10 +290,6 @@ const ConsecutiveSessionsAdd: React.FC = () => {
       console.log(errors)
     }
   }
-
-
-
-
   return (
     <div
       style={{

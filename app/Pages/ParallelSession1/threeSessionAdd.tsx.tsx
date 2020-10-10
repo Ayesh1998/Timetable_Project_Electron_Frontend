@@ -5,41 +5,24 @@ import {Button, Col, Container, Form, Modal, Row, Spinner} from 'react-bootstrap
 // @ts-ignore
 //import CheckboxGroup from 'react-checkbox-group';
 import {Redirect} from 'react-router-dom';
-import {useDispatch,useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import styles from './parallelSessions.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-
+import {setParallelSessions} from './parallelSessionsSlice';
 import {proxy} from '../../conf';
 import CheckboxGroup from 'react-checkbox-group';
-import {setParallelSessions,setEditParallelSession,setEditingParallelSessionId,setEditingParallelSession} from './parallelSessionsSlice';
 
 let errors_: string = ''
 
 
 var exist = 0;
 // noinspection DuplicatedCode
-const TwoSessionAdd: React.FC = (props) => {
+const ThreeSessionAdd: React.FC = () => {
   const dispatch = useDispatch();
   // const value = useSelector();
-
-
-  const editingParallelSessionId = useSelector(
-    (state: {
-      parallelSessions: any
-      editingParallelSessionId: string
-    }) => state.parallelSessions.editingParallelSessionId
-  );
-
-
-  const parallelSessions = useSelector(
-    (state: {
-      parallelSessions: any
-      editingParallelSessionId: string
-    }) => state.parallelSessions.parallelSessions
-  );
 
   const [session1List, setSession1List] = useState<any>([]);
   const [session2List, setSession2List] = useState<any>([]);
@@ -87,137 +70,37 @@ const TwoSessionAdd: React.FC = (props) => {
   const [sessionsObject, setSessionsObject] = useState<any>(null);
 
   useEffect(() => {
+    fetchData();
+  }, []);
 
-    console.log(parallelSessions[0]);
-    console.log(parallelSessions[1]);
-    //fetchData();
-    // getSessions1(parallelSessions[0]);
-    // getSessions2(parallelSessions[1]);
-
-    // getSessions1(props.scode1);
-    // getSessions2(props.scode2);
-    getSubjectCat(editingParallelSessionId);
-  },[]);
-
-
-  const  getSubjectCat = async (cid) => {
-
-    var scode:{res:any} [] = [];
-
-     try {
-
-       const response = await fetch(`${proxy}/parallelSessions/getSubjectCat`, {
-         method: 'POST',
-         headers: {
-           'Content-Type': 'application/json'
-         },
-         body: JSON.stringify({"category":cid})
-       })
-       const responseData = await response.json()
-      console.log(responseData);
-      responseData.map((res:any) =>{
-        console.log(res.subjectCode)
-        var code =res.subjectCode;
-        scode.push(code);
-        return scode;
-
-      })
-
-      getSessions1(scode[0]);
-      getSessions2(scode[1]);
-      console.log(scode);
-      //dispatch(setParallelSessions(scode));
-
-     } catch (errors) {
-
-
-       console.log(errors)
-     }
-   }
-
-
-  const getSessions1 = async (cid) => {
-
-
+  const fetchData = async () => {
     try {
+      const response = await fetch(
+        `${proxy}/sessions/getSessionList`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
 
-      const response = await fetch(`${proxy}/sessions/getSessionsCode`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"subjectCodeRef":cid})
-      })
       const responseData = await response.json();
+      setSessionsObject(responseData);
       setSession1List(responseData);
-      console.log(responseData);
-
-
-    } catch (errors) {
-
-
-      console.log(errors)
-    }
-
-  };
-
-
-  const getSessions2 = async (cid) => {
-
-
-    try {
-
-      const response = await fetch(`${proxy}/sessions/getSessionsCode`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"subjectCodeRef":cid})
-      })
-      const responseData = await response.json();
       setSession2List(responseData);
+      setSession3List(responseData);
+      dispatch(setParallelSessions(responseData));
       console.log(responseData);
 
-
-    } catch (errors) {
-
-
-      console.log(errors)
+      if (!responseData) {
+        // noinspection ExceptionCaughtLocallyJS
+        throw new Error(responseData.message);
+      }
+    } catch (err) {
+      console.log(err.message);
     }
-
   };
-
-
-
-
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       `${proxy}/sessions/getSessionList`,
-  //       {
-  //         method: 'GET',
-  //         headers: {
-  //           'Content-Type': 'application/json'
-  //         }
-  //       }
-  //     );
-
-  //     const responseData = await response.json();
-  //     setSessionsObject(responseData);
-  //     setSession1List(responseData);
-  //     setSession2List(responseData);
-  //     setSession3List(responseData);
-  //    // dispatch(setParallelSessions(responseData));
-  //     console.log(responseData);
-
-  //     if (!responseData) {
-  //       // noinspection ExceptionCaughtLocallyJS
-  //       throw new Error(responseData.message);
-  //     }
-  //   } catch (err) {
-  //     console.log(err.message);
-  //   }
-  // };
   // const renderRedirectToView = () => {
   //   if (setSessionsObject) {
   //     return <Redirect to={routes.GROUPS_LIST_VIEW}/>;
@@ -240,7 +123,7 @@ const TwoSessionAdd: React.FC = (props) => {
 
   const handleSubmit = async () => {
 
-    var cid = parseInt(String(sessionId1) + ''+ String(sessionId2));
+    var cid = parseInt(String(sessionId1) + ''+ String(sessionId2)+ ''+ String(sessionId3));
     console.log(cid);
 
     var emin1;
@@ -262,7 +145,7 @@ const TwoSessionAdd: React.FC = (props) => {
 
      console.log(etime);
 
-    if ((id1.trim() === '') && (id2.trim() === '')&& (day.trim() === '')&& (stime.trim() === '00:00') &&  (etime.trim() === '00:00') && (duration === null) ) {
+    if ((id1.trim() === '') && (id2.trim() === '') && (id3.trim() === '')&& (day.trim() === '')&& (stime.trim() === '00:00') &&  (etime.trim() === '00:00') && (duration === null) ) {
       errors_ = 'Please select  values for all fields.'
       setError(true)
       setLoading(false)
@@ -277,6 +160,11 @@ const TwoSessionAdd: React.FC = (props) => {
 
       } else if (id2.trim() === '') {
         errors_ = 'Please select session2.'
+        setError(true)
+        setLoading(false)
+
+      }else if (id3.trim() === '') {
+        errors_ = 'Please select session3.'
         setError(true)
         setLoading(false)
 
@@ -302,7 +190,7 @@ const TwoSessionAdd: React.FC = (props) => {
     }
 
 
-        if (parallelId1 || parallelId2) {
+        if (parallelId1 || parallelId2 || parallelId3) {
           exist = 1;
         }
 
@@ -315,7 +203,7 @@ const TwoSessionAdd: React.FC = (props) => {
       }
 
 
-    if ((id1.trim() != '') && (id2.trim() != '')&& (day.trim() != '')&& (stime.trim() != '00:00') &&  (etime.trim() != '00:00') && (duration != null)  && (parallelId1 === false) && (parallelId2 === false)) {
+    if ((id1.trim() != '') && (id2.trim() != '') && (id3.trim() != '')&& (day.trim() != '')&& (stime.trim() != '00:00') &&  (etime.trim() != '00:00') && (duration != null)  && (parallelId1 === false) && (parallelId2 === false)&& (parallelId3 === false)) {
       const finalObjectGroup = {
         duration,
         day,
@@ -364,6 +252,24 @@ const TwoSessionAdd: React.FC = (props) => {
         console.log(errors)
       }
 
+      try {
+
+        const response = await fetch(`${proxy}/parallelSessions/addParallelSession/` + id3, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(finalObjectGroup)
+        })
+        const responseData = await response.json()
+        console.log(responseData)
+        setRenderRedirectTo2(true);
+
+      } catch (errors) {
+        errors_ = errors
+        setLoading(false)
+        console.log(errors)
+      }
 
      }
 
@@ -373,7 +279,7 @@ const TwoSessionAdd: React.FC = (props) => {
 
 
   const renderRedirect = () => {
-    if (renderRedirectTo && renderRedirectTo1) {
+    if (renderRedirectTo && renderRedirectTo1 && renderRedirectTo2) {
       return <Redirect to={routes.SESSIONS_LIST}/>;
       //   props.history.push(loginState.redirectTo);s
     }
@@ -406,7 +312,14 @@ const TwoSessionAdd: React.FC = (props) => {
 
   };
 
+  const handleSession3 = (e: React.ChangeEvent<HTMLInputElement>) => {
 
+    setError(false)
+    setId3(e.target.value);
+    setParallelId3(false);
+    getSession3(e.target.value);
+
+  };
 
 
 
@@ -491,7 +404,29 @@ const handleChangeDuration = (e: React.ChangeEvent<HTMLInputElement>) => {
     }
   }
 
+  const getSession3 = async (id: string) => {
+    setLoading(true)
+    try {
+      const response = await fetch(`${proxy}/sessions/getSessions/` + id, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const responseData = await response.json()
+      setSessionId3(responseData.sessionId);
 
+      if(responseData.parallelId){
+        setParallelId3(true);
+      }
+
+      setLoading(false)
+    } catch (errors) {
+      errors_ = errors
+      setLoading(false)
+      console.log(errors)
+    }
+  }
   return (
     <div
       style={{
@@ -595,6 +530,32 @@ const handleChangeDuration = (e: React.ChangeEvent<HTMLInputElement>) => {
             <Col xs={3} md={2}></Col>
           </Row>
 
+          <Row className="mt-3 mb-3 justify-content-md-center">
+            <Col xs={12} md={4} className="mt-auto">
+              <p>Select Session3</p>
+            </Col>
+            <Col xs={3} md={4}>
+              <Form className="">
+                <Form.Group controlId="formBasicEmail">
+
+                  <Form.Control
+                    as="select"
+                    defaultValue="Choose..."
+                    style={{borderWidth: '2.5px'}}
+                    value={id3}
+                    onChange={handleSession3}
+                  >
+                    <option>Select</option>
+                    {session3List?.map((session, index) => (
+                      <option value={session._id}>{session.sessionId}-{session.label}</option>
+                    ))}
+                  </Form.Control>
+
+                </Form.Group>
+              </Form>
+            </Col>
+            <Col xs={3} md={2}/>
+          </Row>
 
 
           <Row className="mt-3 mb-3 justify-content-md-center">
@@ -738,4 +699,4 @@ const handleChangeDuration = (e: React.ChangeEvent<HTMLInputElement>) => {
   );
 };
 
-export default TwoSessionAdd;
+export default ThreeSessionAdd;

@@ -137,6 +137,32 @@ const NavBar: React.FC = () => {
               </NavLink>
             </NavDropdown.Item>
           </NavDropdown>
+          <NavDropdown title='Special Sessions(opt)'
+                       id='collasible-nav-dropdown'>
+            <NavDropdown.Item href='#batches/consecutiveSessions1'>
+              <NavLink to={routes.CONSECUTIVE_SESSIONS1}>
+                <Nav.Link href='#consecutiveSessions1'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Add Consecutive Sessions(O)
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+            <NavDropdown.Divider/>
+
+
+            <NavDropdown.Item href='#batches/parallelSessions1'>
+              <NavLink to={routes.PARALLEL_SESSIONS1}>
+                <Nav.Link href='#parallelSessions1'
+                          style={{
+                            color: 'black'
+                          }}>
+                  Add Parallel Session(O)
+                </Nav.Link>
+              </NavLink>
+            </NavDropdown.Item>
+          </NavDropdown>
           <NavDropdown title='Locations'
                        id='collasible-nav-dropdown'>
             <NavDropdown.Item href='#locations/buildings'>

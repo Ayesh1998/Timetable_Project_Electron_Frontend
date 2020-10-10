@@ -5,41 +5,24 @@ import {Button, Col, Container, Form, Modal, Row, Spinner} from 'react-bootstrap
 // @ts-ignore
 //import CheckboxGroup from 'react-checkbox-group';
 import {Redirect} from 'react-router-dom';
-import {useDispatch,useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import styles from './parallelSessions.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
-
+import {setParallelSessions} from './parallelSessionsSlice';
 import {proxy} from '../../conf';
 import CheckboxGroup from 'react-checkbox-group';
-import {setParallelSessions,setEditParallelSession,setEditingParallelSessionId,setEditingParallelSession} from './parallelSessionsSlice';
 
 let errors_: string = ''
 
 
 var exist = 0;
 // noinspection DuplicatedCode
-const TwoSessionAdd: React.FC = (props) => {
+const TwoSessionAdd: React.FC = () => {
   const dispatch = useDispatch();
   // const value = useSelector();
-
-
-  const editingParallelSessionId = useSelector(
-    (state: {
-      parallelSessions: any
-      editingParallelSessionId: string
-    }) => state.parallelSessions.editingParallelSessionId
-  );
-
-
-  const parallelSessions = useSelector(
-    (state: {
-      parallelSessions: any
-      editingParallelSessionId: string
-    }) => state.parallelSessions.parallelSessions
-  );
 
   const [session1List, setSession1List] = useState<any>([]);
   const [session2List, setSession2List] = useState<any>([]);
@@ -87,137 +70,37 @@ const TwoSessionAdd: React.FC = (props) => {
   const [sessionsObject, setSessionsObject] = useState<any>(null);
 
   useEffect(() => {
+    fetchData();
+  }, []);
 
-    console.log(parallelSessions[0]);
-    console.log(parallelSessions[1]);
-    //fetchData();
-    // getSessions1(parallelSessions[0]);
-    // getSessions2(parallelSessions[1]);
-
-    // getSessions1(props.scode1);
-    // getSessions2(props.scode2);
-    getSubjectCat(editingParallelSessionId);
-  },[]);
-
-
-  const  getSubjectCat = async (cid) => {
-
-    var scode:{res:any} [] = [];
-
-     try {
-
-       const response = await fetch(`${proxy}/parallelSessions/getSubjectCat`, {
-         method: 'POST',
-         headers: {
-           'Content-Type': 'application/json'
-         },
-         body: JSON.stringify({"category":cid})
-       })
-       const responseData = await response.json()
-      console.log(responseData);
-      responseData.map((res:any) =>{
-        console.log(res.subjectCode)
-        var code =res.subjectCode;
-        scode.push(code);
-        return scode;
-
-      })
-
-      getSessions1(scode[0]);
-      getSessions2(scode[1]);
-      console.log(scode);
-      //dispatch(setParallelSessions(scode));
-
-     } catch (errors) {
-
-
-       console.log(errors)
-     }
-   }
-
-
-  const getSessions1 = async (cid) => {
-
-
+  const fetchData = async () => {
     try {
+      const response = await fetch(
+        `${proxy}/sessions/getSessionList`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
 
-      const response = await fetch(`${proxy}/sessions/getSessionsCode`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"subjectCodeRef":cid})
-      })
       const responseData = await response.json();
+      setSessionsObject(responseData);
       setSession1List(responseData);
-      console.log(responseData);
-
-
-    } catch (errors) {
-
-
-      console.log(errors)
-    }
-
-  };
-
-
-  const getSessions2 = async (cid) => {
-
-
-    try {
-
-      const response = await fetch(`${proxy}/sessions/getSessionsCode`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"subjectCodeRef":cid})
-      })
-      const responseData = await response.json();
       setSession2List(responseData);
+      setSession3List(responseData);
+      dispatch(setParallelSessions(responseData));
       console.log(responseData);
 
-
-    } catch (errors) {
-
-
-      console.log(errors)
+      if (!responseData) {
+        // noinspection ExceptionCaughtLocallyJS
+        throw new Error(responseData.message);
+      }
+    } catch (err) {
+      console.log(err.message);
     }
-
   };
-
-
-
-
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       `${proxy}/sessions/getSessionList`,
-  //       {
-  //         method: 'GET',
-  //         headers: {
-  //           'Content-Type': 'application/json'
-  //         }
-  //       }
-  //     );
-
-  //     const responseData = await response.json();
-  //     setSessionsObject(responseData);
-  //     setSession1List(responseData);
-  //     setSession2List(responseData);
-  //     setSession3List(responseData);
-  //    // dispatch(setParallelSessions(responseData));
-  //     console.log(responseData);
-
-  //     if (!responseData) {
-  //       // noinspection ExceptionCaughtLocallyJS
-  //       throw new Error(responseData.message);
-  //     }
-  //   } catch (err) {
-  //     console.log(err.message);
-  //   }
-  // };
   // const renderRedirectToView = () => {
   //   if (setSessionsObject) {
   //     return <Redirect to={routes.GROUPS_LIST_VIEW}/>;
