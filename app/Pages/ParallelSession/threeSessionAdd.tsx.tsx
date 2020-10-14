@@ -21,7 +21,7 @@ let errors_: string = ''
 
 var exist = 0;
 // noinspection DuplicatedCode
-const ThreeSessionAdd: React.FC = () => {
+const ThreeSessionAdd: React.FC = (props) => {
   const dispatch = useDispatch();
   // const value = useSelector();
 
@@ -85,14 +85,58 @@ const ThreeSessionAdd: React.FC = () => {
 
 
   useEffect(() => {
+    console.log(props);
     console.log(editingParallelSessionId);
     console.log(parallelSessions)
     //fetchData();
 
-    getSessions1(parallelSessions[0]);
-    getSessions2(parallelSessions[1]);
-    getSessions3(parallelSessions[2]);
-  }, []);
+    // getSessions1(parallelSessions[0]);
+    // getSessions2(parallelSessions[1]);
+    // getSessions3(parallelSessions[2]);
+
+    // getSessions1(props.scode1);
+    // getSessions2(props.scode2);
+    // getSessions3(props.scode3);
+
+    getSubjectCat(editingParallelSessionId);
+  },[]);
+
+  const  getSubjectCat = async (cid) => {
+
+    var scode:{res:any} [] = [];
+
+     try {
+
+       const response = await fetch(`${proxy}/parallelSessions/getSubjectCat`, {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({"category":cid})
+       })
+       const responseData = await response.json()
+      console.log(responseData);
+      responseData.map((res:any) =>{
+        console.log(res.subjectCode)
+        var code =res.subjectCode;
+        scode.push(code);
+        return scode;
+
+      })
+
+      getSessions1(scode[0]);
+      getSessions2(scode[1]);
+      getSessions3(scode[2]);
+      console.log(scode);
+      //dispatch(setParallelSessions(scode));
+
+     } catch (errors) {
+
+
+       console.log(errors)
+     }
+   }
+
 
   const getSessions1 = async (cid) => {
 
@@ -107,6 +151,7 @@ const ThreeSessionAdd: React.FC = () => {
       })
       const responseData = await response.json();
       setSession1List(responseData);
+      console.log(responseData);
 
 
     } catch (errors) {
@@ -132,6 +177,7 @@ const ThreeSessionAdd: React.FC = () => {
       })
       const responseData = await response.json();
       setSession2List(responseData);
+      console.log(responseData);
 
 
     } catch (errors) {
@@ -157,6 +203,7 @@ const ThreeSessionAdd: React.FC = () => {
       })
       const responseData = await response.json();
       setSession3List(responseData);
+      console.log(responseData);
 
 
     } catch (errors) {

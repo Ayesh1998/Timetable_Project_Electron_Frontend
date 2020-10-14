@@ -739,14 +739,14 @@ const TimetableGenerator: React.FC<TimetableGeneratorProps> = (props) => {
                         <span
                           style={{ display: 'block' }}>{finalSessionsLecturer[index1 - 1][index2 - 1].subjectRef} </span>
                         <span
-                          style={{ display: 'block' }}>{finalSessionsLecturer[index1 - 1][index2 - 1].subjectRef} </span>
+                          style={{ display: 'block' }}>{finalSessionsLecturer[index1 - 1][index2 - 1].roomRef} </span>
                       </td>);
                     }
 
                   }
                   return (<td key={index2} style={{ display: 'block' }}>{data.groupRef} <span
                     style={{ display: 'block' }}>{data.subjectRef} </span> <span
-                    style={{ display: 'block' }}>{data.subjectRef} </span></td>);
+                    style={{ display: 'block' }}>{data.roomRef} </span></td>);
                   //   return (<td key={index2} style={{ display: 'block' }}><span>{data.groupRef}<span><br><span>{data.subjectCodeRef}<span><br></td>
                   // );
                 })

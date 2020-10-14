@@ -12,7 +12,7 @@ import styles from './subjects.css';
 import routes from '../../constants/routes.json';
 import NavBar from '../../components/NavBar/NavBar';
 import {setSubjects} from './subjectsSlice';
-
+import {proxy} from '../../conf'
 // noinspection DuplicatedCode
 const SubjectsAdd: React.FC = () => {
   const dispatch = useDispatch();
